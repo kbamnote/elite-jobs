@@ -1,4 +1,4 @@
-import Home from './components/jobSeeker/LandingPage/Home';
+import Home from './components/jobSeeker/landingPage/Home';
 import { Routes, Route} from 'react-router-dom';
 
 function App() {

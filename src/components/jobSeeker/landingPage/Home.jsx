@@ -1,14 +1,14 @@
 
 import Footer from '../commonSeeker/Footer'
 import Header from '../commonSeeker/Header'
-import About from '../LandingPage/About'
-import Categories from '../LandingPage/Categories'
-import CompanyLogos from '../LandingPage/CompanyLogos'
-import Hero from '../LandingPage/Hero'
-import NewsBlog from '../LandingPage/NewsBlog'
-import RecentJobs from '../LandingPage/RecentJobs'
-import Testimonials from '../LandingPage/Testimonials'
-import TopCompany from '../LandingPage/TopCompany'
+import About from '../landingPage/About'
+import Categories from '../landingPage/Categories'
+import CompanyLogos from '../landingPage/CompanyLogos'
+import Hero from '../landingPage/Hero'
+import NewsBlog from '../landingPage/NewsBlog'
+import RecentJobs from '../landingPage/RecentJobs'
+import Testimonials from '../landingPage/Testimonials'
+import TopCompany from '../landingPage/TopCompany'
 
 function Home() {
   
