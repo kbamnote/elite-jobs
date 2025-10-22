@@ -34,9 +34,9 @@ const Hero = () => {
   
   const queryParams = new URLSearchParams(location.search);
   const [searchQuery, setSearchQuery] = useState(queryParams.get('title') || '');
-  const [searchLocation, setLocation] = useState(queryParams.get('location') || '');
-  const [category, setCategory] = useState(queryParams.get('category') || '');
-  const [categories, setCategories] = useState([]);
+  const [_searchLocation, _setLocation] = useState(queryParams.get('location') || '');
+  const [_category, _setCategory] = useState(queryParams.get('category') || '');
+  const [_categories, _setCategories] = useState([]);
   const [animationStarted, setAnimationStarted] = useState(false);
 
   // useEffect(() => {
