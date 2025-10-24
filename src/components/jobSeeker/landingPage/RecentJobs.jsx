@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Bookmark,
   UserCheck,
@@ -16,72 +16,44 @@ import "swiper/css";
 import "swiper/css/autoplay";
 import { Autoplay } from "swiper/modules";
 import { Link } from "react-router-dom";
+import { allJobs } from "../../../utils/Api";
 
 const RecentJobs = () => {
   const navigate = useNavigate();
+  const [jobs, setJobs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const jobs = [
-    {
-      id: 1,
-      title: "DevOps Engineer",
-      company: "DevOps Edge Solutions",
-      category: "IT & Networking",
-      type: "Full time",
-      salary: "8 LPA - 10 LPA",
-      location: "Seattle, USA",
-      worktype: "Hybrid",
-      experience: "1 to 3 year",
-      logo: "https://builtin.com/sites/www.builtin.com/files/2022-08/devops-engineer.png",
-    },
-    {
-      id: 2,
-      title: "Frontend Developer",
-      company: "TechVerse Solution",
-      category: "IT & Networking",
-      type: " Fulltime",
-      salary: "5LPA - 13LPA",
-      location: "Bengaluru",
-      worktype: "Hybrid",
-      experience: "1 to 3 year",
-      logo: "https://cdn4.vectorstock.com/i/1000x1000/32/78/white-web-design-and-front-end-development-icon-vector-36723278.jpg",
-    },
-    {
-      id: 3,
-      title: "Data Analyst",
-      company: "Data Insight Ltd.",
-      category: "Data Science",
-      type: "Fulltime",
-      salary: "11LPA - 12LPA",
-      location: "Chicago, USA",
-      worktype: "Hybrid",
-      experience: "1 to 3 year",
-      logo: "https://cdn-icons-png.flaticon.com/512/1643/1643996.png",
-    },
-    {
-      id: 4,
-      title: "Tax Analyst",
-      company: " TaxMaster Consultants",
-      category: "Accounting ",
-      type: "Fulltime",
-      salary: "5LPA - 12LPA",
-      location: "New Delhi, India",
-      worktype: "Hybrid",
-      experience: "1 to 3 year",
-      logo: "https://img.freepik.com/premium-vector/concept-tax-payment-data-analysis-paperwork-financial-research-report-calculation-tax-return-payment-debt-government-state-taxes-vector-illustration-flat-style_662353-803.jpg",
-    },
-    {
-      id: 5,
-      title: "B2B Sales Manager",
-      company: " GrowthHive Marketing",
-      category: "Sales & Marketing",
-      type: "Fulltime",
-      salary: "7LPA - 14LPA",
-      location: "Mumbai",
-      worktype: "Hybrid",
-      experience: "1 to 3 year",
-      logo: "https://png.pngtree.com/png-vector/20220819/ourmid/pngtree-b2b-or-business-to-business-marketing-vector-illustration-png-image_6039137.png",
-    },
-  ];
+  useEffect(() => {
+    const fetchJobs = async () => {
+      try {
+        setLoading(true);
+        const response = await allJobs();
+        const jobsData = response.data.data.jobs;
+        // Transform the API data to match the existing structure
+        const transformedJobs = jobsData.map((job) => ({
+          id: job._id,
+          title: job.title,
+          company: job.company.name,
+          category: job.category || "Other",
+          type: job.employmentType || "Full-time",
+          salary: `${job.salary?.min || 0} - ${job.salary?.max || 0} ${job.salary?.currency || 'USD'}`,
+          location: job.location,
+          worktype: job.employmentType,
+          experience: job.experienceLevel || "Not specified",
+          logo: job.company.logo || job.postedBy?.profile?.companyLogo || `https://ui-avatars.com/api/?name=${encodeURIComponent(job.company.name)}&background=random`, // Use company logo if available
+        }));
+        setJobs(transformedJobs);
+      } catch (err) {
+        setError(err.message);
+        console.error("Error fetching jobs:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchJobs();
+  }, []);
 
   // Function to handle job card click
   const handleJobClick = (job) => {
@@ -91,6 +63,68 @@ const RecentJobs = () => {
       )}&company=${encodeURIComponent(job.company)}`
     );
   };
+
+  if (loading) {
+    return (
+      <div className="w-full bg-gradient-to-b from-gray-50 to-white h-[70%]">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-12">
+            <div>
+              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">
+                Recent Job Openings
+              </h2>
+              <p className="text-gray-500 text-sm sm:text-base">
+                Discover your next career opportunity
+              </p>
+            </div>
+            <Link
+              to="/jobs"
+              className="group flex items-center gap-2 text-teal-600 hover:text-teal-700 font-medium transition-colors duration-200"
+            >
+              View all jobs
+              <span className="transform group-hover:translate-x-1 transition-transform duration-200">
+                →
+              </span>
+            </Link>
+          </div>
+          <div className="flex justify-center items-center h-64">
+            <p className="text-gray-500">Loading jobs...</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="w-full bg-gradient-to-b from-gray-50 to-white h-[70%]">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-12">
+            <div>
+              <h2 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">
+                Recent Job Openings
+              </h2>
+              <p className="text-gray-500 text-sm sm:text-base">
+                Discover your next career opportunity
+              </p>
+            </div>
+            <Link
+              to="/jobs"
+              className="group flex items-center gap-2 text-teal-600 hover:text-teal-700 font-medium transition-colors duration-200"
+            >
+              View all jobs
+              <span className="transform group-hover:translate-x-1 transition-transform duration-200">
+                →
+              </span>
+            </Link>
+          </div>
+          <div className="flex justify-center items-center h-64">
+            <p className="text-red-500">Error loading jobs: {error}</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full bg-gradient-to-b from-gray-50 to-white h-[70%]">

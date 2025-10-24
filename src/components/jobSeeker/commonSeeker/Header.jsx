@@ -99,7 +99,7 @@ const Header = () => {
                 Login
               </button>
             </Link>
-            <Link to="/host-login">
+            <Link to="/login">
               <button className="bg-teal-500 hover:bg-teal-600 px-4 py-2 rounded transition-colors cursor-pointer">
                 Job Hosting
               </button>
@@ -173,7 +173,7 @@ const Header = () => {
                       Login
                     </button>
                   </Link>
-                  <Link to="/host-login">
+                  <Link to="/login">
                     <button className="bg-teal-500 hover:bg-teal-600 px-4 py-2 rounded transition-colors w-full cursor-pointer">
                       Job Hosting
                     </button>

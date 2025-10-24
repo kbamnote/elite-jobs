@@ -25,9 +25,6 @@ function Home() {
      <Testimonials/>
      <NewsBlog/>
      <Footer/>
-
-
-
     </>
   )
 }
