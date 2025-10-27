@@ -17,6 +17,16 @@ import Profile from "./components/jobSeeker/seekerProfile/Profile";
 import UserDetails from "./components/jobSeeker/seekerProfile/UserDetails";
 import ShowJobs from "./components/jobSeeker/seekerProfile/ShowJobs";
 
+// Job Hosting Components
+import HostingLogin from "./components/jobHosting/hostingAuth/HostingLogin";
+import HostingSignup from "./components/jobHosting/hostingAuth/HostingSignup";
+import HostingProfileDetail from "./components/jobHosting/hostingProfile/HostingProfileDetail";
+import HostingProfileForm from "./components/jobHosting/hostingProfile/HostingProfileForm";
+import PostJob from "./components/jobHosting/postJob/PostJob";
+import MyJobs from "./components/jobHosting/myJobs/Myjobs";
+import ViewApplicant from "./components/jobHosting/myJobs/ViewApplicant";
+import ApplicantProfile from "./components/jobHosting/myJobs/ApplicantProfile";
+
 function App() {
   return (
     <>
@@ -26,17 +36,30 @@ function App() {
         <Route path="/login" element={<Login/>}/>
         <Route path="/jobs" element={<Jobs/>}/>
         <Route path="/dashboard" element={<JobHostingDashboard/>}/>
-        {/* New design-only pages */}
+        
+        {/* Job Hosting Routes */}
+        <Route path="/hosting/login" element={<HostingLogin />} />
+        <Route path="/hosting/signup" element={<HostingSignup />} />
+        <Route path="/hosting/profile" element={<HostingProfileDetail />} />
+        <Route path="/hosting/profile/edit" element={<HostingProfileForm />} />
+        <Route path="/hosting/post-job" element={<PostJob />} />
+        <Route path="/hosting/my-jobs" element={<MyJobs />} />
+        <Route path="/hosting/applicants/:jobId" element={<ViewApplicant />} />
+        <Route path="/hosting/applicant/:applicantId" element={<ApplicantProfile />} />
+        
+        {/* Job Seeker Pages */}
         <Route path="/about" element={<AboutUs />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/salaries" element={<Salaries />} />
         <Route path="/ats-score-checker" element={<ATS_Score />} />
         <Route path="/ai-resume-builder" element={<AiResume />} />
         <Route path="/mock" element={<AiMockTest />} />
-        {/* Seeker Auth (design-only) */}
+        
+        {/* Seeker Auth */}
         <Route path="/seeker/login" element={<SeekerLogin />} />
         <Route path="/seeker/signup" element={<SeekerSignup />} />
-        {/* Seeker Profile (design-only) */}
+        
+        {/* Seeker Profile */}
         <Route path="/profile" element={<Profile />} />
         <Route path="/user-detail" element={<UserDetails />} />
         <Route path="/my-jobs" element={<ShowJobs />} />
