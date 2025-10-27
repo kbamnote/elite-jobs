@@ -34,7 +34,7 @@ const ContactUs = () => {
                   </div>
                   <h3 className="font-semibold">Call for inquiry</h3>
                 </div>
-                <p className="text-gray-600">+257 388-6895</p>
+                <p className="text-gray-600">8855885807</p>
               </div>
               <div>
                 <div className="flex items-center gap-2 mb-2">
@@ -45,7 +45,7 @@ const ContactUs = () => {
                   </div>
                   <h3 className="font-semibold">Send us email</h3>
                 </div>
-                <p className="text-gray-600">kramulous@sbcglobal.net</p>
+                <p className="text-gray-600">info@eliteindiajobs.in</p>
               </div>
               <div>
                 <div className="flex items-center gap-2 mb-2">
@@ -68,7 +68,7 @@ const ContactUs = () => {
                   </div>
                   <h3 className="font-semibold">Office</h3>
                 </div>
-                <p className="text-gray-600">19 North Road Piscataway, NY 08854</p>
+                <p className="text-gray-600">1st Floor Mohota Complex, Above State Bank Of India Katol Road, Chhaoni Rd, Nagpur, Maharashtra 440013</p>
               </div>
             </div>
           </div>
@@ -104,7 +104,7 @@ const ContactUs = () => {
       <div className="w-full h-[480px] overflow-hidden p-6 mb-4">
         <iframe
           title="Google Map Location"
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d6561.210993309147!2d79.05923680865642!3d21.13999799798919!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bd4c060d6a8983b%3A0x6e9678ae12e13fd4!2sDharampeth%20Tower!5e0!3m2!1sen!2sin!4v1739422850317!5m2!1sen!2sin"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3732.0740918264177!2d79.07522737523014!3d21.169049584761134!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bd4c1dfdc6c9b43%3A0x54f93538e6888db3!2sElite%20Associate!5e0!3m2!1sen!2sin!4v1730000000000!5m2!1sen!2sin"
           width="100%"
           height="450"
           style={{ border: 0 }}

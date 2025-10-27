@@ -42,12 +42,12 @@ const Footer = () => {
               Address
             </h3>
             <p className="text-gray-400 leading-relaxed text-sm sm:text-base">
-              <strong>HEAD OFFICE:</strong> Office No. S11, Dharampeth Tower P No. 209, WHC Road, Nagpur- 44010
+              <strong>HEAD OFFICE:</strong> 1st Floor Mohota Complex, Above State Bank Of India Katol Road, Chhaoni Rd, Nagpur, Maharashtra 440013
             </p>
-            <div className="h-3"></div>
+            {/* <div className="h-3"></div>
             <p className="text-gray-400 leading-relaxed text-sm sm:text-base">
               <strong>BRANCH OFFICE:</strong>The Iconic Corenthum, floor-25th sector-62, Noida UP- 201301
-            </p>
+            </p> */}
           </div>
           
           {/* Links - Full width on small, 3/5 on medium, 1/3 on large */}
