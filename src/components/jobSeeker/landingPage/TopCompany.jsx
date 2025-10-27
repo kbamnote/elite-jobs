@@ -152,122 +152,100 @@ const TopCompany = () => {
   };
 
   return (
-    <div className="py-20 px-6 md:px-[10%] bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-b from-teal-50 to-white px-[10%] lg:py-16">
       <div className="text-center mb-12">
-        <h2 className="text-4xl font-extrabold text-gray-800 mb-4">
-          Top Companies
-        </h2>
-        <p className="text-gray-600 max-w-2xl mx-auto text-lg">
-          Discover opportunities at the world's leading technology companies
+        <h1 className="text-4xl font-extrabold text-gray-900 mb-4">
+          Top Companies Hiring
+        </h1>
+        <p className="text-gray-600 text-lg">
+          Discover opportunities at leading organizations worldwide.
         </p>
       </div>
 
-      <Swiper
-        modules={[Autoplay]}
-        spaceBetween={32}
-        slidesPerView={1}
-        loop={true}
-        autoplay={{
-          delay: 3000,
-          disableOnInteraction: false,
-        }}
-        breakpoints={{
-          768: {
-            slidesPerView: 2,
-          },
-          1024: {
-            slidesPerView: 3,
-          },
-        }}
-      >
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {popularJobs.map((job, index) => (
-          <SwiperSlide key={index}>
-            <div
-              onClick={() => handleCompanyClick(job.company)}
-              className="cursor-pointer bg-white rounded-xl overflow-hidden shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-2 border border-gray-200 flex flex-col h-full"
-            >
-              {/* Company header */}
-              <div className="p-6 border-b border-gray-200">
-                <div className="flex items-center gap-4">
+          <div
+            key={index}
+            className="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 group hover:-translate-y-1"
+          >
+            {/* Company header */}
+            <div className="bg-gradient-to-r from-teal-50 to-teal-100 p-6">
+              <div className="flex items-center gap-4">
+                <div className="w-16 h-16 rounded-xl bg-white p-2 shadow-sm">
                   <img
                     src={job.logo}
-                    alt={`${job.company} logo`}
-                    className="h-12 w-12 object-contain"
+                    alt={job.company}
+                    className="w-full h-full object-contain"
                   />
-                  <div>
-                    <h3 className="text-xl font-bold text-gray-900">
-                      {job.company}
-                    </h3>
-                    <div className="flex items-center gap-2 mt-1">
-                      <div className="flex">
-                        {[...Array(5)].map((_, i) => (
-                          <Star
-                            key={i}
-                            size={16}
-                            className={`${
-                              i < Math.floor(job.rating)
-                                ? "fill-yellow-400 text-yellow-400"
-                                : "fill-gray-200 text-gray-200"
-                            }`}
-                          />
-                        ))}
-                      </div>
-                      {/* <span className="text-sm text-gray-500">
-                        ({job.reviewCount.toLocaleString()} reviews)
-                      </span> */}
+                </div>
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900">
+                    {job.company}
+                  </h3>
+                  <div className="flex items-center gap-2 mt-1">
+                    <div className="flex">
+                      {[...Array(5)].map((_, i) => (
+                        <Star
+                          key={i}
+                          size={16}
+                          className={`${
+                            i < Math.floor(job.rating)
+                              ? "fill-yellow-400 text-yellow-400"
+                              : "fill-gray-200 text-gray-200"
+                          }`}
+                        />
+                      ))}
                     </div>
                   </div>
                 </div>
-              </div>
-
-              {/* Job details */}
-              <div className="p-6 flex flex-col flex-grow">
-                <div className="mb-auto">
-                  <h4 className="text-lg font-semibold text-gray-800 mb-2">
-                    {job.position}
-                  </h4>
-
-                  <div className="space-y-3 mb-4">
-                    <div className="flex items-center gap-2 text-gray-600">
-                    <TbCategory className="w-5 h-5 text-teal-600 flex-shrink-0" />
-                      <span>{job.category}</span>
-                    </div>
-                   
-                    <div className="flex items-center gap-2 text-gray-600">
-                      <Briefcase className="w-5 h-5 text-teal-600 flex-shrink-0" />
-                      <span>{job.jobType}</span>
-                    </div>
-
-                    <div className="flex items-center gap-2 text-gray-600">
-                      <MapPin className="w-5 h-5 text-teal-600 flex-shrink-0" />
-                      <span>{job.location}</span>
-                    </div>
-                    {/* <div className="flex items-center gap-2 text-gray-600">
-                      <Clock className="w-5 h-5 text-teal-600 flex-shrink-0" />
-                      <span>Apply within 7 days</span>
-                    </div> */}
-                  </div>
-
-                  <div className="bg-teal-50 p-4 rounded-lg mb-6">
-                    <p className="text-teal-800 font-medium mb-1">
-                      Compensation
-                    </p>
-                    <p className="text-gray-700">{job.salary}</p>
-                  </div>
-                </div>
-
-                <a
-                  href="#"
-                  className="flex items-center justify-center w-full bg-teal-600 hover:bg-teal-700 text-white py-3 px-4 rounded-lg font-medium transition-colors gap-2 mt-auto"
-                >
-                  Apply Now
-                  <ExternalLink className="w-4 h-4" />
-                </a>
               </div>
             </div>
-          </SwiperSlide>
+
+            {/* Job details */}
+            <div className="p-6 flex flex-col flex-grow">
+              <div className="mb-auto">
+                <h4 className="text-lg font-semibold text-gray-800 mb-4">
+                  {job.position}
+                </h4>
+
+                <div className="space-y-3 mb-6">
+                  <div className="flex items-center gap-3 text-gray-600">
+                    <TbCategory className="w-5 h-5 text-teal-600 flex-shrink-0" />
+                    <span>{job.category}</span>
+                  </div>
+                 
+                  <div className="flex items-center gap-3 text-gray-600">
+                    <Briefcase className="w-5 h-5 text-teal-600 flex-shrink-0" />
+                    <span>{job.jobType}</span>
+                  </div>
+
+                  <div className="flex items-center gap-3 text-gray-600">
+                    <MapPin className="w-5 h-5 text-teal-600 flex-shrink-0" />
+                    <span>{job.location}</span>
+                  </div>
+                </div>
+
+                <div className="bg-teal-50 p-4 rounded-xl mb-6">
+                  <p className="text-teal-800 font-medium mb-1">
+                    Compensation
+                  </p>
+                  <p className="text-gray-700 font-semibold">{job.salary}</p>
+                </div>
+              </div>
+
+              <a
+                href={job.applyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full bg-teal-600 text-white py-3 px-6 rounded-xl font-medium hover:bg-teal-700 transition-all duration-200 text-center block shadow-sm hover:shadow-md"
+                onClick={(e) => e.stopPropagation()}
+              >
+                Apply Now
+              </a>
+            </div>
+          </div>
         ))}
-      </Swiper>
+      </div>
     </div>
   );
 };
