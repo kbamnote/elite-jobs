@@ -85,8 +85,8 @@ export const updateCompanyLogo = (formData) =>
     headers: { "Content-Type": "multipart/form-data" },
   });
 
-// ============== Profile Delete for Seeker & Hoster ==============
-export const profileDelete = () => Api.delete("/auth/profile");
+// ============== Account Delete for Seeker & Hoster ==============
+export const accountDelete = () => Api.delete("/jobs/account");
 
 // ============== All Jobs GET ==============
 export const allJobs = () => Api.get("/jobs");
