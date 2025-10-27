@@ -5,6 +5,7 @@ import Home from "./components/jobSeeker/landingPage/Home";
 import { Routes, Route } from "react-router-dom";
 import NotFoundPage from "./components/notFoundPage/NotFoundPage";
 import Jobs from "./components/jobSeeker/jobs/Jobs";
+import ViewJobs from "./components/jobSeeker/jobs/ViewJobs";
 import AboutUs from "./components/jobSeeker/navbarSection/about/AboutUs";
 import ContactUs from "./components/jobSeeker/navbarSection/contactUs/ContactUs";
 import Salaries from "./components/jobSeeker/navbarSection/salarySection/Salaries";
@@ -35,6 +36,7 @@ function App() {
         <Route path="/signup" element={<Signup/>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/jobs" element={<Jobs/>}/>
+        <Route path="/jobs/:id" element={<ViewJobs/>}/>
         <Route path="/dashboard" element={<JobHostingDashboard/>}/>
         
         {/* Job Hosting Routes */}
