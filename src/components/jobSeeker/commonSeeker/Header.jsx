@@ -1,18 +1,29 @@
 import React, { useState, useEffect, useRef } from "react";
-import { BriefcaseBusiness, ChevronDown, Menu, X, User, LogOut } from "lucide-react";
+import { BriefcaseBusiness, ChevronDown, CircleUserRound, Menu, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
 const Header = () => {
-  const navigate = useNavigate();
   const [isAIToolsOpen, setIsAIToolsOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [userRole, setUserRole] = useState(null);
+  const [userDropdown, setUserDropdown] = useState(false);
   const dropdownRef = useRef(null);
   const mobileMenuRef = useRef(null);
-  const profileDropdownRef = useRef(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = Cookies.get("token");
+    setIsLoggedIn(!!token);
+  }, []);
+
+  const handleLogout = () => {
+    Cookies.remove("token");
+    Cookies.remove("userID");
+    setIsLoggedIn(false);
+    setIsMobileMenuOpen(false);
+    navigate("/");
+  };
 
   const toggleAIToolsDropdown = () => {
     setIsAIToolsOpen(!isAIToolsOpen);
@@ -23,37 +34,14 @@ const Header = () => {
     if (isAIToolsOpen) setIsAIToolsOpen(false);
   };
 
-  const toggleProfileDropdown = () => {
-    setIsProfileOpen(!isProfileOpen);
-  };
-
-  // Check authentication status
-  const checkAuthStatus = () => {
-    const token = Cookies.get("token");
-    const role = Cookies.get("role");
-    setIsAuthenticated(!!token);
-    setUserRole(role);
-  };
-
-  // Logout function
-  const handleLogout = () => {
-    Cookies.remove("token");
-    Cookies.remove("role");
-    setIsAuthenticated(false);
-    setUserRole(null);
-    setIsProfileOpen(false);
-    navigate("/");
-  };
-
   const handleMobileNavigation = (e) => {
+    // Prevent the click from bubbling up and triggering the outside click handler
     e.stopPropagation();
   };
 
   useEffect(() => {
-    // Check authentication status on component mount
-    checkAuthStatus();
-
     const handleClickOutside = (event) => {
+      // Don't close dropdowns if clicking on a link
       if (event.target.closest('a')) {
         return;
       }
@@ -63,9 +51,7 @@ const Header = () => {
       }
       if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target)) {
         setIsMobileMenuOpen(false);
-      }
-      if (profileDropdownRef.current && !profileDropdownRef.current.contains(event.target)) {
-        setIsProfileOpen(false);
+        setUserDropdown(false);
       }
     };
 
@@ -73,118 +59,111 @@ const Header = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // Listen for authentication changes (e.g., after login/signup)
-  useEffect(() => {
-    const interval = setInterval(checkAuthStatus, 1000); // Check every second
-    return () => clearInterval(interval);
-  }, []);
-
   return (
-    <header className="w-full bg-white text-gray-900 shadow-sm sticky top-0 z-10 backdrop-blur-md border-b border-gray-100">
+    <header className="w-full shadow-lg sticky top-0 z-10 backdrop-blur-md" style={{ backgroundColor: 'var(--color-primary)', color: 'var(--color-text-white)' }}>
       <div className="max-w-7xl mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2 flex-shrink-0">
-            <BriefcaseBusiness className="text-teal-600" />
-            <h1 className="text-2xl font-bold text-gray-900">Elite Jobs</h1>
+            <BriefcaseBusiness style={{ color: 'var(--color-accent)' }} />
+            <h1 className="text-2xl font-bold" style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-white)' }}>Elite Jobs</h1>
           </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
             <Link to="/">
-              <span className="hover:text-teal-600 transition-colors font-medium text-gray-700">Home</span>
+              <span className="transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)' }} 
+                    onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
+                    onMouseLeave={(e) => e.target.style.color = 'var(--color-text-white)'}>Home</span>
             </Link>
             <Link to="/jobs">
-              <span className="hover:text-teal-600 transition-colors font-medium text-gray-700">Jobs</span>
+              <span className="transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)' }}
+                    onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
+                    onMouseLeave={(e) => e.target.style.color = 'var(--color-text-white)'}>Jobs</span>
             </Link>
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={toggleAIToolsDropdown}
-                className="flex items-center space-x-2 font-medium hover:text-teal-600 transition-colors text-gray-700"
+                className="flex items-center space-x-2 font-semibold transition-colors"
+                style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)' }}
+                onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
+                onMouseLeave={(e) => e.target.style.color = 'var(--color-text-white)'}
               >
                 <span>AI Tools</span>
                 <ChevronDown size={16} />
               </button>
               {isAIToolsOpen && (
-                <div className="absolute top-full left-0 mt-2 bg-white rounded-xl shadow-lg w-48 border border-gray-100">
+                <div className="absolute top-full left-0 mt-2 rounded-md shadow-lg w-48" style={{ backgroundColor: 'var(--color-dark-secondary)', boxShadow: 'var(--shadow-lg)' }}>
                   <ul className="py-2">
                     <Link to="/ats-score-checker">
-                      <li className="px-4 py-2 hover:bg-teal-50 cursor-pointer text-gray-700 hover:text-teal-600 transition-colors">ATS Score Checker</li>
+                      <li className="px-4 py-2 cursor-pointer transition-colors" style={{ transition: 'var(--transition-fast)' }}
+                          onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--color-dark-primary)'}
+                          onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}>ATS Score Checker</li>
                     </Link>
                     <Link to="/ai-resume-builder">
-                      <li className="px-4 py-2 hover:bg-teal-50 cursor-pointer text-gray-700 hover:text-teal-600 transition-colors">AI Resume Builder</li>
+                      <li className="px-4 py-2 cursor-pointer transition-colors" style={{ transition: 'var(--transition-fast)' }}
+                          onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--color-dark-primary)'}
+                          onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}>AI Resume Builder</li>
                     </Link>
                     <Link to="/mock">
-                      <li className="px-4 py-2 hover:bg-teal-50 cursor-pointer text-gray-700 hover:text-teal-600 transition-colors">AI Mock Test</li>
+                      <li className="px-4 py-2 cursor-pointer transition-colors" style={{ transition: 'var(--transition-fast)' }}
+                          onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--color-dark-primary)'}
+                          onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}>AI Mock Test</li>
                     </Link>
                   </ul>
                 </div>
               )}
             </div>
             <Link to="/salaries">
-              <span className="hover:text-teal-600 transition-colors font-medium text-gray-700">Salaries</span>
+              <span className="transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)' }}
+                    onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
+                    onMouseLeave={(e) => e.target.style.color = 'var(--color-text-white)'}>Salaries</span>
             </Link>
             <Link to="/about">
-              <span className="hover:text-teal-600 transition-colors font-medium text-gray-700">About Us</span>
+              <span className="transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)' }}
+                    onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
+                    onMouseLeave={(e) => e.target.style.color = 'var(--color-text-white)'}>About Us</span>
             </Link>
             <Link to="/contact">
-              <span className="hover:text-teal-600 transition-colors font-medium text-gray-700">Contact Us</span>
+              <span className="transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)' }}
+                    onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
+                    onMouseLeave={(e) => e.target.style.color = 'var(--color-text-white)'}>Contact Us</span>
             </Link>
           </nav>
 
           {/* Desktop Auth Buttons */}
           <div className="hidden lg:flex items-center space-x-4">
-            {isAuthenticated ? (
+            {isLoggedIn ? (
               <>
-                {/* Job Hosting Button */}
-                <Link to="/post-job">
-                  <button className="px-6 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors font-medium shadow-sm flex items-center space-x-2">
-                    <BriefcaseBusiness size={18} />
-                    <span>Post Job</span>
+                <button
+                  onClick={handleLogout}
+                  className="px-4 py-2 rounded transition-colors w-full cursor-pointer btn-accent"
+                >
+                  Logout
+                </button>
+                <Link to="/profile">
+                  <button className="transition-colors w-full flex justify-center cursor-pointer" style={{ transition: 'var(--transition-normal)' }}
+                          onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
+                          onMouseLeave={(e) => e.target.style.color = 'var(--color-text-white)'}>
+                    <div className="items-center flex space-x-1">
+                      <span>User</span>
+                      <CircleUserRound className="w-6 h-6" />
+                    </div>
                   </button>
                 </Link>
-                
-                {/* User Profile Dropdown */}
-                <div className="relative" ref={profileDropdownRef}>
-                  <button
-                    onClick={toggleProfileDropdown}
-                    className="flex items-center space-x-2 px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors font-medium"
-                  >
-                    <User size={18} />
-                    <span>Profile</span>
-                    <ChevronDown size={16} className={`transition-transform ${isProfileOpen ? 'rotate-180' : ''}`} />
-                  </button>
-                  
-                  {isProfileOpen && (
-                    <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
-                      <Link to="/profile" className="block px-4 py-2 text-gray-700 hover:bg-gray-50 transition-colors">
-                        My Profile
-                      </Link>
-                      <Link to="/my-jobs" className="block px-4 py-2 text-gray-700 hover:bg-gray-50 transition-colors">
-                        My Applications
-                      </Link>
-                      <hr className="my-2 border-gray-200" />
-                      <button
-                        onClick={handleLogout}
-                        className="w-full text-left px-4 py-2 text-red-600 hover:bg-red-50 transition-colors flex items-center space-x-2"
-                      >
-                        <LogOut size={16} />
-                        <span>Logout</span>
-                      </button>
-                    </div>
-                  )}
-                </div>
               </>
             ) : (
               <>
                 <Link to="/login">
-                  <button className="px-6 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors font-medium">
+                  <button className="transition-colors px-4 py-2 cursor-pointer" style={{ transition: 'var(--transition-normal)' }}
+                          onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
+                          onMouseLeave={(e) => e.target.style.color = 'var(--color-text-white)'}>
                     Login
                   </button>
                 </Link>
-                <Link to="/signup">
-                  <button className="px-6 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors font-medium shadow-sm">
-                    Sign Up
+                <Link to="/host-login">
+                  <button className="px-4 py-2 rounded transition-colors cursor-pointer btn-accent">
+                    Job Hosting
                   </button>
                 </Link>
               </>
@@ -193,8 +172,10 @@ const Header = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className="lg:hidden p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            className="lg:hidden p-2 rounded transition-colors" style={{ transition: 'var(--transition-normal)' }}
             onClick={toggleMobileMenu}
+            onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--color-dark-secondary)'}
+            onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -202,22 +183,29 @@ const Header = () => {
 
         {/* Mobile Menu */}
         {isMobileMenuOpen && (
-          <div ref={mobileMenuRef} className="lg:hidden mt-4 py-4 border-t border-gray-200">
+          <div ref={mobileMenuRef} className="lg:hidden mt-4 py-4" style={{ borderTop: `1px solid var(--color-dark-secondary)` }}>
             <nav className="flex flex-col space-y-4">
               <Link to="/">
-                <span className="block py-2 hover:text-teal-600 transition-colors font-medium text-gray-700">
+                <span className="block py-2 transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)' }}
+                      onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
+                      onMouseLeave={(e) => e.target.style.color = 'var(--color-text-white)'}>
                   Home
                 </span>
               </Link>
               <Link to="/jobs">
-                <span className="block py-2 hover:text-teal-600 transition-colors font-medium text-gray-700">
+                <span className="block py-2 transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)' }}
+                      onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
+                      onMouseLeave={(e) => e.target.style.color = 'var(--color-text-white)'}>
                   Jobs
                 </span>
               </Link>
               <div className="relative">
                 <button
                   onClick={toggleAIToolsDropdown}
-                  className="w-full text-left py-2 font-medium hover:text-teal-600 transition-colors flex items-center justify-between text-gray-700"
+                  className="w-full text-left py-2 font-semibold transition-colors flex items-center justify-between"
+                  style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)' }}
+                  onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
+                  onMouseLeave={(e) => e.target.style.color = 'var(--color-text-white)'}
                 >
                   AI Tools
                   <ChevronDown size={16} />
@@ -225,76 +213,80 @@ const Header = () => {
                 {isAIToolsOpen && (
                   <ul className="ml-4 mt-2 space-y-2">
                     <Link to="/ats-score-checker" onClick={handleMobileNavigation}>
-                      <li className="py-2 hover:text-teal-600 transition-colors text-gray-600">ATS Score Checker</li>
+                      <li className="py-2 transition-colors" style={{ transition: 'var(--transition-normal)' }}
+                          onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
+                          onMouseLeave={(e) => e.target.style.color = 'var(--color-text-white)'}>ATS Score Checker</li>
                     </Link>
                     <Link to="/ai-resume-builder" onClick={handleMobileNavigation}>
-                      <li className="py-2 hover:text-teal-600 transition-colors text-gray-600">AI Resume Builder</li>
+                      <li className="py-2 transition-colors" style={{ transition: 'var(--transition-normal)' }}
+                          onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
+                          onMouseLeave={(e) => e.target.style.color = 'var(--color-text-white)'}>AI Resume Builder</li>
                     </Link>
                     <Link to="/mock" onClick={handleMobileNavigation}>
-                      <li className="py-2 hover:text-teal-600 transition-colors text-gray-600">AI Mock Test</li>
+                      <li className="py-2 transition-colors" style={{ transition: 'var(--transition-normal)' }}
+                          onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
+                          onMouseLeave={(e) => e.target.style.color = 'var(--color-text-white)'}>AI Mock Test</li>
                     </Link>
                   </ul>
                 )}
               </div>
               <Link to="/salaries">
-                <span className="block py-2 hover:text-teal-600 transition-colors font-medium text-gray-700">
+                <span className="block py-2 transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)' }}
+                      onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
+                      onMouseLeave={(e) => e.target.style.color = 'var(--color-text-white)'}>
                   Salaries
                 </span>
               </Link>
               <Link to="/about">
-                <span className="block py-2 hover:text-teal-600 transition-colors font-medium text-gray-700">
+                <span className="block py-2 transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)' }}
+                      onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
+                      onMouseLeave={(e) => e.target.style.color = 'var(--color-text-white)'}>
                   About Us
                 </span>
               </Link>
               <Link to="/contact">
-                <span className="block py-2 hover:text-teal-600 transition-colors font-medium text-gray-700">
+                <span className="block py-2 transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)' }}
+                      onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
+                      onMouseLeave={(e) => e.target.style.color = 'var(--color-text-white)'}>
                   Contact Us
                 </span>
               </Link>
-              <div className="pt-4 border-t border-gray-200">
-                <div className="flex flex-col space-y-4">
-                  {isAuthenticated ? (
-                    <>
-                      <Link to="/post-job">
-                        <button className="w-full px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors font-medium flex items-center justify-center space-x-2">
-                          <BriefcaseBusiness size={18} />
-                          <span>Post Job</span>
-                        </button>
-                      </Link>
-                      <Link to="/profile">
-                        <button className="w-full px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors font-medium flex items-center justify-center space-x-2">
-                          <User size={18} />
-                          <span>My Profile</span>
-                        </button>
-                      </Link>
-                      <Link to="/my-jobs">
-                        <button className="w-full px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors font-medium">
-                          My Applications
-                        </button>
-                      </Link>
-                      <button
-                        onClick={handleLogout}
-                        className="w-full px-4 py-2 text-red-600 border border-red-300 rounded-lg hover:bg-red-50 transition-colors font-medium flex items-center justify-center space-x-2"
-                      >
-                        <LogOut size={18} />
-                        <span>Logout</span>
+              <div className="pt-4" style={{ borderTop: `1px solid var(--color-dark-secondary)` }}>
+                {isLoggedIn ? (
+                  <div className="flex flex-col space-y-4">
+                    <button
+                      onClick={handleLogout}
+                      className="px-4 py-2 rounded transition-colors w-full cursor-pointer btn-accent"
+                    >
+                      Logout
+                    </button>
+                    <Link to="/user-profile">
+                      <button className="transition-colors w-full flex justify-center cursor-pointer" style={{ transition: 'var(--transition-normal)' }}
+                              onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
+                              onMouseLeave={(e) => e.target.style.color = 'var(--color-text-white)'}>
+                        <div className="items-center flex space-x-1">
+                          <span>User</span>
+                          <CircleUserRound className="w-6 h-6" />
+                        </div>
                       </button>
-                    </>
-                  ) : (
-                    <>
-                      <Link to="/login">
-                        <button className="w-full px-4 py-2 text-gray-700 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors font-medium">
-                          Login
-                        </button>
-                      </Link>
-                      <Link to="/signup">
-                        <button className="w-full px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors font-medium">
-                          Sign Up
-                        </button>
-                      </Link>
-                    </>
-                  )}
-                </div>
+                    </Link>
+                  </div>
+                ) : (
+                  <div className="flex flex-col space-y-4">
+                    <Link to="/login">
+                      <button className="transition-colors px-4 py-2 w-full cursor-pointer" style={{ transition: 'var(--transition-normal)' }}
+                              onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
+                              onMouseLeave={(e) => e.target.style.color = 'var(--color-text-white)'}>
+                        Login
+                      </button>
+                    </Link>
+                    <Link to="/host-login">
+                      <button className="px-4 py-2 rounded transition-colors w-full cursor-pointer btn-accent">
+                        Job Hosting
+                      </button>
+                    </Link>
+                  </div>
+                )}
               </div>
             </nav>
           </div>

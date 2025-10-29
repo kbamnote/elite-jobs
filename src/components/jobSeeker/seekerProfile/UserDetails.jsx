@@ -173,8 +173,9 @@ const UserDetails = () => {
             <div className="text-center py-10">
               <p className="text-red-500">{error}</p>
               <button 
-                onClick={fetchProfileData}
-                className="mt-4 px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700"
+                onClick={fetchUserData}
+                className="btn-accent"
+                style={{ fontFamily: 'var(--font-body)' }}
               >
                 Retry
               </button>
@@ -210,8 +211,19 @@ const UserDetails = () => {
                   value={formData.name} 
                   onChange={handleChange} 
                   required
-                  className="w-full border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500" 
-                />
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2"
+                         style={{ fontFamily: 'var(--font-body)' }}
+                         onFocus={(e) => {
+                           e.target.style.outline = 'none';
+                           e.target.style.boxShadow = '0 0 0 2px var(--color-accent)';
+                           e.target.style.borderColor = 'var(--color-accent)';
+                         }}
+                         onBlur={(e) => {
+                           e.target.style.boxShadow = 'none';
+                           e.target.style.borderColor = '#e5e7eb';
+                         }}
+                         placeholder="e.g., Software Engineer"
+                       />
               </div>
               <div>
                 <label className="block text-sm text-gray-700 mb-2">Email</label>
@@ -220,27 +232,49 @@ const UserDetails = () => {
                   type="email" 
                   value={formData.email} 
                   onChange={handleChange} 
-                  disabled
-                  className="w-full border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500 bg-gray-100" 
+                  disabled 
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2 bg-gray-100"
+                  style={{ fontFamily: 'var(--font-body)' }}
                 />
               </div>
               <div>
                 <label className="block text-sm text-gray-700 mb-2">Phone</label>
                 <input 
-                  name="phone" 
-                  value={formData.phone} 
-                  onChange={handleChange} 
-                  className="w-full border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500" 
-                />
-              </div>
+                   name="phone" 
+                   value={formData.phone} 
+                   onChange={handleChange} 
+                   className="w-full border border-gray-200 rounded-lg px-3 py-2"
+                   style={{ fontFamily: 'var(--font-body)' }}
+                   onFocus={(e) => {
+                     e.target.style.outline = 'none';
+                     e.target.style.boxShadow = '0 0 0 2px var(--color-accent)';
+                     e.target.style.borderColor = 'var(--color-accent)';
+                   }}
+                   onBlur={(e) => {
+                           e.target.style.boxShadow = 'none';
+                           e.target.style.borderColor = '#e5e7eb';
+                         }}
+                         placeholder="e.g., Company Name"
+                       />
+                     </div>
               <div>
                 <label className="block text-sm text-gray-700 mb-2">Location</label>
                 <input 
-                  name="address" 
-                  value={formData.address} 
-                  onChange={handleChange} 
-                  className="w-full border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500" 
-                />
+                   name="address" 
+                   value={formData.address} 
+                   onChange={handleChange} 
+                   className="w-full border border-gray-200 rounded-lg px-3 py-2"
+                   style={{ fontFamily: 'var(--font-body)' }}
+                   onFocus={(e) => {
+                     e.target.style.outline = 'none';
+                     e.target.style.boxShadow = '0 0 0 2px var(--color-accent)';
+                     e.target.style.borderColor = 'var(--color-accent)';
+                   }}
+                   onBlur={(e) => {
+                     e.target.style.boxShadow = 'none';
+                     e.target.style.borderColor = '#e5e7eb';
+                   }}
+                 />
               </div>
               <div>
                 <label className="block text-sm text-gray-700 mb-2">Age</label>
@@ -249,7 +283,17 @@ const UserDetails = () => {
                   type="number" 
                   value={formData.age} 
                   onChange={handleChange} 
-                  className="w-full border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500" 
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2"
+                  style={{ fontFamily: 'var(--font-body)' }}
+                  onFocus={(e) => {
+                    e.target.style.outline = 'none';
+                    e.target.style.boxShadow = '0 0 0 2px var(--color-accent)';
+                    e.target.style.borderColor = 'var(--color-accent)';
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.boxShadow = 'none';
+                    e.target.style.borderColor = '#e5e7eb';
+                  }}
                 />
               </div>
             </div>
@@ -261,7 +305,17 @@ const UserDetails = () => {
                 value={skillsDisplayValue} 
                 onChange={handleSkillsChange} 
                 placeholder="e.g., React, JavaScript, CSS"
-                className="w-full border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500" 
+                className="w-full border border-gray-200 rounded-lg px-3 py-2"
+                style={{ fontFamily: 'var(--font-body)' }}
+                onFocus={(e) => {
+                  e.target.style.outline = 'none';
+                  e.target.style.boxShadow = '0 0 0 2px var(--color-accent)';
+                  e.target.style.borderColor = 'var(--color-accent)';
+                }}
+                onBlur={(e) => {
+                  e.target.style.boxShadow = 'none';
+                  e.target.style.borderColor = '#e5e7eb';
+                }}
               />
               <p className="text-xs text-gray-500 mt-1">Type skills separated by commas (e.g., HTML, CSS, JavaScript)</p>
             </div>
@@ -273,7 +327,8 @@ const UserDetails = () => {
                 <button
                   type="button"
                   onClick={addEducation}
-                  className="px-3 py-1 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-sm"
+                  className="px-3 py-1 btn-accent text-sm"
+                  style={{ fontFamily: 'var(--font-body)' }}
                 >
                   Add Education
                 </button>
@@ -288,7 +343,17 @@ const UserDetails = () => {
                         type="text"
                         value={edu.degree}
                         onChange={(e) => handleEducationChange(index, 'degree', e.target.value)}
-                        className="w-full border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                        className="w-full border border-gray-200 rounded-lg px-3 py-2"
+                        style={{ fontFamily: 'var(--font-body)' }}
+                        onFocus={(e) => {
+                          e.target.style.outline = 'none';
+                          e.target.style.boxShadow = '0 0 0 2px var(--color-accent)';
+                          e.target.style.borderColor = 'var(--color-accent)';
+                        }}
+                        onBlur={(e) => {
+                          e.target.style.boxShadow = 'none';
+                          e.target.style.borderColor = '#e5e7eb';
+                        }}
                         placeholder="e.g., Bachelor of Science"
                       />
                     </div>
@@ -298,7 +363,17 @@ const UserDetails = () => {
                         type="text"
                         value={edu.institution}
                         onChange={(e) => handleEducationChange(index, 'institution', e.target.value)}
-                        className="w-full border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                        className="w-full border border-gray-200 rounded-lg px-3 py-2"
+                        style={{ fontFamily: 'var(--font-body)' }}
+                        onFocus={(e) => {
+                          e.target.style.outline = 'none';
+                          e.target.style.boxShadow = '0 0 0 2px var(--color-accent)';
+                          e.target.style.borderColor = 'var(--color-accent)';
+                        }}
+                        onBlur={(e) => {
+                          e.target.style.boxShadow = 'none';
+                          e.target.style.borderColor = '#e5e7eb';
+                        }}
                         placeholder="e.g., University Name"
                       />
                     </div>
@@ -308,7 +383,17 @@ const UserDetails = () => {
                         type="text"
                         value={edu.field}
                         onChange={(e) => handleEducationChange(index, 'field', e.target.value)}
-                        className="w-full border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                        className="w-full border border-gray-200 rounded-lg px-3 py-2"
+                        style={{ fontFamily: 'var(--font-body)' }}
+                        onFocus={(e) => {
+                          e.target.style.outline = 'none';
+                          e.target.style.boxShadow = '0 0 0 2px var(--color-accent)';
+                          e.target.style.borderColor = 'var(--color-accent)';
+                        }}
+                        onBlur={(e) => {
+                          e.target.style.boxShadow = 'none';
+                          e.target.style.borderColor = '#e5e7eb';
+                        }}
                         placeholder="e.g., Computer Science"
                       />
                     </div>
@@ -318,7 +403,17 @@ const UserDetails = () => {
                         type="date"
                         value={edu.startDate}
                         onChange={(e) => handleEducationChange(index, 'startDate', e.target.value)}
-                        className="w-full border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                        className="w-full border border-gray-200 rounded-lg px-3 py-2"
+                        style={{ fontFamily: 'var(--font-body)' }}
+                        onFocus={(e) => {
+                          e.target.style.outline = 'none';
+                          e.target.style.boxShadow = '0 0 0 2px var(--color-accent)';
+                          e.target.style.borderColor = 'var(--color-accent)';
+                        }}
+                        onBlur={(e) => {
+                          e.target.style.boxShadow = 'none';
+                          e.target.style.borderColor = '#e5e7eb';
+                        }}
                       />
                     </div>
                     <div>
@@ -327,7 +422,17 @@ const UserDetails = () => {
                         type="date"
                         value={edu.endDate}
                         onChange={(e) => handleEducationChange(index, 'endDate', e.target.value)}
-                        className="w-full border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                        className="w-full border border-gray-200 rounded-lg px-3 py-2"
+                        style={{ fontFamily: 'var(--font-body)' }}
+                        onFocus={(e) => {
+                          e.target.style.outline = 'none';
+                          e.target.style.boxShadow = '0 0 0 2px var(--color-accent)';
+                          e.target.style.borderColor = 'var(--color-accent)';
+                        }}
+                        onBlur={(e) => {
+                          e.target.style.boxShadow = 'none';
+                          e.target.style.borderColor = '#e5e7eb';
+                        }}
                         placeholder="Leave blank if currently studying"
                       />
                     </div>
@@ -352,7 +457,8 @@ const UserDetails = () => {
                 <button
                   type="button"
                   onClick={addExperience}
-                  className="px-3 py-1 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-sm"
+                  className="px-3 py-1 btn-accent text-sm"
+                  style={{ fontFamily: 'var(--font-body)' }}
                 >
                   Add Experience
                 </button>
@@ -367,8 +473,17 @@ const UserDetails = () => {
                         type="text"
                         value={exp.position}
                         onChange={(e) => handleExperienceChange(index, 'position', e.target.value)}
-                        className="w-full border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                        placeholder="e.g., Software Engineer"
+                        className="w-full border border-gray-200 rounded-lg px-3 py-2"
+                        style={{ fontFamily: 'var(--font-body)' }}
+                        onFocus={(e) => {
+                          e.target.style.outline = 'none';
+                          e.target.style.boxShadow = '0 0 0 2px var(--color-accent)';
+                          e.target.style.borderColor = 'var(--color-accent)';
+                        }}
+                        onBlur={(e) => {
+                          e.target.style.boxShadow = 'none';
+                          e.target.style.borderColor = '#e5e7eb';
+                        }}
                       />
                     </div>
                     <div>
@@ -377,8 +492,17 @@ const UserDetails = () => {
                         type="text"
                         value={exp.company}
                         onChange={(e) => handleExperienceChange(index, 'company', e.target.value)}
-                        className="w-full border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                        placeholder="e.g., Company Name"
+                        className="w-full border border-gray-200 rounded-lg px-3 py-2"
+                        style={{ fontFamily: 'var(--font-body)' }}
+                        onFocus={(e) => {
+                          e.target.style.outline = 'none';
+                          e.target.style.boxShadow = '0 0 0 2px var(--color-accent)';
+                          e.target.style.borderColor = 'var(--color-accent)';
+                        }}
+                        onBlur={(e) => {
+                          e.target.style.boxShadow = 'none';
+                          e.target.style.borderColor = '#e5e7eb';
+                        }}
                       />
                     </div>
                     <div>
@@ -387,7 +511,17 @@ const UserDetails = () => {
                         type="date"
                         value={exp.startDate}
                         onChange={(e) => handleExperienceChange(index, 'startDate', e.target.value)}
-                        className="w-full border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                        className="w-full border border-gray-200 rounded-lg px-3 py-2"
+                        style={{ fontFamily: 'var(--font-body)' }}
+                        onFocus={(e) => {
+                          e.target.style.outline = 'none';
+                          e.target.style.boxShadow = '0 0 0 2px var(--color-accent)';
+                          e.target.style.borderColor = 'var(--color-accent)';
+                        }}
+                        onBlur={(e) => {
+                          e.target.style.boxShadow = 'none';
+                          e.target.style.borderColor = '#e5e7eb';
+                        }}
                       />
                     </div>
                     <div>
@@ -396,7 +530,17 @@ const UserDetails = () => {
                         type="date"
                         value={exp.endDate}
                         onChange={(e) => handleExperienceChange(index, 'endDate', e.target.value)}
-                        className="w-full border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                        className="w-full border border-gray-200 rounded-lg px-3 py-2"
+                        style={{ fontFamily: 'var(--font-body)' }}
+                        onFocus={(e) => {
+                          e.target.style.outline = 'none';
+                          e.target.style.boxShadow = '0 0 0 2px var(--color-accent)';
+                          e.target.style.borderColor = 'var(--color-accent)';
+                        }}
+                        onBlur={(e) => {
+                          e.target.style.boxShadow = 'none';
+                          e.target.style.borderColor = '#e5e7eb';
+                        }}
                         placeholder="Leave blank if currently working"
                       />
                     </div>
@@ -407,7 +551,17 @@ const UserDetails = () => {
                       value={exp.description}
                       onChange={(e) => handleExperienceChange(index, 'description', e.target.value)}
                       rows={3}
-                      className="w-full border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                      className="w-full border border-gray-200 rounded-lg px-3 py-2"
+                      style={{ fontFamily: 'var(--font-body)' }}
+                      onFocus={(e) => {
+                        e.target.style.outline = 'none';
+                        e.target.style.boxShadow = '0 0 0 2px var(--color-accent)';
+                        e.target.style.borderColor = 'var(--color-accent)';
+                      }}
+                      onBlur={(e) => {
+                        e.target.style.boxShadow = 'none';
+                        e.target.style.borderColor = '#e5e7eb';
+                      }}
                       placeholder="Describe your responsibilities and achievements"
                     />
                   </div>
@@ -435,7 +589,8 @@ const UserDetails = () => {
               <button 
                 type="submit" 
                 disabled={saving}
-                className="px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 disabled:opacity-50"
+                className="px-6 py-3 btn-accent disabled:opacity-50"
+                style={{ fontFamily: 'var(--font-body)' }}
               >
                 {saving ? "Saving..." : "Save Changes"}
               </button>

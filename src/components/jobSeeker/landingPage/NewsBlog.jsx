@@ -26,7 +26,17 @@ const NewsBlog = () => {
         <h2 className="text-4xl font-bold">News and Blog</h2>
         <a
           href="#"
-          className="text-teal-500 hover:text-teal-600 transition-colors"
+          className="transition-colors"
+          style={{ 
+            color: 'var(--color-accent)',
+            fontFamily: 'var(--font-body)'
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.color = 'var(--color-accent-dark)';
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.color = 'var(--color-accent)';
+          }}
         >
           View all
         </a>
@@ -55,7 +65,17 @@ const NewsBlog = () => {
               <h3 className="text-2xl font-bold leading-tight">{post.title}</h3>
               <a
                 href="https://economictimes.indiatimes.com/jobs"
-                className="inline-flex items-center text-teal-500 hover:text-teal-600 transition-colors"
+                className="inline-flex items-center transition-colors"
+                style={{ 
+                  color: 'var(--color-accent)',
+                  fontFamily: 'var(--font-body)'
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.color = 'var(--color-accent-dark)';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.color = 'var(--color-accent)';
+                }}
               >
                 Read more
                 <ArrowRight className="ml-2 w-4 h-4" />

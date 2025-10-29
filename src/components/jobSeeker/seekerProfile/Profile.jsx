@@ -3,6 +3,22 @@ import Header from "../commonSeeker/Header";
 import Footer from "../commonSeeker/Footer";
 import { Link, useNavigate } from "react-router-dom";
 import { profile, updateProfile, uploadFileSeeker, updatephotoSeeker, updateresumeSeeker, appliedJobs, accountDelete } from "../../../utils/Api";
+import { 
+  Edit, 
+  Trash2, 
+  Camera, 
+  Phone, 
+  MapPin, 
+  Calendar, 
+  FileText, 
+  Briefcase, 
+  BookOpen, 
+  CheckCircle, 
+  AlertTriangle, 
+  Loader,
+  Upload,
+  Plus
+} from "lucide-react";
 
 const Profile = () => {
   const [userData, setUserData] = useState(null);
@@ -54,7 +70,6 @@ const Profile = () => {
     if (window.confirm("Are you sure you want to delete your account? This action cannot be undone.")) {
       try {
         await accountDelete();
-        // Redirect to login or home page after deletion
         navigate("/");
       } catch (err) {
         setMessage("Failed to delete account: " + (err.response?.data?.message || "Unknown error"));
@@ -132,10 +147,11 @@ const Profile = () => {
     return (
       <div className="min-h-screen bg-gray-50">
         <Header />
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10">
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
-            <div className="text-center py-10">
-              <p>Loading profile...</p>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12">
+            <div className="flex flex-col items-center justify-center">
+              <Loader className="h-12 w-12 animate-spin text-gray-900 mb-4" />
+              <p className="text-gray-600" style={{ fontFamily: 'var(--font-body)' }}>Loading your profile...</p>
             </div>
           </div>
         </div>
@@ -148,15 +164,19 @@ const Profile = () => {
     return (
       <div className="min-h-screen bg-gray-50">
         <Header />
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10">
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
-            <div className="text-center py-10">
-              <p className="text-red-500">{error}</p>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12">
+            <div className="text-center">
+              <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-red-100 mb-4">
+                <AlertTriangle className="h-8 w-8 text-red-600" />
+              </div>
+              <p className="text-red-600 text-lg mb-6" style={{ fontFamily: 'var(--font-body)' }}>{error}</p>
               <button 
                 onClick={fetchProfileData}
-                className="mt-4 px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700"
+                className="px-6 py-2.5 btn-accent rounded-lg transition-all"
+                style={{ fontFamily: 'var(--font-body)' }}
               >
-                Retry
+                Try Again
               </button>
             </div>
           </div>
@@ -169,39 +189,65 @@ const Profile = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10">
-        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
-          <div className="flex items-center justify-between mb-6">
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">My Profile</h1>
-            <div className="space-x-3">
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Header Section */}
+        <div className="mb-8">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div>
+              <h1 className="text-3xl font-bold text-gray-900" style={{ fontFamily: 'var(--font-heading)' }}>
+                My Profile
+              </h1>
+              <p className="mt-1 text-gray-600" style={{ fontFamily: 'var(--font-body)' }}>
+                Manage your personal information and job applications
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-3">
               <Link to="/user-detail">
-                <button className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700">Edit Profile</button>
+                <button 
+                  className="px-5 py-2.5 btn-accent rounded-lg transition-all hover:shadow-md flex items-center"
+                  style={{ fontFamily: 'var(--font-body)' }}
+                >
+                  <Edit className="w-4 h-4 mr-2" />
+                  Edit Profile
+                </button>
               </Link>
               <button 
                 onClick={handleDelete} 
-                className="px-4 py-2 border border-red-300 text-red-600 rounded-lg hover:bg-red-50"
+                className="px-5 py-2.5 bg-white border-2 border-red-200 text-red-600 rounded-lg hover:bg-red-50 hover:border-red-300 transition-all flex items-center"
+                style={{ fontFamily: 'var(--font-body)' }}
               >
+                <Trash2 className="w-4 h-4 mr-2" />
                 Delete Account
               </button>
             </div>
           </div>
+        </div>
 
-          {message && <div className="mb-4 p-3 bg-green-50 text-green-700 rounded-lg">{message}</div>}
+        {message && (
+          <div className="mb-6 p-4 bg-green-50 border border-green-200 text-green-800 rounded-lg flex items-start" style={{ fontFamily: 'var(--font-body)' }}>
+            <CheckCircle className="w-5 h-5 mr-3 mt-0.5 flex-shrink-0" />
+            {message}
+          </div>
+        )}
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            {/* Profile Photo */}
-            <div className="md:col-span-1">
-              <div className="flex flex-col items-center">
-                <div className="relative">
-                  <img 
-                    src={photoPreview || "https://placehold.co/150x150"} 
-                    alt="Profile" 
-                    className="w-32 h-32 rounded-full object-cover border-4 border-gray-200"
-                    onError={(e) => { e.target.src = "https://placehold.co/150x150"; }}
-                  />
-                </div>
-                <label className="mt-4 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 cursor-pointer">
-                  Change Photo
+        {/* Main Profile Card */}
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
+          {/* Profile Header with Cover */}
+          <div className="h-32 bg-gradient-to-r from-blue-500 to-purple-600"></div>
+          
+          <div className="px-6 sm:px-8 pb-8">
+            <div className="flex flex-col sm:flex-row sm:items-end sm:space-x-6 -mt-16 sm:-mt-12">
+              {/* Profile Photo */}
+              <div className="relative group mb-4 sm:mb-0">
+                <img 
+                  src={photoPreview || "https://placehold.co/150x150"} 
+                  alt="Profile" 
+                  className="w-32 h-32 rounded-2xl object-cover border-4 border-white shadow-lg"
+                  onError={(e) => { e.target.src = "https://placehold.co/150x150"; }}
+                />
+                <label className="absolute inset-0 flex items-center justify-center bg-opacity-0 group-hover:bg-opacity-50 rounded-2xl cursor-pointer transition-all">
+                  <Camera className="w-8 h-8 text-white opacity-0 group-hover:opacity-100 transition-opacity" />
                   <input 
                     type="file" 
                     accept="image/*" 
@@ -210,66 +256,80 @@ const Profile = () => {
                   />
                 </label>
               </div>
+
+              {/* Profile Info */}
+              <div className="flex-1 sm:pb-4">
+                <h2 className="text-2xl font-bold text-gray-900" style={{ fontFamily: 'var(--font-heading)' }}>
+                  {userData.name}
+                </h2>
+                <p className="text-gray-600 mt-1" style={{ fontFamily: 'var(--font-body)' }}>
+                  {userData.email}
+                </p>
+                
+                {/* Quick Stats */}
+                <div className="flex flex-wrap gap-4 mt-4">
+                  <div className="flex items-center text-sm text-gray-600">
+                    <Briefcase className="w-5 h-5 mr-2" style={{ color: 'var(--color-accent)' }} />
+                    {calculateExperience(userData.profile.experience)} experience
+                  </div>
+                  <div className="flex items-center text-sm text-gray-600">
+                    <FileText className="w-5 h-5 mr-2" style={{ color: 'var(--color-accent)' }} />
+                    {applications.length} applications
+                  </div>
+                </div>
+              </div>
             </div>
 
-            {/* Profile Details */}
-            <div className="md:col-span-2 space-y-4">
-              <div>
-                <h2 className="text-xl font-semibold text-gray-900">{userData.name}</h2>
-                <p className="text-gray-600">{userData.email}</p>
+            {/* Contact Information Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
+              <div className="bg-gray-50 rounded-lg p-4">
+                <div className="flex items-center mb-2">
+                  <Phone className="w-5 h-5 mr-2 text-gray-400" />
+                  <p className="text-xs text-gray-500 uppercase tracking-wide" style={{ fontFamily: 'var(--font-body)' }}>Phone</p>
+                </div>
+                <p className="font-medium text-gray-900" style={{ fontFamily: 'var(--font-body)' }}>
+                  {userData.profile.phone || "Not provided"}
+                </p>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <p className="text-sm text-gray-500">Phone</p>
-                  <p className="font-medium">{userData.profile.phone || "Not provided"}</p>
+              <div className="bg-gray-50 rounded-lg p-4">
+                <div className="flex items-center mb-2">
+                  <MapPin className="w-5 h-5 mr-2 text-gray-400" />
+                  <p className="text-xs text-gray-500 uppercase tracking-wide" style={{ fontFamily: 'var(--font-body)' }}>Location</p>
                 </div>
-                <div>
-                  <p className="text-sm text-gray-500">Location</p>
-                  <p className="font-medium">{userData.profile.address || "Not provided"}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Age</p>
-                  <p className="font-medium">{userData.profile.age || "Not provided"}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Experience</p>
-                  <p className="font-medium">{calculateExperience(userData.profile.experience)}</p>
-                </div>
+                <p className="font-medium text-gray-900" style={{ fontFamily: 'var(--font-body)' }}>
+                  {userData.profile.address || "Not provided"}
+                </p>
               </div>
 
-              {/* Resume Upload */}
-              <div className="pt-4">
-                <p className="text-sm text-gray-500 mb-2">Resume</p>
+              <div className="bg-gray-50 rounded-lg p-4">
+                <div className="flex items-center mb-2">
+                  <Calendar className="w-5 h-5 mr-2 text-gray-400" />
+                  <p className="text-xs text-gray-500 uppercase tracking-wide" style={{ fontFamily: 'var(--font-body)' }}>Age</p>
+                </div>
+                <p className="font-medium text-gray-900" style={{ fontFamily: 'var(--font-body)' }}>
+                  {userData.profile.age || "Not provided"}
+                </p>
+              </div>
+
+              <div className="bg-gray-50 rounded-lg p-4">
+                <div className="flex items-center mb-2">
+                  <FileText className="w-5 h-5 mr-2 text-gray-400" />
+                  <p className="text-xs text-gray-500 uppercase tracking-wide" style={{ fontFamily: 'var(--font-body)' }}>Resume</p>
+                </div>
                 {userData.profile.resume ? (
-                  <div className="flex items-center justify-between bg-gray-50 p-3 rounded-lg">
-                    <a 
-                      href={userData.profile.resume} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="text-teal-600 hover:text-teal-800 flex items-center"
-                    >
-                      <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                      </svg>
-                      View Resume
-                    </a>
-                    <label className="text-sm text-gray-500 hover:text-gray-700 cursor-pointer">
-                      Change
-                      <input 
-                        type="file" 
-                        accept=".pdf,.doc,.docx" 
-                        onChange={handleResumeChange}
-                        className="hidden"
-                      />
-                    </label>
-                  </div>
+                  <a 
+                    href={userData.profile.resume} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="font-medium hover:underline"
+                    style={{ color: 'var(--color-accent)', fontFamily: 'var(--font-body)' }}
+                  >
+                    View Document
+                  </a>
                 ) : (
-                  <label className="flex items-center justify-center bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 cursor-pointer py-3">
-                    <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
-                    </svg>
-                    Upload Resume
+                  <label className="font-medium cursor-pointer hover:underline" style={{ color: 'var(--color-accent)', fontFamily: 'var(--font-body)' }}>
+                    Upload Now
                     <input 
                       type="file" 
                       accept=".pdf,.doc,.docx" 
@@ -281,131 +341,219 @@ const Profile = () => {
               </div>
             </div>
           </div>
+        </div>
 
-          {/* Skills */}
-          <div className="mb-8">
-            <h3 className="text-lg font-semibold text-gray-900 mb-3">Skills</h3>
-            {userData.profile.skills && userData.profile.skills.length > 0 ? (
-              <div className="flex flex-wrap gap-2">
-                {userData.profile.skills.map((skill, index) => (
-                  <span 
-                    key={index} 
-                    className="px-3 py-1 bg-teal-100 text-teal-800 rounded-full text-sm"
-                  >
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            ) : (
-              <p className="text-gray-500">No skills added yet</p>
-            )}
-          </div>
-
-          {/* Education */}
-          <div className="mb-8">
-            <div className="flex justify-between items-center mb-3">
-              <h3 className="text-lg font-semibold text-gray-900">Education</h3>
-              <Link to="/user-detail" className="text-sm text-teal-600 hover:text-teal-800">
-                Edit
-              </Link>
-            </div>
-            {userData.profile.education && userData.profile.education.length > 0 ? (
-              <div className="space-y-4">
-                {userData.profile.education.map((edu, index) => (
-                  <div key={index} className="border border-gray-200 rounded-lg p-4">
-                    <h4 className="font-medium text-gray-900">{edu.degree}</h4>
-                    <p className="text-gray-600">{edu.institution}</p>
-                    <p className="text-sm text-gray-500">
-                      {edu.field} • {formatDateString(edu.startDate)} - {edu.endDate ? formatDateString(edu.endDate) : 'Present'}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-4 bg-gray-50 rounded-lg">
-                <p className="text-gray-500">No education details added yet</p>
-                <Link to="/user-detail" className="mt-2 inline-block text-teal-600 hover:text-teal-800">
-                  Add Education
+        {/* Two Column Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Left Column - Skills, Education, Experience */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Skills Section */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-bold text-gray-900" style={{ fontFamily: 'var(--font-heading)' }}>
+                  Skills & Expertise
+                </h3>
+                <Link to="/user-detail">
+                  <button className="text-sm px-3 py-1.5 rounded-lg hover:bg-gray-50" style={{ color: 'var(--color-accent)', fontFamily: 'var(--font-body)' }}>
+                    Edit
+                  </button>
                 </Link>
               </div>
-            )}
-          </div>
-
-          {/* Work Experience */}
-          <div className="mb-8">
-            <div className="flex justify-between items-center mb-3">
-              <h3 className="text-lg font-semibold text-gray-900">Work Experience</h3>
-              <Link to="/user-detail" className="text-sm text-teal-600 hover:text-teal-800">
-                Edit
-              </Link>
+              {userData.profile.skills && userData.profile.skills.length > 0 ? (
+                <div className="flex flex-wrap gap-2">
+                  {userData.profile.skills.map((skill, index) => (
+                    <span 
+                      key={index} 
+                      className="px-4 py-2 rounded-full text-sm font-medium transition-all hover:shadow-md"
+                      style={{ 
+                        backgroundColor: 'var(--color-accent-light)', 
+                        color: 'var(--color-accent-dark)',
+                        fontFamily: 'var(--font-body)'
+                      }}
+                    >
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-8 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200">
+                  <FileText className="w-12 h-12 mx-auto text-gray-400 mb-3" />
+                  <p className="text-gray-500 mb-2" style={{ fontFamily: 'var(--font-body)' }}>No skills added yet</p>
+                  <Link to="/user-detail">
+                    <button className="text-sm px-4 py-2 rounded-lg btn-accent inline-flex items-center" style={{ fontFamily: 'var(--font-body)' }}>
+                      <Plus className="w-4 h-4 mr-2" />
+                      Add Skills
+                    </button>
+                  </Link>
+                </div>
+              )}
             </div>
-            {userData.profile.experience && userData.profile.experience.length > 0 ? (
-              <div className="space-y-4">
-                {userData.profile.experience.map((exp, index) => (
-                  <div key={index} className="border border-gray-200 rounded-lg p-4">
-                    <h4 className="font-medium text-gray-900">{exp.position}</h4>
-                    <p className="text-gray-600">{exp.company}</p>
-                    <p className="text-sm text-gray-500">
-                      {formatDateString(exp.startDate)} - {exp.endDate ? formatDateString(exp.endDate) : 'Present'}
-                    </p>
-                    <p className="mt-2 text-gray-700">{exp.description}</p>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-4 bg-gray-50 rounded-lg">
-                <p className="text-gray-500">No work experience added yet</p>
-                <Link to="/user-detail" className="mt-2 inline-block text-teal-600 hover:text-teal-800">
-                  Add Experience
+
+            {/* Education Section */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-bold text-gray-900" style={{ fontFamily: 'var(--font-heading)' }}>
+                  Education
+                </h3>
+                <Link to="/user-detail">
+                  <button className="text-sm px-3 py-1.5 rounded-lg hover:bg-gray-50" style={{ color: 'var(--color-accent)', fontFamily: 'var(--font-body)' }}>
+                    Edit
+                  </button>
                 </Link>
               </div>
-            )}
+              {userData.profile.education && userData.profile.education.length > 0 ? (
+                <div className="space-y-4">
+                  {userData.profile.education.map((edu, index) => (
+                    <div key={index} className="border-l-4 pl-4 py-2" style={{ borderColor: 'var(--color-accent)' }}>
+                      <h4 className="font-bold text-gray-900" style={{ fontFamily: 'var(--font-heading)' }}>
+                        {edu.degree}
+                      </h4>
+                      <p className="text-gray-700 font-medium mt-1" style={{ fontFamily: 'var(--font-body)' }}>
+                        {edu.institution}
+                      </p>
+                      <div className="flex items-center mt-2 text-sm text-gray-500">
+                        <span className="mr-3">{edu.field}</span>
+                        <span>•</span>
+                        <span className="ml-3">
+                          {formatDateString(edu.startDate)} - {edu.endDate ? formatDateString(edu.endDate) : 'Present'}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-8 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200">
+                  <BookOpen className="w-12 h-12 mx-auto text-gray-400 mb-3" />
+                  <p className="text-gray-500 mb-2" style={{ fontFamily: 'var(--font-body)' }}>No education details added yet</p>
+                  <Link to="/user-detail">
+                    <button className="text-sm px-4 py-2 rounded-lg btn-accent inline-flex items-center" style={{ fontFamily: 'var(--font-body)' }}>
+                      <Plus className="w-4 h-4 mr-2" />
+                      Add Education
+                    </button>
+                  </Link>
+                </div>
+              )}
+            </div>
+
+            {/* Work Experience Section */}
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-bold text-gray-900" style={{ fontFamily: 'var(--font-heading)' }}>
+                  Work Experience
+                </h3>
+                <Link to="/user-detail">
+                  <button className="text-sm px-3 py-1.5 rounded-lg hover:bg-gray-50" style={{ color: 'var(--color-accent)', fontFamily: 'var(--font-body)' }}>
+                    Edit
+                  </button>
+                </Link>
+              </div>
+              {userData.profile.experience && userData.profile.experience.length > 0 ? (
+                <div className="space-y-6">
+                  {userData.profile.experience.map((exp, index) => (
+                    <div key={index} className="relative pl-8 pb-6 border-l-2 border-gray-200 last:border-l-0 last:pb-0">
+                      <div className="absolute left-0 top-0 -translate-x-1/2 w-4 h-4 rounded-full" style={{ backgroundColor: 'var(--color-accent)' }}></div>
+                      <h4 className="font-bold text-gray-900 text-lg" style={{ fontFamily: 'var(--font-heading)' }}>
+                        {exp.position}
+                      </h4>
+                      <p className="text-gray-700 font-medium mt-1" style={{ fontFamily: 'var(--font-body)' }}>
+                        {exp.company}
+                      </p>
+                      <p className="text-sm text-gray-500 mt-1">
+                        {formatDateString(exp.startDate)} - {exp.endDate ? formatDateString(exp.endDate) : 'Present'}
+                      </p>
+                      {exp.description && (
+                        <p className="mt-3 text-gray-700 leading-relaxed" style={{ fontFamily: 'var(--font-body)' }}>
+                          {exp.description}
+                        </p>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-8 bg-gray-50 rounded-lg border-2 border-dashed border-gray-200">
+                  <Briefcase className="w-12 h-12 mx-auto text-gray-400 mb-3" />
+                  <p className="text-gray-500 mb-2" style={{ fontFamily: 'var(--font-body)' }}>No work experience added yet</p>
+                  <Link to="/user-detail">
+                    <button className="text-sm px-4 py-2 rounded-lg btn-accent inline-flex items-center" style={{ fontFamily: 'var(--font-body)' }}>
+                      <Plus className="w-4 h-4 mr-2" />
+                      Add Experience
+                    </button>
+                  </Link>
+                </div>
+              )}
+            </div>
           </div>
 
-          {/* Applied Jobs */}
-          <div>
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-gray-900">My Applications</h3>
-              <Link to="/my-jobs" className="text-teal-600 hover:text-teal-800 text-sm">
-                View All
-              </Link>
-            </div>
-            
-            {applicationsLoading ? (
-              <p>Loading applications...</p>
-            ) : applications.length > 0 ? (
-              <div className="space-y-3">
-                {applications.slice(0, 3).map((application) => (
-                  <div 
-                    key={application._id} 
-                    className="border border-gray-100 rounded-lg p-4 flex items-center justify-between"
-                  >
-                    <div>
-                      <h4 className="font-medium text-gray-900">{application.jobId.title}</h4>
-                      <p className="text-gray-600">{application.jobId.company.name}</p>
-                      <p className="text-sm text-gray-500">
-                        Applied on: {formatDateString(application.appliedAt)}
+          {/* Right Column - Applications */}
+          <div className="lg:col-span-1">
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sticky top-6">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-bold text-gray-900" style={{ fontFamily: 'var(--font-heading)' }}>
+                  Recent Applications
+                </h3>
+                <Link to="/my-jobs">
+                  <button className="text-sm px-3 py-1.5 rounded-lg hover:bg-gray-50" style={{ color: 'var(--color-accent)', fontFamily: 'var(--font-body)' }}>
+                    View All
+                  </button>
+                </Link>
+              </div>
+              
+              {applicationsLoading ? (
+                <div className="flex justify-center py-8">
+                  <Loader className="h-8 w-8 animate-spin text-gray-900" />
+                </div>
+              ) : applications.length > 0 ? (
+                <div className="space-y-3">
+                  {applications.slice(0, 5).map((application) => (
+                    <div 
+                      key={application._id} 
+                      className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
+                    >
+                      <div className="flex items-start justify-between mb-2">
+                        <h4 className="font-semibold text-gray-900 text-sm" style={{ fontFamily: 'var(--font-heading)' }}>
+                          {application.jobId.title}
+                        </h4>
+                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                          application.status === 'accepted' ? 'bg-green-100 text-green-800' :
+                          application.status === 'rejected' ? 'bg-red-100 text-red-800' :
+                          application.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                          'bg-blue-100 text-blue-800'
+                        }`}>
+                          {application.status}
+                        </span>
+                      </div>
+                      <p className="text-gray-600 text-sm mb-2" style={{ fontFamily: 'var(--font-body)' }}>
+                        {application.jobId.company.name}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        Applied: {formatDateString(application.appliedAt)}
                       </p>
                     </div>
-                    <span className="px-3 py-1 rounded-full text-sm bg-blue-100 text-blue-800">
-                      {application.status}
-                    </span>
-                  </div>
-                ))}
-                {applications.length > 3 && (
-                  <div className="text-center pt-2">
-                    <Link to="/my-jobs" className="text-teal-600 hover:text-teal-800 text-sm">
-                      View all {applications.length} applications
+                  ))}
+                  {applications.length > 5 && (
+                    <Link to="/my-jobs">
+                      <button className="w-full mt-3 py-2 text-center text-sm rounded-lg border-2 border-dashed border-gray-300 hover:border-gray-400 transition-colors" style={{ color: 'var(--color-accent)', fontFamily: 'var(--font-body)' }}>
+                        View all {applications.length} applications
+                      </button>
                     </Link>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <p className="text-gray-500">You haven't applied for any jobs yet</p>
-            )}
+                  )}
+                </div>
+              ) : (
+                <div className="text-center py-8">
+                  <FileText className="w-16 h-16 mx-auto text-gray-300 mb-3" />
+                  <p className="text-gray-500 text-sm" style={{ fontFamily: 'var(--font-body)' }}>
+                    No applications yet
+                  </p>
+                  <p className="text-gray-400 text-xs mt-1">
+                    Start applying for jobs to see them here
+                  </p>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
+      
       <Footer />
     </div>
   );

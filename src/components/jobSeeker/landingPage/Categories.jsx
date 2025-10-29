@@ -30,12 +30,18 @@ const Categories = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 px-[10%] lg:py-16">
+    <div className="min-h-screen px-[10%] lg:py-16" style={{ backgroundColor: 'var(--color-background)' }}>
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-extrabold text-gray-800 mb-4">
+        <h1 className="text-4xl font-extrabold mb-4" style={{ 
+          color: 'var(--color-primary)', 
+          fontFamily: 'var(--font-heading)' 
+        }}>
           Browse by Category
         </h1>
-        <p className="text-gray-600 text-lg">
+        <p className="text-lg" style={{ 
+          color: 'var(--color-text-secondary)', 
+          fontFamily: 'var(--font-body)' 
+        }}>
           Find your dream job in your preferred industry.
         </p>
       </div>
@@ -44,16 +50,27 @@ const Categories = () => {
           <div
             key={category.title}
             onClick={() => handleCategoryClick(category.title)}
-            className="bg-white rounded p-6 shadow-lg hover:shadow-2xl border border-transparent transition-all duration-300 cursor-pointer transform hover:scale-105"
+            className="card cursor-pointer transform hover:scale-105"
+            style={{ transition: 'var(--transition-normal)' }}
           >
             <div className="flex flex-col items-center text-center">
-              <div className="w-14 h-14 flex items-center justify-center rounded-full bg-teal-100 mb-5 shadow-md">
-                <category.icon className="w-7 h-7 text-teal-600" />
+              <div className="w-14 h-14 flex items-center justify-center rounded-full mb-5" style={{ 
+                backgroundColor: 'var(--color-accent-light)', 
+                boxShadow: 'var(--shadow-md)' 
+              }}>
+                <category.icon className="w-7 h-7" style={{ color: 'var(--color-accent)' }} />
               </div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">
+              <h3 className="text-xl font-semibold mb-2" style={{ 
+                color: 'var(--color-primary)', 
+                fontFamily: 'var(--font-heading)' 
+              }}>
                 {category.title}
               </h3>
-              <span className="text-teal-500 bg-teal-50 px-3 py-1 rounded-full text-sm">
+              <span className="px-3 py-1 rounded-full text-sm" style={{ 
+                color: 'var(--color-accent)', 
+                backgroundColor: 'var(--color-accent-light)',
+                fontFamily: 'var(--font-body)'
+              }}>
                 {category.jobs} jobs
               </span>
             </div>

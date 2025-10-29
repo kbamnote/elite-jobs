@@ -48,7 +48,7 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-teal-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: 'var(--color-accent-light)' }}>
       <div className="max-w-md w-full space-y-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
@@ -75,7 +75,19 @@ const Login = () => {
                 type="email"
                 autoComplete="email"
                 required
-                className="appearance-none rounded-lg relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors"
+                className="appearance-none rounded-lg relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 transition-colors"
+                style={{ 
+                  '--tw-ring-color': 'var(--color-accent)',
+                  borderColor: 'var(--color-accent)' 
+                }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = 'var(--color-accent)';
+                  e.target.style.boxShadow = `0 0 0 2px var(--color-accent)`;
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = '#d1d5db';
+                  e.target.style.boxShadow = 'none';
+                }}
                 placeholder="Enter your email"
                 value={formData.email}
                 onChange={handleChange}
@@ -91,7 +103,19 @@ const Login = () => {
                 type="password"
                 autoComplete="current-password"
                 required
-                className="appearance-none rounded-lg relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors"
+                className="appearance-none rounded-lg relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 transition-colors"
+                style={{ 
+                  '--tw-ring-color': 'var(--color-accent)',
+                  borderColor: 'var(--color-accent)' 
+                }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = 'var(--color-accent)';
+                  e.target.style.boxShadow = `0 0 0 2px var(--color-accent)`;
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = '#d1d5db';
+                  e.target.style.boxShadow = 'none';
+                }}
                 placeholder="Enter your password"
                 value={formData.password}
                 onChange={handleChange}
@@ -105,7 +129,19 @@ const Login = () => {
                 id="role"
                 name="role"
                 required
-                className="appearance-none rounded-lg relative block w-full px-4 py-3 border border-gray-300 text-gray-900 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-colors"
+                className="appearance-none rounded-lg relative block w-full px-4 py-3 border border-gray-300 text-gray-900 focus:outline-none focus:ring-2 transition-colors"
+                style={{ 
+                  '--tw-ring-color': 'var(--color-accent)',
+                  borderColor: 'var(--color-accent)' 
+                }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = 'var(--color-accent)';
+                  e.target.style.boxShadow = `0 0 0 2px var(--color-accent)`;
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = '#d1d5db';
+                  e.target.style.boxShadow = 'none';
+                }}
                 value={formData.role}
                 onChange={handleChange}
               >
@@ -119,7 +155,16 @@ const Login = () => {
             <button
               type="submit"
               disabled={loading}
-              className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 disabled:opacity-50 transition-colors shadow-md"
+              className="btn-accent group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg disabled:opacity-50 transition-colors shadow-md"
+              style={{ 
+                '--tw-ring-color': 'var(--color-accent)' 
+              }}
+              onFocus={(e) => {
+                e.target.style.boxShadow = `0 0 0 2px var(--color-accent)`;
+              }}
+              onBlur={(e) => {
+                e.target.style.boxShadow = 'none';
+              }}
             >
               {loading ? 'Signing in...' : 'Sign in'}
             </button>
@@ -128,7 +173,22 @@ const Login = () => {
           <div className="text-center">
             <p className="text-sm text-gray-600">
               Don't have an account?{' '}
-              <a href="/signup" className="font-medium text-teal-600 hover:text-teal-500 transition-colors">
+              <a 
+                href="/signup" 
+                className="font-medium transition-colors"
+                style={{ 
+                  color: 'var(--color-accent)',
+                  fontFamily: 'var(--font-body)' 
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.color = 'var(--color-accent-dark)';
+                  e.target.style.fontFamily = 'var(--font-heading)';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.color = 'var(--color-accent)';
+                  e.target.style.fontFamily = 'var(--font-body)';
+                }}
+              >
                 Sign up here
               </a>
             </p>

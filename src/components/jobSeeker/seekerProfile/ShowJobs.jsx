@@ -70,7 +70,8 @@ const ShowJobs = () => {
               <p className="text-red-500">{error}</p>
               <button 
                 onClick={fetchAppliedJobs}
-                className="mt-4 px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700"
+                className="mt-4 px-4 py-2 btn-accent rounded-lg"
+                style={{ fontFamily: 'var(--font-body)' }}
               >
                 Retry
               </button>
@@ -94,7 +95,8 @@ const ShowJobs = () => {
               <p className="text-gray-500">You haven't applied for any jobs yet</p>
               <button
                 onClick={() => navigate('/jobs')}
-                className="mt-4 px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700"
+                className="mt-4 px-4 py-2 btn-accent rounded-lg"
+                style={{ fontFamily: 'var(--font-body)' }}
               >
                 Browse Jobs
               </button>
@@ -115,12 +117,25 @@ const ShowJobs = () => {
                       </p>
                     </div>
                     <div className="flex items-center gap-3">
-                      <span className={`px-3 py-1 rounded-full text-sm ${
-                        application.status === 'accepted' ? 'bg-green-100 text-green-800' :
-                        application.status === 'rejected' ? 'bg-red-100 text-red-800' :
-                        application.status === 'interview' ? 'bg-blue-100 text-blue-800' :
-                        'bg-teal-100 text-teal-800'
-                      }`}>
+                      <span 
+                        className={`px-3 py-1 rounded-full text-sm ${
+                          application.status === 'accepted' ? 'bg-green-100 text-green-800' :
+                          application.status === 'rejected' ? 'bg-red-100 text-red-800' :
+                          application.status === 'interview' ? 'bg-blue-100 text-blue-800' :
+                          ''
+                        }`}
+                        style={
+                          application.status !== 'accepted' && 
+                          application.status !== 'rejected' && 
+                          application.status !== 'interview' 
+                            ? { 
+                                backgroundColor: 'var(--color-accent-light)', 
+                                color: 'var(--color-accent-dark)',
+                                fontFamily: 'var(--font-body)'
+                              } 
+                            : { fontFamily: 'var(--font-body)' }
+                        }
+                      >
                         {application.status}
                       </span>
                       <button

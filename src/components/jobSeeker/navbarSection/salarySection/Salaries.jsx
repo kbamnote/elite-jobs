@@ -25,7 +25,8 @@ const Salaries = () => {
     <>
       <Header />
       <div className="w-full h-40 sm:h-60 bg-gray-900 text-white flex justify-center items-center px-4">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-center">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-center"
+        style={{ color: 'var(--color-accent)', fontFamily: 'var(--font-heading)' }}>
           Salary Calculator
         </h1>
       </div>
@@ -40,11 +41,11 @@ const Salaries = () => {
               previous CTC and work experience. Stay informed and prepared!
             </p>
             {expectedSalary && (
-              <div className="p-4 sm:p-6 bg-gradient-to-r from-green-400 via-teal-500 to-blue-600 rounded-lg shadow-xl text-center">
-                <h3 className="text-xl sm:text-2xl font-semibold text-white">
+              <div className="p-4 sm:p-6 rounded-lg shadow-xl text-center" style={{ background: 'linear-gradient(to right, var(--color-accent), var(--color-accent-dark))' }}>
+                <h3 className="text-xl sm:text-2xl font-semibold text-white" style={{ fontFamily: 'var(--font-heading)' }}>
                   Your Expected Salary
                 </h3>
-                <p className="mt-2 sm:mt-3 text-2xl sm:text-3xl font-bold text-white">
+                <p className="mt-2 sm:mt-3 text-2xl sm:text-3xl font-bold text-white" style={{ fontFamily: 'var(--font-heading)' }}>
                   {expectedSalary}
                 </p>
               </div>
@@ -62,7 +63,16 @@ const Salaries = () => {
                   placeholder="Enter company name"
                   value={company}
                   onChange={(e) => setCompany(e.target.value)}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none text-sm sm:text-base"
+                  className="w-full p-2 border border-gray-300 rounded-md outline-none text-sm sm:text-base"
+                  style={{ fontFamily: 'var(--font-body)' }}
+                  onFocus={(e) => {
+                    e.target.style.borderColor = 'var(--color-accent)';
+                    e.target.style.boxShadow = '0 0 0 2px rgba(var(--color-accent-rgb), 0.2)';
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = '#d1d5db';
+                    e.target.style.boxShadow = 'none';
+                  }}
                 />
               </div>
               <div>
@@ -74,7 +84,16 @@ const Salaries = () => {
                   placeholder="Enter designation"
                   value={designation}
                   onChange={(e) => setDesignation(e.target.value)}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none text-sm sm:text-base"
+                  className="w-full p-2 border border-gray-300 rounded-md outline-none text-sm sm:text-base"
+                  style={{ fontFamily: 'var(--font-body)' }}
+                  onFocus={(e) => {
+                    e.target.style.borderColor = 'var(--color-accent)';
+                    e.target.style.boxShadow = '0 0 0 2px rgba(var(--color-accent-rgb), 0.2)';
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = '#d1d5db';
+                    e.target.style.boxShadow = 'none';
+                  }}
                 />
               </div>
               <div>
@@ -86,7 +105,16 @@ const Salaries = () => {
                   placeholder="Enter previous annual CTC"
                   value={previousCTC}
                   onChange={(e) => setPreviousCTC(e.target.value)}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none text-sm sm:text-base"
+                  className="w-full p-2 border border-gray-300 rounded-md outline-none text-sm sm:text-base"
+                  style={{ fontFamily: 'var(--font-body)' }}
+                  onFocus={(e) => {
+                    e.target.style.borderColor = 'var(--color-accent)';
+                    e.target.style.boxShadow = '0 0 0 2px rgba(var(--color-accent-rgb), 0.2)';
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = '#d1d5db';
+                    e.target.style.boxShadow = 'none';
+                  }}
                 />
               </div>
               <div>
@@ -98,13 +126,38 @@ const Salaries = () => {
                   placeholder="Enter years of experience"
                   value={experience}
                   onChange={(e) => setExperience(e.target.value)}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-teal-500 focus:border-transparent outline-none text-sm sm:text-base"
+                  className="w-full p-2 border border-gray-300 rounded-md outline-none text-sm sm:text-base"
+                  style={{ fontFamily: 'var(--font-body)' }}
+                  onFocus={(e) => {
+                    e.target.style.borderColor = 'var(--color-accent)';
+                    e.target.style.boxShadow = '0 0 0 2px rgba(var(--color-accent-rgb), 0.2)';
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = '#d1d5db';
+                    e.target.style.boxShadow = 'none';
+                  }}
                 />
               </div>
               <button
                 type="button"
                 onClick={calculateSalary}
-                className="w-full bg-teal-600 text-white py-2 px-4 rounded-md hover:bg-teal-700 transition-colors focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 text-sm sm:text-base"
+                className="w-full text-white py-2 px-4 rounded-md transition-colors text-sm sm:text-base"
+                style={{ 
+                  backgroundColor: 'var(--color-accent)',
+                  fontFamily: 'var(--font-body)'
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.backgroundColor = 'var(--color-accent-dark)';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.backgroundColor = 'var(--color-accent)';
+                }}
+                onFocus={(e) => {
+                  e.target.style.boxShadow = '0 0 0 2px rgba(var(--color-accent-rgb), 0.2)';
+                }}
+                onBlur={(e) => {
+                  e.target.style.boxShadow = 'none';
+                }}
               >
                 Calculate Expected Salary
               </button>

@@ -1,10 +1,7 @@
 /**
-
  * Footer component containing company information, job categories, newsletter
-
  * subscription, copyright information, social media links, and legal links.
  *
-
  * @returns {JSX.Element} The Footer component.
  */
 
@@ -19,7 +16,7 @@ import {
 
 const Footer = () => {
   return (
-    <footer className="bg-gradient-to-br w-full from-gray-900 to-black text-white pt-16 pb-8 px-4 sm:px-10">
+    <footer className="w-full pt-16 pb-8 px-4 sm:px-10" style={{ backgroundColor: 'var(--color-dark-primary)', color: 'var(--color-text-white)' }}>
     {/* Main Footer Content - Two main sections in flex-row for larger screens */}
     <div className="flex flex-col lg:flex-row gap-2 mb-12">
       {/* First Main Section - Logo, Address and Links */}
@@ -28,20 +25,20 @@ const Footer = () => {
           {/* Logo and Description - Full width on small, 2/5 on medium, 1/3 on large */}
           <div className="md:col-span-2 lg:col-span-1">
             <div className="flex items-center gap-2 mb-4 flex-wrap">
-              <Briefcase className="w-6 h-6 sm:w-7 sm:h-7 text-teal-400" />
-              <span className="text-xl sm:text-2xl font-bold">Job Quick</span>
+              <Briefcase className="w-6 h-6 sm:w-7 sm:h-7" style={{ color: 'var(--color-accent)' }} />
+              <span className="text-xl sm:text-2xl font-bold" style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-white)' }}>Elite Jobs</span>
             </div>
-            <p className="text-gray-400 leading-relaxed text-sm sm:text-base">
-              The Job Quick is a powerful job search platform that helps job seekers find their dream job quickly and efficiently.
+            <p className="leading-relaxed text-sm sm:text-base" style={{ color: 'var(--color-text-light)', fontFamily: 'var(--font-body)' }}>
+              The Elite Jobs is a powerful job search platform that helps job seekers find their dream job quickly and efficiently.
             </p>
           </div>
 
            {/* Address - Full width on small, 3/5 on medium, 1/3 on large  */}
            <div className="md:col-span-3 lg:col-span-1">
-            <h3 className="text-lg font-semibold mb-3 sm:mb-5 text-teal-400">
+            <h3 className="text-lg font-semibold mb-3 sm:mb-5" style={{ color: 'var(--color-accent)', fontFamily: 'var(--font-heading)' }}>
               Address
             </h3>
-            <p className="text-gray-400 leading-relaxed text-sm sm:text-base">
+            <p className="leading-relaxed text-sm sm:text-base" style={{ color: 'var(--color-text-light)', fontFamily: 'var(--font-body)' }}>
               <strong>HEAD OFFICE:</strong> 1st Floor Mohota Complex, Above State Bank Of India Katol Road, Chhaoni Rd, Nagpur, Maharashtra 440013
             </p>
             {/* <div className="h-3"></div>
@@ -52,7 +49,7 @@ const Footer = () => {
           
           {/* Links - Full width on small, 3/5 on medium, 1/3 on large */}
           <div className="md:col-span-2 lg:col-span-1 lg:pl-10">
-            <h3 className="text-lg font-semibold mb-3 sm:mb-5 text-teal-400">
+            <h3 className="text-lg font-semibold mb-3 sm:mb-5" style={{ color: 'var(--color-accent)', fontFamily: 'var(--font-heading)' }}>
               Links
             </h3>
             <ul className="space-y-2 sm:space-y-3">
@@ -66,7 +63,14 @@ const Footer = () => {
                 <li key={index}>
                   <a
                     href={item.link}
-                    className="text-gray-400 hover:text-teal-400 transition duration-300 text-sm sm:text-base"
+                    className="transition duration-300 text-sm sm:text-base"
+                    style={{ 
+                      color: 'var(--color-text-light)', 
+                      fontFamily: 'var(--font-body)',
+                      transition: 'var(--transition-normal)'
+                    }}
+                    onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
+                    onMouseLeave={(e) => e.target.style.color = 'var(--color-text-light)'}
                   >
                     {item.name}
                   </a>
@@ -77,19 +81,26 @@ const Footer = () => {
 
           
           <div className="lg:hidden md:col-span-3 lg:mt-0">
-        <h3 className="text-lg font-semibold mb-3 sm:mb-5 text-teal-400">
+        <h3 className="text-lg font-semibold mb-3 sm:mb-5" style={{ color: 'var(--color-accent)', fontFamily: 'var(--font-heading)' }}>
           Newsletter
         </h3>
-        <p className="text-gray-400 mb-3 sm:mb-4 text-sm sm:text-base">
+        <p className="mb-3 sm:mb-4 text-sm sm:text-base" style={{ color: 'var(--color-text-light)', fontFamily: 'var(--font-body)' }}>
           Subscribe to stay updated on the latest job opportunities.
         </p>
         <div className="flex flex-col space-y-4">
           <input
             type="email"
             placeholder="Enter your email"
-            className="w-full md:w-72 lg:w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-400"
+            className="w-full md:w-72 lg:w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2"
+            style={{ 
+              backgroundColor: 'rgba(255, 255, 255, 0.1)', 
+              border: '1px solid rgba(255, 255, 255, 0.2)', 
+              color: 'var(--color-text-white)',
+              fontFamily: 'var(--font-body)',
+              borderRadius: 'var(--border-radius-md)'
+            }}
           />
-          <button className="bg-teal-500 text-white px-4 py-3 rounded-lg hover:bg-teal-600 transition w-full md:w-72 lg:w-full">
+          <button className="px-4 py-3 rounded-lg transition w-full md:w-72 lg:w-full btn-accent">
             Subscribe
           </button>
         </div>
@@ -100,19 +111,26 @@ const Footer = () => {
       
       {/* Second Main Section - Newsletter */}
       <div className="hidden lg:block lg:w-1/4 md:col-span-2 mt-8 lg:mt-0">
-        <h3 className="text-lg font-semibold mb-3 sm:mb-5 text-teal-400">
+        <h3 className="text-lg font-semibold mb-3 sm:mb-5" style={{ color: 'var(--color-accent)', fontFamily: 'var(--font-heading)' }}>
           Newsletter
         </h3>
-        <p className="text-gray-400 mb-3 sm:mb-4 text-sm sm:text-base">
+        <p className="mb-3 sm:mb-4 text-sm sm:text-base" style={{ color: 'var(--color-text-light)', fontFamily: 'var(--font-body)' }}>
           Subscribe to stay updated on the latest job opportunities.
         </p>
         <div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-2">
           <input
             type="email"
             placeholder="Enter your email"
-            className="w-56 md:w-72 lg:w-full px-4 py-3 rounded-lg bg-white/10 border border-white/20 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-teal-400"
+            className="w-56 md:w-72 lg:w-full px-4 py-3 rounded-lg focus:outline-none focus:ring-2"
+            style={{ 
+              backgroundColor: 'rgba(255, 255, 255, 0.1)', 
+              border: '1px solid rgba(255, 255, 255, 0.2)', 
+              color: 'var(--color-text-white)',
+              fontFamily: 'var(--font-body)',
+              borderRadius: 'var(--border-radius-md)'
+            }}
           />
-          <button className="bg-teal-500 text-white px-4 py-3 rounded-lg hover:bg-teal-600 transition w-56 md:w-72 lg:w-36">
+          <button className="px-4 py-3 rounded-lg transition w-56 md:w-72 lg:w-36 btn-accent">
             Subscribe
           </button>
         </div>
@@ -120,9 +138,9 @@ const Footer = () => {
     </div>
     
     {/* Bottom Bar */}
-    <div className="border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
-      <div className="text-gray-400 text-xs sm:text-sm text-center md:text-left">
-        © {new Date().getFullYear()} Job Portal. All rights reserved.
+    <div className="pt-6 flex flex-col md:flex-row justify-between items-center gap-4" style={{ borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
+      <div className="text-xs sm:text-sm text-center md:text-left" style={{ color: 'var(--color-text-light)', fontFamily: 'var(--font-body)' }}>
+        © {new Date().getFullYear()} Elite Jobs. All rights reserved.
       </div>
       {/* Social Icons */}
      <div className="flex space-x-4">
@@ -135,7 +153,13 @@ const Footer = () => {
     <a
       key={index}
       href={item.url}
-      className="text-gray-400 hover:text-teal-400 transition-all duration-300 transform hover:-translate-y-1 hover:scale-110"
+      className="transition-all duration-300 transform hover:-translate-y-1 hover:scale-110"
+      style={{ 
+        color: 'var(--color-text-light)',
+        transition: 'var(--transition-normal)'
+      }}
+      onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
+      onMouseLeave={(e) => e.target.style.color = 'var(--color-text-light)'}
       target="_blank"
       rel="noopener noreferrer"
     >
