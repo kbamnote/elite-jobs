@@ -47,7 +47,7 @@ function App() {
         <Route path="/hosting/post-job" element={<PostJob />} />
         <Route path="/hosting/my-jobs" element={<MyJobs />} />
         <Route path="/hosting/applicants/:jobId" element={<ViewApplicant />} />
-        <Route path="/hosting/applicant/:applicantId" element={<ApplicantProfile />} />
+        <Route path="/hosting/applicant/:jobId/:applicationId" element={<ApplicantProfile />} />
         
         {/* Job Seeker Pages */}
         <Route path="/about" element={<AboutUs />} />

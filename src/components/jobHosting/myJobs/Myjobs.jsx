@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import JobHostingSidebar from "../commonHost/jobHostingSidebar";
-import { Briefcase, MapPin, Users, Trash2, UserCheck } from "lucide-react";
+import { Briefcase, MapPin, Users, Trash2, UserCheck, IndianRupee } from "lucide-react";
+import { getHosterJobs } from "../../../utils/Api";
 
 const Badge = ({ children, variant = "default", className = "" }) => {
   const baseStyles = "inline-flex items-center rounded-full px-3 py-1 text-xs font-medium transition-all duration-200";
@@ -22,57 +23,34 @@ const Badge = ({ children, variant = "default", className = "" }) => {
 const MyJobs = () => {
   const [selectedJob, setSelectedJob] = useState(null);
   const [showDeletePopup, setShowDeletePopup] = useState(false);
+  const [jobs, setJobs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  // Static data for design-only mode
-  const jobs = [
-    {
-      _id: "1",
-      title: "Senior Frontend Developer",
-      companyName: "TechCorp Solutions",
-      location: "San Francisco, CA",
-      noOfOpeaning: 3,
-      jobType: "Full-time",
-      skills: ["React", "JavaScript", "TypeScript", "CSS", "Node.js"]
-    },
-    {
-      _id: "2",
-      title: "UX/UI Designer",
-      companyName: "Design Studio Pro",
-      location: "New York, NY",
-      noOfOpeaning: 2,
-      jobType: "Contract",
-      skills: ["Figma", "Adobe XD", "Sketch", "Prototyping", "User Research"]
-    },
-    {
-      _id: "3",
-      title: "Backend Engineer",
-      companyName: "DataFlow Inc",
-      location: "Austin, TX",
-      noOfOpeaning: 1,
-      jobType: "Full-time",
-      skills: ["Python", "Django", "PostgreSQL", "AWS", "Docker"]
-    },
-    {
-      _id: "4",
-      title: "Product Manager",
-      companyName: "Innovation Labs",
-      location: "Seattle, WA",
-      noOfOpeaning: 1,
-      jobType: "Full-time",
-      skills: ["Product Strategy", "Agile", "Analytics", "Leadership", "Communication"]
-    }
-  ];
+  useEffect(() => {
+    fetchHosterJobs();
+  }, []);
 
-  const pagination = {
-    page: 1,
-    limit: 10,
-    total: 4,
-    totalPages: 1
+  const fetchHosterJobs = async () => {
+    try {
+      setLoading(true);
+      const response = await getHosterJobs();
+      if (response.data.success) {
+        setJobs(response.data.data.jobs);
+      } else {
+        setError("Failed to fetch jobs");
+      }
+    } catch (err) {
+      console.error("Error fetching jobs:", err);
+      setError("Error fetching jobs. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleViewApplicants = (jobId) => {
-    navigate(`/job/${jobId}/applicants`);
+    navigate(`/hosting/applicants/${jobId}`);
   };
 
   const handleDeleteJob = () => {
@@ -81,6 +59,66 @@ const MyJobs = () => {
     setShowDeletePopup(false);
     setSelectedJob(null);
   };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col lg:flex-row bg-gray-50">
+        {/* Sidebar */}
+        <div className="w-[10px] lg:w-1/4 h-screen fixed top-0 left-0">
+          <JobHostingSidebar />
+        </div>
+
+        {/* Main content */}
+        <main className="w-full lg:ml-72 xl:ml-80 p-3 sm:p-4 lg:p-6 xl:p-4 overflow-y-auto">
+          <div className="max-w-7xl mx-auto space-y-4 sm:space-y-6">
+            <header className="text-center px-2">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-zinc-600">My Job Listings</h1>
+              <p className="text-gray-600 mt-2">Manage and track your posted job opportunities</p>
+            </header>
+
+            <div className="sm:p-6 p-2">
+              <div className="flex justify-center items-center h-64">
+                <p className="text-lg text-gray-600">Loading jobs...</p>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex flex-col lg:flex-row bg-gray-50">
+        {/* Sidebar */}
+        <div className="w-[10px] lg:w-1/4 h-screen fixed top-0 left-0">
+          <JobHostingSidebar />
+        </div>
+
+        {/* Main content */}
+        <main className="w-full lg:ml-72 xl:ml-80 p-3 sm:p-4 lg:p-6 xl:p-4 overflow-y-auto">
+          <div className="max-w-7xl mx-auto space-y-4 sm:space-y-6">
+            <header className="text-center px-2">
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-zinc-600">My Job Listings</h1>
+              <p className="text-gray-600 mt-2">Manage and track your posted job opportunities</p>
+            </header>
+
+            <div className="sm:p-6 p-2">
+              <div className="bg-white rounded-xl shadow-sm p-6 text-center">
+                <p className="text-red-500">{error}</p>
+                <button 
+                  onClick={fetchHosterJobs}
+                  className="mt-4 bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700 transition-colors duration-200"
+                >
+                  Retry
+                </button>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col lg:flex-row bg-gray-50">
@@ -104,7 +142,7 @@ const MyJobs = () => {
                 <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-2">No Jobs Posted Yet</h2>
                 <p className="text-gray-600 mb-6 sm:mb-8">Start creating job listings to find the perfect candidates.</p>
                 <button
-                  onClick={() => navigate('/post-job')}
+                  onClick={() => navigate('/hosting/post-job')}
                   className="bg-teal-600 text-white px-6 sm:px-8 py-3 rounded-lg hover:bg-teal-700 transition-colors duration-200"
                 >
                   Post Your First Job
@@ -129,7 +167,7 @@ const MyJobs = () => {
                         <div className="space-y-4 mb-8 flex-grow">
                           <div className="flex items-center text-gray-700">
                             <Briefcase className="w-5 h-5 mr-3 text-teal-600" />
-                            <span className="font-medium">{job.companyName}</span>
+                            <span className="font-medium">{job.company?.name || "N/A"}</span>
                           </div>
 
                           <div className="flex items-center text-gray-600">
@@ -138,8 +176,13 @@ const MyJobs = () => {
                           </div>
 
                           <div className="flex items-center text-gray-600">
+                            <IndianRupee className="w-5 h-5 mr-3 text-teal-600" />
+                            <span>{job.salary?.min} - {job.salary?.max} {job.salary?.currency}</span>
+                          </div>
+
+                          <div className="flex items-center text-gray-600">
                             <Users className="w-5 h-5 mr-3 text-teal-600" />
-                            <span>{job.noOfOpeaning} openings</span>
+                            <span>{job.category}</span>
                           </div>
 
                           <div className="flex flex-wrap gap-2 mt-6">
@@ -177,17 +220,6 @@ const MyJobs = () => {
                     </div>
                   ))}
                 </div>
-
-                {pagination.page < pagination.totalPages && (
-                  <div className="mt-8 sm:mt-12 text-center">
-                    <button
-                      onClick={() => console.log("Load more clicked")}
-                      className="bg-white text-teal-600 px-6 sm:px-8 py-2.5 sm:py-3 rounded-lg border border-teal-600 hover:bg-teal-50 transition-colors duration-200 font-medium"
-                    >
-                      Load More ({jobs.length} of {pagination.total})
-                    </button>
-                  </div>
-                )}
               </>
             )}
           </div>

@@ -1,62 +1,108 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LineChart from "./graphs/LineChart";
 import PieChart from "./graphs/PieChart";
 import JobApplications from "./table/JobApplications";
 import HostSidebar from "../commonHost/jobHostingSidebar";
+import { getHosterJobs, getJobStats, applicantDetail } from "../../../utils/Api";
 import {
   Building2,
   Users,
+  Clock,
+  Eye,
+  CalendarCheck,
   UserCheck,
+  CircleX,
   CirclePlus,
   Search,
 } from "lucide-react";
 
 const JobHostingDashboard = () => {
-  // Static data for design-only mode
-  const [jobs] = useState([
-    {
-      _id: "1",
-      title: "Frontend Developer",
-      jobType: "Full-time",
-      location: "Mumbai, India",
-      company: "Tech Corp",
-      applicants: 25
-    },
-    {
-      _id: "2", 
-      title: "Backend Developer",
-      jobType: "Full-time",
-      location: "Bangalore, India",
-      company: "Dev Solutions",
-      applicants: 18
-    },
-    {
-      _id: "3",
-      title: "UI/UX Designer", 
-      jobType: "Part-time",
-      location: "Delhi, India",
-      company: "Design Studio",
-      applicants: 12
-    },
-    {
-      _id: "4",
-      title: "Data Scientist",
-      jobType: "Full-time", 
-      location: "Pune, India",
-      company: "Analytics Inc",
-      applicants: 30
-    }
-  ]);
-
-  const [filteredJobs, setFilteredJobs] = useState(jobs);
-  const [loading] = useState(false);
-  const [stats] = useState({
-    totalApplicants: 85,
-    totalShortlisted: 23
+  const [jobs, setJobs] = useState([]);
+  const [filteredJobs, setFilteredJobs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [stats, setStats] = useState({
+    totalApplicants: 0,
+    pending: 0,
+    reviewed: 0,
+    interview: 0,
+    accepted: 0,
+    rejected: 0
   });
   const [searchTerm, setSearchTerm] = useState("");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [jobStats, setJobStats] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, []);
+
+  const fetchDashboardData = async () => {
+    try {
+      setLoading(true);
+      
+      // Fetch jobs
+      const jobsResponse = await getHosterJobs();
+      
+      // Fetch job statistics
+      const statsResponse = await getJobStats();
+      
+      if (jobsResponse.data.success) {
+        setJobs(jobsResponse.data.data.jobs);
+        setFilteredJobs(jobsResponse.data.data.jobs);
+      }
+      
+      // Initialize status counts
+      let statusCounts = {
+        pending: 0,
+        reviewed: 0,
+        interview: 0,
+        accepted: 0,
+        rejected: 0
+      };
+      
+      // Calculate total applicants and status breakdown
+      let totalApps = 0;
+      
+      if (jobsResponse.data.success) {
+        // Fetch applications for each job to get status counts
+        for (const job of jobsResponse.data.data.jobs) {
+          try {
+            const appResponse = await applicantDetail(job._id);
+            if (appResponse.data.success) {
+              totalApps += appResponse.data.data.length;
+              
+              // Count applications by status
+              appResponse.data.data.forEach(app => {
+                if (app.status in statusCounts) {
+                  statusCounts[app.status]++;
+                } else {
+                  statusCounts.pending++; // Default to pending if status is unknown
+                }
+              });
+            }
+          } catch (err) {
+            console.error(`Error fetching applications for job ${job._id}:`, err);
+          }
+        }
+      }
+      
+      if (statsResponse.data.success) {
+        // Set job stats for charts
+        setJobStats(statsResponse.data.data.jobStats);
+      }
+      
+      setStats({
+        totalApplicants: totalApps,
+        ...statusCounts
+      });
+    } catch (err) {
+      console.error("Error fetching dashboard data:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     const filtered = jobs.filter((job) =>
@@ -64,6 +110,11 @@ const JobHostingDashboard = () => {
     );
     setFilteredJobs(filtered);
   }, [searchTerm, jobs]);
+
+  const handleJobClick = (jobId) => {
+    // Navigate to the My Jobs page with the specific job
+    navigate(`/hosting/my-jobs`);
+  };
 
   return (
     <div className="min-h-screen flex flex-col lg:flex-row bg-gray-50">
@@ -120,16 +171,68 @@ const JobHostingDashboard = () => {
               </div>
             </div>
           </div>
-  
-          {/* Shortlisted */}
+          
+          {/* Pending Applications */}
           <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
             <div className="flex items-center space-x-3">
-              <div className="flex-shrink-0 p-3 bg-teal-50 rounded-lg">
-                <UserCheck className="w-6 h-6 text-teal-600" />
+              <div className="flex-shrink-0 p-3 bg-gray-50 rounded-lg">
+                <Clock className="w-6 h-6 text-gray-600" />
               </div>
               <div>
-                <p className="text-sm font-medium text-gray-500">Shortlisted</p>
-                <h3 className="text-xl font-bold text-gray-900">{stats?.totalShortlisted || 0}</h3>
+                <p className="text-sm font-medium text-gray-500">Pending</p>
+                <h3 className="text-xl font-bold text-gray-900">{stats?.pending || 0}</h3>
+              </div>
+            </div>
+          </div>
+          
+          {/* Reviewed Applications */}
+          <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+            <div className="flex items-center space-x-3">
+              <div className="flex-shrink-0 p-3 bg-amber-50 rounded-lg">
+                <Eye className="w-6 h-6 text-amber-600" />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-gray-500">Reviewed</p>
+                <h3 className="text-xl font-bold text-gray-900">{stats?.reviewed || 0}</h3>
+              </div>
+            </div>
+          </div>
+          
+          {/* Interview Applications */}
+          <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+            <div className="flex items-center space-x-3">
+              <div className="flex-shrink-0 p-3 bg-blue-50 rounded-lg">
+                <CalendarCheck className="w-6 h-6 text-blue-600" />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-gray-500">Interview</p>
+                <h3 className="text-xl font-bold text-gray-900">{stats?.interview || 0}</h3>
+              </div>
+            </div>
+          </div>
+          
+          {/* Accepted Applications */}
+          <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+            <div className="flex items-center space-x-3">
+              <div className="flex-shrink-0 p-3 bg-emerald-50 rounded-lg">
+                <UserCheck className="w-6 h-6 text-emerald-600" />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-gray-500">Accepted</p>
+                <h3 className="text-xl font-bold text-gray-900">{stats?.accepted || 0}</h3>
+              </div>
+            </div>
+          </div>
+          
+          {/* Rejected Applications */}
+          <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+            <div className="flex items-center space-x-3">
+              <div className="flex-shrink-0 p-3 bg-red-50 rounded-lg">
+                <CircleX className="w-6 h-6 text-red-600" />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-gray-500">Rejected</p>
+                <h3 className="text-xl font-bold text-gray-900">{stats?.rejected || 0}</h3>
               </div>
             </div>
           </div>
@@ -144,7 +247,7 @@ const JobHostingDashboard = () => {
         <h2 className="text-base md:text-lg font-semibold text-gray-900">Applications Trend</h2>
       </div>
       <div className="p-3 md:p-4 flex-grow">
-        <LineChart jobs={jobs} />
+        <LineChart jobs={jobStats} />
       </div>
     </div>
   </div>
@@ -153,10 +256,10 @@ const JobHostingDashboard = () => {
   <div className="lg:col-span-4">
     <div className="bg-white rounded-xl shadow-sm border border-gray-100 h-auto lg:h-[550px] flex flex-col">
       <div className="p-3 md:p-4 border-b border-gray-100">
-        <h2 className="text-base md:text-lg font-semibold text-gray-900">Applications by Company</h2>
+        <h2 className="text-base md:text-lg font-semibold text-gray-900">Applications by Job</h2>
       </div>
       <div className="p-3 md:p-4 flex-grow">
-        <PieChart jobs={jobs} />
+        <PieChart jobs={jobStats} />
       </div>
     </div>
   </div>
@@ -189,7 +292,8 @@ const JobHostingDashboard = () => {
                 {filteredJobs.map((job) => (
                   <div
                     key={job._id}
-                    className="flex items-center p-4 border border-gray-100 rounded-lg hover:bg-gray-50 transition-colors"
+                    className="flex items-center p-4 border border-gray-100 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
+                    onClick={() => handleJobClick(job._id)}
                   >
                     <div className="w-10 h-10 rounded-lg bg-teal-50 flex items-center justify-center text-teal-600 font-semibold">
                       {job.title.charAt(0)}
