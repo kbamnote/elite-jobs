@@ -20,8 +20,8 @@ const WorkingWithTheBest = () => (
     {/* Right Section - Text and Features */}
     <div className="w-full lg:w-1/2 mt-8 lg:mt-0 lg:ml-12 text-center lg:text-left">
       <h2 className="text-3xl sm:text-4xl font-extrabold text-gray-800 mb-4 sm:mb-6 leading-tight">
-        We’re Only {" "}
-        <span className="text-teal-500">Working With The Best</span>
+        We're Only {" "}
+        <span style={{ color: 'var(--color-accent)', fontFamily: 'var(--font-heading)' }}>Working With The Best</span>
       </h2>
       <p className="text-gray-600 mb-4 sm:mb-6 text-lg leading-relaxed">
         We collaborate with top professionals to bring you the best job
@@ -32,7 +32,21 @@ const WorkingWithTheBest = () => (
         {["Quality Job", "Resume Builder", "Top Companies", "Top Talents"].map(
           (feature, index) => (
             <div key={index} className="flex items-center group">
-              <span className="bg-teal-100 text-teal-500 p-3 rounded-full shadow-md group-hover:bg-teal-500 group-hover:text-white transition-all duration-300">
+              <span 
+                className="p-3 rounded-full shadow-md transition-all duration-300"
+                style={{ 
+                  backgroundColor: 'var(--color-accent-light)', 
+                  color: 'var(--color-accent)' 
+                }}
+                onMouseEnter={(e) => {
+                  e.target.style.backgroundColor = 'var(--color-accent)';
+                  e.target.style.color = 'white';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.backgroundColor = 'var(--color-accent-light)';
+                  e.target.style.color = 'var(--color-accent)';
+                }}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-6 w-6"
@@ -48,7 +62,17 @@ const WorkingWithTheBest = () => (
                   />
                 </svg>
               </span>
-              <span className="ml-4 font-medium text-gray-800 text-lg group-hover:text-teal-600 transition-all duration-300">
+              <span 
+                className="ml-4 font-medium text-gray-800 text-lg transition-all duration-300"
+                onMouseEnter={(e) => {
+                  e.target.style.color = 'var(--color-accent)';
+                  e.target.style.fontFamily = 'var(--font-heading)';
+                }}
+                onMouseLeave={(e) => {
+                  e.target.style.color = '#1f2937';
+                  e.target.style.fontFamily = 'var(--font-body)';
+                }}
+              >
                 {feature}
               </span>
             </div>

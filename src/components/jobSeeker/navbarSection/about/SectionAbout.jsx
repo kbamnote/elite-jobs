@@ -3,7 +3,8 @@ import React from "react";
 const SectionAbout = () => (
   <>
     <section className="w-auto h-60 bg-gray-900 text-white flex items-center justify-center">
-      <h2 className="text-5xl font-bold">About Us</h2>
+      <h2 className="text-5xl font-bold"
+      style={{ color: 'var(--color-accent)', fontFamily: 'var(--font-heading)' }}>About Us</h2>
     </section>
 
     <section className="py-12 px-[10%]">

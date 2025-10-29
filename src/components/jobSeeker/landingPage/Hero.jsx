@@ -70,27 +70,42 @@ const Hero = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100">
+    <div className="min-h-screen" style={{ backgroundColor: 'var(--color-background)' }}>
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-20 text-center">
-        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-4 leading-tight">
+        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 leading-tight" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-heading)' }}>
           Find Your Dream Job Today!
         </h1>
-        <p className="text-lg sm:text-xl text-gray-600 mb-8 sm:mb-12 max-w-2xl mx-auto">
+        <p className="text-lg sm:text-xl mb-8 sm:mb-12 max-w-2xl mx-auto" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>
           Connecting Talent with Opportunity: Your Gateway to Career Success
         </p>
 
         <form onSubmit={handleSearch} className="relative max-w-2xl mx-auto">
-          <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-4 flex flex-col sm:flex-row gap-3 hover:shadow-xl transition-all duration-300">
+          <div className="rounded-2xl p-4 flex flex-col sm:flex-row gap-3 transition-all duration-300 card" style={{ boxShadow: 'var(--shadow-lg)' }}>
             <div className="flex-1 relative">
               <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                <Search className="h-5 w-5 text-teal-600" />
+                <Search className="h-5 w-5" style={{ color: 'var(--color-primary)' }} />
               </div>
               <input
                 type="text"
                 placeholder="Job Title or Company"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:border-teal-500 focus:ring-2 focus:ring-teal-500/20 transition-all duration-200 bg-gray-50 focus:bg-white"
+                className="w-full pl-12 pr-4 py-3 rounded-xl border focus:outline-none focus:ring-2 transition-all duration-200"
+                style={{ 
+                  backgroundColor: 'var(--color-background)',
+                  borderColor: 'var(--color-border)',
+                  color: 'var(--color-text-primary)',
+                  fontFamily: 'var(--font-body)',
+                  borderRadius: 'var(--border-radius-lg)'
+                }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = 'var(--color-primary)';
+                  e.target.style.boxShadow = '0 0 0 2px rgba(15, 52, 96, 0.2)';
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = 'var(--color-border)';
+                  e.target.style.boxShadow = 'none';
+                }}
               />
             </div>
 
@@ -118,7 +133,8 @@ const Hero = () => {
 
             <button
               type="submit"
-              className="w-full sm:w-auto bg-teal-600 hover:bg-teal-700 text-white px-6 sm:px-8 py-3 rounded-xl flex items-center justify-center space-x-2 transition-all duration-200 shadow-md hover:shadow-lg font-semibold hover:-translate-y-0.5"
+              className="w-full sm:w-auto px-6 sm:px-8 py-3 rounded-xl flex items-center justify-center space-x-2 transition-all duration-200 font-semibold hover:-translate-y-0.5 btn-accent"
+              style={{ boxShadow: 'var(--shadow-md)' }}
             >
               <Search className="w-5 h-5" />
               <span>Search Jobs</span>
@@ -131,15 +147,20 @@ const Hero = () => {
           {stats.map((stat, index) => (
             <div
               key={index}
-              className="text-center transform transition-all duration-300 hover:-translate-y-2 cursor-pointer bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl border border-gray-100"
+              className="text-center transform transition-all duration-300 hover:-translate-y-2 cursor-pointer rounded-2xl p-8 border card"
+              style={{ 
+                boxShadow: 'var(--shadow-lg)',
+                borderColor: 'var(--color-border)',
+                transition: 'var(--transition-normal)'
+              }}
             >
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-teal-50 to-teal-100 rounded-2xl mb-6 shadow-sm">
+              <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-6" style={{ backgroundColor: 'var(--color-primary)', boxShadow: 'var(--shadow-sm)' }}>
                 <span className="text-3xl">{stat.icon}</span>
               </div>
-              <h3 className="text-3xl sm:text-4xl font-bold text-gray-900 mb-2">
+              <h3 className="text-3xl sm:text-4xl font-bold mb-2" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-heading)' }}>
                 {animationStarted && <NumberTicker endValue={stat.number} />}
               </h3>
-              <p className="text-gray-600 font-medium">{stat.label}</p>
+              <p className="font-medium" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>{stat.label}</p>
             </div>
           ))}
         </div>

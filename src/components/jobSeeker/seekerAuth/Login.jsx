@@ -37,7 +37,7 @@ const Login = () => {
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
           <h1 className="text-2xl font-bold text-gray-900 mb-6">Login</h1>
           {error && <div className="mb-4 text-red-600">{error}</div>}
-          {success && <div className="mb-4 text-teal-700">{success}</div>}
+          {success && <div className="mb-4" style={{ color: 'var(--color-accent-dark)', fontFamily: 'var(--font-body)' }}>{success}</div>}
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
@@ -46,7 +46,16 @@ const Login = () => {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                className="w-full border border-gray-200 rounded-lg px-3 py-2"
+                style={{ fontFamily: 'var(--font-body)' }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = 'var(--color-accent)';
+                  e.target.style.boxShadow = `0 0 0 2px var(--color-accent)`;
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = '#e5e7eb';
+                  e.target.style.boxShadow = 'none';
+                }}
                 placeholder="you@example.com"
               />
             </div>
@@ -56,13 +65,23 @@ const Login = () => {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full border border-gray-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                className="w-full border border-gray-200 rounded-lg px-3 py-2"
+                style={{ fontFamily: 'var(--font-body)' }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = 'var(--color-accent)';
+                  e.target.style.boxShadow = `0 0 0 2px var(--color-accent)`;
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = '#e5e7eb';
+                  e.target.style.boxShadow = 'none';
+                }}
                 placeholder="••••••••"
               />
             </div>
             <button
               type="submit"
-              className="w-full py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors font-medium"
+              className="w-full py-3 btn-accent rounded-lg transition-colors font-medium"
+              style={{ fontFamily: 'var(--font-body)' }}
             >
               Login
             </button>

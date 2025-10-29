@@ -10,19 +10,22 @@ const ViewJobs = () => {
   
   const [job, setJob] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState(null);
   const [applying, setApplying] = useState(false);
-  const [applyError, setApplyError] = useState('');
-  const [applySuccess, setApplySuccess] = useState(false);
+  const [applied, setApplied] = useState(false);
+  const [applicationSuccess, setApplicationSuccess] = useState(false);
   const [userProfile, setUserProfile] = useState(null);
-  const [profileLoading, setProfileLoading] = useState(true);
   const [userApplications, setUserApplications] = useState([]);
-  const [applicationsLoading, setApplicationsLoading] = useState(true);
 
   useEffect(() => {
-    fetchJobDetails();
-    fetchUserProfile();
-    fetchUserApplications();
+    if (id) {
+      fetchJobDetails();
+      fetchUserProfile();
+      fetchUserApplications();
+    } else {
+      setError('No job ID provided');
+      setLoading(false);
+    }
   }, [id]);
 
   const fetchJobDetails = async () => {
@@ -30,10 +33,9 @@ const ViewJobs = () => {
       setLoading(true);
       const response = await jobsById(id);
       setJob(response.data.data);
-      setError('');
+      setError(null);
     } catch (err) {
-      setError('Failed to fetch job details');
-      console.error('Error fetching job:', err);
+      setError('Failed to load job details. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -41,30 +43,24 @@ const ViewJobs = () => {
 
   const fetchUserProfile = async () => {
     try {
-      setProfileLoading(true);
       const response = await profile();
       setUserProfile(response.data.data);
-      setProfileLoading(false);
     } catch (err) {
       console.error('Error fetching profile:', err);
-      setProfileLoading(false);
     }
   };
 
   const fetchUserApplications = async () => {
     try {
-      setApplicationsLoading(true);
       const response = await appliedJobs();
       setUserApplications(response.data.data);
-      setApplicationsLoading(false);
     } catch (err) {
       console.error('Error fetching user applications:', err);
-      setApplicationsLoading(false);
     }
   };
 
   const hasUserApplied = () => {
-    if (applicationsLoading || !userApplications.length || !job) {
+    if (!userApplications.length || !job) {
       return false;
     }
     
@@ -74,15 +70,8 @@ const ViewJobs = () => {
   };
 
   const handleApply = async () => {
-    // Check if user has a resume
-    if (!userProfile?.profile?.resume) {
-      setApplyError('Please upload your resume in your profile before applying for jobs.');
-      return;
-    }
-
     try {
       setApplying(true);
-      setApplyError('');
       
       // Prepare application data from user profile
       const applicationData = {
@@ -96,11 +85,12 @@ const ViewJobs = () => {
       };
 
       await jobApply(id, applicationData);
-      setApplySuccess(true);
+      setApplicationSuccess(true);
+      setApplied(true);
       // Refresh applications after successful application
       fetchUserApplications();
     } catch (err) {
-      setApplyError(err.response?.data?.message || 'Failed to apply for job');
+      setError(err.response?.data?.message || 'Failed to apply for job');
       console.error('Error applying for job:', err);
     } finally {
       setApplying(false);
@@ -115,11 +105,10 @@ const ViewJobs = () => {
     return (
       <>
         <Header />
-        <div className="min-h-screen bg-gray-50 py-10">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6">
-            <div className="text-center py-10">
-              <p>Loading job details...</p>
-            </div>
+        <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: 'var(--color-background)' }}>
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 mx-auto mb-4" style={{ borderColor: 'var(--color-primary)' }}></div>
+            <p style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}>Loading job details...</p>
           </div>
         </div>
         <Footer />
@@ -127,21 +116,65 @@ const ViewJobs = () => {
     );
   }
 
-  if (error) {
+  if (error && !job) {
     return (
       <>
         <Header />
-        <div className="min-h-screen bg-gray-50 py-10">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6">
-            <div className="text-center py-10">
-              <p className="text-red-500">{error}</p>
-              <button 
-                onClick={fetchJobDetails}
-                className="mt-4 px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700"
-              >
-                Retry
-              </button>
+        <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: 'var(--color-background)' }}>
+          <div className="text-center max-w-md mx-auto p-8">
+            <div className="w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--color-error)' }}>
+              <span className="text-white text-3xl">⚠️</span>
             </div>
+            <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-heading)' }}>
+              Oops! Something went wrong
+            </h2>
+            <p className="mb-6" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}>
+              {error}
+            </p>
+            <button
+              onClick={() => window.location.reload()}
+              className="px-6 py-3 rounded-lg font-medium transition-all duration-300"
+              style={{ 
+                backgroundColor: 'var(--color-primary)', 
+                color: 'var(--color-text-white)',
+                fontFamily: 'var(--font-body)'
+              }}
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
+        <Footer />
+      </>
+    );
+  }
+
+  if (!job) {
+    return (
+      <>
+        <Header />
+        <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: 'var(--color-background)' }}>
+          <div className="text-center max-w-md mx-auto p-8">
+            <div className="w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--color-gray-200)' }}>
+              <span className="text-4xl" style={{ color: 'var(--color-text-muted)' }}>📄</span>
+            </div>
+            <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-heading)' }}>
+              Job Not Found
+            </h2>
+            <p className="mb-6" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}>
+              The job you're looking for doesn't exist or has been removed.
+            </p>
+            <button
+              onClick={handleGoBack}
+              className="px-6 py-3 rounded-lg font-medium transition-all duration-300"
+              style={{ 
+                backgroundColor: 'var(--color-primary)', 
+                color: 'var(--color-text-white)',
+                fontFamily: 'var(--font-body)'
+              }}
+            >
+              Browse Jobs
+            </button>
           </div>
         </div>
         <Footer />
@@ -154,144 +187,157 @@ const ViewJobs = () => {
   return (
     <>
       <Header />
-      <div className="min-h-screen bg-gray-50 py-10">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+      <div className="min-h-screen py-10" style={{ backgroundColor: 'var(--color-background)' }}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <button 
             onClick={handleGoBack}
-            className="mb-6 flex items-center text-teal-600 hover:text-teal-800"
+            className="mb-6 inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-300 hover:shadow-md"
+            style={{ 
+              backgroundColor: 'var(--color-white)', 
+              color: 'var(--color-primary)',
+              border: '2px solid var(--color-primary)',
+              fontFamily: 'var(--font-body)'
+            }}
           >
-            <svg className="w-5 h-5 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
-            </svg>
-            Back to Jobs
+            ← Back to Jobs
           </button>
           
-          {applySuccess ? (
-            <div className="bg-green-50 border border-green-200 rounded-xl p-6 mb-8 text-center">
-              <svg className="w-16 h-16 text-green-500 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-              </svg>
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">Application Submitted!</h2>
-              <p className="text-gray-600 mb-6">Your application has been successfully submitted.</p>
-              <button
-                onClick={handleGoBack}
-                className="px-6 py-3 bg-teal-600 text-white rounded-lg hover:bg-teal-700"
-              >
-                Browse More Jobs
-              </button>
+          {applicationSuccess ? (
+            <div className="mb-6 p-4 rounded-lg border-l-4" style={{ 
+              backgroundColor: 'var(--color-success)', 
+              borderColor: 'var(--color-success)',
+              color: 'white'
+            }}>
+              <div className="flex items-center gap-3">
+                <span className="text-2xl">✓</span>
+                <div>
+                  <h3 className="font-semibold" style={{ fontFamily: 'var(--font-heading)' }}>
+                    Application Submitted Successfully!
+                  </h3>
+                  <p className="text-sm opacity-90" style={{ fontFamily: 'var(--font-body)' }}>
+                    Your application has been sent to the employer. Good luck!
+                  </p>
+                </div>
+              </div>
             </div>
           ) : (
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-              {/* Job Header */}
-              <div className="p-6 border-b border-gray-100">
-                <div className="flex flex-col md:flex-row md:items-center justify-between">
-                  <div className="flex items-start">
-                    <img 
-                      src={job.company.logo || 'https://placehold.co/80x80'} 
-                      alt={job.company.name} 
-                      className="w-16 h-16 rounded-lg object-contain"
-                      onError={(e) => { e.target.src = 'https://placehold.co/80x80'; }}
-                    />
-                    <div className="ml-4">
-                      <h1 className="text-2xl font-bold text-gray-900">{job.title}</h1>
-                      <p className="text-lg text-gray-600">{job.company.name}</p>
-                      <div className="flex flex-wrap gap-2 mt-2">
-                        <span className="px-3 py-1 bg-teal-100 text-teal-800 text-sm font-medium rounded-full">
-                          {job.employmentType}
-                        </span>
-                        <span className="px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full">
-                          {job.experienceLevel}
-                        </span>
-                        <span className="px-3 py-1 bg-purple-100 text-purple-800 text-sm font-medium rounded-full">
-                          {job.category}
-                        </span>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {/* Main Content */}
+              <div className="lg:col-span-2 space-y-6">
+                {/* Job Header Card */}
+                <div className="rounded-xl overflow-hidden" style={{ 
+                  backgroundColor: 'var(--color-white)', 
+                  boxShadow: 'var(--shadow-lg)' 
+                }}>
+                  <div className="p-8" style={{ background: 'linear-gradient(135deg, var(--color-primary) 0%, var(--color-dark-secondary) 100%)' }}>
+                    <div className="flex flex-col sm:flex-row items-start gap-6">
+                      <div className="w-20 h-20 rounded-xl p-4 flex-shrink-0" style={{ backgroundColor: 'var(--color-white)', boxShadow: 'var(--shadow-md)' }}>
+                        <img 
+                          src={job.company.logo || 'https://placehold.co/80x80'} 
+                          alt={job.company.name} 
+                          className="w-full h-full object-contain"
+                          onError={(e) => { e.target.src = 'https://placehold.co/80x80'; }}
+                        />
+                      </div>
+                      <div className="flex-1">
+                        <h1 className="text-3xl lg:text-4xl font-bold text-white mb-3" style={{ color: 'var(--color-accent)', fontFamily: 'var(--font-heading)' }}>
+                          {job.title}
+                        </h1>
+                        <div className="flex items-center gap-3 mb-4">
+                          <span className="text-xl text-white/90" style={{ fontFamily: 'var(--font-body)' }}>
+                            {job.company.name}
+                          </span>
+                        </div>
+                        <div className="flex flex-wrap gap-4 text-white/80">
+                          <div className="flex items-center gap-2">
+                            <span style={{ fontFamily: 'var(--font-body)' }}>📍 {job.location}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span style={{ fontFamily: 'var(--font-body)' }}>💼 {job.employmentType}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span style={{ fontFamily: 'var(--font-body)' }}>🏷️ {job.category}</span>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <div className="mt-4 md:mt-0">
-                    {alreadyApplied ? (
-                      <button
-                        disabled
-                        className="px-6 py-3 bg-gray-300 text-gray-600 rounded-lg font-medium cursor-not-allowed"
-                      >
-                        Already Applied
-                      </button>
-                    ) : (
-                      <button
-                        onClick={handleApply}
-                        disabled={applying || profileLoading || applicationsLoading}
-                        className={`px-6 py-3 rounded-lg font-medium ${
-                          applying || profileLoading || applicationsLoading
-                            ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                            : 'bg-teal-600 text-white hover:bg-teal-700'
-                        }`}
-                      >
-                        {applying ? 'Applying...' : 'Apply for Job'}
-                      </button>
-                    )}
-                  </div>
-                </div>
-              </div>
-              
-              {/* Job Details */}
-              <div className="p-6">
-                {/* Basic Info */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                  <div className="flex items-center">
-                    <svg className="w-5 h-5 text-gray-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                    </svg>
-                    <div>
-                      <p className="text-sm text-gray-500">Location</p>
-                      <p className="font-medium">{job.location}</p>
-                    </div>
-                  </div>
                   
-                  <div className="flex items-center">
-                    <svg className="w-5 h-5 text-gray-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                    <div>
-                      <p className="text-sm text-gray-500">Salary</p>
-                      <p className="font-medium">
-                        {job.salary 
-                          ? `${job.salary.min} - ${job.salary.max} ${job.salary.currency}`
-                          : 'Not specified'}
-                      </p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center">
-                    <svg className="w-5 h-5 text-gray-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
-                    </svg>
-                    <div>
-                      <p className="text-sm text-gray-500">Application Deadline</p>
-                      <p className="font-medium">
-                        {new Date(job.applicationDeadline).toLocaleDateString()}
-                      </p>
+                  {/* Job Tags */}
+                  <div className="p-6 border-b" style={{ borderColor: 'var(--color-border)' }}>
+                    <div className="flex flex-wrap gap-2">
+                      <span className="px-3 py-1 rounded-full text-sm font-medium" style={{ 
+                        backgroundColor: 'var(--color-accent)', 
+                        color: 'var(--color-text-white)',
+                        fontFamily: 'var(--font-body)'
+                      }}>
+                        {job.category}
+                      </span>
+                      <span className="px-3 py-1 rounded-full text-sm font-medium" style={{ 
+                        backgroundColor: 'var(--color-gray-100)', 
+                        color: 'var(--color-text-secondary)',
+                        fontFamily: 'var(--font-body)'
+                      }}>
+                        {job.employmentType}
+                      </span>
+                      <span className="px-3 py-1 rounded-full text-sm font-medium" style={{ 
+                        backgroundColor: 'var(--color-gray-100)', 
+                        color: 'var(--color-text-secondary)',
+                        fontFamily: 'var(--font-body)'
+                      }}>
+                        {job.experienceLevel}
+                      </span>
                     </div>
                   </div>
                 </div>
                 
                 {/* Job Description */}
-                <div className="mb-8">
-                  <h2 className="text-xl font-semibold text-gray-900 mb-4">Job Description</h2>
-                  <p className="text-gray-700 whitespace-pre-line">{job.description}</p>
+                <div className="rounded-xl p-8" style={{ 
+                  backgroundColor: 'var(--color-white)', 
+                  boxShadow: 'var(--shadow-lg)' 
+                }}>
+                  <h2 className="text-2xl font-bold mb-6" style={{ 
+                    color: 'var(--color-text-primary)', 
+                    fontFamily: 'var(--font-heading)' 
+                  }}>
+                    Job Description
+                  </h2>
+                  <div className="prose max-w-none" style={{ 
+                    color: 'var(--color-text-secondary)', 
+                    fontFamily: 'var(--font-body)',
+                    lineHeight: '1.7'
+                  }}>
+                    <p className="whitespace-pre-line">{job.description}</p>
+                  </div>
                 </div>
                 
                 {/* Requirements */}
                 {job.requirements && job.requirements.length > 0 && (
-                  <div className="mb-8">
-                    <h2 className="text-xl font-semibold text-gray-900 mb-4">Requirements</h2>
-                    <ul className="space-y-2">
+                  <div className="rounded-xl p-8" style={{ 
+                    backgroundColor: 'var(--color-white)', 
+                    boxShadow: 'var(--shadow-lg)' 
+                  }}>
+                    <h2 className="text-2xl font-bold mb-6" style={{ 
+                      color: 'var(--color-text-primary)', 
+                      fontFamily: 'var(--font-heading)' 
+                    }}>
+                      Requirements
+                    </h2>
+                    <ul className="space-y-4">
                       {job.requirements.map((req, index) => (
-                        <li key={index} className="flex items-start">
-                          <svg className="w-5 h-5 text-teal-500 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-                          </svg>
-                          <span className="text-gray-700">{req}</span>
+                        <li key={index} className="flex items-start gap-3">
+                          <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ backgroundColor: 'var(--color-accent)' }}>
+                            <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                          </div>
+                          <span style={{ 
+                            color: 'var(--color-text-secondary)', 
+                            fontFamily: 'var(--font-body)',
+                            lineHeight: '1.6'
+                          }}>
+                            {req}
+                          </span>
                         </li>
                       ))}
                     </ul>
@@ -300,15 +346,31 @@ const ViewJobs = () => {
                 
                 {/* Responsibilities */}
                 {job.responsibilities && job.responsibilities.length > 0 && (
-                  <div className="mb-8">
-                    <h2 className="text-xl font-semibold text-gray-900 mb-4">Responsibilities</h2>
-                    <ul className="space-y-2">
+                  <div className="rounded-xl p-8" style={{ 
+                    backgroundColor: 'var(--color-white)', 
+                    boxShadow: 'var(--shadow-lg)' 
+                  }}>
+                    <h2 className="text-2xl font-bold mb-6" style={{ 
+                      color: 'var(--color-text-primary)', 
+                      fontFamily: 'var(--font-heading)' 
+                    }}>
+                      Responsibilities
+                    </h2>
+                    <ul className="space-y-4">
                       {job.responsibilities.map((resp, index) => (
-                        <li key={index} className="flex items-start">
-                          <svg className="w-5 h-5 text-teal-500 mr-2 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path>
-                          </svg>
-                          <span className="text-gray-700">{resp}</span>
+                        <li key={index} className="flex items-start gap-3">
+                          <div className="w-6 h-6 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5" style={{ backgroundColor: 'var(--color-primary)' }}>
+                            <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                          </div>
+                          <span style={{ 
+                            color: 'var(--color-text-secondary)', 
+                            fontFamily: 'var(--font-body)',
+                            lineHeight: '1.6'
+                          }}>
+                            {resp}
+                          </span>
                         </li>
                       ))}
                     </ul>
@@ -317,13 +379,26 @@ const ViewJobs = () => {
                 
                 {/* Skills */}
                 {job.skills && job.skills.length > 0 && (
-                  <div className="mb-8">
-                    <h2 className="text-xl font-semibold text-gray-900 mb-4">Required Skills</h2>
-                    <div className="flex flex-wrap gap-2">
+                  <div className="rounded-xl p-8" style={{ 
+                    backgroundColor: 'var(--color-white)', 
+                    boxShadow: 'var(--shadow-lg)' 
+                  }}>
+                    <h2 className="text-2xl font-bold mb-6" style={{ 
+                      color: 'var(--color-text-primary)', 
+                      fontFamily: 'var(--font-heading)' 
+                    }}>
+                      Required Skills
+                    </h2>
+                    <div className="flex flex-wrap gap-3">
                       {job.skills.map((skill, index) => (
                         <span 
                           key={index} 
-                          className="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm"
+                          className="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:scale-105"
+                          style={{
+                            backgroundColor: 'var(--color-gray-100)',
+                            color: 'var(--color-text-secondary)',
+                            fontFamily: 'var(--font-body)'
+                          }}
                         >
                           {skill}
                         </span>
@@ -333,69 +408,150 @@ const ViewJobs = () => {
                 )}
                 
                 {/* Company Info */}
-                <div className="border-t border-gray-100 pt-6">
-                  <h2 className="text-xl font-semibold text-gray-900 mb-4">About {job.company.name}</h2>
-                  <p className="text-gray-700 mb-4">{job.company.description}</p>
+                <div className="rounded-xl p-8" style={{ 
+                  backgroundColor: 'var(--color-white)', 
+                  boxShadow: 'var(--shadow-lg)' 
+                }}>
+                  <h2 className="text-2xl font-bold mb-6" style={{ 
+                    color: 'var(--color-text-primary)', 
+                    fontFamily: 'var(--font-heading)' 
+                  }}>
+                    About {job.company.name}
+                  </h2>
+                  <p className="mb-6" style={{ 
+                    color: 'var(--color-text-secondary)', 
+                    fontFamily: 'var(--font-body)',
+                    lineHeight: '1.7'
+                  }}>
+                    {job.company.description}
+                  </p>
                   {job.company.website && (
                     <a 
                       href={job.company.website} 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="inline-flex items-center text-teal-600 hover:text-teal-800"
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-300 hover:shadow-md"
+                      style={{
+                        color: 'var(--color-primary)',
+                        border: '2px solid var(--color-primary)',
+                        fontFamily: 'var(--font-body)'
+                      }}
                     >
                       Visit Website
-                      <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                       </svg>
                     </a>
                   )}
                 </div>
-                
-                {/* Apply Button */}
-                <div className="mt-8 pt-6 border-t border-gray-100">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <div>
-                      {applyError && (
-                        <p className="text-red-500 text-sm">{applyError}</p>
-                      )}
-                      {profileLoading && (
-                        <p className="text-gray-500 text-sm">Checking your profile...</p>
-                      )}
-                      {!profileLoading && !userProfile?.profile?.resume && (
-                        <p className="text-yellow-600 text-sm">
-                          Please upload your resume in your profile to apply for jobs.
-                        </p>
-                      )}
-                      {alreadyApplied && (
-                        <p className="text-green-600 text-sm">
-                          You have already applied for this job. Check your applications for status updates.
-                        </p>
-                      )}
-                      {applicationsLoading && (
-                        <p className="text-gray-500 text-sm">Checking application status...</p>
-                      )}
+              </div>
+              
+              {/* Sidebar */}
+              <div className="lg:col-span-1 space-y-6">
+                {/* Quick Info Card */}
+                <div className="rounded-xl p-6" style={{ 
+                  backgroundColor: 'var(--color-white)', 
+                  boxShadow: 'var(--shadow-lg)' 
+                }}>
+                  <h3 className="text-xl font-bold mb-6" style={{ 
+                    color: 'var(--color-text-primary)', 
+                    fontFamily: 'var(--font-heading)' 
+                  }}>
+                    Job Details
+                  </h3>
+                  
+                  <div className="space-y-4">
+                    <div className="flex items-start gap-3">
+                      <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-gray-100)' }}>
+                        <span className="text-lg">📍</span>
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}>Location</p>
+                        <p className="font-semibold" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>{job.location}</p>
+                      </div>
                     </div>
-                    {alreadyApplied ? (
-                      <button
-                        disabled
-                        className="px-8 py-3 bg-gray-300 text-gray-600 rounded-lg font-medium cursor-not-allowed"
-                      >
-                        Already Applied
-                      </button>
-                    ) : (
-                      <button
-                        onClick={handleApply}
-                        disabled={applying || profileLoading || applicationsLoading || (!profileLoading && !userProfile?.profile?.resume)}
-                        className={`px-8 py-3 rounded-lg font-medium ${
-                          applying || profileLoading || applicationsLoading || (!profileLoading && !userProfile?.profile?.resume)
-                            ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                            : 'bg-teal-600 text-white hover:bg-teal-700'
-                        }`}
-                      >
-                        {applying ? 'Applying...' : 'Apply for Job'}
-                      </button>
-                    )}
+                    
+                    <div className="flex items-start gap-3">
+                      <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-gray-100)' }}>
+                        <span className="text-lg">💰</span>
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}>Salary</p>
+                        <p className="font-semibold" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
+                          {job.salary 
+                            ? `${job.salary.min} - ${job.salary.max} ${job.salary.currency}`
+                            : 'Not specified'}
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start gap-3">
+                      <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-gray-100)' }}>
+                        <span className="text-lg">📅</span>
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}>Deadline</p>
+                        <p className="font-semibold" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
+                          {new Date(job.applicationDeadline).toLocaleDateString()}
+                        </p>
+                      </div>
+                    </div>
                   </div>
+                </div>
+                
+                {/* Apply Card */}
+                <div className="rounded-xl p-6" style={{ 
+                  backgroundColor: 'var(--color-white)', 
+                  boxShadow: 'var(--shadow-lg)' 
+                }}>
+                  <h3 className="text-xl font-bold mb-4" style={{ 
+                    color: 'var(--color-text-primary)', 
+                    fontFamily: 'var(--font-heading)' 
+                  }}>
+                    Apply for this Job
+                  </h3>
+                  
+                  {error && (
+                    <div className="mb-4 p-3 rounded-lg" style={{ backgroundColor: 'var(--color-error)', color: 'white' }}>
+                      <p className="text-sm" style={{ fontFamily: 'var(--font-body)' }}>{error}</p>
+                    </div>
+                  )}
+                  
+                  {alreadyApplied && (
+                    <div className="mb-4 p-3 rounded-lg" style={{ backgroundColor: 'var(--color-success)', color: 'white' }}>
+                      <p className="text-sm" style={{ fontFamily: 'var(--font-body)' }}>
+                        You have already applied for this job. Check your applications for status updates.
+                      </p>
+                    </div>
+                  )}
+                  
+                  {alreadyApplied ? (
+                    <button
+                      disabled
+                      className="w-full px-6 py-3 rounded-lg font-medium cursor-not-allowed"
+                      style={{
+                        backgroundColor: 'var(--color-gray-300)',
+                        color: 'var(--color-text-muted)',
+                        fontFamily: 'var(--font-body)'
+                      }}
+                    >
+                      Already Applied
+                    </button>
+                  ) : (
+                    <button
+                      onClick={handleApply}
+                      disabled={applying}
+                      className="w-full px-6 py-3 rounded-lg font-medium transition-all duration-300 hover:shadow-lg"
+                      style={{
+                        backgroundColor: applying ? 'var(--color-gray-300)' : 'var(--color-primary)',
+                        color: applying ? 'var(--color-text-muted)' : 'var(--color-text-white)',
+                        fontFamily: 'var(--font-body)',
+                        cursor: applying ? 'not-allowed' : 'pointer'
+                      }}
+                    >
+                      {applying ? 'Applying...' : 'Apply for Job'}
+                    </button>
+                  )}
                 </div>
               </div>
             </div>

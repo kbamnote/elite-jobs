@@ -152,7 +152,7 @@ const TopCompany = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-teal-50 to-white px-[10%] lg:py-16">
+    <div className="min-h-screen px-[10%] lg:py-16" style={{background: 'linear-gradient(to bottom, var(--color-accent-light), white)'}}>
       <div className="text-center mb-12">
         <h1 className="text-4xl font-extrabold text-gray-900 mb-4">
           Top Companies Hiring
@@ -169,7 +169,7 @@ const TopCompany = () => {
             className="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 group hover:-translate-y-1"
           >
             {/* Company header */}
-            <div className="bg-gradient-to-r from-teal-50 to-teal-100 p-6">
+            <div className="p-6" style={{background: 'linear-gradient(to right, var(--color-accent-light), var(--color-accent-light))'}}>
               <div className="flex items-center gap-4">
                 <div className="w-16 h-16 rounded-xl bg-white p-2 shadow-sm">
                   <img
@@ -210,23 +210,23 @@ const TopCompany = () => {
 
                 <div className="space-y-3 mb-6">
                   <div className="flex items-center gap-3 text-gray-600">
-                    <TbCategory className="w-5 h-5 text-teal-600 flex-shrink-0" />
+                    <TbCategory className="w-5 h-5 flex-shrink-0" style={{color: 'var(--color-accent)'}} />
                     <span>{job.category}</span>
                   </div>
                  
                   <div className="flex items-center gap-3 text-gray-600">
-                    <Briefcase className="w-5 h-5 text-teal-600 flex-shrink-0" />
+                    <Briefcase className="w-5 h-5 flex-shrink-0" style={{color: 'var(--color-accent)'}} />
                     <span>{job.jobType}</span>
                   </div>
 
                   <div className="flex items-center gap-3 text-gray-600">
-                    <MapPin className="w-5 h-5 text-teal-600 flex-shrink-0" />
+                    <MapPin className="w-5 h-5 flex-shrink-0" style={{color: 'var(--color-accent)'}} />
                     <span>{job.location}</span>
                   </div>
                 </div>
 
-                <div className="bg-teal-50 p-4 rounded-xl mb-6">
-                  <p className="text-teal-800 font-medium mb-1">
+                <div className="p-4 rounded-xl mb-6" style={{backgroundColor: 'var(--color-accent-light)'}}>
+                  <p className="font-medium mb-1" style={{color: 'var(--color-accent)', fontFamily: 'var(--font-heading)'}}>
                     Compensation
                   </p>
                   <p className="text-gray-700 font-semibold">{job.salary}</p>
@@ -237,7 +237,7 @@ const TopCompany = () => {
                 href={job.applyUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full bg-teal-600 text-white py-3 px-6 rounded-xl font-medium hover:bg-teal-700 transition-all duration-200 text-center block shadow-sm hover:shadow-md"
+                className="btn-accent w-full py-3 px-6 rounded-xl font-medium transition-all duration-200 text-center block shadow-sm hover:shadow-md"
                 onClick={(e) => e.stopPropagation()}
               >
                 Apply Now

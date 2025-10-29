@@ -51,10 +51,10 @@ const About = () => {
               shaping a better future.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 mt-6 sm:mt-8 justify-center lg:justify-start">
-              <button className="w-full sm:w-auto bg-teal-600 text-white px-6 py-3 rounded-lg font-semibold shadow-md hover:bg-teal-700 transition-all">
+              <button className="btn-accent w-full sm:w-auto px-6 py-3 rounded-lg font-semibold shadow-md transition-all">
                 Search Job
               </button>
-              <button className="w-full sm:w-auto text-teal-600 font-semibold hover:text-teal-700 transition-all">
+              <button className="w-full sm:w-auto font-semibold transition-all" style={{ color: 'var(--color-accent)', fontFamily: 'var(--font-body)' }}>
                 Learn more
               </button>
             </div>
@@ -68,7 +68,7 @@ const About = () => {
               key={index}
               className="bg-white p-6 sm:p-8 rounded-xl shadow-md hover:shadow-lg transition-shadow"
             >
-              <div className="text-3xl sm:text-4xl font-bold text-teal-600 mb-3 sm:mb-4">
+              <div className="text-3xl sm:text-4xl font-bold mb-3 sm:mb-4" style={{ color: 'var(--color-accent)', fontFamily: 'var(--font-heading)' }}>
                 {stat.number}
               </div>
               <h3 className="text-xl sm:text-2xl font-bold text-gray-900 mb-2 sm:mb-3">

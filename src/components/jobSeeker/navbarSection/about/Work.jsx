@@ -15,23 +15,23 @@ const Work = () => (
         {
           title: "Create Account",
           description: "Nunc sed a nisi purus. Nibh dis faucibus proin lacus.",
-          icon: <User className="w-8 h-8 text-teal-500 mx-auto" />,
+          icon: <User className="w-8 h-8 mx-auto" style={{ color: 'var(--color-accent)' }} />,
         },
         {
           title: "Upload Resume",
           description: "Felis eu ultrices a sed massa. Commodo fringilla.",
-          icon: <Upload className="w-8 h-8 text-teal-500 mx-auto" />,
+          icon: <Upload className="w-8 h-8 mx-auto" style={{ color: 'var(--color-accent)' }} />,
         },
         {
           title: "Find Jobs",
           description:
             "Commodo fringilla sed tempor risus laoreet ultricies ipsum.",
-          icon: <Search className="w-8 h-8 text-teal-500 mx-auto" />,
+          icon: <Search className="w-8 h-8 mx-auto" style={{ color: 'var(--color-accent)' }} />,
         },
         {
           title: "Apply Job",
           description: "Sem quis viverra viverra odio mauris nunc.",
-          icon: <Briefcase className="w-8 h-8 text-teal-500 mx-auto" />,
+          icon: <Briefcase className="w-8 h-8 mx-auto" style={{ color: 'var(--color-accent)' }} />,
         },
       ].map((item, index) => (
         <div key={index} className="p-6 bg-white rounded-lg shadow-lg">

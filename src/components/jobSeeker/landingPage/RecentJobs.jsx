@@ -57,11 +57,7 @@ const RecentJobs = () => {
 
   // Function to handle job card click
   const handleJobClick = (job) => {
-    navigate(
-      `/jobs?title=${encodeURIComponent(
-        job.title
-      )}&company=${encodeURIComponent(job.company)}`
-    );
+    navigate(`/jobs/${job.id}`);
   };
 
   if (loading) {
@@ -79,7 +75,17 @@ const RecentJobs = () => {
             </div>
             <Link
               to="/jobs"
-              className="group flex items-center gap-2 text-teal-600 hover:text-teal-700 font-medium transition-colors duration-200"
+              className="group flex items-center gap-2 font-medium transition-colors duration-200"
+              style={{ 
+                color: 'var(--color-accent)',
+                fontFamily: 'var(--font-body)'
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.color = 'var(--color-accent-dark)';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.color = 'var(--color-accent)';
+              }}
             >
               View all jobs
               <span className="transform group-hover:translate-x-1 transition-transform duration-200">
@@ -140,7 +146,8 @@ const RecentJobs = () => {
           </div>
           <Link
             to="/jobs"
-            className="group flex items-center gap-2 text-teal-600 hover:text-teal-700 font-medium transition-colors duration-200"
+            className="group flex items-center gap-2 font-medium transition-colors duration-200"
+            style={{ color: 'var(--color-accent)', fontFamily: 'var(--font-body)' }}
           >
             View all jobs
             <span className="transform group-hover:translate-x-1 transition-transform duration-200">
@@ -174,13 +181,15 @@ const RecentJobs = () => {
               >
                 <div className="flex items-start gap-6 relative">
                   <button
-                    className="absolute right-0 top-0 text-gray-300 hover:text-teal-600 transition-colors duration-200"
+                    className="absolute right-0 top-0 text-gray-300 transition-colors duration-200"
+                    onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
+                    onMouseLeave={(e) => e.target.style.color = ''}
                     onClick={(e) => {
                       e.stopPropagation(); // Prevent card click when clicking bookmark
                     }}
                   ></button>
                   <div className="relative">
-                    <div className="w-20 h-20 rounded-xl bg-gradient-to-br from-teal-50 to-teal-100 flex items-center justify-center">
+                    <div className="w-20 h-20 rounded-xl flex items-center justify-center" style={{ background: 'linear-gradient(to bottom right, var(--color-accent-light), var(--color-accent-light))' }}>
                       <img
                         src={job.logo}
                         alt={job.company}
@@ -190,7 +199,7 @@ const RecentJobs = () => {
                     <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-white"></div>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2 group-hover:text-teal-600 transition-colors duration-200">
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2 transition-colors duration-200" style={{ fontFamily: 'var(--font-heading)' }}>
                       {job.title}
                     </h3>
                     <p className="text-gray-500 text-base">{job.company}</p>
@@ -199,34 +208,34 @@ const RecentJobs = () => {
 
                 <div className="grid grid-cols-2 gap-6 mt-12 text-gray-600 text-base">
                   <div className="flex items-center gap-3">
-                    <TbCategory className="w-5 h-5 text-teal-600" />
+                    <TbCategory className="w-5 h-5" style={{ color: 'var(--color-accent)' }} />
                     <span className="truncate">{job.category}</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <GiWallet className="w-5 h-5 text-teal-600" />
+                    <GiWallet className="w-5 h-5" style={{ color: 'var(--color-accent)' }} />
                     <span className="truncate">{job.salary}</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <Clock className="w-5 h-5 text-teal-600" />
+                    <Clock className="w-5 h-5" style={{ color: 'var(--color-accent)' }} />
                     <span className="truncate">{job.type}</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <Laptop className="w-5 h-5 text-teal-600" />
+                    <Laptop className="w-5 h-5" style={{ color: 'var(--color-accent)' }} />
                     <span className="truncate">{job.worktype}</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <UserCheck className="w-5 h-5 text-teal-600" />
+                    <UserCheck className="w-5 h-5" style={{ color: 'var(--color-accent)' }} />
                     <span className="truncate">{job.experience}</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <MapPin className="w-5 h-5 text-teal-600" />
+                    <MapPin className="w-5 h-5" style={{ color: 'var(--color-accent)' }} />
                     <span className="truncate">{job.location}</span>
                   </div>
                 </div>
 
                 <div className="mt-auto pt-3">
                   <button
-                    className="w-full px-8 py-4 text-base font-medium text-white bg-teal-600 rounded-xl hover:bg-teal-700 transition-all duration-200 shadow-sm"
+                    className="btn-accent w-full px-8 py-4 text-base font-medium rounded-xl transition-all duration-200 shadow-sm"
                     onClick={(e) => {
                       e.stopPropagation();
                       handleJobClick(job);
