@@ -17,29 +17,40 @@ const LineChart = ({ jobs }) => {
   const [selectedJob, setSelectedJob] = useState("");
   const [graphData, setGraphData] = useState({
     labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-    dataPoints: [5, 8, 12, 6, 15, 9, 11]
+    dataPoints: [0, 0, 0, 0, 0, 0, 0]
   });
   const [isLoading] = useState(false);
 
   useEffect(() => {
     if (jobs.length > 0 && !selectedJob) {
-      setSelectedJob(jobs[0]._id);
+      setSelectedJob(jobs[0].jobId || jobs[0]._id);
     }
   }, [jobs]);
   
   useEffect(() => {
-    if (selectedJob) {
-      // Static data for design-only mode
-      const staticData = {
-        "1": { labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], dataPoints: [5, 8, 12, 6, 15, 9, 11] },
-        "2": { labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], dataPoints: [3, 6, 9, 4, 12, 7, 8] },
-        "3": { labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], dataPoints: [2, 4, 6, 3, 8, 5, 6] },
-        "4": { labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], dataPoints: [7, 10, 15, 8, 18, 12, 14] }
-      };
+    if (selectedJob && jobs.length > 0) {
+      // Find the selected job in the jobStats array
+      const selectedJobData = jobs.find(job => job.jobId === selectedJob || job._id === selectedJob);
       
-      setGraphData(staticData[selectedJob] || staticData["1"]);
+      if (selectedJobData) {
+        // Use weeklyStats data from the API
+        const weeklyStats = selectedJobData.weeklyStats || [];
+        const labels = weeklyStats.map(stat => stat.day);
+        const dataPoints = weeklyStats.map(stat => stat.count);
+        
+        setGraphData({
+          labels,
+          dataPoints
+        });
+      } else {
+        // Fallback to default data
+        setGraphData({
+          labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+          dataPoints: [0, 0, 0, 0, 0, 0, 0]
+        });
+      }
     }
-  }, [selectedJob]);
+  }, [selectedJob, jobs]);
 
   const getYAxisMax = () => {
     if (!graphData) return 8;
@@ -142,6 +153,37 @@ const LineChart = ({ jobs }) => {
     },
   };
 
+  // Find the selected job title for display
+  const getSelectedJobTitle = () => {
+    if (!selectedJob) return "";
+    const job = jobs.find(job => job.jobId === selectedJob || job._id === selectedJob);
+    return job ? job.jobTitle || job.title : "";
+  };
+
+  // Calculate total applicants for the selected job
+  const getTotalApplicants = () => {
+    return graphData.dataPoints.reduce((a, b) => a + b, 0);
+  };
+
+  // Find peak day
+  const getPeakDay = () => {
+    if (graphData.dataPoints.length === 0) return "";
+    const maxIndex = graphData.dataPoints.indexOf(Math.max(...graphData.dataPoints));
+    return graphData.labels[maxIndex] || "";
+  };
+
+  // Calculate average per day
+  const getAveragePerDay = () => {
+    if (graphData.dataPoints.length === 0) return 0;
+    const total = graphData.dataPoints.reduce((a, b) => a + b, 0);
+    return (total / graphData.dataPoints.length).toFixed(1);
+  };
+
+  // Count active days
+  const getActiveDays = () => {
+    return graphData.dataPoints.filter(x => x > 0).length;
+  };
+
   return (
     <div className="lg:h-[450px] w-full rounded-xl p-2">
       <div className="space-y-4">
@@ -160,8 +202,8 @@ const LineChart = ({ jobs }) => {
             >
               <option value="">Select a job</option>
               {jobs.map((job) => (
-                <option key={job._id} value={job._id}>
-                  {job.title}
+                <option key={job.jobId || job._id} value={job.jobId || job._id}>
+                  {job.jobTitle || job.title}
                 </option>
               ))}
             </select>
@@ -186,25 +228,25 @@ const LineChart = ({ jobs }) => {
             <div className="p-2 bg-teal-50 rounded-lg">
               <p className="text-xs text-teal-600">Total Applicants</p>
               <p className="text-lg font-semibold text-teal-700">
-                {graphData.dataPoints.reduce((a, b) => a + b, 0)}
+                {getTotalApplicants()}
               </p>
             </div>
             <div className="p-2 bg-teal-50 rounded-lg">
               <p className="text-xs text-teal-600">Peak Day</p>
               <p className="text-lg font-semibold text-teal-700">
-                {graphData.labels[graphData.dataPoints.indexOf(Math.max(...graphData.dataPoints))]}
+                {getPeakDay()}
               </p>
             </div>
             <div className="p-2 bg-teal-50 rounded-lg">
               <p className="text-xs text-teal-600">Average/Day</p>
               <p className="text-lg font-semibold text-teal-700">
-                {(graphData.dataPoints.reduce((a, b) => a + b, 0) / 7).toFixed(1)}
+                {getAveragePerDay()}
               </p>
             </div>
             <div className="p-2 bg-teal-50 rounded-lg">
               <p className="text-xs text-teal-600">Active Days</p>
               <p className="text-lg font-semibold text-teal-700">
-                {graphData.dataPoints.filter(x => x > 0).length}
+                {getActiveDays()}
               </p>
             </div>
           </div>

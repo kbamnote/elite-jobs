@@ -92,8 +92,6 @@ export const accountDelete = () => Api.delete("/jobs/account");
 export const allJobs = () => Api.get("/jobs");
 export const jobsById = (id) => Api.get(`/jobs/${id}`);
 
-// ============== Job Details Update ==============
-export const updateJobDetail = (id, formData) => Api.put(`/jobs/${id}`, formData);
 
 // ============== Job apply for Seeker ==============
 export const jobApply = (id, formData) => Api.post(`/jobs/${id}/apply`, formData);
@@ -104,6 +102,9 @@ export const appliedJobs = () => Api.get("/jobs/applications/my");
 // ============== Hoster Application details of job they applied ==============
 export const applicantDetail = (id) => Api.get(`/jobs/${id}/applications`);
 
+// ============== Hoster Application details of job they applied by Id ==============
+export const applicantDetailById = (jobId, applicationId) => Api.get(`/jobs/${jobId}/applications/${applicationId}`);
+
 // ============== Updating Applicant Status ['pending', 'reviewed', 'interview', 'accepted', 'rejected']==============
 export const applicantStatus = (id, formData) => Api.patch(`/jobs/applications/${id}/status`, formData);
 
@@ -111,13 +112,15 @@ export const applicantStatus = (id, formData) => Api.patch(`/jobs/applications/$
 export const createJob = (formData) => Api.post("/jobs", formData);
 
 // ============== Get User's Posted Jobs (Hoster) ==============
-export const getUserJobs = () => Api.get("/jobs/my");
+export const getHosterJobs = () => Api.get("/jobs/my");
+
+
+// ============== Get Hoster job stats for graph ==============
+export const getJobStats = () => Api.get("/jobs/stats");
 
 // ============== Delete Job (Hoster) ==============
 export const deleteJob = (id) => Api.delete(`/jobs/${id}`);
 
-// ============== Get Application by ID ==============
-export const getApplicationById = (id) => Api.get(`/jobs/applications/debug/${id}`);
 
 // ============== Delete User Account ==============
 export const deleteAccount = () => Api.delete("/jobs/account");

@@ -1,53 +1,185 @@
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import JobHostingSidebar from "../commonHost/jobHostingSidebar";
+import { applicantDetailById, applicantStatus } from "../../../utils/Api";
+import { ArrowLeft } from "lucide-react";
 
 const ApplicantProfile = () => {
-  const { id } = useParams();
-  
-  // Static application data for design-only mode
-  const [application, setApplication] = useState({
-    shortListed: false,
-    applicantId: {
-      fullName: "Sarah Johnson",
-      email: "sarah.johnson@email.com",
-      phoneNumber: "+1 (555) 987-6543",
-      gender: "Female",
-      dateOfBirth: "1995-03-15",
-      address: "456 Oak Avenue",
-      city: "San Francisco",
-      state: "California",
-      country: "United States",
-      pincode: "94102",
-      eduDegree: "Bachelor of Science",
-      eduSpecialisation: "Computer Science",
-      eduInstitution: "Stanford University",
-      eduStartYear: "2013-09-01",
-      eduEndYear: "2017-06-01",
-      expPosition: "Frontend Developer",
-      expCompany: "Tech Solutions Inc.",
-      expStartYear: "2017-07-01",
-      expEndYear: "2023-12-01",
-      skills: ["React", "JavaScript", "TypeScript", "Node.js", "CSS", "HTML"],
-      projectUrl: "https://github.com/sarahjohnson/portfolio",
-      summary: "Experienced frontend developer with 6+ years of experience in building responsive web applications using React and modern JavaScript frameworks. Passionate about creating user-friendly interfaces and optimizing performance."
-    },
-    jobId: {
-      companyName: "Elite Tech Solutions",
-      companyEmail: "hr@elitetech.com",
-      companyURL: "https://www.elitetech.com"
-    }
-  });
+  const { jobId, applicationId } = useParams(); // Now we have both jobId and applicationId
+  const navigate = useNavigate();
+  const [application, setApplication] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [statusUpdating, setStatusUpdating] = useState(false);
 
-  const handleShorlisted = () => {
-    setApplication(prev => ({
-      ...prev,
-      shortListed: !prev.shortListed
-    }));
+  useEffect(() => {
+    if (jobId && applicationId) {
+      fetchApplicantProfile();
+    }
+  }, [jobId, applicationId]);
+
+  const fetchApplicantProfile = async () => {
+    try {
+      setLoading(true);
+      // Using applicantDetailById which fetches /jobs/${jobId}/applications/${applicationId}
+      const response = await applicantDetailById(jobId, applicationId);
+      if (response.data.success) {
+        setApplication({
+          ...response.data.data,
+        });
+      } else {
+        setError("Failed to fetch applicant profile");
+      }
+    } catch (err) {
+      console.error("Error fetching applicant profile:", err);
+      setError("Error fetching applicant profile. Please try again later.");
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const applicant = application.applicantId;
-  const job = application.jobId;
+  const handleStatusChange = async (newStatus) => {
+    try {
+      setStatusUpdating(true);
+      // Using applicationId for the status update
+      const response = await applicantStatus(applicationId, { status: newStatus });
+      if (response.data.success) {
+        setApplication(prev => ({
+          ...prev,
+          status: newStatus
+        }));
+      } else {
+        setError("Failed to update applicant status");
+      }
+    } catch (err) {
+      console.error("Error updating applicant status:", err);
+      setError("Error updating applicant status. Please try again later.");
+    } finally {
+      setStatusUpdating(false);
+    }
+  };
+
+  const handleBack = () => {
+    navigate(-1);
+  };
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen">
+        <div className="lg:w-1/4 w-0 h-screen fixed">
+          <JobHostingSidebar/>
+        </div>
+        <div className="ml-0 lg:ml-80 flex-1 min-h-screen bg-gray-100 p-2 lg:p-8">
+          <div className="max-w-6xl mx-auto bg-white rounded-xl shadow-lg p-2 lg:p-6">
+            <div className="flex items-center gap-4 mb-6">
+              <button 
+                onClick={handleBack}
+                className="flex items-center gap-2 text-teal-600 hover:text-teal-800"
+              >
+                <ArrowLeft className="w-5 h-5" />
+                Back
+              </button>
+            </div>
+            
+            <div className="rounded-2xl bg-gradient-to-r from-teal-800 to-teal-500 px-6 py-5 w-full flex justify-between items-center">
+              <h2 className="lg:text-3xl text-lg font-bold text-white">Applicant Details</h2>
+            </div>
+
+            <div className="lg:p-6 p-2">
+              <div className="bg-white rounded-2xl shadow-lg lg:p-6 p-2">
+                <div className="flex justify-center items-center h-64">
+                  <p className="text-lg text-gray-600">Loading applicant profile...</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="flex min-h-screen">
+        <div className="lg:w-1/4 w-0 h-screen fixed">
+          <JobHostingSidebar/>
+        </div>
+        <div className="ml-0 lg:ml-80 flex-1 min-h-screen bg-gray-100 p-2 lg:p-8">
+          <div className="max-w-6xl mx-auto bg-white rounded-xl shadow-lg p-2 lg:p-6">
+            <div className="flex items-center gap-4 mb-6">
+              <button 
+                onClick={handleBack}
+                className="flex items-center gap-2 text-teal-600 hover:text-teal-800"
+              >
+                <ArrowLeft className="w-5 h-5" />
+                Back
+              </button>
+            </div>
+            
+            <div className="rounded-2xl bg-gradient-to-r from-teal-800 to-teal-500 px-6 py-5 w-full flex justify-between items-center">
+              <h2 className="lg:text-3xl text-lg font-bold text-white">Applicant Details</h2>
+            </div>
+
+            <div className="lg:p-6 p-2">
+              <div className="bg-white rounded-2xl shadow-lg lg:p-6 p-2">
+                <div className="bg-red-50 p-6 rounded-xl">
+                  <p className="text-red-500">{error}</p>
+                  <button 
+                    onClick={fetchApplicantProfile}
+                    className="mt-4 bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700 transition-all duration-200"
+                  >
+                    Retry
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!application) {
+    return (
+      <div className="flex min-h-screen">
+        <div className="lg:w-1/4 w-0 h-screen fixed">
+          <JobHostingSidebar/>
+        </div>
+        <div className="ml-0 lg:ml-80 flex-1 min-h-screen bg-gray-100 p-2 lg:p-8">
+          <div className="max-w-6xl mx-auto bg-white rounded-xl shadow-lg p-2 lg:p-6">
+            <div className="flex items-center gap-4 mb-6">
+              <button 
+                onClick={handleBack}
+                className="flex items-center gap-2 text-teal-600 hover:text-teal-800"
+              >
+                <ArrowLeft className="w-5 h-5" />
+                Back
+              </button>
+            </div>
+            
+            <div className="rounded-2xl bg-gradient-to-r from-teal-800 to-teal-500 px-6 py-5 w-full flex justify-between items-center">
+              <h2 className="lg:text-3xl text-lg font-bold text-white">Applicant Details</h2>
+            </div>
+
+            <div className="lg:p-6 p-2">
+              <div className="bg-white rounded-2xl shadow-lg lg:p-6 p-2">
+                <div className="bg-yellow-50 p-6 rounded-xl text-center">
+                  <p className="text-yellow-700">No applicant data found</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const applicant = application.applicantId || {};
+  const profile = applicant.profile || {};
+  const job = application.jobId || {};
+
+  // Status options for the dropdown
+  const statusOptions = ['pending', 'reviewed', 'interview', 'accepted', 'rejected'];
 
   return (
     <div className="flex min-h-screen">
@@ -56,16 +188,19 @@ const ApplicantProfile = () => {
       </div>
       <div className="ml-0 lg:ml-80 flex-1 min-h-screen bg-gray-100 p-2 lg:p-8">
         <div className="max-w-6xl mx-auto bg-white rounded-xl shadow-lg p-2 lg:p-6">
+          <div className="flex items-center gap-4 mb-6">
+            <button 
+              onClick={handleBack}
+              className="flex items-center gap-2 text-teal-600 hover:text-teal-800"
+            >
+              <ArrowLeft className="w-5 h-5" />
+              Back
+            </button>
+          </div>
+          
           <div className="rounded-2xl bg-gradient-to-r from-teal-800 to-teal-500 px-6 py-5 w-full flex justify-between items-center">
             <h2 className="lg:text-3xl text-lg font-bold text-white">Applicant Details</h2>
-            <button
-              onClick={handleShorlisted}
-              className={`cursor-pointer rounded-4xl bg-white text-black p-3 ${
-                application.shortListed ? "bg-teal-500 text-black" : ""
-              }`}
-            >
-              {application.shortListed ? "Shortlisted" : "Shortlist"}
-            </button>
+            {/* Remove the shortlist button */}
           </div>
 
           <div className="lg:p-6 p-2">
@@ -77,28 +212,45 @@ const ApplicantProfile = () => {
                 </h3>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                   <div>
-                    <p className="text-gray-600">Company Name</p>
-                    <p className="font-semibold">{job?.companyName || "N/A"}</p>
+                    <p className="text-gray-600">Job Title</p>
+                    <p className="font-semibold">{job?.title || "N/A"}</p>
                   </div>
                   <div>
-                    <p className="text-gray-600">Company Email</p>
+                    <p className="text-gray-600">Company Name</p>
+                    <p className="font-semibold">{job?.company?.name || "N/A"}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-600">Application Date</p>
                     <p className="font-semibold">
-                      {job?.companyEmail || "N/A"}
+                      {application?.appliedAt 
+                        ? new Date(application.appliedAt).toLocaleDateString() 
+                        : "N/A"}
                     </p>
                   </div>
-                  {job?.companyURL && (
-                    <div>
-                      <p className="text-gray-600">Company Website</p>
-                      <a
-                        href={job.companyURL}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-600 hover:underline"
+                  <div className="md:col-span-2 lg:col-span-3">
+                    <p className="text-gray-600">Status</p>
+                    <div className="flex flex-wrap gap-2 items-center mt-2">
+                      <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full font-medium">
+                        {application?.status || "N/A"}
+                      </span>
+                      <select
+                        value={application?.status || ""}
+                        onChange={(e) => handleStatusChange(e.target.value)}
+                        disabled={statusUpdating}
+                        className="ml-2 px-3 py-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
                       >
-                        {job.companyURL}
-                      </a>
+                        <option value="">Update Status</option>
+                        {statusOptions.map((status) => (
+                          <option key={status} value={status}>
+                            {status.charAt(0).toUpperCase() + status.slice(1)}
+                          </option>
+                        ))}
+                      </select>
+                      {statusUpdating && (
+                        <span className="ml-2 text-gray-500">Updating...</span>
+                      )}
                     </div>
-                  )}
+                  </div>
                 </div>
               </div>
 
@@ -111,7 +263,7 @@ const ApplicantProfile = () => {
                   <div>
                     <p className="text-gray-600">Full Name</p>
                     <p className="font-semibold">
-                      {applicant.fullName || "N/A"}
+                      {applicant.name || "N/A"}
                     </p>
                   </div>
                   <div>
@@ -121,55 +273,16 @@ const ApplicantProfile = () => {
                   <div>
                     <p className="text-gray-600">Phone</p>
                     <p className="font-semibold">
-                      {applicant.phoneNumber || "N/A"}
+                      {profile.phone || "N/A"}
                     </p>
                   </div>
                   <div>
-                    <p className="text-gray-600">Gender</p>
-                    <p className="font-semibold">{applicant.gender || "N/A"}</p>
+                    <p className="text-gray-600">Age</p>
+                    <p className="font-semibold">{profile.age || "N/A"}</p>
                   </div>
                   <div>
-                    <p className="text-gray-600">Date of Birth</p>
-                    <p className="font-semibold">
-                      {applicant.dateOfBirth
-                        ? new Date(applicant.dateOfBirth).toLocaleDateString()
-                        : "N/A"}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Address */}
-              <div className="mb-8 bg-blue-50 p-6 rounded-xl">
-                <h3 className="text-2xl font-bold text-gray-800 mb-4">
-                  Address
-                </h3>
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  <div>
-                    <p className="text-gray-600">Street</p>
-                    <p className="font-semibold">
-                      {applicant.address || "N/A"}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-gray-600">City</p>
-                    <p className="font-semibold">{applicant.city || "N/A"}</p>
-                  </div>
-                  <div>
-                    <p className="text-gray-600">State</p>
-                    <p className="font-semibold">{applicant.state || "N/A"}</p>
-                  </div>
-                  <div>
-                    <p className="text-gray-600">Country</p>
-                    <p className="font-semibold">
-                      {applicant.country || "N/A"}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-gray-600">Pincode</p>
-                    <p className="font-semibold">
-                      {applicant.pincode || "N/A"}
-                    </p>
+                    <p className="text-gray-600">Address</p>
+                    <p className="font-semibold">{profile.address || "N/A"}</p>
                   </div>
                 </div>
               </div>
@@ -179,38 +292,36 @@ const ApplicantProfile = () => {
                 <h3 className="text-2xl font-bold text-gray-800 mb-4">
                   Education
                 </h3>
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  <div>
-                    <p className="text-gray-600">Degree</p>
-                    <p className="font-semibold">
-                      {applicant.eduDegree || "N/A"}
-                    </p>
+                {profile.education && profile.education.length > 0 ? (
+                  <div className="space-y-4">
+                    {profile.education.map((edu, index) => (
+                      <div key={index} className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div>
+                          <p className="text-gray-600">Institution</p>
+                          <p className="font-semibold">{edu.institution || "N/A"}</p>
+                        </div>
+                        <div>
+                          <p className="text-gray-600">Degree</p>
+                          <p className="font-semibold">{edu.degree || "N/A"}</p>
+                        </div>
+                        <div>
+                          <p className="text-gray-600">Field of Study</p>
+                          <p className="font-semibold">{edu.fieldOfStudy || "N/A"}</p>
+                        </div>
+                        <div>
+                          <p className="text-gray-600">Start Year</p>
+                          <p className="font-semibold">{edu.startYear || "N/A"}</p>
+                        </div>
+                        <div>
+                          <p className="text-gray-600">End Year</p>
+                          <p className="font-semibold">{edu.endYear || "N/A"}</p>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                  <div>
-                    <p className="text-gray-600">Specialization</p>
-                    <p className="font-semibold">
-                      {applicant.eduSpecialisation || "N/A"}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-gray-600">Institution</p>
-                    <p className="font-semibold">
-                      {applicant.eduInstitution || "N/A"}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-gray-600">Duration</p>
-                    <p className="font-semibold">
-                      {applicant.eduStartYear && applicant.eduEndYear
-                        ? `${new Date(
-                            applicant.eduStartYear
-                          ).getFullYear()} - ${new Date(
-                            applicant.eduEndYear
-                          ).getFullYear()}`
-                        : "N/A"}
-                    </p>
-                  </div>
-                </div>
+                ) : (
+                  <p className="text-gray-500">No education information provided</p>
+                )}
               </div>
 
               {/* Experience */}
@@ -218,32 +329,44 @@ const ApplicantProfile = () => {
                 <h3 className="text-2xl font-bold text-gray-800 mb-4">
                   Experience
                 </h3>
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  <div>
-                    <p className="text-gray-600">Position</p>
-                    <p className="font-semibold">
-                      {applicant.expPosition || "N/A"}
-                    </p>
+                {profile.experience && profile.experience.length > 0 ? (
+                  <div className="space-y-4">
+                    {profile.experience.map((exp, index) => (
+                      <div key={index} className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div>
+                          <p className="text-gray-600">Company</p>
+                          <p className="font-semibold">{exp.company || "N/A"}</p>
+                        </div>
+                        <div>
+                          <p className="text-gray-600">Position</p>
+                          <p className="font-semibold">{exp.position || "N/A"}</p>
+                        </div>
+                        <div>
+                          <p className="text-gray-600">Description</p>
+                          <p className="font-semibold">{exp.description || "N/A"}</p>
+                        </div>
+                        <div>
+                          <p className="text-gray-600">Start Date</p>
+                          <p className="font-semibold">
+                            {exp.startDate 
+                              ? new Date(exp.startDate).toLocaleDateString() 
+                              : "N/A"}
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-gray-600">End Date</p>
+                          <p className="font-semibold">
+                            {exp.endDate 
+                              ? new Date(exp.endDate).toLocaleDateString() 
+                              : "N/A"}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                  <div>
-                    <p className="text-gray-600">Company</p>
-                    <p className="font-semibold">
-                      {applicant.expCompany || "N/A"}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-gray-600">Duration</p>
-                    <p className="font-semibold">
-                      {applicant.expStartYear && applicant.expEndYear
-                        ? `${new Date(
-                            applicant.expStartYear
-                          ).getFullYear()} - ${new Date(
-                            applicant.expEndYear
-                          ).getFullYear()}`
-                        : "N/A"}
-                    </p>
-                  </div>
-                </div>
+                ) : (
+                  <p className="text-gray-500">No experience information provided</p>
+                )}
               </div>
 
               {/* Skills & Links */}
@@ -253,9 +376,8 @@ const ApplicantProfile = () => {
                     Skills
                   </h3>
                   <div className="flex flex-wrap gap-2">
-                    {Array.isArray(applicant.skills) &&
-                    applicant.skills.length > 0 ? (
-                      applicant.skills.map((skill, index) => (
+                    {Array.isArray(profile.skills) && profile.skills.length > 0 ? (
+                      profile.skills.map((skill, index) => (
                         <span
                           key={index}
                           className="px-3 py-1 bg-teal-100 text-teal-800 rounded-full"
@@ -274,32 +396,67 @@ const ApplicantProfile = () => {
                   </h3>
                   <div className="space-y-2">
                     <div>
-                      <p className="text-gray-600">Project URL</p>
-                      {applicant.projectUrl ? (
+                      <p className="text-gray-600">LinkedIn</p>
+                      {profile.linkedinUrl ? (
                         <a
-                          href={applicant.projectUrl}
+                          href={profile.linkedinUrl}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-blue-600 hover:underline"
                         >
-                          {applicant.projectUrl}
+                          {profile.linkedinUrl}
                         </a>
                       ) : (
-                        <p className="text-gray-500">No project URL provided</p>
+                        <p className="text-gray-500">No LinkedIn URL provided</p>
+                      )}
+                    </div>
+                    <div>
+                      <p className="text-gray-600">GitHub</p>
+                      {profile.githubUrl ? (
+                        <a
+                          href={profile.githubUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:underline"
+                        >
+                          {profile.githubUrl}
+                        </a>
+                      ) : (
+                        <p className="text-gray-500">No GitHub URL provided</p>
+                      )}
+                    </div>
+                    <div>
+                      <p className="text-gray-600">Resume</p>
+                      {profile.resume ? (
+                        <a
+                          href={profile.resume}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:underline"
+                        >
+                          View Resume
+                        </a>
+                      ) : (
+                        <p className="text-gray-500">No resume uploaded</p>
+                      )}
+                    </div>
+                    <div>
+                      <p className="text-gray-600">Photo</p>
+                      {profile.photo ? (
+                        <a
+                          href={profile.photo}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:underline"
+                        >
+                          View Photo
+                        </a>
+                      ) : (
+                        <p className="text-gray-500">No photo uploaded</p>
                       )}
                     </div>
                   </div>
                 </div>
-              </div>
-
-              {/* Summary */}
-              <div className="mt-8 bg-blue-50 p-6 rounded-xl">
-                <h3 className="text-2xl font-bold text-gray-800 mb-4">
-                  Summary
-                </h3>
-                <p className="text-gray-700">
-                  {applicant.summary || "No summary provided"}
-                </p>
               </div>
 
               {/* Application Status */}
@@ -308,7 +465,7 @@ const ApplicantProfile = () => {
                   Application Status
                 </h3>
                 <p className="font-semibold text-green-600">
-                  {application.shortListed ? "Shortlisted" : "Under Review"}
+                  {application?.status || "Under Review"}
                 </p>
               </div>
             </div>

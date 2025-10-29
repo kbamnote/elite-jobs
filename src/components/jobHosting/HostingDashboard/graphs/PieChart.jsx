@@ -11,15 +11,24 @@ const PieChart = ({ jobs }) => {
   const [isLoading] = useState(false);
 
   useEffect(() => {
-    // Static data for design-only mode
-    const staticData = [
-      { name: "TechCorp Solutions", applicants: 45 },
-      { name: "Digital Innovations", applicants: 32 },
-      { name: "Future Systems", applicants: 28 },
-      { name: "Global Tech", applicants: 19 },
-      { name: "Smart Solutions", applicants: 15 }
-    ];
-    setChartData(staticData);
+    // Transform jobStats data for the pie chart
+    if (jobs && jobs.length > 0) {
+      const transformedData = jobs.map(job => ({
+        name: job.jobTitle || "Unknown Job",
+        applicants: job.totalApplications || 0
+      }));
+      setChartData(transformedData);
+    } else {
+      // Fallback to static data
+      const staticData = [
+        { name: "TechCorp Solutions", applicants: 45 },
+        { name: "Digital Innovations", applicants: 32 },
+        { name: "Future Systems", applicants: 28 },
+        { name: "Global Tech", applicants: 19 },
+        { name: "Smart Solutions", applicants: 15 }
+      ];
+      setChartData(staticData);
+    }
   }, [jobs]);
 
   const generateColors = (count) => {
@@ -93,6 +102,16 @@ const PieChart = ({ jobs }) => {
     </div>
   );
 
+  // Find the job with the most applications
+  const getTopJob = () => {
+    if (chartData.length === 0) return null;
+    return chartData.reduce((max, item) =>
+      item.applicants > max.applicants ? item : max
+    );
+  };
+
+  const topJob = getTopJob();
+
   return (
     <div className="w-full h-full flex flex-col">
       {/* Chart area with fixed proportion */}
@@ -137,17 +156,13 @@ const PieChart = ({ jobs }) => {
           <div className="bg-purple-50 p-2 rounded-lg">
             <p className="text-xs text-gray-600">Average</p>
             <p className="text-xl font-semibold text-purple-600">
-              {(totalApplicants / chartData.length).toFixed(1)}
+              {chartData.length > 0 ? (totalApplicants / chartData.length).toFixed(1) : 0}
             </p>
           </div>
           <div className="bg-orange-50 p-2 rounded-lg">
-            <p className="text-xs text-gray-600">Top Company</p>
+            <p className="text-xs text-gray-600">Top Job</p>
             <p className="text-sm font-semibold text-orange-600 truncate">
-              {chartData.length > 0
-                ? chartData.reduce((max, item) =>
-                    item.applicants > max.applicants ? item : max
-                  ).name
-                : "N/A"}
+              {topJob ? topJob.name : "N/A"}
             </p>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   LogOut,
   User,
@@ -10,16 +10,22 @@ import {
   BriefcaseBusiness,
   CalendarPlus,
 } from "lucide-react";
+import Cookies from "js-cookie";
 
 const JobHostingSidebar = () => {
-  const location = useLocation();
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   
   // Static user name for design-only mode
   const userName = "John Doe";
 
   const handleLogout = () => {
-    alert("Logout functionality is disabled in design-only mode.");
+    // Remove token and role from cookies
+    Cookies.remove("token");
+    Cookies.remove("role");
+    
+    // Navigate to home page
+    navigate("/");
   };
 
   const navItems = [
@@ -39,8 +45,6 @@ const JobHostingSidebar = () => {
       path: "/hosting/post-job",
     },
   ];
-
-  const isActiveRoute = (path) => location.pathname === path;
 
   return (
     <>
@@ -83,7 +87,7 @@ const JobHostingSidebar = () => {
             <Link to="/dashboard" className="block">
               <div
                 className={`flex items-center space-x-3 p-3 ${
-                  isActiveRoute("/dashboard") ? "bg-teal-700" : ""
+                  location.pathname === "/dashboard" ? "bg-teal-700" : ""
                 } text-white hover:bg-teal-100 hover:text-black rounded-lg`}
               >
                 <Users className="w-5 h-5" />
@@ -95,7 +99,7 @@ const JobHostingSidebar = () => {
               <Link to={item.path} key={index} className="block">
                 <div
                   className={`flex items-center space-x-3 p-3 ${
-                    isActiveRoute(item.path) ? "bg-teal-700" : ""
+                    location.pathname === item.path ? "bg-teal-700" : ""
                   } text-white hover:bg-teal-100 hover:text-black rounded-lg transition-colors duration-200`}
                 >
                   {item.icon}
