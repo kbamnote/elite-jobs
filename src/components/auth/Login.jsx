@@ -39,6 +39,8 @@ const Login = () => {
         navigate('/');
       } else if (role === 'jobHoster') {
         navigate('/dashboard');
+      } else if (role === 'recruiter') {
+        navigate('/recruiter/dashboard');
       }
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed');
@@ -147,6 +149,7 @@ const Login = () => {
               >
                 <option value="jobSeeker">Job Seeker</option>
                 <option value="jobHoster">Job Hoster</option>
+                <option value="recruiter">Recruiter</option>
               </select>
             </div>
           </div>

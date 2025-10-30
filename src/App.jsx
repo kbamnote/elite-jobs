@@ -28,6 +28,12 @@ import MyJobs from "./components/jobHosting/myJobs/Myjobs";
 import ViewApplicant from "./components/jobHosting/myJobs/ViewApplicant";
 import ApplicantProfile from "./components/jobHosting/myJobs/ApplicantProfile";
 
+// Recruiter Components
+import RecruiterPage from "./components/recruiter/main/RecruiterPage";
+// import RecruiterFilter from "./components/recruiter/filter/RecruiterFilter";  // Remove this line
+import RecruiterProfile from "./components/recruiter/profile/RecruiterProfile";
+import RecruiterApplicantDetail from "./components/recruiter/applicantFullDetail/RecruiterApplicantDetail";
+
 function App() {
   return (
     <>
@@ -48,6 +54,12 @@ function App() {
         <Route path="/hosting/my-jobs" element={<MyJobs />} />
         <Route path="/hosting/applicants/:jobId" element={<ViewApplicant />} />
         <Route path="/hosting/applicant/:jobId/:applicationId" element={<ApplicantProfile />} />
+
+        {/* Recruiter Routes */}
+        <Route path="/recruiter/dashboard" element={<RecruiterPage/>} />
+        {/* <Route path="/recruiter/filter" element={<RecruiterFilter/>} />  Remove this line */}
+        <Route path="/recruiter/profile" element={<RecruiterProfile/>} />
+        <Route path="/recruiter/applicant-details/:id" element={<RecruiterApplicantDetail/>} />
         
         {/* Job Seeker Pages */}
         <Route path="/about" element={<AboutUs />} />
