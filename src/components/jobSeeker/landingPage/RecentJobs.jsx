@@ -36,12 +36,15 @@ const RecentJobs = () => {
           title: job.title,
           company: job.company.name,
           category: job.category || "Other",
-          type: job.employmentType || "Full-time",
-          salary: `${job.salary?.min || 0} - ${job.salary?.max || 0} ${job.salary?.currency || 'USD'}`,
+          type: job.jobType || "Full-time",
+          salary: `${job.salary?.min || 0} - ${job.salary?.max || 0} ${job.salary?.currency || 'INR'}`,
           location: job.location,
-          worktype: job.employmentType,
+          worktype: job.workType,
           experience: job.experienceLevel || "Not specified",
           logo: job.company.logo || job.postedBy?.profile?.companyLogo || `https://ui-avatars.com/api/?name=${encodeURIComponent(job.company.name)}&background=random`, // Use company logo if available
+          interviewType: job.interviewType,
+          noticePeriod: job.noticePeriod,
+          minEducation: job.minEducation
         }));
         setJobs(transformedJobs);
       } catch (err) {
@@ -194,6 +197,7 @@ const RecentJobs = () => {
                         src={job.logo}
                         alt={job.company}
                         className="w-16 h-16 object-cover"
+                        onError={(e) => { e.target.src = 'https://placehold.co/60x60'; }}
                       />
                     </div>
                     <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-white"></div>

@@ -253,7 +253,7 @@ const ViewJobs = () => {
                             <span style={{ fontFamily: 'var(--font-body)' }}>📍 {job.location}</span>
                           </div>
                           <div className="flex items-center gap-2">
-                            <span style={{ fontFamily: 'var(--font-body)' }}>💼 {job.employmentType}</span>
+                            <span style={{ fontFamily: 'var(--font-body)' }}>💼 {job.jobType}</span>
                           </div>
                           <div className="flex items-center gap-2">
                             <span style={{ fontFamily: 'var(--font-body)' }}>🏷️ {job.category}</span>
@@ -278,7 +278,7 @@ const ViewJobs = () => {
                         color: 'var(--color-text-secondary)',
                         fontFamily: 'var(--font-body)'
                       }}>
-                        {job.employmentType}
+                        {job.jobType}
                       </span>
                       <span className="px-3 py-1 rounded-full text-sm font-medium" style={{ 
                         backgroundColor: 'var(--color-gray-100)', 
@@ -286,6 +286,20 @@ const ViewJobs = () => {
                         fontFamily: 'var(--font-body)'
                       }}>
                         {job.experienceLevel}
+                      </span>
+                      <span className="px-3 py-1 rounded-full text-sm font-medium" style={{ 
+                        backgroundColor: 'var(--color-gray-100)', 
+                        color: 'var(--color-text-secondary)',
+                        fontFamily: 'var(--font-body)'
+                      }}>
+                        {job.workType}
+                      </span>
+                      <span className="px-3 py-1 rounded-full text-sm font-medium" style={{ 
+                        backgroundColor: 'var(--color-gray-100)', 
+                        color: 'var(--color-text-secondary)',
+                        fontFamily: 'var(--font-body)'
+                      }}>
+                        {job.interviewType}
                       </span>
                     </div>
                   </div>
@@ -425,6 +439,28 @@ const ViewJobs = () => {
                   }}>
                     {job.company.description}
                   </p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>Employees:</span>
+                      <span style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>
+                        {job.postedBy.profile.numberOfEmployees}
+                      </span>
+                    </div>
+                    {job.company.website && (
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>Website:</span>
+                        <a 
+                          href={job.company.website} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:underline"
+                          style={{ fontFamily: 'var(--font-body)' }}
+                        >
+                          {job.company.website}
+                        </a>
+                      </div>
+                    )}
+                  </div>
                   {job.company.website && (
                     <a 
                       href={job.company.website} 
@@ -496,6 +532,109 @@ const ViewJobs = () => {
                         </p>
                       </div>
                     </div>
+                    
+                    <div className="flex items-start gap-3">
+                      <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-gray-100)' }}>
+                        <span className="text-lg">🎓</span>
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}>Minimum Education</p>
+                        <p className="font-semibold" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
+                          {job.minEducation}
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start gap-3">
+                      <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-gray-100)' }}>
+                        <span className="text-lg">🕒</span>
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}>Notice Period</p>
+                        <p className="font-semibold" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
+                          {job.noticePeriod}
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start gap-3">
+                      <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-gray-100)' }}>
+                        <span className="text-lg">💻</span>
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}>Work Type</p>
+                        <p className="font-semibold" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
+                          {job.workType}
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-start gap-3">
+                      <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-gray-100)' }}>
+                        <span className="text-lg">🎤</span>
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}>Interview Type</p>
+                        <p className="font-semibold" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
+                          {job.interviewType}
+                        </p>
+                      </div>
+                    </div>
+                    
+                    {/* Number of Openings */}
+                    <div className="flex items-start gap-3">
+                      <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-gray-100)' }}>
+                        <span className="text-lg">👥</span>
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}>Number of Openings</p>
+                        <p className="font-semibold" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
+                          {job.numberOfOpenings || 'Not specified'}
+                        </p>
+                      </div>
+                    </div>
+                    
+                    {/* Year of Passing */}
+                    <div className="flex items-start gap-3">
+                      <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-gray-100)' }}>
+                        <span className="text-lg">🎓</span>
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}>Year of Passing</p>
+                        <p className="font-semibold" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
+                          {job.yearOfPassing || 'Not specified'}
+                        </p>
+                      </div>
+                    </div>
+                    
+                    {/* Walk-in Details (conditional) */}
+                    {job.interviewType === 'Walk-in' && (
+                      <>
+                        <div className="flex items-start gap-3">
+                          <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-gray-100)' }}>
+                            <span className="text-lg">🗓️</span>
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}>Walk-in Date</p>
+                            <p className="font-semibold" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
+                              {job.walkInDate ? new Date(job.walkInDate).toLocaleDateString() : 'Not specified'}
+                            </p>
+                          </div>
+                        </div>
+                        
+                        <div className="flex items-start gap-3">
+                          <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-gray-100)' }}>
+                            <span className="text-lg">⏰</span>
+                          </div>
+                          <div>
+                            <p className="text-sm font-medium" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}>Walk-in Time</p>
+                            <p className="font-semibold" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
+                              {job.walkInTime || 'Not specified'}
+                            </p>
+                          </div>
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
                 

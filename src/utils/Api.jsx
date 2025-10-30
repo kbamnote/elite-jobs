@@ -92,6 +92,9 @@ export const accountDelete = () => Api.delete("/jobs/account");
 export const allJobs = () => Api.get("/jobs");
 export const jobsById = (id) => Api.get(`/jobs/${id}`);
 
+// ============== All categories GET ==============
+export const allCategories = () => Api.get("/jobs/categories");
+
 
 // ============== Job apply for Seeker ==============
 export const jobApply = (id, formData) => Api.post(`/jobs/${id}/apply`, formData);
