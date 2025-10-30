@@ -234,7 +234,7 @@ const Profile = () => {
         {/* Main Profile Card */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
           {/* Profile Header with Cover */}
-          <div className="h-32 bg-gradient-to-r from-blue-500 to-purple-600"></div>
+          <div className="h-32 bg-[#3675AC]"></div>
           
           <div className="px-6 sm:px-8 pb-8">
             <div className="flex flex-col sm:flex-row sm:items-end sm:space-x-6 -mt-16 sm:-mt-12">
