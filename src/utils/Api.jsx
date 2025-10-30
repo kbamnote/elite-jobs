@@ -43,10 +43,10 @@ Api.interceptors.response.use(
 export const signup = (post) => Apiauth.post("/auth/signup", post);
 export const login = (post) => Apiauth.post("/auth/login", post);
 
-// ============== Profile GET for Seeker & Hoster ==============
+// ============== Profile GET for Seeker, Hoster and Recruiter ==============
 export const profile = () => Api.get("/auth/profile");
 
-// ============== Profile Update for Seeker & Hoster ==============
+// ============== Profile Update for Seeker, Hoster and Recruiter ==============
 export const updateProfile = (formData) => Api.patch("/auth/profile", formData);
 
 // ============== Uploading resume and photo of Seeker ==============
@@ -55,7 +55,7 @@ export const uploadFileSeeker = (formData) =>
     headers: { "Content-Type": "multipart/form-data" },
   });
 
-// ============== Uploading companyLogo and photo of Hoster ==============
+// ============== Uploading companyLogo and photo of Hoster and Recruiter ==============
 export const uploadFileHoster = (formData) =>
   Api.post("/auth/profile/upload-multiple", formData, {
     headers: { "Content-Type": "multipart/form-data" },
@@ -67,7 +67,7 @@ export const updatephotoSeeker = (formData) =>
     headers: { "Content-Type": "multipart/form-data" },
   });
 
-// ============== Updating company photo ==============
+// ============== Updating company photo for Hoster and Recruiter ==============
 export const updatephotoCompany = (formData) =>
   Api.put("/auth/profile/photo", formData, {
     headers: { "Content-Type": "multipart/form-data" },
@@ -79,7 +79,7 @@ export const updateresumeSeeker = (formData) =>
     headers: { "Content-Type": "multipart/form-data" },
   });
 
-// ============== Updating Company logo ==============
+// ============== Updating Company logo for Hoster and Recruiter ==============
 export const updateCompanyLogo = (formData) =>
   Api.put("/auth/profile/company-logo", formData, {
     headers: { "Content-Type": "multipart/form-data" },
@@ -121,6 +121,14 @@ export const getJobStats = () => Api.get("/jobs/stats");
 // ============== Delete Job (Hoster) ==============
 export const deleteJob = (id) => Api.delete(`/jobs/${id}`);
 
-
 // ============== Delete User Account ==============
 export const deleteAccount = () => Api.delete("/jobs/account");
+
+// ============== All Applicant GET for Recruiter ==============
+export const allapplicant = (params = {}) => Api.get("/recruiter/applicants/filter", { params });
+
+// ============== All Applicant GET by Id for Recruiter ==============
+export const allapplicantById = (id) => Api.get(`/recruiter/jobseekers/${id}`);
+
+// ============== Filter Applicants for Recruiter ==============
+export const filterApplicants = (params = {}) => Api.get("/recruiter/applicants/filter", { params });
