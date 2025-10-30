@@ -197,7 +197,7 @@ const HostingProfileDetail = () => {
                   <p className="text-red-500">{error}</p>
                   <button 
                     onClick={fetchProfileData}
-                    className="mt-4 px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700"
+                    className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
                   >
                     Retry
                   </button>
@@ -223,7 +223,7 @@ const HostingProfileDetail = () => {
           <div className="max-w-4xl mx-auto">
             <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg border border-gray-200 lg:w-[670px] mx-auto">
               {/* Title */}
-              <h2 className="text-3xl md:text-4xl font-extrabold text-center bg-gradient-to-r from-teal-500 to-teal-600 bg-clip-text text-transparent mb-8">
+              <h2 className="text-3xl md:text-4xl font-extrabold text-center bg-gradient-to-r from-red-500 to-red-600 bg-clip-text text-transparent mb-8">
                 Hoster Details
               </h2>
               
@@ -292,7 +292,7 @@ const HostingProfileDetail = () => {
                       value={formData.name}
                       onChange={handleChange}
                       required
-                      className="block w-full outline-teal-600 border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500"
+                      className="block w-full outline-red-600 border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:ring-red-500 focus:border-red-500"
                     />
                   </div>
 
@@ -307,7 +307,7 @@ const HostingProfileDetail = () => {
                       name="email"
                       value={formData.email}
                       disabled
-                      className="block w-full outline-teal-600 border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500 bg-gray-100"
+                      className="block w-full outline-red-600 border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:ring-red-500 focus:border-red-500 bg-gray-100"
                     />
                   </div>
 
@@ -323,7 +323,7 @@ const HostingProfileDetail = () => {
                       value={formData.profile.companyName}
                       onChange={handleChange}
                       required
-                      className="block w-full outline-teal-600 border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500"
+                      className="block w-full outline-red-600 border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:ring-red-500 focus:border-red-500"
                     />
                   </div>
 
@@ -338,7 +338,7 @@ const HostingProfileDetail = () => {
                       name="profile.companyPhone"
                       value={formData.profile.companyPhone}
                       onChange={handleChange}
-                      className="block w-full outline-teal-600 border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500"
+                      className="block w-full outline-red-600 border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:ring-red-500 focus:border-red-500"
                     />
                   </div>
 
@@ -353,7 +353,7 @@ const HostingProfileDetail = () => {
                       name="profile.companyEmail"
                       value={formData.profile.companyEmail}
                       onChange={handleChange}
-                      className="block w-full outline-teal-600 border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500"
+                      className="block w-full outline-red-600 border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:ring-red-500 focus:border-red-500"
                     />
                   </div>
 
@@ -368,7 +368,7 @@ const HostingProfileDetail = () => {
                       name="profile.phone"
                       value={formData.profile.phone}
                       onChange={handleChange}
-                      className="block w-full outline-teal-600 border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500"
+                      className="block w-full outline-red-600 border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:ring-red-500 focus:border-red-500"
                     />
                   </div>
 
@@ -383,7 +383,7 @@ const HostingProfileDetail = () => {
                       name="profile.companyWebsite"
                       value={formData.profile.companyWebsite}
                       onChange={handleChange}
-                      className="block w-full outline-teal-600 border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500"
+                      className="block w-full outline-red-600 border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:ring-red-500 focus:border-red-500"
                     />
                   </div>
 
@@ -398,7 +398,7 @@ const HostingProfileDetail = () => {
                       name="profile.numberOfEmployees"
                       value={formData.profile.numberOfEmployees}
                       onChange={handleChange}
-                      className="block w-full outline-teal-600 border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500"
+                      className="block w-full outline-red-600 border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:ring-red-500 focus:border-red-500"
                     />
                   </div>
 
@@ -413,7 +413,7 @@ const HostingProfileDetail = () => {
                       name="profile.panCardNumber"
                       value={formData.profile.panCardNumber}
                       onChange={handleChange}
-                      className="block w-full outline-teal-600 border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500"
+                      className="block w-full outline-red-600 border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:ring-red-500 focus:border-red-500"
                     />
                   </div>
 
@@ -428,7 +428,7 @@ const HostingProfileDetail = () => {
                       name="profile.gstNumber"
                       value={formData.profile.gstNumber}
                       onChange={handleChange}
-                      className="block w-full outline-teal-600 border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500"
+                      className="block w-full outline-red-600 border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:ring-red-500 focus:border-red-500"
                     />
                   </div>
                 </div>
@@ -444,7 +444,7 @@ const HostingProfileDetail = () => {
                     value={formData.profile.companyDescription}
                     onChange={handleChange}
                     rows={4}
-                    className="block w-full outline-teal-600 border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500"
+                    className="block w-full outline-red-600 border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:ring-red-500 focus:border-red-500"
                   />
                 </div>
 
@@ -463,7 +463,7 @@ const HostingProfileDetail = () => {
                   <button
                     type="submit"
                     disabled={saving}
-                    className="bg-gradient-to-r from-teal-500 to-teal-600 text-white py-3 px-6 rounded-lg shadow-lg cursor-pointer transition-transform duration-200 ease-in-out hover:from-teal-600 hover:to-teal-700 disabled:opacity-50"
+                    className="bg-gradient-to-r from-red-500 to-red-600 text-white py-3 px-6 rounded-lg shadow-lg cursor-pointer transition-transform duration-200 ease-in-out hover:from-red-600 hover:to-red-700 disabled:opacity-50"
                   >
                     {saving ? "Saving..." : "Submit"}
                   </button>

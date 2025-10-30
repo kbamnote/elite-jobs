@@ -62,7 +62,7 @@ const PieChart = ({ jobs }) => {
         display: false,
       },
       tooltip: {
-        backgroundColor: "rgba(17, 24, 39, 0.8)",
+        backgroundColor: "rgba(220, 38, 38, 0.9)",
         padding: 10,
         titleFont: { size: 12, weight: "600" },
         bodyFont: { size: 11 },
@@ -93,7 +93,7 @@ const PieChart = ({ jobs }) => {
       </p>
       <div className="mt-4">
         <Link to="/post-job">
-          <button className="bg-teal-600 hover:bg-teal-700 text-white font-semibold px-4 py-2 text-xs md:text-sm rounded-lg shadow-md border border-teal-700 transition duration-300 flex items-center gap-1">
+          <button className="text-white font-semibold px-4 py-2 text-xs md:text-sm rounded-lg shadow-md transition duration-300 flex items-center gap-1" style={{ backgroundColor: 'var(--color-accent)', borderColor: 'var(--color-accent)' }} onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--color-primary)'} onMouseLeave={(e) => e.target.style.backgroundColor = 'var(--color-accent)'}>
             <CirclePlus className="w-3 h-3" />
             <span>Post Your First Job</span>
           </button>
@@ -119,8 +119,8 @@ const PieChart = ({ jobs }) => {
         {isLoading ? (
           <div className="h-full flex items-center justify-center">
             <div className="flex flex-col items-center space-y-2">
-              <div className="w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
-              <p className="text-xs text-gray-500">Loading chart data...</p>
+              <div className="w-6 h-6 border-4 border-t-transparent rounded-full animate-spin" style={{ borderColor: 'var(--color-accent)', borderTopColor: 'transparent' }} />
+              <p className="text-xs" style={{ color: 'var(--color-primary)' }}>Loading chart data...</p>
             </div>
           </div>
         ) : totalApplicants === 0 ? (
@@ -153,15 +153,15 @@ const PieChart = ({ jobs }) => {
       {/* Stats Grid - Fixed layout that matches screenshot */}
       {totalApplicants > 0 && (
         <div className="grid grid-cols-2 gap-4 mt-4">
-          <div className="bg-purple-50 p-2 rounded-lg">
+          <div className="p-2 rounded-lg" style={{ backgroundColor: 'rgba(220, 38, 38, 0.05)' }}>
             <p className="text-xs text-gray-600">Average</p>
-            <p className="text-xl font-semibold text-purple-600">
+            <p className="text-xl font-semibold" style={{ color: 'var(--color-primary)' }}>
               {chartData.length > 0 ? (totalApplicants / chartData.length).toFixed(1) : 0}
             </p>
           </div>
-          <div className="bg-orange-50 p-2 rounded-lg">
+          <div className="p-2 rounded-lg" style={{ backgroundColor: 'rgba(220, 38, 38, 0.05)' }}>
             <p className="text-xs text-gray-600">Top Job</p>
-            <p className="text-sm font-semibold text-orange-600 truncate">
+            <p className="text-sm font-semibold truncate" style={{ color: 'var(--color-primary)' }}>
               {topJob ? topJob.name : "N/A"}
             </p>
           </div>

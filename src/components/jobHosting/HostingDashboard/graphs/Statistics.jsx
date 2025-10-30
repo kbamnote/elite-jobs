@@ -14,7 +14,7 @@ const Statistics = ({ stats }) => {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-6">
       <div className="bg-white p-6 rounded-2xl shadow-md flex items-center gap-4 border border-gray-200">
-        <div className="p-4 bg-teal-100 text-teal-600 rounded-full">
+        <div className="p-4 rounded-full" style={{ backgroundColor: 'rgba(220, 38, 38, 0.1)', color: 'var(--color-primary)' }}>
           <FaBriefcase size={24} />
         </div>
         <div>
@@ -26,7 +26,7 @@ const Statistics = ({ stats }) => {
       </div>
 
       <div className="bg-white p-6 rounded-2xl shadow-md flex items-center gap-4 border border-gray-200">
-        <div className="p-4 bg-teal-100 text-teal-600 rounded-full">
+        <div className="p-4 rounded-full" style={{ backgroundColor: 'rgba(220, 38, 38, 0.1)', color: 'var(--color-primary)' }}>
           <FaUsers size={24} />
         </div>
         <div>
@@ -38,7 +38,7 @@ const Statistics = ({ stats }) => {
       </div>
 
       <div className="bg-white p-6 rounded-2xl shadow-md flex items-center gap-4 border border-gray-200">
-        <div className="p-4 bg-teal-100 text-teal-600 rounded-full">
+        <div className="p-4 rounded-full" style={{ backgroundColor: 'rgba(220, 38, 38, 0.1)', color: 'var(--color-primary)' }}>
           <FaUserCheck size={24} />
         </div>
         <div>

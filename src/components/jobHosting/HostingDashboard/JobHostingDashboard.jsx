@@ -137,7 +137,20 @@ const JobHostingDashboard = () => {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4 sm:mb-6">
           <h1 className="text-2xl text-center lg:text-left w-full sm:text-3xl lg:text-4xl font-bold text-gray-800">Dashboard</h1>
           <Link to="/hosting/post-job">
-            <button className="hidden lg:w-[178px] sm:w-auto bg-teal-600 hover:bg-teal-700 text-white font-semibold px-2 sm:px-6 py-2 rounded-lg shadow-md border border-teal-700 transition duration-300 lg:flex items-center justify-center gap-2">
+            <button 
+              className="hidden lg:w-[178px] sm:w-auto text-white font-semibold px-2 sm:px-6 py-2 rounded-lg shadow-md transition duration-300 lg:flex items-center justify-center gap-2"
+              style={{ 
+                backgroundColor: 'var(--color-accent)', 
+                borderColor: 'var(--color-accent)',
+                border: '1px solid'
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.backgroundColor = 'var(--color-primary)';
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = 'var(--color-accent)';
+              }}
+            >
               <CirclePlus className="w-5 h-5" />
               <span>Post New Job</span>
             </button>
@@ -149,8 +162,8 @@ const JobHostingDashboard = () => {
           {/* Total Jobs */}
           <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
             <div className="flex items-center space-x-3">
-              <div className="flex-shrink-0 p-3 bg-teal-50 rounded-lg">
-                <Building2 className="w-6 h-6 text-teal-600" />
+              <div className="flex-shrink-0 p-3 rounded-lg" style={{ backgroundColor: 'rgba(220, 38, 38, 0.1)' }}>
+                <Building2 className="w-6 h-6" style={{ color: 'var(--color-primary)' }} />
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-500">Total Jobs</p>
@@ -162,8 +175,8 @@ const JobHostingDashboard = () => {
           {/* Total Applicants */}
           <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
             <div className="flex items-center space-x-3">
-              <div className="flex-shrink-0 p-3 bg-teal-50 rounded-lg">
-                <Users className="w-6 h-6 text-teal-600" />
+              <div className="flex-shrink-0 p-3 rounded-lg" style={{ backgroundColor: 'rgba(220, 38, 38, 0.1)' }}>
+                <Users className="w-6 h-6" style={{ color: 'var(--color-primary)' }} />
               </div>
               <div>
                 <p className="text-sm font-medium text-gray-500">Total Applicants</p>
@@ -171,7 +184,7 @@ const JobHostingDashboard = () => {
               </div>
             </div>
           </div>
-          
+  
           {/* Pending Applications */}
           <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
             <div className="flex items-center space-x-3">
@@ -274,16 +287,27 @@ const JobHostingDashboard = () => {
               <input
                 type="text"
                 placeholder="Search jobs..."
-                className="w-full sm:w-64 pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                className="w-full sm:w-64 pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
+                onFocus={(e) => {
+                  e.target.style.borderColor = 'var(--color-accent)';
+                  e.target.style.boxShadow = `0 0 0 2px rgba(220, 38, 38, 0.2)`;
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = '';
+                  e.target.style.boxShadow = '';
+                }}
               />
             </div>
           </div>
           <div className="p-4">
             {loading ? (
               <div className="flex justify-center items-center h-32">
-                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-teal-600" />
+                <div 
+                  className="animate-spin rounded-full h-8 w-8 border-b-2" 
+                  style={{ borderBottomColor: 'var(--color-accent)' }}
+                />
               </div>
             ) : filteredJobs.length === 0 ? (
               <div className="text-center py-8 text-gray-500">No jobs found</div>
@@ -295,7 +319,13 @@ const JobHostingDashboard = () => {
                     className="flex items-center p-4 border border-gray-100 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer"
                     onClick={() => handleJobClick(job._id)}
                   >
-                    <div className="w-10 h-10 rounded-lg bg-teal-50 flex items-center justify-center text-teal-600 font-semibold">
+                    <div 
+                      className="w-10 h-10 rounded-lg flex items-center justify-center font-semibold"
+                      style={{ 
+                        backgroundColor: 'rgba(220, 38, 38, 0.1)', 
+                        color: 'var(--color-primary)' 
+                      }}
+                    >
                       {job.title.charAt(0)}
                     </div>
                     <div className="ml-4 flex-1 min-w-0">

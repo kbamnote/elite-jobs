@@ -69,11 +69,11 @@ const LineChart = ({ jobs }) => {
       {
         label: selectedJob ? "Applicants" : "Select a job to view applications",
         data: graphData.dataPoints,
-        borderColor: "#0d9488", // Changed to teal
-        backgroundColor: "rgba(13, 148, 136, 0.1)", // Teal with opacity
+        borderColor: "var(--color-accent)", // Red theme
+        backgroundColor: "rgba(220, 38, 38, 0.1)", // Red with opacity
         tension: 0.3,
         borderWidth: 2,
-        pointBackgroundColor: "#0d9488", // Teal
+        pointBackgroundColor: "var(--color-accent)", // Red
         pointBorderColor: "#ffffff",
         pointBorderWidth: 2,
         pointRadius: 3,
@@ -98,11 +98,11 @@ const LineChart = ({ jobs }) => {
             size: 11,
             weight: "500",
           },
-          color: "#0f766e", // Darker teal for legend
+          color: "var(--color-primary)", // Red theme for legend
         },
       },
       tooltip: {
-        backgroundColor: "rgba(13, 148, 136, 0.9)", // Teal tooltip
+        backgroundColor: "rgba(220, 38, 38, 0.9)", // Red tooltip
         padding: 8,
         titleFont: {
           size: 12,
@@ -129,10 +129,10 @@ const LineChart = ({ jobs }) => {
           font: {
             size: 10,
           },
-          color: "#0f766e", // Darker teal for ticks
+          color: "var(--color-primary)", // Red theme for ticks
         },
         grid: {
-          color: "rgba(13, 148, 136, 0.06)", // Very light teal for grid
+          color: "rgba(220, 38, 38, 0.06)", // Very light red for grid
         },
       },
       x: {
@@ -143,7 +143,7 @@ const LineChart = ({ jobs }) => {
           font: {
             size: 10,
           },
-          color: "#0f766e", // Darker teal for ticks
+          color: "var(--color-primary)", // Red theme for ticks
         },
       },
     },
@@ -188,7 +188,7 @@ const LineChart = ({ jobs }) => {
     <div className="lg:h-[450px] w-full rounded-xl p-2">
       <div className="space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-          <h2 className="text-lg font-semibold text-teal-800">
+          <h2 className="text-lg font-semibold" style={{ color: 'var(--color-primary)' }}>
             Applicants Per Day
           </h2>
           
@@ -197,8 +197,21 @@ const LineChart = ({ jobs }) => {
               value={selectedJob}
               onChange={(e) => setSelectedJob(e.target.value)}
               className="w-full px-3 py-1.5 bg-white border border-gray-200 rounded-lg 
-                         text-sm text-gray-700 focus:border-teal-500 focus:ring-2 
-                         focus:ring-teal-200 outline-none transition-colors duration-200"
+                         text-sm text-gray-700 outline-none transition-colors duration-200"
+              style={{
+                '&:focus': {
+                  borderColor: 'var(--color-accent)',
+                  boxShadow: '0 0 0 2px rgba(220, 38, 38, 0.2)'
+                }
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = 'var(--color-accent)';
+                e.target.style.boxShadow = '0 0 0 2px rgba(220, 38, 38, 0.2)';
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = '#e5e7eb';
+                e.target.style.boxShadow = 'none';
+              }}
             >
               <option value="">Select a job</option>
               {jobs.map((job) => (
@@ -214,8 +227,8 @@ const LineChart = ({ jobs }) => {
           {isLoading ? (
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="flex flex-col items-center space-y-2">
-                <div className="w-6 h-6 border-3 border-teal-500 border-t-transparent rounded-full animate-spin"></div>
-                <p className="text-xs text-teal-600">Loading chart data...</p>
+                <div className="w-6 h-6 border-3 border-t-transparent rounded-full animate-spin" style={{ borderColor: 'var(--color-accent)', borderTopColor: 'transparent' }}></div>
+                <p className="text-xs" style={{ color: 'var(--color-primary)' }}>Loading chart data...</p>
               </div>
             </div>
           ) : (
@@ -225,27 +238,27 @@ const LineChart = ({ jobs }) => {
 
         {selectedJob && graphData && (
           <div className="lg:mt-[45px] grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <div className="p-2 bg-teal-50 rounded-lg">
-              <p className="text-xs text-teal-600">Total Applicants</p>
-              <p className="text-lg font-semibold text-teal-700">
+            <div className="p-2 rounded-lg" style={{ backgroundColor: 'rgba(220, 38, 38, 0.05)' }}>
+              <p className="text-xs" style={{ color: 'var(--color-primary)' }}>Total Applicants</p>
+              <p className="text-lg font-semibold" style={{ color: 'var(--color-primary)' }}>
                 {getTotalApplicants()}
               </p>
             </div>
-            <div className="p-2 bg-teal-50 rounded-lg">
-              <p className="text-xs text-teal-600">Peak Day</p>
-              <p className="text-lg font-semibold text-teal-700">
+            <div className="p-2 rounded-lg" style={{ backgroundColor: 'rgba(220, 38, 38, 0.05)' }}>
+              <p className="text-xs" style={{ color: 'var(--color-primary)' }}>Peak Day</p>
+              <p className="text-lg font-semibold" style={{ color: 'var(--color-primary)' }}>
                 {getPeakDay()}
               </p>
             </div>
-            <div className="p-2 bg-teal-50 rounded-lg">
-              <p className="text-xs text-teal-600">Average/Day</p>
-              <p className="text-lg font-semibold text-teal-700">
+            <div className="p-2 rounded-lg" style={{ backgroundColor: 'rgba(220, 38, 38, 0.05)' }}>
+              <p className="text-xs" style={{ color: 'var(--color-primary)' }}>Average/Day</p>
+              <p className="text-lg font-semibold" style={{ color: 'var(--color-primary)' }}>
                 {getAveragePerDay()}
               </p>
             </div>
-            <div className="p-2 bg-teal-50 rounded-lg">
-              <p className="text-xs text-teal-600">Active Days</p>
-              <p className="text-lg font-semibold text-teal-700">
+            <div className="p-2 rounded-lg" style={{ backgroundColor: 'rgba(220, 38, 38, 0.05)' }}>
+              <p className="text-xs" style={{ color: 'var(--color-primary)' }}>Active Days</p>
+              <p className="text-lg font-semibold" style={{ color: 'var(--color-primary)' }}>
                 {getActiveDays()}
               </p>
             </div>

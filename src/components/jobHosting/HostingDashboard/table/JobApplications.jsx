@@ -92,7 +92,7 @@ const JobApplications = () => {
   };
 
   const PaginationControls = () => (
-    <div className="flex items-center justify-between border-t border-teal-200 px-4 py-3 sm:px-6">
+    <div className="flex items-center justify-between border-t px-4 py-3 sm:px-6" style={{ borderColor: 'var(--color-border)' }}>
       <div className="flex flex-1 justify-between sm:hidden">
         <button
           onClick={() => handlePageChange(1)}
@@ -134,7 +134,11 @@ const JobApplications = () => {
               <ChevronLeft className="h-5 w-5" aria-hidden="true" />
             </button>
             <button
-              className="relative inline-flex items-center px-4 py-2 text-sm font-semibold z-10 bg-teal-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-600"
+              className="relative inline-flex items-center px-4 py-2 text-sm font-semibold z-10 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+              style={{ 
+                backgroundColor: 'var(--color-accent)', 
+                focusVisibleOutlineColor: 'var(--color-accent)' 
+              }}
             >
               1
             </button>
@@ -168,7 +172,7 @@ const JobApplications = () => {
     return (
       <div className="w-full max-w-6xl mx-auto bg-white rounded-xl shadow-md p-6">
         <div className="flex justify-center items-center h-40">
-          <div className="animate-pulse text-teal-600">
+          <div className="animate-pulse" style={{ color: 'var(--color-primary)' }}>
             Loading applications...
           </div>
         </div>
@@ -190,7 +194,19 @@ const JobApplications = () => {
               <select
                 value={statusFilter}
                 onChange={(e) => setStatusFilter(e.target.value)}
-                className="px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                className="px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent"
+                style={{
+                  '--focus-ring-color': 'var(--color-accent)',
+                  '--focus-border-color': 'var(--color-accent)'
+                }}
+                onFocus={(e) => {
+                  e.target.style.borderColor = 'var(--color-accent)';
+                  e.target.style.boxShadow = `0 0 0 2px rgba(220, 38, 38, 0.2)`;
+                }}
+                onBlur={(e) => {
+                  e.target.style.borderColor = '';
+                  e.target.style.boxShadow = '';
+                }}
               >
                 <option value="all">All Applications</option>
                 <option value="pending">Pending</option>
@@ -203,9 +219,17 @@ const JobApplications = () => {
                 <input
                   type="text"
                   placeholder="Search applications..."
-                  className="w-full sm:w-auto pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-transparent"
+                  className="w-full sm:w-auto pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:border-transparent"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
+                  onFocus={(e) => {
+                    e.target.style.borderColor = 'var(--color-accent)';
+                    e.target.style.boxShadow = `0 0 0 2px rgba(220, 38, 38, 0.2)`;
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.borderColor = '';
+                    e.target.style.boxShadow = '';
+                  }}
                 />
               </div>
             </div>
@@ -214,7 +238,7 @@ const JobApplications = () => {
 
         <div className="overflow-x-auto rounded-lg border border-gray-200">
           <table className="w-full min-w-max">
-            <thead className="bg-teal-50">
+            <thead style={{ backgroundColor: 'rgba(220, 38, 38, 0.05)' }}>
               <tr>
                 {[
                   "Photo",
@@ -228,7 +252,11 @@ const JobApplications = () => {
                 ].map((header) => (
                   <th
                     key={header}
-                    className="text-left py-4 px-4 text-sm font-medium text-teal-900 bg-teal-100 whitespace-nowrap"
+                    className="text-left py-4 px-4 text-sm font-medium whitespace-nowrap"
+                    style={{ 
+                      color: 'var(--color-primary)',
+                      backgroundColor: 'rgba(220, 38, 38, 0.05)'
+                    }}
                   >
                     {header}
                   </th>
@@ -239,8 +267,14 @@ const JobApplications = () => {
               {filteredApplications.map((app, index) => (
                 <tr 
                   key={app._id} 
-                  className="hover:bg-teal-50 transition-colors cursor-pointer"
+                  className="transition-colors cursor-pointer"
                   onClick={() => handleViewApplicant(app)}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = 'rgba(220, 38, 38, 0.05)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = '';
+                  }}
                 >
                   <td className="py-4 px-4 text-sm text-gray-600 whitespace-nowrap">
                     {app.applicantId?.profile?.photo ? (
@@ -250,8 +284,8 @@ const JobApplications = () => {
                         className="w-10 h-10 rounded-full object-cover"
                       />
                     ) : (
-                      <div className="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center">
-                        <User className="w-5 h-5 text-teal-600" />
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ backgroundColor: 'rgba(220, 38, 38, 0.1)' }}>
+                        <User className="w-5 h-5" style={{ color: 'var(--color-primary)' }} />
                       </div>
                     )}
                   </td>
@@ -277,7 +311,14 @@ const JobApplications = () => {
                         target="_blank" 
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
-                        className="text-teal-600 hover:text-teal-800 underline"
+                        className="underline"
+                        style={{ color: 'var(--color-accent)' }}
+                        onMouseEnter={(e) => {
+                          e.target.style.color = 'var(--color-primary)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.target.style.color = 'var(--color-accent)';
+                        }}
                       >
                         View Resume
                       </a>
