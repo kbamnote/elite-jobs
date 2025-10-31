@@ -166,6 +166,30 @@ const Header = () => {
                     Job Hosting
                   </button>
                 </Link>
+                  <Link to="/login">
+                  <button 
+                    className="px-4 py-2 rounded transition-all cursor-pointer border-2 font-medium"
+                    style={{ 
+                      backgroundColor: 'transparent',
+                      color: 'var(--color-text-white)',
+                      borderColor: 'var(--color-text-white)',
+                      fontFamily: 'var(--font-body)',
+                      transition: 'var(--transition-normal)'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.backgroundColor = 'var(--color-text-white)';
+                      e.target.style.color = 'var(--color-primary)';
+                      e.target.style.borderColor = 'var(--color-text-white)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.backgroundColor = 'transparent';
+                      e.target.style.color = 'var(--color-text-white)';
+                      e.target.style.borderColor = 'var(--color-text-white)';
+                    }}
+                  >
+                    Job Recruiter
+                  </button>
+                </Link>
               </>
             )}
           </div>
@@ -283,6 +307,30 @@ const Header = () => {
                     <Link to="/login">
                       <button className="px-4 py-2 rounded transition-colors w-full cursor-pointer btn-accent">
                         Job Hosting
+                      </button>
+                    </Link>
+                    <Link to="/login">
+                      <button 
+                        className="px-4 py-2 rounded transition-all w-full cursor-pointer border-2 font-medium"
+                        style={{ 
+                          backgroundColor: 'transparent',
+                          color: 'var(--color-text-white)',
+                          borderColor: 'var(--color-text-white)',
+                          fontFamily: 'var(--font-body)',
+                          transition: 'var(--transition-normal)'
+                        }}
+                        onMouseEnter={(e) => {
+                          e.target.style.backgroundColor = 'var(--color-text-white)';
+                          e.target.style.color = 'var(--color-primary)';
+                          e.target.style.borderColor = 'var(--color-text-white)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.target.style.backgroundColor = 'transparent';
+                          e.target.style.color = 'var(--color-text-white)';
+                          e.target.style.borderColor = 'var(--color-text-white)';
+                        }}
+                      >
+                        Job Recruiter
                       </button>
                     </Link>
                   </div>
