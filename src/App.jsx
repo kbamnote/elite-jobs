@@ -48,8 +48,8 @@ function App() {
         {/* Job Hosting Routes */}
         <Route path="/hosting/login" element={<HostingLogin />} />
         <Route path="/hosting/signup" element={<HostingSignup />} />
-        <Route path="/hosting/profile" element={<HostingProfileDetail />} />
-        <Route path="/hosting/profile/edit" element={<HostingProfileForm />} />
+        <Route path="/hosting/profile" element={<HostingProfileForm />} />
+        <Route path="/hosting/profile/edit" element={<HostingProfileDetail />} />
         <Route path="/hosting/post-job" element={<PostJob />} />
         <Route path="/hosting/my-jobs" element={<MyJobs />} />
         <Route path="/hosting/applicants/:jobId" element={<ViewApplicant />} />

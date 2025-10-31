@@ -8,13 +8,20 @@ const Badge = ({ children, variant = "default", className = "" }) => {
   const baseStyles = "inline-flex items-center rounded-full px-3 py-1 text-xs font-medium transition-all duration-200";
 
   const variantStyles = {
-    default: "bg-teal-50 text-teal-700 ring-1 ring-teal-600/10",
+    default: "ring-1 ring-opacity-10",
     secondary: "bg-purple-50 text-purple-700 ring-1 ring-purple-600/10",
     outline: "bg-white text-gray-700 ring-1 ring-gray-200 hover:bg-gray-50",
   };
 
   return (
-    <span className={`${baseStyles} ${variantStyles[variant]} ${className}`}>
+    <span 
+      className={`${baseStyles} ${variantStyles[variant]} ${className}`}
+      style={variant === 'default' ? { 
+        backgroundColor: '#fef2f2', 
+        color: 'var(--color-accent)',
+        borderColor: 'var(--color-accent)'
+      } : {}}
+    >
       {children}
     </span>
   );
@@ -105,10 +112,11 @@ const MyJobs = () => {
 
             <div className="sm:p-6 p-2">
               <div className="bg-white rounded-xl shadow-sm p-6 text-center">
-                <p className="text-red-500">{error}</p>
+                <p style={{ color: 'var(--color-accent)' }}>{error}</p>
                 <button 
                   onClick={fetchHosterJobs}
-                  className="mt-4 bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700 transition-colors duration-200"
+                  className="mt-4 text-white px-4 py-2 rounded-lg hover:opacity-90 transition-colors duration-200"
+                  style={{ backgroundColor: 'var(--color-accent)' }}
                 >
                   Retry
                 </button>
@@ -138,12 +146,13 @@ const MyJobs = () => {
           <div className="sm:p-6 p-2">
             {jobs.length === 0 ? (
               <div className="bg-white rounded-xl shadow-sm p-6 sm:p-12 text-center max-w-2xl mx-auto">
-                <Briefcase className="w-12 h-12 sm:w-16 sm:h-16 text-teal-600 mx-auto mb-4 sm:mb-6" />
+                <Briefcase className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-4 sm:mb-6" style={{ color: 'var(--color-accent)' }} />
                 <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-2">No Jobs Posted Yet</h2>
                 <p className="text-gray-600 mb-6 sm:mb-8">Start creating job listings to find the perfect candidates.</p>
                 <button
                   onClick={() => navigate('/hosting/post-job')}
-                  className="bg-teal-600 text-white px-6 sm:px-8 py-3 rounded-lg hover:bg-teal-700 transition-colors duration-200"
+                  className="text-white px-6 sm:px-8 py-3 rounded-lg hover:opacity-90 transition-colors duration-200"
+                  style={{ backgroundColor: 'var(--color-accent)' }}
                 >
                   Post Your First Job
                 </button>
@@ -159,29 +168,29 @@ const MyJobs = () => {
                       <div className="p-4 sm:p-6 flex flex-col flex-grow">
                         <div className="flex items-start justify-between mb-6">
                           <h2 className="text-xl font-bold text-gray-900">{job.title}</h2>
-                          <span className="ml-4 px-3 py-1 text-sm font-medium bg-teal-50 text-teal-700 rounded-full">
+                          <span className="ml-4 px-3 py-1 text-sm font-medium rounded-full" style={{ backgroundColor: '#fef2f2', color: 'var(--color-accent)' }}>
                             {job.jobType}
                           </span>
                         </div>
 
                         <div className="space-y-4 mb-8 flex-grow">
                           <div className="flex items-center text-gray-700">
-                            <Briefcase className="w-5 h-5 mr-3 text-teal-600" />
+                            <Briefcase className="w-5 h-5" style={{ color: 'var(--color-accent)' }} />
                             <span className="font-medium">{job.company?.name || "N/A"}</span>
                           </div>
 
                           <div className="flex items-center text-gray-600">
-                            <MapPin className="w-5 h-5 mr-3 text-teal-600" />
+                            <MapPin className="w-5 h-5" style={{ color: 'var(--color-accent)' }} />
                             <span>{job.location}</span>
                           </div>
 
                           <div className="flex items-center text-gray-600">
-                            <IndianRupee className="w-5 h-5 mr-3 text-teal-600" />
+                            <IndianRupee className="w-5 h-5" style={{ color: 'var(--color-accent)' }} />
                             <span>{job.salary?.min} - {job.salary?.max} {job.salary?.currency}</span>
                           </div>
 
                           <div className="flex items-center text-gray-600">
-                            <Users className="w-5 h-5 mr-3 text-teal-600" />
+                            <Users className="w-5 h-5" style={{ color: 'var(--color-accent)' }} />
                             <span>{job.category}</span>
                           </div>
 
@@ -199,19 +208,24 @@ const MyJobs = () => {
 
                         <div className="flex items-center gap-4 pt-6 border-t border-gray-100 mt-auto">
                           <button
-                            onClick={() => handleViewApplicants(job._id)}
-                            className="flex-1 flex items-center justify-center gap-2 bg-teal-600 text-white px-6 py-2.5 rounded-lg hover:bg-teal-700 transition-colors duration-200 font-medium shadow-sm hover:shadow-md"
+                            onClick={() => navigate(`/hosting/applicants/${job._id}`)}
+                            className="flex-1 flex items-center justify-center gap-2 text-white px-6 py-2.5 rounded-lg hover:opacity-90 transition-colors duration-200 font-medium shadow-sm hover:shadow-md"
+                            style={{ backgroundColor: 'var(--color-accent)' }}
                           >
-                            <UserCheck className="w-5 h-5" />
-                            View Applicants
+                            <Users className="w-4 h-4" />
+                            View Applicants 
                           </button>
 
                           <button
-                            onClick={() => {
-                              setSelectedJob(job._id);
-                              setShowDeletePopup(true);
+                            onClick={() => setDeleteJobId(job._id)}
+                            className="p-2.5 hover:bg-opacity-10 rounded-lg transition-colors duration-200 border border-opacity-20"
+                            style={{ 
+                              color: 'var(--color-accent)', 
+                              borderColor: 'var(--color-accent)',
+                              backgroundColor: 'transparent'
                             }}
-                            className="p-2.5 text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200 border border-red-200 hover:border-red-300"
+                            onMouseEnter={(e) => e.target.style.backgroundColor = '#fef2f2'}
+                            onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
                           >
                             <Trash2 className="w-5 h-5" />
                           </button>
@@ -234,9 +248,11 @@ const MyJobs = () => {
             <p className="text-gray-600 mb-6 sm:mb-8">Are you sure you want to delete this job listing? This action cannot be undone.</p>
             <div className="flex gap-3 sm:gap-4">
               <button
-                onClick={handleDeleteJob}
-                className="flex-1 bg-red-600 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg hover:bg-red-700 transition-colors duration-200 font-medium"
-              >
+              onClick={handleDeleteJob}
+              disabled={deleting}
+              className="flex-1 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg hover:opacity-90 transition-colors duration-200 font-medium"
+              style={{ backgroundColor: 'var(--color-accent)' }}
+            >
                 Delete
               </button>
               <button

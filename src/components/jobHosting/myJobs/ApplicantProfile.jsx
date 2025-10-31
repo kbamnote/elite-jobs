@@ -73,15 +73,16 @@ const ApplicantProfile = () => {
           <div className="max-w-6xl mx-auto bg-white rounded-xl shadow-lg p-2 lg:p-6">
             <div className="flex items-center gap-4 mb-6">
               <button 
-                onClick={handleBack}
-                className="flex items-center gap-2 text-teal-600 hover:text-teal-800"
-              >
-                <ArrowLeft className="w-5 h-5" />
-                Back
-              </button>
-            </div>
-            
-            <div className="rounded-2xl bg-gradient-to-r from-teal-800 to-teal-500 px-6 py-5 w-full flex justify-between items-center">
+              onClick={handleBack}
+              className="flex items-center gap-2 hover:opacity-80"
+              style={{ color: 'var(--color-accent)' }}
+            >
+              <ArrowLeft className="w-5 h-5" />
+              Back
+            </button>
+          </div>
+          
+          <div className="rounded-2xl bg-gradient-to-r px-6 py-5 w-full flex justify-between items-center" style={{ background: 'linear-gradient(to right, #c73650, var(--color-accent))' }}>
               <h2 className="lg:text-3xl text-lg font-bold text-white">Applicant Details</h2>
             </div>
 
@@ -109,25 +110,27 @@ const ApplicantProfile = () => {
             <div className="flex items-center gap-4 mb-6">
               <button 
                 onClick={handleBack}
-                className="flex items-center gap-2 text-teal-600 hover:text-teal-800"
+                className="flex items-center gap-2 hover:opacity-80"
+                style={{ color: 'var(--color-accent)' }}
               >
                 <ArrowLeft className="w-5 h-5" />
                 Back
               </button>
             </div>
             
-            <div className="rounded-2xl bg-gradient-to-r from-teal-800 to-teal-500 px-6 py-5 w-full flex justify-between items-center">
+            <div className="rounded-2xl bg-gradient-to-r px-6 py-5 w-full flex justify-between items-center" style={{ background: 'linear-gradient(to right, #c73650, var(--color-accent))' }}>
               <h2 className="lg:text-3xl text-lg font-bold text-white">Applicant Details</h2>
             </div>
 
             <div className="lg:p-6 p-2">
               <div className="bg-white rounded-2xl shadow-lg lg:p-6 p-2">
-                <div className="bg-red-50 p-6 rounded-xl">
-                  <p className="text-red-500">{error}</p>
-                  <button 
-                    onClick={fetchApplicantProfile}
-                    className="mt-4 bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700 transition-all duration-200"
-                  >
+                <div className="p-6 rounded-xl" style={{ backgroundColor: '#fef2f2' }}>
+          <p style={{ color: 'var(--color-accent)' }}>{error}</p>
+          <button
+            onClick={fetchApplicantProfile}
+            className="mt-4 text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all duration-200"
+            style={{ backgroundColor: 'var(--color-accent)' }}
+          >
                     Retry
                   </button>
                 </div>
@@ -150,14 +153,15 @@ const ApplicantProfile = () => {
             <div className="flex items-center gap-4 mb-6">
               <button 
                 onClick={handleBack}
-                className="flex items-center gap-2 text-teal-600 hover:text-teal-800"
+                className="flex items-center gap-2 hover:opacity-80"
+                style={{ color: 'var(--color-accent)' }}
               >
                 <ArrowLeft className="w-5 h-5" />
                 Back
               </button>
             </div>
             
-            <div className="rounded-2xl bg-gradient-to-r from-teal-800 to-teal-500 px-6 py-5 w-full flex justify-between items-center">
+            <div className="rounded-2xl bg-gradient-to-r px-6 py-5 w-full flex justify-between items-center" style={{ background: 'linear-gradient(to right, #c73650, var(--color-accent))' }}>
               <h2 className="lg:text-3xl text-lg font-bold text-white">Applicant Details</h2>
             </div>
 
@@ -191,14 +195,15 @@ const ApplicantProfile = () => {
           <div className="flex items-center gap-4 mb-6">
             <button 
               onClick={handleBack}
-              className="flex items-center gap-2 text-teal-600 hover:text-teal-800"
+              className="flex items-center gap-2 hover:opacity-80"
+              style={{ color: 'var(--color-accent)' }}
             >
               <ArrowLeft className="w-5 h-5" />
               Back
             </button>
           </div>
           
-          <div className="rounded-2xl bg-gradient-to-r from-teal-800 to-teal-500 px-6 py-5 w-full flex justify-between items-center">
+          <div className="rounded-2xl bg-gradient-to-r px-6 py-5 w-full flex justify-between items-center" style={{ background: 'linear-gradient(to right, #c73650, var(--color-accent))' }}>
             <h2 className="lg:text-3xl text-lg font-bold text-white">Applicant Details</h2>
             {/* Remove the shortlist button */}
           </div>
@@ -237,7 +242,8 @@ const ApplicantProfile = () => {
                         value={application?.status || ""}
                         onChange={(e) => handleStatusChange(e.target.value)}
                         disabled={statusUpdating}
-                        className="ml-2 px-3 py-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
+                        className="ml-2 px-3 py-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
+                style={{ '--tw-ring-color': 'var(--color-accent)' }}
                       >
                         <option value="">Update Status</option>
                         {statusOptions.map((status) => (
@@ -380,7 +386,8 @@ const ApplicantProfile = () => {
                       profile.skills.map((skill, index) => (
                         <span
                           key={index}
-                          className="px-3 py-1 bg-teal-100 text-teal-800 rounded-full"
+                          className="px-3 py-1 rounded-full"
+                style={{ backgroundColor: '#fef2f2', color: 'var(--color-accent)' }}
                         >
                           {skill}
                         </span>

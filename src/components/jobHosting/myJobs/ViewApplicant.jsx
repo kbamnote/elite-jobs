@@ -57,7 +57,8 @@ const ViewApplicant = () => {
             <div className="flex items-center gap-4 mb-6">
               <button 
                 onClick={handleBack}
-                className="flex items-center gap-2 text-teal-600 hover:text-teal-800"
+                className="flex items-center gap-2 hover:opacity-80"
+                style={{ color: 'var(--color-accent)' }}
               >
                 <ArrowLeft className="w-5 h-5" />
                 Back
@@ -65,7 +66,7 @@ const ViewApplicant = () => {
             </div>
             
             <div className="bg-white rounded-xl shadow-md lg:p-6 p-2 mb-8">
-              <h1 className="lg:text-3xl text-xl lg:text-left text-center font-bold text-teal-600">
+              <h1 className="lg:text-3xl text-xl lg:text-left text-center font-bold" style={{ color: 'var(--color-accent)' }}>
                 Job Applicants
               </h1>
             </div>
@@ -91,7 +92,8 @@ const ViewApplicant = () => {
             <div className="flex items-center gap-4 mb-6">
               <button 
                 onClick={handleBack}
-                className="flex items-center gap-2 text-teal-600 hover:text-teal-800"
+                className="flex items-center gap-2 hover:opacity-80"
+                style={{ color: 'var(--color-accent)' }}
               >
                 <ArrowLeft className="w-5 h-5" />
                 Back
@@ -99,16 +101,17 @@ const ViewApplicant = () => {
             </div>
             
             <div className="bg-white rounded-xl shadow-md lg:p-6 p-2 mb-8">
-              <h1 className="lg:text-3xl text-xl lg:text-left text-center font-bold text-teal-600">
+              <h1 className="lg:text-3xl text-xl lg:text-left text-center font-bold" style={{ color: 'var(--color-accent)' }}>
                 Job Applicants
               </h1>
             </div>
 
             <div className="bg-white rounded-xl shadow-md p-8 text-center">
-              <p className="text-red-500">{error}</p>
+              <p style={{ color: 'var(--color-accent)' }}>{error}</p>
               <button 
                 onClick={fetchApplicantDetails}
-                className="mt-4 bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700 transition-all duration-200"
+                className="mt-4 text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all duration-200"
+                style={{ backgroundColor: 'var(--color-accent)' }}
               >
                 Retry
               </button>
@@ -136,7 +139,8 @@ const ViewApplicant = () => {
           <div className="flex items-center gap-4 mb-6">
             <button 
               onClick={handleBack}
-              className="flex items-center gap-2 text-teal-600 hover:text-teal-800"
+              className="flex items-center gap-2 hover:opacity-80"
+              style={{ color: 'var(--color-accent)' }}
             >
               <ArrowLeft className="w-5 h-5" />
               Back
@@ -144,8 +148,8 @@ const ViewApplicant = () => {
           </div>
           
           <div className="bg-white rounded-xl shadow-md lg:p-6 p-2 mb-8">
-            <h1 className="lg:text-3xl text-xl lg:text-left text-center font-bold text-teal-600">
-              {viewMode === "all" ? "All Job Applicants" : `${viewMode.charAt(0).toUpperCase() + viewMode.slice(1)} Applicants`}
+            <h1 className="lg:text-3xl text-xl lg:text-left text-center font-bold" style={{ color: 'var(--color-accent)' }}>
+              View Applicant
             </h1>
 
             {/* Tab Navigation - Status based */}
@@ -153,9 +157,10 @@ const ViewApplicant = () => {
               <button
                 className={`px-4 py-2 font-semibold transition-all duration-200 rounded-lg ${
                   viewMode === "all"
-                    ? "bg-teal-600 text-white"
+                    ? "text-white"
                     : "text-gray-600 hover:bg-gray-100"
                 }`}
+                style={viewMode === "all" ? { backgroundColor: 'var(--color-accent)' } : {}}
                 onClick={() => setViewMode("all")}
               >
                 All Applicants
@@ -163,9 +168,10 @@ const ViewApplicant = () => {
               <button
                 className={`px-4 py-2 font-semibold transition-all duration-200 rounded-lg ${
                   viewMode === "pending"
-                    ? "bg-teal-600 text-white"
+                    ? "text-white"
                     : "text-gray-600 hover:bg-gray-100"
                 }`}
+                style={viewMode === "pending" ? { backgroundColor: 'var(--color-accent)' } : {}}
                 onClick={() => setViewMode("pending")}
               >
                 Pending
@@ -173,9 +179,10 @@ const ViewApplicant = () => {
               <button
                 className={`px-4 py-2 font-semibold transition-all duration-200 rounded-lg ${
                   viewMode === "reviewed"
-                    ? "bg-teal-600 text-white"
+                    ? "text-white"
                     : "text-gray-600 hover:bg-gray-100"
                 }`}
+                style={viewMode === "reviewed" ? { backgroundColor: 'var(--color-accent)' } : {}}
                 onClick={() => setViewMode("reviewed")}
               >
                 Reviewed
@@ -183,9 +190,10 @@ const ViewApplicant = () => {
               <button
                 className={`px-4 py-2 font-semibold transition-all duration-200 rounded-lg ${
                   viewMode === "interview"
-                    ? "bg-teal-600 text-white"
+                    ? "text-white"
                     : "text-gray-600 hover:bg-gray-100"
                 }`}
+                style={viewMode === "interview" ? { backgroundColor: 'var(--color-accent)' } : {}}
                 onClick={() => setViewMode("interview")}
               >
                 Interview
@@ -193,9 +201,10 @@ const ViewApplicant = () => {
               <button
                 className={`px-4 py-2 font-semibold transition-all duration-200 rounded-lg ${
                   viewMode === "accepted"
-                    ? "bg-teal-600 text-white"
+                    ? "text-white"
                     : "text-gray-600 hover:bg-gray-100"
                 }`}
+                style={viewMode === "accepted" ? { backgroundColor: 'var(--color-accent)' } : {}}
                 onClick={() => setViewMode("accepted")}
               >
                 Accepted
@@ -203,9 +212,10 @@ const ViewApplicant = () => {
               <button
                 className={`px-4 py-2 font-semibold transition-all duration-200 rounded-lg ${
                   viewMode === "rejected"
-                    ? "bg-teal-600 text-white"
+                    ? "text-white"
                     : "text-gray-600 hover:bg-gray-100"
                 }`}
+                style={viewMode === "rejected" ? { backgroundColor: 'var(--color-accent)' } : {}}
                 onClick={() => setViewMode("rejected")}
               >
                 Rejected
@@ -231,8 +241,8 @@ const ViewApplicant = () => {
                       className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 flex flex-col"
                     >
                       <div className="flex items-center gap-4">
-                        <div className="p-3 bg-teal-100 rounded-xl">
-                          <User className="text-teal-600 w-6 h-6" />
+                        <div className="p-3 rounded-xl" style={{ backgroundColor: 'var(--color-accent-light)' }}>
+                          <User className="w-6 h-6" style={{ color: 'var(--color-accent)' }} />
                         </div>
                         <div>
                           <h3 className="text-xl font-bold text-gray-800">
@@ -246,13 +256,13 @@ const ViewApplicant = () => {
 
                       <div className="mt-6 space-y-3">
                         <div className="flex items-center gap-3 text-gray-600">
-                          <Mail className="w-5 h-5 text-teal-500" />
+                          <Mail className="w-5 h-5" style={{ color: 'var(--color-accent)' }} />
                           <span>
                             {application?.applicantId?.email || "N/A"}
                           </span>
                         </div>
                         <div className="flex items-center gap-3 text-gray-600">
-                          <FileText className="w-5 h-5 text-teal-500" />
+                          <FileText className="w-5 h-5" style={{ color: 'var(--color-accent)' }} />
                           <span>
                             Applied on: {application?.appliedAt 
                               ? new Date(application.appliedAt).toLocaleDateString() 
@@ -260,7 +270,7 @@ const ViewApplicant = () => {
                           </span>
                         </div>
                         <div className="flex items-center gap-3 text-gray-600">
-                          <MapPin className="w-5 h-5 text-teal-500" />
+                          <MapPin className="w-5 h-5" style={{ color: 'var(--color-accent)' }} />
                           <span>Status: 
                             <span className="ml-2 px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
                               {application?.status || "N/A"}
@@ -276,7 +286,8 @@ const ViewApplicant = () => {
                       <div className="mt-6">
                         <button
                           onClick={() => handleViewProfile(application)}
-                          className="w-full px-4 py-2 bg-teal-600 text-white rounded-lg font-medium hover:bg-teal-700 transition-all duration-200"
+                          className="w-full px-4 py-2 text-white rounded-lg font-medium hover:opacity-90 transition-all duration-200"
+                          style={{ backgroundColor: 'var(--color-accent)' }}
                         >
                           View Profile
                         </button>

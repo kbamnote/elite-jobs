@@ -32,7 +32,8 @@ const HostingProfileForm = () => {
         phone: data.profile.phone,
         panCardNumber: data.profile.panCardNumber,
         gstNumber: data.profile.gstNumber,
-        email: data.email
+        email: data.email,
+        companyLogo: data.profile.companyLogo
       });
       
       setError("");
@@ -79,7 +80,7 @@ const HostingProfileForm = () => {
               <p className="text-red-500">{error}</p>
               <button 
                 onClick={fetchProfileData}
-                className="mt-4 px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700"
+                className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
               >
                 Retry
               </button>
@@ -103,8 +104,8 @@ const HostingProfileForm = () => {
           {/* Edit Profile Button with Icon at Top-Right */}
           <div className="absolute top-2 right-2 sm:top-4 sm:right-4 z-10">
             <button
-              onClick={() => navigate("/profile-hoster")}
-              className="flex items-center gap-1 sm:gap-2 bg-gradient-to-r from-teal-500 to-teal-600 hover:from-teal-600 hover:to-teal-700 text-white text-sm sm:text-base font-semibold py-1.5 sm:py-2 px-4 sm:px-6 rounded-lg shadow-md transition duration-200"
+              onClick={() => navigate("/hosting/profile/edit")}
+              className="flex items-center gap-1 sm:gap-2 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white text-sm sm:text-base font-semibold py-1.5 sm:py-2 px-4 sm:px-6 rounded-lg shadow-md transition duration-200"
             >
               <Pencil size={16} className="sm:w-[18px]" />
               <span className="hidden sm:inline">Edit Profile</span>
@@ -115,9 +116,9 @@ const HostingProfileForm = () => {
           <div className="flex flex-col items-center space-y-4 sm:flex-row sm:items-start sm:space-y-0 sm:space-x-6 pt-8 sm:pt-0">
             <div className="relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32">
               <img
-                src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-                alt="Profile"
-                className="w-full h-full object-cover rounded-full border-4 border-teal-400 shadow-lg"
+                src={hoster.companyLogo || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"}
+                alt="Company Logo"
+                className="w-full h-full object-cover rounded-full border-4 border-red-400 shadow-lg"
               />
             </div>
 

@@ -338,7 +338,13 @@ const PostJob = () => {
               value={formData.title}
               onChange={handleInputChange}
               required
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm"
+              style={{ 
+                '--tw-ring-color': 'var(--color-accent)',
+                '--tw-border-opacity': '1'
+              }}
+              onFocus={(e) => e.target.style.borderColor = 'var(--color-accent)'}
+              onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
               placeholder="Enter job title"
             />
           </div>
@@ -352,7 +358,13 @@ const PostJob = () => {
               value={formData.category}
               onChange={handleInputChange}
               required
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm"
+              style={{ 
+                '--tw-ring-color': 'var(--color-accent)',
+                '--tw-border-opacity': '1'
+              }}
+              onFocus={(e) => e.target.style.borderColor = 'var(--color-accent)'}
+              onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
             >
               <option value="">Select Category</option>
               {categoryOptions.map((category) => (
@@ -374,7 +386,13 @@ const PostJob = () => {
               value={formData.jobType}
               onChange={handleInputChange}
               required
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm"
+              style={{ 
+                '--tw-ring-color': 'var(--color-accent)',
+                '--tw-border-opacity': '1'
+              }}
+              onFocus={(e) => e.target.style.borderColor = 'var(--color-accent)'}
+              onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
             >
               <option value="">Select Job Type</option>
               {jobTypeOptions.map((type) => (
@@ -394,7 +412,13 @@ const PostJob = () => {
               value={formData.experienceLevel}
               onChange={handleInputChange}
               required
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm"
+              style={{ 
+                '--tw-ring-color': 'var(--color-accent)',
+                '--tw-border-opacity': '1'
+              }}
+              onFocus={(e) => e.target.style.borderColor = 'var(--color-accent)'}
+              onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
             >
               <option value="">Select Experience Level</option>
               {experienceLevelOptions.map((level) => (
@@ -417,7 +441,13 @@ const PostJob = () => {
               value={formData.location}
               onChange={handleInputChange}
               required
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm"
+              style={{ 
+                '--tw-ring-color': 'var(--color-accent)',
+                '--tw-border-opacity': '1'
+              }}
+              onFocus={(e) => e.target.style.borderColor = 'var(--color-accent)'}
+              onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
               placeholder="Enter job location"
             />
           </div>
@@ -432,7 +462,13 @@ const PostJob = () => {
               value={formData.applicationDeadline}
               onChange={handleInputChange}
               required
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm"
+              style={{ 
+                '--tw-ring-color': 'var(--color-accent)',
+                '--tw-border-opacity': '1'
+              }}
+              onFocus={(e) => e.target.style.borderColor = 'var(--color-accent)'}
+              onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
             />
           </div>
         </div>
@@ -447,7 +483,13 @@ const PostJob = () => {
               value={formData.interviewType}
               onChange={handleInputChange}
               required
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm"
+              style={{ 
+                '--tw-ring-color': 'var(--color-accent)',
+                '--tw-border-opacity': '1'
+              }}
+              onFocus={(e) => e.target.style.borderColor = 'var(--color-accent)'}
+              onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
             >
               <option value="">Select Interview Type</option>
               {interviewTypeOptions.map((type) => (
@@ -467,7 +509,13 @@ const PostJob = () => {
               value={formData.workType}
               onChange={handleInputChange}
               required
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm"
+              style={{ 
+                '--tw-ring-color': 'var(--color-accent)',
+                '--tw-border-opacity': '1'
+              }}
+              onFocus={(e) => e.target.style.borderColor = 'var(--color-accent)'}
+              onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
             >
               <option value="">Select Work Type</option>
               {workTypeOptions.map((type) => (
@@ -489,7 +537,13 @@ const PostJob = () => {
             value={formData.minEducation}
             onChange={handleInputChange}
             required
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm"
+            style={{ 
+              '--tw-ring-color': 'var(--color-accent)',
+              '--tw-border-opacity': '1'
+            }}
+            onFocus={(e) => e.target.style.borderColor = 'var(--color-accent)'}
+            onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
             placeholder="Enter minimum education required"
           />
         </div>
@@ -501,9 +555,10 @@ const PostJob = () => {
             disabled={!isStep1Valid}
             className={`w-1/2 py-3 px-4 rounded-md font-semibold ${
               isStep1Valid 
-                ? "bg-gradient-to-r from-teal-500 to-teal-500 text-white hover:opacity-90" 
+                ? "text-white hover:opacity-90" 
                 : "bg-gray-300 text-gray-500 cursor-not-allowed"
             }`}
+            style={isStep1Valid ? { backgroundColor: 'var(--color-accent)' } : {}}
           >
             Next
           </button>
@@ -539,7 +594,13 @@ const PostJob = () => {
               value={formData.salary.min}
               onChange={handleInputChange}
               required
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm"
+              style={{ 
+                '--tw-ring-color': 'var(--color-accent)',
+                '--tw-border-opacity': '1'
+              }}
+              onFocus={(e) => e.target.style.borderColor = 'var(--color-accent)'}
+              onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
               placeholder="Enter minimum salary"
             />
           </div>
@@ -553,7 +614,13 @@ const PostJob = () => {
               value={formData.salary.max}
               onChange={handleInputChange}
               required
-              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm"
+              style={{ 
+                '--tw-ring-color': 'var(--color-accent)',
+                '--tw-border-opacity': '1'
+              }}
+              onFocus={(e) => e.target.style.borderColor = 'var(--color-accent)'}
+              onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
               placeholder="Enter maximum salary"
             />
           </div>
@@ -567,7 +634,13 @@ const PostJob = () => {
             name="salary.currency"
             value={formData.salary.currency}
             onChange={handleInputChange}
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm"
+            style={{ 
+              '--tw-ring-color': 'var(--color-accent)',
+              '--tw-border-opacity': '1'
+            }}
+            onFocus={(e) => e.target.style.borderColor = 'var(--color-accent)'}
+            onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
           >
             <option value="USD">USD</option>
             <option value="EUR">EUR</option>
@@ -585,7 +658,13 @@ const PostJob = () => {
             value={formData.noticePeriod}
             onChange={handleInputChange}
             required
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm"
+            style={{ 
+              '--tw-ring-color': 'var(--color-accent)',
+              '--tw-border-opacity': '1'
+            }}
+            onFocus={(e) => e.target.style.borderColor = 'var(--color-accent)'}
+            onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
           >
             <option value="">Select Notice Period</option>
             {noticePeriodOptions.map((period) => (
@@ -607,7 +686,13 @@ const PostJob = () => {
               value={skillInput}
               onChange={(e) => setSkillInput(e.target.value)}
               onKeyDown={handleSkillInputKeyDown}
-              className="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+              className="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm"
+              style={{ 
+                '--tw-ring-color': 'var(--color-accent)',
+                '--tw-border-opacity': '1'
+              }}
+              onFocus={(e) => e.target.style.borderColor = 'var(--color-accent)'}
+              onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
               placeholder="Type a skill and press Enter or comma to add"
             />
             <div className="mt-2 text-xs text-gray-500">
@@ -619,13 +704,26 @@ const PostJob = () => {
               {formData.skills.map((skill, index) => (
                 <span
                   key={index}
-                  className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-teal-100 text-teal-800"
+                  className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"
+                  style={{ backgroundColor: '#fef2f2', color: 'var(--color-accent)' }}
                 >
                   {skill}
                   <button
                     type="button"
                     onClick={() => handleRemoveSkill(skill)}
-                    className="ml-1 inline-flex items-center justify-center w-4 h-4 text-teal-400 hover:bg-teal-200 hover:text-teal-500 rounded-full"
+                    className="ml-1 inline-flex items-center justify-center w-4 h-4 rounded-full"
+                    style={{ 
+                      color: 'var(--color-accent)', 
+                      opacity: '0.6'
+                    }}
+                    onMouseEnter={(e) => {
+                      e.target.style.backgroundColor = '#fef2f2';
+                      e.target.style.opacity = '1';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.target.style.backgroundColor = 'transparent';
+                      e.target.style.opacity = '0.6';
+                    }}
                   >
                     ×
                   </button>
@@ -645,7 +743,13 @@ const PostJob = () => {
               value={requirementInput}
               onChange={(e) => setRequirementInput(e.target.value)}
               onKeyDown={handleRequirementInputKeyDown}
-              className="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+              className="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm"
+              style={{ 
+                '--tw-ring-color': 'var(--color-accent)',
+                '--tw-border-opacity': '1'
+              }}
+              onFocus={(e) => e.target.style.borderColor = 'var(--color-accent)'}
+              onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
               placeholder="Enter a requirement and press Enter to add"
             />
             <div className="mt-2 text-xs text-gray-500">
@@ -664,7 +768,10 @@ const PostJob = () => {
                       requirements: [...prev.requirements, "Bachelor's degree in relevant field", "2+ years of HR experience"]
                     }));
                   }}
-                  className="text-xs text-teal-600 hover:text-teal-800"
+                  className="text-xs"
+                  style={{ color: 'var(--color-accent)' }}
+                  onMouseEnter={(e) => e.target.style.opacity = '0.8'}
+                  onMouseLeave={(e) => e.target.style.opacity = '1'}
                 >
                   Add sample requirements
                 </button>
@@ -703,7 +810,13 @@ const PostJob = () => {
               value={responsibilityInput}
               onChange={(e) => setResponsibilityInput(e.target.value)}
               onKeyDown={handleResponsibilityInputKeyDown}
-              className="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+              className="block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm"
+              style={{ 
+                '--tw-ring-color': 'var(--color-accent)',
+                '--tw-border-opacity': '1'
+              }}
+              onFocus={(e) => e.target.style.borderColor = 'var(--color-accent)'}
+              onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
               placeholder="Enter a responsibility and press Enter to add"
             />
             <div className="mt-2 text-xs text-gray-500">
@@ -722,7 +835,10 @@ const PostJob = () => {
                       responsibilities: [...prev.responsibilities, "Manage full recruitment cycle", "Coordinate with department heads for staffing needs"]
                     }));
                   }}
-                  className="text-xs text-teal-600 hover:text-teal-800"
+                  className="text-xs"
+                  style={{ color: 'var(--color-accent)' }}
+                  onMouseEnter={(e) => e.target.style.opacity = '0.8'}
+                  onMouseLeave={(e) => e.target.style.opacity = '1'}
                 >
                   Add sample responsibilities
                 </button>
@@ -761,7 +877,13 @@ const PostJob = () => {
             onChange={handleInputChange}
             required
             rows="5"
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm"
+            style={{ 
+              '--tw-ring-color': 'var(--color-accent)',
+              '--tw-border-opacity': '1'
+            }}
+            onFocus={(e) => e.target.style.borderColor = 'var(--color-accent)'}
+            onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
             placeholder="Describe the job in detail"
           ></textarea>
         </div>
@@ -770,7 +892,8 @@ const PostJob = () => {
           <button
             type="button"
             onClick={handlePrevious}
-            className="w-1/3 bg-gradient-to-r from-teal-700 to-teal-700 text-white py-3 px-4 rounded-md hover:opacity-90 font-semibold"
+            className="w-1/3 text-white py-3 px-4 rounded-md hover:opacity-90 font-semibold"
+            style={{ backgroundColor: 'var(--color-accent)' }}
           >
             Previous
           </button>
@@ -779,9 +902,10 @@ const PostJob = () => {
             disabled={loading || !isStep2Valid}
             className={`w-1/2 py-3 px-4 rounded-md font-semibold ${
               !loading && isStep2Valid 
-                ? "bg-gradient-to-r from-teal-500 to-teal-500 text-white hover:opacity-90" 
+                ? "text-white hover:opacity-90" 
                 : "bg-gray-300 text-gray-500 cursor-not-allowed"
             } ${loading ? "opacity-50" : ""}`}
+            style={!loading && isStep2Valid ? { backgroundColor: 'var(--color-accent)' } : {}}
           >
             {loading ? "Posting..." : "Post Job"}
           </button>
@@ -804,15 +928,20 @@ const PostJob = () => {
             <div className="mb-8">
               <h1 className="text-3xl font-bold text-gray-900 mb-2">Post a Job</h1>
               <div className="flex items-center space-x-4">
-                <div className={`flex items-center ${step >= 1 ? 'text-teal-600' : 'text-gray-400'}`}>
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 1 ? 'bg-teal-600 text-white' : 'bg-gray-300'}`}>
+                <div className={`flex items-center ${step >= 1 ? 'text-gray-400' : 'text-gray-400'}`}
+                     style={step >= 1 ? { color: 'var(--color-accent)' } : {}}>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 1 ? 'text-white' : 'bg-gray-300'}`}
+                       style={step >= 1 ? { backgroundColor: 'var(--color-accent)' } : {}}>
                     1
                   </div>
                   <span className="ml-2">Job Details</span>
                 </div>
-                <div className={`w-8 h-0.5 ${step >= 2 ? 'bg-teal-600' : 'bg-gray-300'}`}></div>
-                <div className={`flex items-center ${step >= 2 ? 'text-teal-600' : 'text-gray-400'}`}>
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 2 ? 'bg-teal-600 text-white' : 'bg-gray-300'}`}>
+                <div className={`w-8 h-0.5 ${step >= 2 ? '' : 'bg-gray-300'}`}
+                     style={step >= 2 ? { backgroundColor: 'var(--color-accent)' } : {}}></div>
+                <div className={`flex items-center ${step >= 2 ? 'text-gray-400' : 'text-gray-400'}`}
+                     style={step >= 2 ? { color: 'var(--color-accent)' } : {}}>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center ${step >= 2 ? 'text-white' : 'bg-gray-300'}`}
+                       style={step >= 2 ? { backgroundColor: 'var(--color-accent)' } : {}}>
                     2
                   </div>
                   <span className="ml-2">Requirements</span>
