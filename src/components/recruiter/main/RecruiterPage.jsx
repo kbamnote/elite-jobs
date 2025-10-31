@@ -106,7 +106,7 @@ const RecruiterPage = () => {
   if (loading) {
     return (
       <>
-        <div className="min-h-screen flex flex-col lg:flex-row bg-gray-50">
+        <div className="min-h-screen flex flex-col lg:flex-row" style={{ backgroundColor: 'var(--color-background)' }}>
           {/* Sidebar */}
           <div className="w-[10px] lg:w-1/4 h-screen fixed top-0 left-0">
             <RecruiterSidebar />
@@ -128,7 +128,7 @@ const RecruiterPage = () => {
   if (error) {
     return (
       <>
-        <div className="min-h-screen flex flex-col lg:flex-row bg-gray-50">
+        <div className="min-h-screen flex flex-col lg:flex-row" style={{ backgroundColor: 'var(--color-background)' }}>
           {/* Sidebar */}
           <div className="w-[10px] lg:w-1/4 h-screen fixed top-0 left-0">
             <RecruiterSidebar />
@@ -138,11 +138,16 @@ const RecruiterPage = () => {
           <main className="w-full lg:ml-80 xl:ml-80 p-4 justify-center items-center flex min-h-screen overflow-y-auto">
             <div className="max-w-7xl mx-auto px-4 sm:px-6">
               <div className="text-center py-10">
-                <p className="text-red-500">{error}</p>
+                <p style={{ color: 'var(--color-error)', fontFamily: 'var(--font-body)' }}>{error}</p>
                 <button 
-                  onClick={fetchApplicants}
-                  className="mt-4 px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700"
-                >
+                    onClick={fetchApplicants}
+                    className="mt-4 px-4 py-2 rounded-lg transition-all duration-200 hover:shadow-md"
+                    style={{ 
+                      backgroundColor: 'var(--color-accent)', 
+                      color: 'var(--color-white)',
+                      fontFamily: 'var(--font-body)'
+                    }}
+                  >
                   Retry
                 </button>
               </div>
@@ -155,7 +160,7 @@ const RecruiterPage = () => {
 
   return (
     <>
-      <div className="min-h-screen flex flex-col lg:flex-row bg-gray-50">
+      <div className="min-h-screen flex flex-col lg:flex-row" style={{ backgroundColor: 'var(--color-background)' }}>
         {/* Sidebar */}
         <div className="w-[10px] lg:w-1/4 h-screen fixed top-0 left-0">
           <RecruiterSidebar />
@@ -167,10 +172,10 @@ const RecruiterPage = () => {
             {/* Page Header */}
             <div className="mb-8">
               <h1 className="text-3xl font-bold mb-2" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-heading)' }}>
-                Applicant Dashboard
+                Student Applicants
               </h1>
               <p className="text-lg" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>
-                View and manage all job applicants
+                View and manage all student applicants in a comprehensive table format
               </p>
             </div>
 
@@ -178,7 +183,12 @@ const RecruiterPage = () => {
             <div className="mb-6">
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors"
+                className="px-6 py-3 rounded-lg font-medium transition-all duration-200 hover:shadow-md"
+                style={{ 
+                  backgroundColor: 'var(--color-accent)', 
+                  color: 'var(--color-white)',
+                  fontFamily: 'var(--font-body)'
+                }}
               >
                 {showFilters ? 'Hide Filters' : 'Show Filters'}
               </button>
@@ -186,14 +196,20 @@ const RecruiterPage = () => {
 
             {/* Filter Form */}
             {showFilters && (
-              <div className="mb-8 bg-white p-6 rounded-xl shadow-lg border border-gray-200">
-                <h2 className="text-2xl font-bold mb-6 text-gray-800">Filter Applicants</h2>
+              <div className="mb-8 p-6 rounded-xl border" style={{ 
+                backgroundColor: 'var(--color-white)', 
+                boxShadow: 'var(--shadow-lg)', 
+                borderColor: 'var(--color-border)' 
+              }}>
+                <h2 className="text-2xl font-bold mb-6" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-heading)' }}>
+                  Filter Student Applicants
+                </h2>
                 
                 <form className="space-y-6" onSubmit={handleSubmit}>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                     {/* Age Filter */}
                     <div>
-                      <label htmlFor="age" className="block text-sm font-semibold text-gray-700 mb-2">
+                      <label htmlFor="age" className="block text-sm font-semibold mb-2" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
                         Exact Age
                       </label>
                       <input
@@ -203,13 +219,19 @@ const RecruiterPage = () => {
                         value={filters.age}
                         onChange={handleInputChange}
                         placeholder="e.g. 25"
-                        className="block w-full outline-teal-600 border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500"
+                        className="block w-full border rounded-lg shadow-sm py-2 px-3 transition-all duration-200"
+                        style={{ 
+                          borderColor: 'var(--color-border)',
+                          backgroundColor: 'var(--color-white)',
+                          color: 'var(--color-text-primary)',
+                          fontFamily: 'var(--font-body)'
+                        }}
                       />
                     </div>
 
                     {/* Age Min Filter */}
                     <div>
-                      <label htmlFor="ageMin" className="block text-sm font-semibold text-gray-700 mb-2">
+                      <label htmlFor="ageMin" className="block text-sm font-semibold mb-2" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
                         Minimum Age
                       </label>
                       <input
@@ -219,13 +241,19 @@ const RecruiterPage = () => {
                         value={filters.ageMin}
                         onChange={handleInputChange}
                         placeholder="e.g. 20"
-                        className="block w-full outline-teal-600 border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500"
+                        className="block w-full border rounded-lg shadow-sm py-2 px-3 transition-all duration-200"
+                        style={{ 
+                          borderColor: 'var(--color-border)',
+                          backgroundColor: 'var(--color-white)',
+                          color: 'var(--color-text-primary)',
+                          fontFamily: 'var(--font-body)'
+                        }}
                       />
                     </div>
 
                     {/* Age Max Filter */}
                     <div>
-                      <label htmlFor="ageMax" className="block text-sm font-semibold text-gray-700 mb-2">
+                      <label htmlFor="ageMax" className="block text-sm font-semibold mb-2" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
                         Maximum Age
                       </label>
                       <input
@@ -235,13 +263,19 @@ const RecruiterPage = () => {
                         value={filters.ageMax}
                         onChange={handleInputChange}
                         placeholder="e.g. 35"
-                        className="block w-full outline-teal-600 border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500"
+                        className="block w-full border rounded-lg shadow-sm py-2 px-3 transition-all duration-200"
+                        style={{ 
+                          borderColor: 'var(--color-border)',
+                          backgroundColor: 'var(--color-white)',
+                          color: 'var(--color-text-primary)',
+                          fontFamily: 'var(--font-body)'
+                        }}
                       />
                     </div>
 
                     {/* Gender Filter */}
                     <div>
-                      <label htmlFor="gender" className="block text-sm font-semibold text-gray-700 mb-2">
+                      <label htmlFor="gender" className="block text-sm font-semibold mb-2" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
                         Gender
                       </label>
                       <select
@@ -249,7 +283,13 @@ const RecruiterPage = () => {
                         name="gender"
                         value={filters.gender}
                         onChange={handleInputChange}
-                        className="block w-full outline-teal-600 border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500"
+                        className="block w-full border rounded-lg shadow-sm py-2 px-3 transition-all duration-200"
+                        style={{ 
+                          borderColor: 'var(--color-border)',
+                          backgroundColor: 'var(--color-white)',
+                          color: 'var(--color-text-primary)',
+                          fontFamily: 'var(--font-body)'
+                        }}
                       >
                         <option value="">All Genders</option>
                         <option value="male">Male</option>
@@ -260,7 +300,7 @@ const RecruiterPage = () => {
 
                     {/* Designation Filter */}
                     <div>
-                      <label htmlFor="designation" className="block text-sm font-semibold text-gray-700 mb-2">
+                      <label htmlFor="designation" className="block text-sm font-semibold mb-2" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
                         Designation
                       </label>
                       <input
@@ -270,13 +310,19 @@ const RecruiterPage = () => {
                         value={filters.designation}
                         onChange={handleInputChange}
                         placeholder="e.g. Software Engineer"
-                        className="block w-full outline-teal-600 border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500"
+                        className="block w-full border rounded-lg shadow-sm py-2 px-3 transition-all duration-200"
+                        style={{ 
+                          borderColor: 'var(--color-border)',
+                          backgroundColor: 'var(--color-white)',
+                          color: 'var(--color-text-primary)',
+                          fontFamily: 'var(--font-body)'
+                        }}
                       />
                     </div>
 
                     {/* Preferred Category Filter */}
                     <div>
-                      <label htmlFor="preferredCategory" className="block text-sm font-semibold text-gray-700 mb-2">
+                      <label htmlFor="preferredCategory" className="block text-sm font-semibold mb-2" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
                         Preferred Category
                       </label>
                       <select
@@ -284,7 +330,13 @@ const RecruiterPage = () => {
                         name="preferredCategory"
                         value={filters.preferredCategory}
                         onChange={handleInputChange}
-                        className="block w-full outline-teal-600 border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500"
+                        className="block w-full border rounded-lg shadow-sm py-2 px-3 transition-all duration-200"
+                        style={{ 
+                          borderColor: 'var(--color-border)',
+                          backgroundColor: 'var(--color-white)',
+                          color: 'var(--color-text-primary)',
+                          fontFamily: 'var(--font-body)'
+                        }}
                       >
                         <option value="">All Categories</option>
                         <option value="IT & Networking">IT & Networking</option>
@@ -301,7 +353,7 @@ const RecruiterPage = () => {
 
                     {/* Experience Filter */}
                     <div>
-                      <label htmlFor="expInWork" className="block text-sm font-semibold text-gray-700 mb-2">
+                      <label htmlFor="expInWork" className="block text-sm font-semibold mb-2" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
                         Experience in Work
                       </label>
                       <select
@@ -309,7 +361,13 @@ const RecruiterPage = () => {
                         name="expInWork"
                         value={filters.expInWork}
                         onChange={handleInputChange}
-                        className="block w-full outline-teal-600 border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500"
+                        className="block w-full border rounded-lg shadow-sm py-2 px-3 transition-all duration-200"
+                        style={{ 
+                          borderColor: 'var(--color-border)',
+                          backgroundColor: 'var(--color-white)',
+                          color: 'var(--color-text-primary)',
+                          fontFamily: 'var(--font-body)'
+                        }}
                       >
                         <option value="">All Experience Levels</option>
                         <option value="Fresher">Fresher</option>
@@ -323,7 +381,7 @@ const RecruiterPage = () => {
 
                     {/* Highest Education Filter */}
                     <div>
-                      <label htmlFor="highestEducation" className="block text-sm font-semibold text-gray-700 mb-2">
+                      <label htmlFor="highestEducation" className="block text-sm font-semibold mb-2" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
                         Highest Education
                       </label>
                       <select
@@ -331,7 +389,13 @@ const RecruiterPage = () => {
                         name="highestEducation"
                         value={filters.highestEducation}
                         onChange={handleInputChange}
-                        className="block w-full outline-teal-600 border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500"
+                        className="block w-full border rounded-lg shadow-sm py-2 px-3 transition-all duration-200"
+                        style={{ 
+                          borderColor: 'var(--color-border)',
+                          backgroundColor: 'var(--color-white)',
+                          color: 'var(--color-text-primary)',
+                          fontFamily: 'var(--font-body)'
+                        }}
                       >
                         <option value="">All Education Levels</option>
                         <option value="High School (10th)">High School (10th)</option>
@@ -358,7 +422,7 @@ const RecruiterPage = () => {
 
                     {/* Salary Filter */}
                     <div>
-                      <label htmlFor="salary" className="block text-sm font-semibold text-gray-700 mb-2">
+                      <label htmlFor="salary" className="block text-sm font-semibold mb-2" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
                         Salary Expectation
                       </label>
                       <input
@@ -368,13 +432,19 @@ const RecruiterPage = () => {
                         value={filters.salary}
                         onChange={handleInputChange}
                         placeholder="e.g. 80000-90000 USD"
-                        className="block w-full outline-teal-600 border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500"
+                        className="block w-full border rounded-lg shadow-sm py-2 px-3 transition-all duration-200"
+                        style={{ 
+                          borderColor: 'var(--color-border)',
+                          backgroundColor: 'var(--color-white)',
+                          color: 'var(--color-text-primary)',
+                          fontFamily: 'var(--font-body)'
+                        }}
                       />
                     </div>
 
                     {/* Salary Min Filter */}
                     <div>
-                      <label htmlFor="salaryMin" className="block text-sm font-semibold text-gray-700 mb-2">
+                      <label htmlFor="salaryMin" className="block text-sm font-semibold mb-2" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
                         Minimum Salary
                       </label>
                       <input
@@ -384,13 +454,19 @@ const RecruiterPage = () => {
                         value={filters.salaryMin}
                         onChange={handleInputChange}
                         placeholder="e.g. 50000"
-                        className="block w-full outline-teal-600 border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500"
+                        className="block w-full border rounded-lg shadow-sm py-2 px-3 transition-all duration-200"
+                        style={{ 
+                          borderColor: 'var(--color-border)',
+                          backgroundColor: 'var(--color-white)',
+                          color: 'var(--color-text-primary)',
+                          fontFamily: 'var(--font-body)'
+                        }}
                       />
                     </div>
 
                     {/* Salary Max Filter */}
                     <div>
-                      <label htmlFor="salaryMax" className="block text-sm font-semibold text-gray-700 mb-2">
+                      <label htmlFor="salaryMax" className="block text-sm font-semibold mb-2" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
                         Maximum Salary
                       </label>
                       <input
@@ -400,7 +476,13 @@ const RecruiterPage = () => {
                         value={filters.salaryMax}
                         onChange={handleInputChange}
                         placeholder="e.g. 100000"
-                        className="block w-full outline-teal-600 border border-gray-300 rounded-lg shadow-sm py-2 px-3 focus:ring-teal-500 focus:border-teal-500"
+                        className="block w-full border rounded-lg shadow-sm py-2 px-3 transition-all duration-200"
+                        style={{ 
+                          borderColor: 'var(--color-border)',
+                          backgroundColor: 'var(--color-white)',
+                          color: 'var(--color-text-primary)',
+                          fontFamily: 'var(--font-body)'
+                        }}
                       />
                     </div>
                   </div>
@@ -410,13 +492,24 @@ const RecruiterPage = () => {
                     <button
                       type="button"
                       onClick={handleReset}
-                      className="px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+                      className="px-6 py-3 border rounded-lg transition-all duration-200 hover:shadow-md"
+                      style={{ 
+                        borderColor: 'var(--color-border)',
+                        color: 'var(--color-text-secondary)',
+                        backgroundColor: 'var(--color-white)',
+                        fontFamily: 'var(--font-body)'
+                      }}
                     >
                       Reset Filters
                     </button>
                     <button
                       type="submit"
-                      className="px-6 py-3 bg-gradient-to-r from-teal-500 to-teal-600 text-white rounded-lg shadow-lg hover:from-teal-600 hover:to-teal-700 transition-all"
+                      className="px-6 py-3 rounded-lg font-medium transition-all duration-200 hover:shadow-lg"
+                      style={{ 
+                        backgroundColor: 'var(--color-primary)',
+                        color: 'var(--color-white)',
+                        fontFamily: 'var(--font-body)'
+                      }}
                     >
                       Apply Filters
                     </button>
@@ -427,15 +520,24 @@ const RecruiterPage = () => {
 
             {/* Filter Summary */}
             {location.search && (
-              <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+              <div className="mb-6 p-4 rounded-lg border" style={{ 
+                backgroundColor: 'var(--color-accent-light)', 
+                borderColor: 'var(--color-accent)' 
+              }}>
                 <div className="flex justify-between items-center">
                   <div>
-                    <h3 className="font-semibold text-blue-800 mb-1">Active Filters</h3>
+                    <h3 className="font-semibold mb-1" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-heading)' }}>
+                      Active Filters
+                    </h3>
                     <div className="flex flex-wrap gap-2">
                       {Object.entries(filters).map(([key, value]) => {
                         if (value) {
                           return (
-                            <span key={key} className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded">
+                            <span key={key} className="px-2 py-1 text-xs rounded" style={{ 
+                              backgroundColor: 'var(--color-accent)', 
+                              color: 'var(--color-white)',
+                              fontFamily: 'var(--font-body)'
+                            }}>
                               {key}: {value}
                             </span>
                           );
@@ -446,7 +548,12 @@ const RecruiterPage = () => {
                   </div>
                   <button 
                     onClick={resetFilters}
-                    className="px-3 py-1 bg-blue-600 text-white text-sm rounded hover:bg-blue-700"
+                    className="px-3 py-1 text-sm rounded transition-all duration-200 hover:shadow-md"
+                    style={{ 
+                      backgroundColor: 'var(--color-primary)', 
+                      color: 'var(--color-white)',
+                      fontFamily: 'var(--font-body)'
+                    }}
                   >
                     Clear All
                   </button>
@@ -454,7 +561,7 @@ const RecruiterPage = () => {
               </div>
             )}
 
-            {/* Applicants Cards */}
+            {/* Student Applicants Table */}
             {applicants.length === 0 ? (
               <div className="rounded-xl border p-12 text-center" style={{ 
                 backgroundColor: 'var(--color-white)', 
@@ -467,66 +574,199 @@ const RecruiterPage = () => {
                   </svg>
                 </div>
                 <h3 className="text-xl font-medium mb-2" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-heading)' }}>
-                  {location.search ? 'No applicants match your filters' : 'No applicants found'}
+                  {location.search ? 'No students match your filters' : 'No student applicants found'}
                 </h3>
                 <p style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>
-                  {location.search ? 'Try adjusting your filters to see more results' : 'There are currently no applicants to display'}
+                  {location.search ? 'Try adjusting your filters to see more results' : 'There are currently no student applicants to display'}
                 </p>
                 {location.search && (
                   <button 
                     onClick={resetFilters}
-                    className="mt-4 px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700"
+                    className="mt-4 px-4 py-2 rounded-lg transition-all duration-200 hover:shadow-md"
+                    style={{ 
+                      backgroundColor: 'var(--color-accent)', 
+                      color: 'var(--color-white)',
+                      fontFamily: 'var(--font-body)'
+                    }}
                   >
                     Clear Filters
                   </button>
                 )}
               </div>
             ) : (
-              <div className="space-y-6">
-                {applicants.map((applicant) => (
-                  <div 
-                    key={applicant._id} 
-                    className="rounded-xl border p-6 transition-all duration-300 hover:shadow-lg hover:border-opacity-60 cursor-pointer group"
-                    style={{ 
-                      backgroundColor: 'var(--color-white)', 
-                      boxShadow: 'var(--shadow-sm)', 
-                      borderColor: 'var(--color-border)' 
-                    }}
-                  >
-                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-                      {/* Left Section - Applicant Info */}
-                      <div className="flex items-start space-x-4 flex-1">
-                        {/* Applicant Photo */}
-                        <div className="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0" style={{ backgroundColor: 'var(--color-accent-light)' }}>
+              <div className="rounded-xl border overflow-hidden" style={{ 
+                backgroundColor: 'var(--color-white)', 
+                boxShadow: 'var(--shadow-lg)', 
+                borderColor: 'var(--color-border)' 
+              }}>
+                {/* Table Header */}
+                <div className="px-6 py-4 border-b" style={{ 
+                  backgroundColor: 'var(--color-primary)', 
+                  borderColor: 'var(--color-border)' 
+                }}>
+                  <h3 className="text-lg font-semibold" style={{ color: 'var(--color-white)', fontFamily: 'var(--font-heading)' }}>
+                    Student Applicants ({applicants.length})
+                  </h3>
+                </div>
+
+                {/* Desktop Table */}
+                <div className="hidden lg:block overflow-x-auto">
+                  <table className="w-full">
+                    <thead style={{ backgroundColor: 'var(--color-accent-light)' }}>
+                      <tr>
+                        <th className="px-6 py-4 text-left text-sm font-semibold" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-heading)' }}>
+                          Student
+                        </th>
+                        <th className="px-6 py-4 text-left text-sm font-semibold" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-heading)' }}>
+                          Contact
+                        </th>
+                        <th className="px-6 py-4 text-left text-sm font-semibold" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-heading)' }}>
+                          Education
+                        </th>
+                        <th className="px-6 py-4 text-left text-sm font-semibold" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-heading)' }}>
+                          Experience
+                        </th>
+                        <th className="px-6 py-4 text-left text-sm font-semibold" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-heading)' }}>
+                          Skills
+                        </th>
+                        <th className="px-6 py-4 text-center text-sm font-semibold" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-heading)' }}>
+                          Actions
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {applicants.map((applicant, index) => (
+                        <tr key={applicant._id} className="border-b transition-all duration-200 hover:bg-opacity-50" style={{ 
+                          borderColor: 'var(--color-border)',
+                          backgroundColor: index % 2 === 0 ? 'var(--color-white)' : 'var(--color-background)'
+                        }}>
+                          {/* Student Info */}
+                          <td className="px-6 py-4">
+                            <div className="flex items-center space-x-3">
+                              <div className="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0" style={{ backgroundColor: 'var(--color-accent-light)' }}>
+                                {applicant.profile.photo ? (
+                                  <img 
+                                    src={applicant.profile.photo} 
+                                    alt={applicant.name} 
+                                    className="w-8 h-8 rounded-lg object-cover"
+                                    onError={(e) => { e.target.src = 'https://placehold.co/40x40'; }}
+                                  />
+                                ) : (
+                                  <span className="text-sm font-bold" style={{ color: 'var(--color-accent)' }}>
+                                    {applicant.name.charAt(0)}
+                                  </span>
+                                )}
+                              </div>
+                              <div>
+                                <div className="font-semibold" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-heading)' }}>
+                                  {applicant.name}
+                                </div>
+                                <div className="text-sm" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>
+                                  {applicant.role}
+                                </div>
+                              </div>
+                            </div>
+                          </td>
+
+                          {/* Contact */}
+                          <td className="px-6 py-4">
+                            <div className="text-sm" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
+                              {applicant.email}
+                            </div>
+                          </td>
+
+                          {/* Education */}
+                          <td className="px-6 py-4">
+                            <div className="text-sm" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
+                              {applicant.profile.education && applicant.profile.education.length > 0 
+                                ? applicant.profile.education[0].degree || 'Not specified' 
+                                : 'Not specified'}
+                            </div>
+                          </td>
+
+                          {/* Experience */}
+                          <td className="px-6 py-4">
+                            <div className="text-sm" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
+                              {applicant.profile.experience && applicant.profile.experience.length > 0 
+                                ? applicant.profile.experience[0].position || 'Not specified' 
+                                : 'Not specified'}
+                            </div>
+                          </td>
+
+                          {/* Skills */}
+                          <td className="px-6 py-4">
+                            <div className="flex flex-wrap gap-1">
+                              {applicant.profile.skills && applicant.profile.skills.length > 0 ? (
+                                applicant.profile.skills.slice(0, 2).map((skill, skillIndex) => (
+                                  <span key={skillIndex} className="px-2 py-1 text-xs rounded-full" style={{ 
+                                    backgroundColor: 'var(--color-accent-light)', 
+                                    color: 'var(--color-accent)',
+                                    fontFamily: 'var(--font-body)'
+                                  }}>
+                                    {skill}
+                                  </span>
+                                ))
+                              ) : (
+                                <span className="text-sm" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>
+                                  No skills listed
+                                </span>
+                              )}
+                              {applicant.profile.skills && applicant.profile.skills.length > 2 && (
+                                <span className="text-xs" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>
+                                  +{applicant.profile.skills.length - 2} more
+                                </span>
+                              )}
+                            </div>
+                          </td>
+
+                          {/* Actions */}
+                          <td className="px-6 py-4 text-center">
+                            <button 
+                              className="px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:shadow-md"
+                              style={{ 
+                                backgroundColor: 'var(--color-accent)', 
+                                color: 'var(--color-white)',
+                                fontFamily: 'var(--font-body)'
+                              }}
+                              onClick={() => handleViewApplicant(applicant._id)}
+                            >
+                              View Details
+                            </button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+
+                {/* Mobile Cards */}
+                <div className="lg:hidden">
+                  {applicants.map((applicant) => (
+                    <div key={applicant._id} className="p-6 border-b last:border-b-0" style={{ borderColor: 'var(--color-border)' }}>
+                      <div className="flex items-start space-x-4 mb-4">
+                        <div className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0" style={{ backgroundColor: 'var(--color-accent-light)' }}>
                           {applicant.profile.photo ? (
                             <img 
                               src={applicant.profile.photo} 
                               alt={applicant.name} 
                               className="w-10 h-10 rounded-lg object-cover"
-                              onError={(e) => { e.target.src = 'https://placehold.co/60x60'; }}
+                              onError={(e) => { e.target.src = 'https://placehold.co/48x48'; }}
                             />
                           ) : (
-                            <span className="text-xl font-bold" style={{ color: 'var(--color-accent)' }}>
+                            <span className="text-lg font-bold" style={{ color: 'var(--color-accent)' }}>
                               {applicant.name.charAt(0)}
                             </span>
                           )}
                         </div>
-                        
-                        {/* Applicant Details */}
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-start justify-between mb-2">
-                            <h3 className="text-xl font-semibold group-hover:text-opacity-80 transition-all" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-heading)' }}>
-                              {applicant.name}
-                            </h3>
-                          </div>
-                          
-                          <p className="text-base font-medium mb-3" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>
+                        <div className="flex-1">
+                          <h4 className="font-semibold mb-1" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-heading)' }}>
+                            {applicant.name}
+                          </h4>
+                          <p className="text-sm mb-2" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>
                             {applicant.email}
                           </p>
-                          
-                          {/* Applicant Tags */}
-                          <div className="flex flex-wrap gap-2 mb-4">
-                            <span className="px-3 py-1 text-sm rounded-full font-medium" style={{ 
+                          <div className="flex flex-wrap gap-2 mb-3">
+                            <span className="px-2 py-1 text-xs rounded-full" style={{ 
                               backgroundColor: 'var(--color-accent-light)', 
                               color: 'var(--color-accent)',
                               fontFamily: 'var(--font-body)'
@@ -534,7 +774,7 @@ const RecruiterPage = () => {
                               {applicant.role}
                             </span>
                             {applicant.profile.skills && applicant.profile.skills.length > 0 && (
-                              <span className="px-3 py-1 text-sm rounded-full font-medium" style={{ 
+                              <span className="px-2 py-1 text-xs rounded-full" style={{ 
                                 backgroundColor: 'var(--color-primary-light)', 
                                 color: 'var(--color-primary)',
                                 fontFamily: 'var(--font-body)'
@@ -543,50 +783,38 @@ const RecruiterPage = () => {
                               </span>
                             )}
                           </div>
-                          
-                          {/* Applicant Meta Info */}
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>
-                            <div className="flex items-center space-x-2">
-                              <span className="text-lg">🎓</span>
-                              <span>
-                                {applicant.profile.education && applicant.profile.education.length > 0 
-                                  ? applicant.profile.education[0].degree || 'Education info' 
-                                  : 'No education info'}
-                              </span>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                              <span className="text-lg">💼</span>
-                              <span>
-                                {applicant.profile.experience && applicant.profile.experience.length > 0 
-                                  ? applicant.profile.experience[0].position || 'Experience info' 
-                                  : 'No experience info'}
-                              </span>
-                            </div>
-                          </div>
                         </div>
                       </div>
                       
-                      {/* Right Section - Action Button */}
-                      <div className="flex sm:flex-col items-end justify-between sm:justify-start gap-3 sm:gap-2 flex-shrink-0">
-                        <div className="sm:hidden"></div> {/* Spacer for mobile */}
-                        <button 
-                          className="px-6 py-3 rounded-lg font-medium transition-all duration-200 hover:shadow-md hover:scale-105 active:scale-95"
-                          style={{ 
-                            backgroundColor: 'var(--color-accent)', 
-                            color: 'var(--color-white)',
-                            fontFamily: 'var(--font-body)'
-                          }}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleViewApplicant(applicant._id);
-                          }}
-                        >
-                          View Details →
-                        </button>
+                      <div className="grid grid-cols-2 gap-4 mb-4 text-sm" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>
+                        <div>
+                          <span className="font-medium" style={{ color: 'var(--color-text-primary)' }}>Education:</span><br />
+                          {applicant.profile.education && applicant.profile.education.length > 0 
+                            ? applicant.profile.education[0].degree || 'Not specified' 
+                            : 'Not specified'}
+                        </div>
+                        <div>
+                          <span className="font-medium" style={{ color: 'var(--color-text-primary)' }}>Experience:</span><br />
+                          {applicant.profile.experience && applicant.profile.experience.length > 0 
+                            ? applicant.profile.experience[0].position || 'Not specified' 
+                            : 'Not specified'}
+                        </div>
                       </div>
+                      
+                      <button 
+                        className="w-full px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:shadow-md"
+                        style={{ 
+                          backgroundColor: 'var(--color-accent)', 
+                          color: 'var(--color-white)',
+                          fontFamily: 'var(--font-body)'
+                        }}
+                        onClick={() => handleViewApplicant(applicant._id)}
+                      >
+                        View Details
+                      </button>
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             )}
           </div>
