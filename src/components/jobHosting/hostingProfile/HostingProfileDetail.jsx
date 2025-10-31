@@ -148,6 +148,11 @@ const HostingProfileDetail = () => {
       
       await updateProfile(updateData);
       setMessage("Profile updated successfully!");
+      
+      // Navigate back to profile form after successful update
+      setTimeout(() => {
+        navigate("/hosting/profile");
+      }, 1500);
     } catch (err) {
       setError(err.response?.data?.message || "Failed to update profile");
       console.error("Error updating profile:", err);
