@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { User, Mail, MapPin, FileText, Calendar, ArrowLeft } from "lucide-react";
+import { User, Mail, MapPin, FileText, Calendar, ArrowLeft, UserCircle } from "lucide-react";
 import { useParams, useNavigate } from "react-router-dom";
 import JobHostingSidebar from "../commonHost/jobHostingSidebar";
 import { applicantDetail } from "../../../utils/Api";
@@ -241,9 +241,18 @@ const ViewApplicant = () => {
                       className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-all duration-300 flex flex-col"
                     >
                       <div className="flex items-center gap-4">
-                        <div className="p-3 rounded-xl" style={{ backgroundColor: 'var(--color-accent-light)' }}>
-                          <User className="w-6 h-6" style={{ color: 'var(--color-accent)' }} />
-                        </div>
+                        {/* Display photo or icon if photo is empty */}
+                        {application?.applicantId?.profile?.photo ? (
+                          <img 
+                            src={application.applicantId.profile.photo} 
+                            alt={application.applicantId.name}
+                            className="w-16 h-16 rounded-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-16 h-16 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--color-accent-light)' }}>
+                            <UserCircle className="w-8 h-8" style={{ color: 'var(--color-accent)' }} />
+                          </div>
+                        )}
                         <div>
                           <h3 className="text-xl font-bold text-gray-800">
                             {application?.applicantId?.name || "N/A"}
@@ -255,23 +264,35 @@ const ViewApplicant = () => {
                       </div>
 
                       <div className="mt-6 space-y-3">
+                       
+                        
                         <div className="flex items-center gap-3 text-gray-600">
-                          <Mail className="w-5 h-5" style={{ color: 'var(--color-accent)' }} />
-                          <span>
-                            {application?.applicantId?.email || "N/A"}
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-3 text-gray-600">
-                          <FileText className="w-5 h-5" style={{ color: 'var(--color-accent)' }} />
+                          <Calendar className="w-5 h-5" style={{ color: 'var(--color-accent)' }} />
                           <span>
                             Applied on: {application?.appliedAt 
                               ? new Date(application.appliedAt).toLocaleDateString() 
                               : "N/A"}
                           </span>
                         </div>
+                        
+                        <div className="flex items-center gap-3 text-gray-600">
+                          <User className="w-5 h-5" style={{ color: 'var(--color-accent)' }} />
+                          <span>
+                            Age: {application?.applicantId?.profile?.age || "N/A"}
+                          </span>
+                        </div>
+                        
+                        <div className="flex items-center gap-3 text-gray-600">
+                          <User className="w-5 h-5" style={{ color: 'var(--color-accent)' }} />
+                          <span>
+                            Gender: {application?.applicantId?.profile?.gender || "N/A"}
+                          </span>
+                        </div>
+                        
                         <div className="flex items-center gap-3 text-gray-600">
                           <MapPin className="w-5 h-5" style={{ color: 'var(--color-accent)' }} />
-                          <span>Status: 
+                          <span>
+                            Status: 
                             <span className="ml-2 px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-medium">
                               {application?.status || "N/A"}
                             </span>
