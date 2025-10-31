@@ -11,6 +11,16 @@ const UserDetails = () => {
     phone: "",
     address: "",
     age: "",
+    gender: "",
+    githubUrl: "",
+    linkedinUrl: "",
+    designation: "",
+    noticePeriod: "",
+    preferredLocation: "",
+    expInWork: "",
+    salaryExpectation: "",
+    preferredCategory: "",
+    highestEducation: "",
     skills: [],
     education: [],
     experience: [],
@@ -38,6 +48,16 @@ const UserDetails = () => {
         phone: data.profile.phone || "",
         address: data.profile.address || "",
         age: data.profile.age || "",
+        gender: data.profile.gender || "",
+        githubUrl: data.profile.githubUrl || "",
+        linkedinUrl: data.profile.linkedinUrl || "",
+        designation: data.profile.designation || "",
+        noticePeriod: data.profile.noticePeriod || "",
+        preferredLocation: data.profile.preferredLocation || "",
+        expInWork: data.profile.expInWork || "",
+        salaryExpectation: data.profile.salaryExpectation || "",
+        preferredCategory: data.profile.preferredCategory || "",
+        highestEducation: data.profile.highestEducation || "",
         skills: data.profile.skills || [],
         education: data.profile.education && data.profile.education.length > 0 
           ? data.profile.education 
@@ -125,6 +145,16 @@ const UserDetails = () => {
           phone: formData.phone,
           address: formData.address,
           age: formData.age,
+          gender: formData.gender,
+          githubUrl: formData.githubUrl,
+          linkedinUrl: formData.linkedinUrl,
+          designation: formData.designation,
+          noticePeriod: formData.noticePeriod,
+          preferredLocation: formData.preferredLocation,
+          expInWork: formData.expInWork,
+          salaryExpectation: formData.salaryExpectation,
+          preferredCategory: formData.preferredCategory,
+          highestEducation: formData.highestEducation,
           skills: skillsArray,
           education: formData.education.filter(edu => edu.degree || edu.institution), // Remove empty entries
           experience: formData.experience.filter(exp => exp.position || exp.company), // Remove empty entries
@@ -173,7 +203,7 @@ const UserDetails = () => {
             <div className="text-center py-10">
               <p className="text-red-500">{error}</p>
               <button 
-                onClick={fetchUserData}
+                onClick={fetchProfileData}
                 className="btn-accent"
                 style={{ fontFamily: 'var(--font-body)' }}
               >
@@ -296,6 +326,263 @@ const UserDetails = () => {
                   }}
                 />
               </div>
+              <div>
+                <label className="block text-sm text-gray-700 mb-2">Gender</label>
+                <select
+                  name="gender"
+                  value={formData.gender}
+                  onChange={handleChange}
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2"
+                  style={{ fontFamily: 'var(--font-body)' }}
+                  onFocus={(e) => {
+                    e.target.style.outline = 'none';
+                    e.target.style.boxShadow = '0 0 0 2px var(--color-accent)';
+                    e.target.style.borderColor = 'var(--color-accent)';
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.boxShadow = 'none';
+                    e.target.style.borderColor = '#e5e7eb';
+                  }}
+                >
+                  <option value="">Select Gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm text-gray-700 mb-2">Designation</label>
+                <input 
+                  name="designation" 
+                  value={formData.designation} 
+                  onChange={handleChange} 
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2"
+                  style={{ fontFamily: 'var(--font-body)' }}
+                  onFocus={(e) => {
+                    e.target.style.outline = 'none';
+                    e.target.style.boxShadow = '0 0 0 2px var(--color-accent)';
+                    e.target.style.borderColor = 'var(--color-accent)';
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.boxShadow = 'none';
+                    e.target.style.borderColor = '#e5e7eb';
+                  }}
+                  placeholder="e.g., Software Engineer"
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-gray-700 mb-2">Preferred Location</label>
+                <input 
+                  name="preferredLocation" 
+                  value={formData.preferredLocation} 
+                  onChange={handleChange} 
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2"
+                  style={{ fontFamily: 'var(--font-body)' }}
+                  onFocus={(e) => {
+                    e.target.style.outline = 'none';
+                    e.target.style.boxShadow = '0 0 0 2px var(--color-accent)';
+                    e.target.style.borderColor = 'var(--color-accent)';
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.boxShadow = 'none';
+                    e.target.style.borderColor = '#e5e7eb';
+                  }}
+                  placeholder="e.g., New York, NY"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div>
+                <label className="block text-sm text-gray-700 mb-2">GitHub URL</label>
+                <input 
+                  name="githubUrl" 
+                  value={formData.githubUrl} 
+                  onChange={handleChange} 
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2"
+                  style={{ fontFamily: 'var(--font-body)' }}
+                  onFocus={(e) => {
+                    e.target.style.outline = 'none';
+                    e.target.style.boxShadow = '0 0 0 2px var(--color-accent)';
+                    e.target.style.borderColor = 'var(--color-accent)';
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.boxShadow = 'none';
+                    e.target.style.borderColor = '#e5e7eb';
+                  }}
+                  placeholder="https://github.com/username"
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-gray-700 mb-2">LinkedIn URL</label>
+                <input 
+                  name="linkedinUrl" 
+                  value={formData.linkedinUrl} 
+                  onChange={handleChange} 
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2"
+                  style={{ fontFamily: 'var(--font-body)' }}
+                  onFocus={(e) => {
+                    e.target.style.outline = 'none';
+                    e.target.style.boxShadow = '0 0 0 2px var(--color-accent)';
+                    e.target.style.borderColor = 'var(--color-accent)';
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.boxShadow = 'none';
+                    e.target.style.borderColor = '#e5e7eb';
+                  }}
+                  placeholder="https://linkedin.com/in/username"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div>
+                <label className="block text-sm text-gray-700 mb-2">Notice Period</label>
+                <select
+                  name="noticePeriod"
+                  value={formData.noticePeriod}
+                  onChange={handleChange}
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2"
+                  style={{ fontFamily: 'var(--font-body)' }}
+                  onFocus={(e) => {
+                    e.target.style.outline = 'none';
+                    e.target.style.boxShadow = '0 0 0 2px var(--color-accent)';
+                    e.target.style.borderColor = 'var(--color-accent)';
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.boxShadow = 'none';
+                    e.target.style.borderColor = '#e5e7eb';
+                  }}
+                >
+                  <option value="">Select Notice Period</option>
+                  <option value="Immediate Joiner">Immediate Joiner</option>
+                  <option value="Upto 1 week">Up to 1 week</option>
+                  <option value="Upto 1 month">Up to 1 month</option>
+                  <option value="Upto 2 month">Up to 2 months</option>
+                  <option value="Any">Any</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm text-gray-700 mb-2">Experience Level</label>
+                <select
+                  name="expInWork"
+                  value={formData.expInWork}
+                  onChange={handleChange}
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2"
+                  style={{ fontFamily: 'var(--font-body)' }}
+                  onFocus={(e) => {
+                    e.target.style.outline = 'none';
+                    e.target.style.boxShadow = '0 0 0 2px var(--color-accent)';
+                    e.target.style.borderColor = 'var(--color-accent)';
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.boxShadow = 'none';
+                    e.target.style.borderColor = '#e5e7eb';
+                  }}
+                >
+                  <option value="">Select Experience Level</option>
+                  <option value="Fresher">Fresher</option>
+                  <option value="0-1 year of experience">0-1 year of experience</option>
+                  <option value="1-2 year of experience">1-2 year of experience</option>
+                  <option value="2-4 year of experience">2-4 year of experience</option>
+                  <option value="5+ year of experience">5+ year of experience</option>
+                  <option value="10+ year of experience">10+ year of experience</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div>
+                <label className="block text-sm text-gray-700 mb-2">Salary Expectation</label>
+                <input 
+                  name="salaryExpectation" 
+                  value={formData.salaryExpectation} 
+                  onChange={handleChange} 
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2"
+                  style={{ fontFamily: 'var(--font-body)' }}
+                  onFocus={(e) => {
+                    e.target.style.outline = 'none';
+                    e.target.style.boxShadow = '0 0 0 2px var(--color-accent)';
+                    e.target.style.borderColor = 'var(--color-accent)';
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.boxShadow = 'none';
+                    e.target.style.borderColor = '#e5e7eb';
+                  }}
+                  placeholder="e.g., 80000-90000 USD"
+                />
+              </div>
+              <div>
+                <label className="block text-sm text-gray-700 mb-2">Preferred Category</label>
+                <select
+                  name="preferredCategory"
+                  value={formData.preferredCategory}
+                  onChange={handleChange}
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2"
+                  style={{ fontFamily: 'var(--font-body)' }}
+                  onFocus={(e) => {
+                    e.target.style.outline = 'none';
+                    e.target.style.boxShadow = '0 0 0 2px var(--color-accent)';
+                    e.target.style.borderColor = 'var(--color-accent)';
+                  }}
+                  onBlur={(e) => {
+                    e.target.style.boxShadow = 'none';
+                    e.target.style.borderColor = '#e5e7eb';
+                  }}
+                >
+                  <option value="">Select Category</option>
+                  <option value="IT & Networking">IT & Networking</option>
+                  <option value="Sales & Marketing">Sales & Marketing</option>
+                  <option value="Accounting">Accounting</option>
+                  <option value="Data Science">Data Science</option>
+                  <option value="Digital Marketing">Digital Marketing</option>
+                  <option value="Human Resource">Human Resource</option>
+                  <option value="Customer Service">Customer Service</option>
+                  <option value="Project Manager">Project Manager</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm text-gray-700 mb-2">Highest Education</label>
+              <select
+                name="highestEducation"
+                value={formData.highestEducation}
+                onChange={handleChange}
+                className="w-full border border-gray-200 rounded-lg px-3 py-2"
+                style={{ fontFamily: 'var(--font-body)' }}
+                onFocus={(e) => {
+                  e.target.style.outline = 'none';
+                  e.target.style.boxShadow = '0 0 0 2px var(--color-accent)';
+                  e.target.style.borderColor = 'var(--color-accent)';
+                }}
+                onBlur={(e) => {
+                  e.target.style.boxShadow = 'none';
+                  e.target.style.borderColor = '#e5e7eb';
+                }}
+              >
+                <option value="">Select Highest Education</option>
+                <option value="High School (10th)">High School (10th)</option>
+                <option value="Higher Secondary (12th)">Higher Secondary (12th)</option>
+                <option value="Diploma">Diploma</option>
+                <option value="Bachelor of Arts (BA)">Bachelor of Arts (BA)</option>
+                <option value="Bachelor of Science (BSc)">Bachelor of Science (BSc)</option>
+                <option value="Bachelor of Commerce (BCom)">Bachelor of Commerce (BCom)</option>
+                <option value="Bachelor of Technology (BTech)">Bachelor of Technology (BTech)</option>
+                <option value="Bachelor of Engineering (BE)">Bachelor of Engineering (BE)</option>
+                <option value="Bachelor of Computer Applications (BCA)">Bachelor of Computer Applications (BCA)</option>
+                <option value="Bachelor of Business Administration (BBA)">Bachelor of Business Administration (BBA)</option>
+                <option value="Master of Arts (MA)">Master of Arts (MA)</option>
+                <option value="Master of Science (MSc)">Master of Science (MSc)</option>
+                <option value="Master of Commerce (MCom)">Master of Commerce (MCom)</option>
+                <option value="Master of Technology (MTech)">Master of Technology (MTech)</option>
+                <option value="Master of Engineering (ME)">Master of Engineering (ME)</option>
+                <option value="Master of Computer Applications (MCA)">Master of Computer Applications (MCA)</option>
+                <option value="Master of Business Administration (MBA)">Master of Business Administration (MBA)</option>
+                <option value="PhD (Doctorate)">PhD (Doctorate)</option>
+                <option value="Other">Other</option>
+              </select>
             </div>
 
             <div>

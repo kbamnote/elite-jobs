@@ -23,8 +23,10 @@ const Jobs = () => {
   // Filter states
   const [searchTerm, setSearchTerm] = useState(titleFromUrl);
   const [locationFilter, setLocationFilter] = useState('');
-  const [employmentTypeFilter, setEmploymentTypeFilter] = useState('');
   const [experienceLevelFilter, setExperienceLevelFilter] = useState('');
+  const [workTypeFilter, setWorkTypeFilter] = useState('');
+  const [interviewTypeFilter, setInterviewTypeFilter] = useState('');
+  const [jobTypeFilter, setJobTypeFilter] = useState('');
   const [categoryFilter, setCategoryFilter] = useState(categoryFromUrl);
 
   useEffect(() => {
@@ -88,17 +90,31 @@ const Jobs = () => {
       );
     }
     
-    // Employment type filter
-    if (employmentTypeFilter) {
-      result = result.filter(job => 
-        job.employmentType.toLowerCase() === employmentTypeFilter.toLowerCase()
-      );
-    }
-    
     // Experience level filter
     if (experienceLevelFilter) {
       result = result.filter(job => 
         job.experienceLevel.toLowerCase() === experienceLevelFilter.toLowerCase()
+      );
+    }
+    
+    // Work type filter
+    if (workTypeFilter) {
+      result = result.filter(job => 
+        job.workType.toLowerCase() === workTypeFilter.toLowerCase()
+      );
+    }
+    
+    // Interview type filter
+    if (interviewTypeFilter) {
+      result = result.filter(job => 
+        job.interviewType.toLowerCase() === interviewTypeFilter.toLowerCase()
+      );
+    }
+    
+    // Job type filter
+    if (jobTypeFilter) {
+      result = result.filter(job => 
+        job.jobType.toLowerCase() === jobTypeFilter.toLowerCase()
       );
     }
     
@@ -110,7 +126,7 @@ const Jobs = () => {
     }
     
     setFilteredJobs(result);
-  }, [searchTerm, locationFilter, employmentTypeFilter, experienceLevelFilter, categoryFilter, jobs]);
+  }, [searchTerm, locationFilter, experienceLevelFilter, workTypeFilter, interviewTypeFilter, jobTypeFilter, categoryFilter, jobs]);
 
   // Get unique filter options
   const getUniqueValues = (array, key) => {
@@ -137,8 +153,10 @@ const Jobs = () => {
   const resetFilters = () => {
     setSearchTerm('');
     setLocationFilter('');
-    setEmploymentTypeFilter('');
     setExperienceLevelFilter('');
+    setWorkTypeFilter('');
+    setInterviewTypeFilter('');
+    setJobTypeFilter('');
     setCategoryFilter('');
     // Clear URL parameters when resetting
     navigate('/jobs', { replace: true });
@@ -167,6 +185,34 @@ const Jobs = () => {
       navigate('/jobs', { replace: true });
     }
   };
+
+  // Experience level options
+  const experienceLevelOptions = [
+    'Fresher',
+    '0-1 year of experience',
+    '1-2 year of experience',
+    '2-4 year of experience',
+    '5+ year of experience'
+  ];
+
+  // Work type options
+  const workTypeOptions = [
+    'Remote',
+    'On-site',
+    'Hybrid'
+  ];
+
+  // Interview type options
+  const interviewTypeOptions = [
+    'Online',
+    'On-site'
+  ];
+
+  // Job type options
+  const jobTypeOptions = [
+    'Full-time',
+    'Part-time'
+  ];
 
   if (loading) {
     return (
@@ -293,23 +339,6 @@ const Jobs = () => {
                       </select>
                     </div>
                     
-                    {/* Employment Type */}
-                    <div>
-                      <label className="block text-sm font-medium mb-2" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
-                        Employment Type
-                      </label>
-                      <select
-                        value={employmentTypeFilter}
-                        onChange={(e) => setEmploymentTypeFilter(e.target.value)}
-                        className="input-field w-full"
-                      >
-                        <option value="">All Types</option>
-                        {getUniqueValues(jobs, 'employmentType').map(type => (
-                          <option key={type} value={type}>{type}</option>
-                        ))}
-                      </select>
-                    </div>
-                    
                     {/* Experience Level */}
                     <div>
                       <label className="block text-sm font-medium mb-2" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
@@ -321,8 +350,59 @@ const Jobs = () => {
                         className="input-field w-full"
                       >
                         <option value="">All Levels</option>
-                        {getUniqueValues(jobs, 'experienceLevel').map(level => (
+                        {experienceLevelOptions.map(level => (
                           <option key={level} value={level}>{level}</option>
+                        ))}
+                      </select>
+                    </div>
+                    
+                    {/* Work Type */}
+                    <div>
+                      <label className="block text-sm font-medium mb-2" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
+                        Work Type
+                      </label>
+                      <select
+                        value={workTypeFilter}
+                        onChange={(e) => setWorkTypeFilter(e.target.value)}
+                        className="input-field w-full"
+                      >
+                        <option value="">All Types</option>
+                        {workTypeOptions.map(type => (
+                          <option key={type} value={type}>{type}</option>
+                        ))}
+                      </select>
+                    </div>
+                    
+                    {/* Interview Type */}
+                    <div>
+                      <label className="block text-sm font-medium mb-2" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
+                        Interview Type
+                      </label>
+                      <select
+                        value={interviewTypeFilter}
+                        onChange={(e) => setInterviewTypeFilter(e.target.value)}
+                        className="input-field w-full"
+                      >
+                        <option value="">All Types</option>
+                        {interviewTypeOptions.map(type => (
+                          <option key={type} value={type}>{type}</option>
+                        ))}
+                      </select>
+                    </div>
+                    
+                    {/* Job Type */}
+                    <div>
+                      <label className="block text-sm font-medium mb-2" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
+                        Job Type
+                      </label>
+                      <select
+                        value={jobTypeFilter}
+                        onChange={(e) => setJobTypeFilter(e.target.value)}
+                        className="input-field w-full"
+                      >
+                        <option value="">All Types</option>
+                        {jobTypeOptions.map(type => (
+                          <option key={type} value={type}>{type}</option>
                         ))}
                       </select>
                     </div>
@@ -435,7 +515,7 @@ const Jobs = () => {
                               color: 'var(--color-accent)',
                               fontFamily: 'var(--font-body)'
                             }}>
-                              {job.employmentType}
+                              {job.jobType}
                             </span>
                             <span className="px-3 py-1 text-sm rounded-full font-medium" style={{ 
                               backgroundColor: 'var(--color-primary-light)', 

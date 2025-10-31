@@ -270,7 +270,7 @@ const Profile = () => {
                 <div className="flex flex-wrap gap-4 mt-4">
                   <div className="flex items-center text-sm text-gray-600">
                     <Briefcase className="w-5 h-5 mr-2" style={{ color: 'var(--color-accent)' }} />
-                    {calculateExperience(userData.profile.experience)} experience
+                    {userData.profile.designation || "Not provided"}
                   </div>
                   <div className="flex items-center text-sm text-gray-600">
                     <FileText className="w-5 h-5 mr-2" style={{ color: 'var(--color-accent)' }} />
@@ -337,6 +337,119 @@ const Profile = () => {
                       className="hidden"
                     />
                   </label>
+                )}
+              </div>
+            </div>
+            
+            {/* Additional Profile Information */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
+              <div className="bg-gray-50 rounded-lg p-4">
+                <div className="flex items-center mb-2">
+                  <Calendar className="w-5 h-5 mr-2 text-gray-400" />
+                  <p className="text-xs text-gray-500 uppercase tracking-wide" style={{ fontFamily: 'var(--font-body)' }}>Gender</p>
+                </div>
+                <p className="font-medium text-gray-900" style={{ fontFamily: 'var(--font-body)' }}>
+                  {userData.profile.gender || "Not provided"}
+                </p>
+              </div>
+              
+              <div className="bg-gray-50 rounded-lg p-4">
+                <div className="flex items-center mb-2">
+                  <MapPin className="w-5 h-5 mr-2 text-gray-400" />
+                  <p className="text-xs text-gray-500 uppercase tracking-wide" style={{ fontFamily: 'var(--font-body)' }}>Preferred Location</p>
+                </div>
+                <p className="font-medium text-gray-900" style={{ fontFamily: 'var(--font-body)' }}>
+                  {userData.profile.preferredLocation || "Not provided"}
+                </p>
+              </div>
+              
+              <div className="bg-gray-50 rounded-lg p-4">
+                <div className="flex items-center mb-2">
+                  <Briefcase className="w-5 h-5 mr-2 text-gray-400" />
+                  <p className="text-xs text-gray-500 uppercase tracking-wide" style={{ fontFamily: 'var(--font-body)' }}>Experience Level</p>
+                </div>
+                <p className="font-medium text-gray-900" style={{ fontFamily: 'var(--font-body)' }}>
+                  {userData.profile.expInWork || "Not provided"}
+                </p>
+              </div>
+              
+              <div className="bg-gray-50 rounded-lg p-4">
+                <div className="flex items-center mb-2">
+                  <BookOpen className="w-5 h-5 mr-2 text-gray-400" />
+                  <p className="text-xs text-gray-500 uppercase tracking-wide" style={{ fontFamily: 'var(--font-body)' }}>Highest Education</p>
+                </div>
+                <p className="font-medium text-gray-900" style={{ fontFamily: 'var(--font-body)' }}>
+                  {userData.profile.highestEducation || "Not provided"}
+                </p>
+              </div>
+            </div>
+            
+            {/* Salary and Notice Period */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+              <div className="bg-gray-50 rounded-lg p-4">
+                <div className="flex items-center mb-2">
+                  <span className="text-lg mr-2">💰</span>
+                  <p className="text-xs text-gray-500 uppercase tracking-wide" style={{ fontFamily: 'var(--font-body)' }}>Salary Expectation</p>
+                </div>
+                <p className="font-medium text-gray-900" style={{ fontFamily: 'var(--font-body)' }}>
+                  {userData.profile.salaryExpectation || "Not provided"}
+                </p>
+              </div>
+              
+              <div className="bg-gray-50 rounded-lg p-4">
+                <div className="flex items-center mb-2">
+                  <Calendar className="w-5 h-5 mr-2 text-gray-400" />
+                  <p className="text-xs text-gray-500 uppercase tracking-wide" style={{ fontFamily: 'var(--font-body)' }}>Notice Period</p>
+                </div>
+                <p className="font-medium text-gray-900" style={{ fontFamily: 'var(--font-body)' }}>
+                  {userData.profile.noticePeriod || "Not provided"}
+                </p>
+              </div>
+            </div>
+            
+            {/* Social Links */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+              <div className="bg-gray-50 rounded-lg p-4">
+                <div className="flex items-center mb-2">
+                  <span className="text-lg mr-2">🔗</span>
+                  <p className="text-xs text-gray-500 uppercase tracking-wide" style={{ fontFamily: 'var(--font-body)' }}>GitHub</p>
+                </div>
+                {userData.profile.githubUrl ? (
+                  <a 
+                    href={userData.profile.githubUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="font-medium hover:underline"
+                    style={{ color: 'var(--color-accent)', fontFamily: 'var(--font-body)' }}
+                  >
+                    View Profile
+                  </a>
+                ) : (
+                  <p className="font-medium text-gray-900" style={{ fontFamily: 'var(--font-body)' }}>
+                    Not provided
+                  </p>
+                )}
+              </div>
+              
+              <div className="bg-gray-50 rounded-lg p-4">
+                <div className="flex items-center mb-2">
+                  <span className="text-lg mr-2">🔗</span>
+                  <p className="text-xs text-gray-500 uppercase tracking-wide" style={{ fontFamily: 'var(--font-body)' }}>LinkedIn</p>
+                </div>
+                {userData.profile.linkedinUrl ? (
+                  <a 
+                    href={userData.profile.linkedinUrl} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="font-medium hover:underline"
+                    style={{ color: 'var(--color-accent)', fontFamily: 'var(--font-body)' }}
+                  >
+                    View Profile
+                  </a>
+                ) : (
+                  <p className="font-medium text-gray-900" style={{ fontFamily: 'var(--font-body)' }}>
+                    Not provided
+                  </p>
                 )}
               </div>
             </div>
