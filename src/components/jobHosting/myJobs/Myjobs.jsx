@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import JobHostingSidebar from "../commonHost/jobHostingSidebar";
 import { Briefcase, MapPin, Users, Trash2, UserCheck, IndianRupee } from "lucide-react";
-import { getHosterJobs } from "../../../utils/Api";
+import { getHosterJobs, deleteJob } from "../../../utils/Api";
 
 const Badge = ({ children, variant = "default", className = "" }) => {
   const baseStyles = "inline-flex items-center rounded-full px-3 py-1 text-xs font-medium transition-all duration-200";
@@ -33,6 +33,7 @@ const MyJobs = () => {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [deleting, setDeleting] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -60,11 +61,25 @@ const MyJobs = () => {
     navigate(`/hosting/applicants/${jobId}`);
   };
 
-  const handleDeleteJob = () => {
-    // Simulate job deletion
-    console.log("Job deleted:", selectedJob);
-    setShowDeletePopup(false);
-    setSelectedJob(null);
+  const setDeleteJobId = (jobId) => {
+    setSelectedJob(jobId);
+    setShowDeletePopup(true);
+  };
+
+  const handleDeleteJob = async () => {
+    try {
+      setDeleting(true);
+      await deleteJob(selectedJob);
+      // Remove the deleted job from the state
+      setJobs(jobs.filter(job => job._id !== selectedJob));
+      setShowDeletePopup(false);
+      setSelectedJob(null);
+    } catch (err) {
+      console.error("Error deleting job:", err);
+      setError("Failed to delete job. Please try again.");
+    } finally {
+      setDeleting(false);
+    }
   };
 
   if (loading) {
@@ -179,9 +194,20 @@ const MyJobs = () => {
                             <span className="font-medium">{job.company?.name || "N/A"}</span>
                           </div>
 
-                          <div className="flex items-center text-gray-600">
-                            <MapPin className="w-5 h-5" style={{ color: 'var(--color-accent)' }} />
-                            <span>{job.location}</span>
+                          <div className="flex items-start text-gray-600">
+                            <MapPin className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: 'var(--color-accent)' }} />
+                            <div className="ml-2">
+                              {Array.isArray(job.location) ? (
+                                job.location.map((loc, index) => (
+                                  <span key={index}>
+                                    {loc}
+                                    {index < job.location.length - 1 && ", "}
+                                  </span>
+                                ))
+                              ) : (
+                                <span>{job.location || "Not specified"}</span>
+                              )}
+                            </div>
                           </div>
 
                           <div className="flex items-center text-gray-600">
@@ -208,7 +234,7 @@ const MyJobs = () => {
 
                         <div className="flex items-center gap-4 pt-6 border-t border-gray-100 mt-auto">
                           <button
-                            onClick={() => navigate(`/hosting/applicants/${job._id}`)}
+                            onClick={() => handleViewApplicants(job._id)}
                             className="flex-1 flex items-center justify-center gap-2 text-white px-6 py-2.5 rounded-lg hover:opacity-90 transition-colors duration-200 font-medium shadow-sm hover:shadow-md"
                             style={{ backgroundColor: 'var(--color-accent)' }}
                           >
@@ -248,12 +274,12 @@ const MyJobs = () => {
             <p className="text-gray-600 mb-6 sm:mb-8">Are you sure you want to delete this job listing? This action cannot be undone.</p>
             <div className="flex gap-3 sm:gap-4">
               <button
-              onClick={handleDeleteJob}
-              disabled={deleting}
-              className="flex-1 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg hover:opacity-90 transition-colors duration-200 font-medium"
-              style={{ backgroundColor: 'var(--color-accent)' }}
-            >
-                Delete
+                onClick={handleDeleteJob}
+                disabled={deleting}
+                className="flex-1 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-lg hover:opacity-90 transition-colors duration-200 font-medium"
+                style={{ backgroundColor: 'var(--color-accent)' }}
+              >
+                {deleting ? "Deleting..." : "Delete"}
               </button>
               <button
                 onClick={() => setShowDeletePopup(false)}

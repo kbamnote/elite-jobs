@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import JobHostingSidebar from "../commonHost/jobHostingSidebar";
 import { applicantDetailById, applicantStatus } from "../../../utils/Api";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, User, Mail, Phone, MapPin, Calendar, GraduationCap, Briefcase, Link, FileText, UserCircle } from "lucide-react";
 
 const ApplicantProfile = () => {
   const { jobId, applicationId } = useParams(); // Now we have both jobId and applicationId
@@ -180,7 +180,6 @@ const ApplicantProfile = () => {
 
   const applicant = application.applicantId || {};
   const profile = applicant.profile || {};
-  const job = application.jobId || {};
 
   // Status options for the dropdown
   const statusOptions = ['pending', 'reviewed', 'interview', 'accepted', 'rejected'];
@@ -210,51 +209,66 @@ const ApplicantProfile = () => {
 
           <div className="lg:p-6 p-2">
             <div className="bg-white rounded-2xl shadow-lg lg:p-6 p-2">
-              {/* Job Details */}
-              <div className="mb-8 bg-blue-50 p-6 rounded-xl">
-                <h3 className="text-2xl font-bold text-gray-800 mb-4">
-                  Applied Job Details
-                </h3>
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  <div>
-                    <p className="text-gray-600">Job Title</p>
-                    <p className="font-semibold">{job?.title || "N/A"}</p>
+              {/* Profile Header with Photo */}
+              <div className="mb-8 bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-xl">
+                <div className="flex flex-col md:flex-row items-center gap-6">
+                  {/* Photo Section */}
+                  <div className="flex-shrink-0">
+                    {profile.photo ? (
+                      <img 
+                        src={profile.photo} 
+                        alt={applicant.name}
+                        className="w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg"
+                      />
+                    ) : (
+                      <div className="w-32 h-32 rounded-full flex items-center justify-center border-4 border-white shadow-lg bg-white">
+                        <UserCircle className="w-16 h-16 text-gray-400" />
+                      </div>
+                    )}
                   </div>
-                  <div>
-                    <p className="text-gray-600">Company Name</p>
-                    <p className="font-semibold">{job?.company?.name || "N/A"}</p>
-                  </div>
-                  <div>
-                    <p className="text-gray-600">Application Date</p>
-                    <p className="font-semibold">
-                      {application?.appliedAt 
-                        ? new Date(application.appliedAt).toLocaleDateString() 
-                        : "N/A"}
-                    </p>
-                  </div>
-                  <div className="md:col-span-2 lg:col-span-3">
-                    <p className="text-gray-600">Status</p>
-                    <div className="flex flex-wrap gap-2 items-center mt-2">
-                      <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full font-medium">
-                        {application?.status || "N/A"}
-                      </span>
-                      <select
-                        value={application?.status || ""}
-                        onChange={(e) => handleStatusChange(e.target.value)}
-                        disabled={statusUpdating}
-                        className="ml-2 px-3 py-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2"
-                style={{ '--tw-ring-color': 'var(--color-accent)' }}
-                      >
-                        <option value="">Update Status</option>
-                        {statusOptions.map((status) => (
-                          <option key={status} value={status}>
-                            {status.charAt(0).toUpperCase() + status.slice(1)}
-                          </option>
-                        ))}
-                      </select>
-                      {statusUpdating && (
-                        <span className="ml-2 text-gray-500">Updating...</span>
-                      )}
+                  
+                  {/* Profile Information */}
+                  <div className="flex-1 text-center md:text-left">
+                    <h1 className="text-3xl font-bold text-gray-800 mb-2">{applicant.name || "N/A"}</h1>
+                    <p className="text-gray-600 text-lg mb-4">{applicant.email || "N/A"}</p>
+                    
+                    <div className="flex flex-wrap justify-center md:justify-start gap-3 mb-4">
+                      <div className="flex items-center gap-2 bg-blue-100 text-blue-800 px-4 py-2 rounded-full">
+                        <span className="font-medium">Status:</span>
+                        <span className="font-bold">{application?.status || "N/A"}</span>
+                      </div>
+                      <div className="flex items-center gap-2 bg-purple-100 text-purple-800 px-4 py-2 rounded-full">
+                        <Calendar className="w-4 h-4" />
+                        <span className="font-medium">
+                          Applied on: {application?.appliedAt 
+                            ? new Date(application.appliedAt).toLocaleDateString() 
+                            : "N/A"}
+                        </span>
+                      </div>
+                    </div>
+                    
+                    {/* Status Update Section */}
+                    <div className="mt-4 flex flex-col sm:flex-row items-center gap-3">
+                      <span className="font-medium text-gray-700">Update Status:</span>
+                      <div className="flex items-center gap-2">
+                        <select
+                          value={application?.status || ""}
+                          onChange={(e) => handleStatusChange(e.target.value)}
+                          disabled={statusUpdating}
+                          className="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 text-gray-700"
+                          style={{ '--tw-ring-color': 'var(--color-accent)' }}
+                        >
+                          <option value="">Select Status</option>
+                          {statusOptions.map((status) => (
+                            <option key={status} value={status}>
+                              {status.charAt(0).toUpperCase() + status.slice(1)}
+                            </option>
+                          ))}
+                        </select>
+                        {statusUpdating && (
+                          <span className="text-gray-500 text-sm">Updating...</span>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -262,65 +276,120 @@ const ApplicantProfile = () => {
 
               {/* Personal Information */}
               <div className="mb-8 bg-blue-50 p-6 rounded-xl">
-                <h3 className="text-2xl font-bold text-gray-800 mb-4">
+                <h3 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                  <User className="w-6 h-6" style={{ color: 'var(--color-accent)' }} />
                   Personal Information
                 </h3>
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  <div>
-                    <p className="text-gray-600">Full Name</p>
-                    <p className="font-semibold">
-                      {applicant.name || "N/A"}
-                    </p>
+                  <div className="flex items-start gap-3">
+                    <User className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: 'var(--color-accent)' }} />
+                    <div>
+                      <p className="text-gray-600">Full Name</p>
+                      <p className="font-semibold">
+                        {applicant.name || "N/A"}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-gray-600">Email</p>
-                    <p className="font-semibold">{applicant.email || "N/A"}</p>
+                  <div className="flex items-start gap-3">
+                    <Mail className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: 'var(--color-accent)' }} />
+                    <div>
+                      <p className="text-gray-600">Email</p>
+                      <p className="font-semibold">{applicant.email || "N/A"}</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-gray-600">Phone</p>
-                    <p className="font-semibold">
-                      {profile.phone || "N/A"}
-                    </p>
+                  <div className="flex items-start gap-3">
+                    <Phone className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: 'var(--color-accent)' }} />
+                    <div>
+                      <p className="text-gray-600">Phone</p>
+                      <p className="font-semibold">
+                        {profile.phone || "N/A"}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-gray-600">Age</p>
-                    <p className="font-semibold">{profile.age || "N/A"}</p>
+                  <div className="flex items-start gap-3">
+                    <Calendar className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: 'var(--color-accent)' }} />
+                    <div>
+                      <p className="text-gray-600">Age</p>
+                      <p className="font-semibold">{profile.age || "N/A"}</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-gray-600">Address</p>
-                    <p className="font-semibold">{profile.address || "N/A"}</p>
+                  <div className="flex items-start gap-3">
+                    <MapPin className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: 'var(--color-accent)' }} />
+                    <div>
+                      <p className="text-gray-600">Address</p>
+                      <p className="font-semibold">{profile.address || "N/A"}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <User className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: 'var(--color-accent)' }} />
+                    <div>
+                      <p className="text-gray-600">Gender</p>
+                      <p className="font-semibold">{profile.gender || "N/A"}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <Calendar className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: 'var(--color-accent)' }} />
+                    <div>
+                      <p className="text-gray-600">Notice Period</p>
+                      <p className="font-semibold">{profile.noticePeriod || "N/A"}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <Briefcase className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: 'var(--color-accent)' }} />
+                    <div>
+                      <p className="text-gray-600">Designation</p>
+                      <p className="font-semibold">{profile.designation || "N/A"}</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <Briefcase className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: 'var(--color-accent)' }} />
+                    <div>
+                      <p className="text-gray-600">Work Experience</p>
+                      <p className="font-semibold">{profile.expInWork || "N/A"}</p>
+                    </div>
                   </div>
                 </div>
               </div>
 
               {/* Education */}
               <div className="mb-8 bg-blue-50 p-6 rounded-xl">
-                <h3 className="text-2xl font-bold text-gray-800 mb-4">
+                <h3 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                  <GraduationCap className="w-6 h-6" style={{ color: 'var(--color-accent)' }} />
                   Education
                 </h3>
                 {profile.education && profile.education.length > 0 ? (
                   <div className="space-y-4">
                     {profile.education.map((edu, index) => (
-                      <div key={index} className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <div>
-                          <p className="text-gray-600">Institution</p>
-                          <p className="font-semibold">{edu.institution || "N/A"}</p>
-                        </div>
-                        <div>
-                          <p className="text-gray-600">Degree</p>
-                          <p className="font-semibold">{edu.degree || "N/A"}</p>
-                        </div>
-                        <div>
-                          <p className="text-gray-600">Field of Study</p>
-                          <p className="font-semibold">{edu.fieldOfStudy || "N/A"}</p>
-                        </div>
-                        <div>
-                          <p className="text-gray-600">Start Year</p>
-                          <p className="font-semibold">{edu.startYear || "N/A"}</p>
-                        </div>
-                        <div>
-                          <p className="text-gray-600">End Year</p>
-                          <p className="font-semibold">{edu.endYear || "N/A"}</p>
+                      <div key={index} className="border-b border-gray-200 pb-4 last:border-0 last:pb-0">
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                          <div>
+                            <p className="text-gray-600">Institution</p>
+                            <p className="font-semibold">{edu.institution || "N/A"}</p>
+                          </div>
+                          <div>
+                            <p className="text-gray-600">Degree</p>
+                            <p className="font-semibold">{edu.degree || "N/A"}</p>
+                          </div>
+                          <div>
+                            <p className="text-gray-600">Field of Study</p>
+                            <p className="font-semibold">{edu.field || "N/A"}</p>
+                          </div>
+                          <div>
+                            <p className="text-gray-600">Start Date</p>
+                            <p className="font-semibold">
+                              {edu.startDate 
+                                ? new Date(edu.startDate).toLocaleDateString() 
+                                : "N/A"}
+                            </p>
+                          </div>
+                          <div>
+                            <p className="text-gray-600">End Date</p>
+                            <p className="font-semibold">
+                              {edu.endDate 
+                                ? new Date(edu.endDate).toLocaleDateString() 
+                                : "N/A"}
+                            </p>
+                          </div>
                         </div>
                       </div>
                     ))}
@@ -332,40 +401,43 @@ const ApplicantProfile = () => {
 
               {/* Experience */}
               <div className="mb-8 bg-blue-50 p-6 rounded-xl">
-                <h3 className="text-2xl font-bold text-gray-800 mb-4">
+                <h3 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                  <Briefcase className="w-6 h-6" style={{ color: 'var(--color-accent)' }} />
                   Experience
                 </h3>
                 {profile.experience && profile.experience.length > 0 ? (
                   <div className="space-y-4">
                     {profile.experience.map((exp, index) => (
-                      <div key={index} className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <div>
-                          <p className="text-gray-600">Company</p>
-                          <p className="font-semibold">{exp.company || "N/A"}</p>
-                        </div>
-                        <div>
-                          <p className="text-gray-600">Position</p>
-                          <p className="font-semibold">{exp.position || "N/A"}</p>
-                        </div>
-                        <div>
-                          <p className="text-gray-600">Description</p>
-                          <p className="font-semibold">{exp.description || "N/A"}</p>
-                        </div>
-                        <div>
-                          <p className="text-gray-600">Start Date</p>
-                          <p className="font-semibold">
-                            {exp.startDate 
-                              ? new Date(exp.startDate).toLocaleDateString() 
-                              : "N/A"}
-                          </p>
-                        </div>
-                        <div>
-                          <p className="text-gray-600">End Date</p>
-                          <p className="font-semibold">
-                            {exp.endDate 
-                              ? new Date(exp.endDate).toLocaleDateString() 
-                              : "N/A"}
-                          </p>
+                      <div key={index} className="border-b border-gray-200 pb-4 last:border-0 last:pb-0">
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                          <div>
+                            <p className="text-gray-600">Company</p>
+                            <p className="font-semibold">{exp.company || "N/A"}</p>
+                          </div>
+                          <div>
+                            <p className="text-gray-600">Position</p>
+                            <p className="font-semibold">{exp.position || "N/A"}</p>
+                          </div>
+                          <div>
+                            <p className="text-gray-600">Description</p>
+                            <p className="font-semibold">{exp.description || "N/A"}</p>
+                          </div>
+                          <div>
+                            <p className="text-gray-600">Start Date</p>
+                            <p className="font-semibold">
+                              {exp.startDate 
+                                ? new Date(exp.startDate).toLocaleDateString() 
+                                : "N/A"}
+                            </p>
+                          </div>
+                          <div>
+                            <p className="text-gray-600">End Date</p>
+                            <p className="font-semibold">
+                              {exp.endDate 
+                                ? new Date(exp.endDate).toLocaleDateString() 
+                                : "N/A"}
+                            </p>
+                          </div>
                         </div>
                       </div>
                     ))}
@@ -378,7 +450,8 @@ const ApplicantProfile = () => {
               {/* Skills & Links */}
               <div className="grid md:grid-cols-2 gap-6">
                 <div className="bg-blue-50 p-6 rounded-xl">
-                  <h3 className="text-2xl font-bold text-gray-800 mb-4">
+                  <h3 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                    <User className="w-6 h-6" style={{ color: 'var(--color-accent)' }} />
                     Skills
                   </h3>
                   <div className="flex flex-wrap gap-2">
@@ -398,82 +471,110 @@ const ApplicantProfile = () => {
                   </div>
                 </div>
                 <div className="bg-indigo-50 p-6 rounded-xl">
-                  <h3 className="text-2xl font-bold text-gray-800 mb-4">
+                  <h3 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+                    <Link className="w-6 h-6" style={{ color: 'var(--color-accent)' }} />
                     Links
                   </h3>
-                  <div className="space-y-2">
-                    <div>
-                      <p className="text-gray-600">LinkedIn</p>
-                      {profile.linkedinUrl ? (
-                        <a
-                          href={profile.linkedinUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-600 hover:underline"
-                        >
-                          {profile.linkedinUrl}
-                        </a>
-                      ) : (
-                        <p className="text-gray-500">No LinkedIn URL provided</p>
-                      )}
+                  <div className="space-y-3">
+                    <div className="flex items-start gap-3">
+                      <Link className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: 'var(--color-accent)' }} />
+                      <div>
+                        <p className="text-gray-600">LinkedIn</p>
+                        {profile.linkedinUrl ? (
+                          <a
+                            href={profile.linkedinUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 hover:underline font-medium"
+                          >
+                            {profile.linkedinUrl}
+                          </a>
+                        ) : (
+                          <p className="text-gray-500">No LinkedIn URL provided</p>
+                        )}
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-gray-600">GitHub</p>
-                      {profile.githubUrl ? (
-                        <a
-                          href={profile.githubUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-600 hover:underline"
-                        >
-                          {profile.githubUrl}
-                        </a>
-                      ) : (
-                        <p className="text-gray-500">No GitHub URL provided</p>
-                      )}
+                    <div className="flex items-start gap-3">
+                      <Link className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: 'var(--color-accent)' }} />
+                      <div>
+                        <p className="text-gray-600">GitHub</p>
+                        {profile.githubUrl ? (
+                          <a
+                            href={profile.githubUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 hover:underline font-medium"
+                          >
+                            {profile.githubUrl}
+                          </a>
+                        ) : (
+                          <p className="text-gray-500">No GitHub URL provided</p>
+                        )}
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-gray-600">Resume</p>
-                      {profile.resume ? (
-                        <a
-                          href={profile.resume}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-600 hover:underline"
-                        >
-                          View Resume
-                        </a>
-                      ) : (
-                        <p className="text-gray-500">No resume uploaded</p>
-                      )}
+                    <div className="flex items-start gap-3">
+                      <FileText className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: 'var(--color-accent)' }} />
+                      <div>
+                        <p className="text-gray-600">Resume</p>
+                        {profile.resume ? (
+                          <a
+                            href={profile.resume}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 hover:underline font-medium"
+                          >
+                            View Resume
+                          </a>
+                        ) : (
+                          <p className="text-gray-500">No resume uploaded</p>
+                        )}
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-gray-600">Photo</p>
-                      {profile.photo ? (
-                        <a
-                          href={profile.photo}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-blue-600 hover:underline"
-                        >
-                          View Photo
-                        </a>
-                      ) : (
-                        <p className="text-gray-500">No photo uploaded</p>
-                      )}
+                    <div className="flex items-start gap-3">
+                      <User className="w-5 h-5 mt-0.5 flex-shrink-0" style={{ color: 'var(--color-accent)' }} />
+                      <div>
+                        <p className="text-gray-600">Photo</p>
+                        {profile.photo ? (
+                          <a
+                            href={profile.photo}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-blue-600 hover:underline font-medium"
+                          >
+                            View Photo
+                          </a>
+                        ) : (
+                          <p className="text-gray-500">No photo uploaded</p>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* Application Status */}
+              {/* Additional Information */}
               <div className="mt-8 bg-blue-50 p-6 rounded-xl">
                 <h3 className="text-2xl font-bold text-gray-800 mb-4">
-                  Application Status
+                  Additional Information
                 </h3>
-                <p className="font-semibold text-green-600">
-                  {application?.status || "Under Review"}
-                </p>
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  <div>
+                    <p className="text-gray-600">Highest Education</p>
+                    <p className="font-semibold">{profile.highestEducation || "N/A"}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-600">Preferred Category</p>
+                    <p className="font-semibold">{profile.preferredCategory || "N/A"}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-600">Preferred Location</p>
+                    <p className="font-semibold">{profile.preferredLocation || "N/A"}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-600">Salary Expectation</p>
+                    <p className="font-semibold">{profile.salaryExpectation || "N/A"}</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
