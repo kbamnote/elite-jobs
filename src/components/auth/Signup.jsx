@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { signup } from '../../utils/Api';
+import { signup, updateProfile } from '../../utils/Api';
 import Cookies from 'js-cookie';
 
 const Signup = () => {
@@ -13,6 +13,18 @@ const Signup = () => {
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  // Onboarding wizard state (shown after signup for job seekers)
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [onboardingStep, setOnboardingStep] = useState(1);
+  const [onboardSaving, setOnboardSaving] = useState(false);
+  const [onboardError, setOnboardError] = useState('');
+  const [onboardingData, setOnboardingData] = useState({
+    phone: '',
+    address: '',
+    highestEducation: '',
+    skills: '' // comma separated string
+  });
 
   const handleChange = (e) => {
     setFormData({
@@ -36,9 +48,10 @@ const Signup = () => {
       Cookies.set('token', token);
       Cookies.set('role', role);
       
-      // Navigate based on role
+      // Navigate / Onboard based on role
       if (role === 'jobSeeker') {
-        navigate('/');
+        // Navigate to onboarding page for job seekers
+        navigate('/onboarding');
       } else if (role === 'jobHoster') {
         navigate('/dashboard');
       } else if (role === 'recruiter') {
@@ -48,6 +61,44 @@ const Signup = () => {
       setError(err.response?.data?.message || 'Signup failed');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleOnboardChange = (e) => {
+    const { name, value } = e.target;
+    setOnboardingData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const nextStep = () => setOnboardingStep(s => Math.min(3, s + 1));
+  const prevStep = () => setOnboardingStep(s => Math.max(1, s - 1));
+
+  const submitOnboarding = async () => {
+    setOnboardError('');
+    // simple validation
+    const { phone, address, highestEducation, skills } = onboardingData;
+    if (!phone || !address || !highestEducation || !skills) {
+      setOnboardError('Please complete all required fields.');
+      return;
+    }
+
+    setOnboardSaving(true);
+    try {
+      const skillsArray = skills.split(',').map(s => s.trim()).filter(Boolean);
+      const updateData = {
+        profile: {
+          phone,
+          address,
+          highestEducation,
+          skills: skillsArray
+        }
+      };
+      await updateProfile(updateData);
+      setShowOnboarding(false);
+      navigate('/profile');
+    } catch (err) {
+      setOnboardError(err.response?.data?.message || 'Failed to save details');
+    } finally {
+      setOnboardSaving(false);
     }
   };
 
@@ -225,6 +276,107 @@ const Signup = () => {
             </p>
           </div>
         </form>
+        {showOnboarding && (
+          <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+            <div className="bg-white rounded-xl shadow-lg w-full max-w-lg p-6">
+              <h3 className="text-xl font-semibold mb-4">Complete Your Profile</h3>
+
+              {onboardError && (
+                <div className="mb-4 rounded-lg bg-red-50 p-3 border border-red-200 text-red-700 text-sm">
+                  {onboardError}
+                </div>
+              )}
+
+              {onboardingStep === 1 && (
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm text-gray-700 mb-1">Phone</label>
+                    <input
+                      name="phone"
+                      type="tel"
+                      value={onboardingData.phone}
+                      onChange={handleOnboardChange}
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm text-gray-700 mb-1">Address</label>
+                    <input
+                      name="address"
+                      type="text"
+                      value={onboardingData.address}
+                      onChange={handleOnboardChange}
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {onboardingStep === 2 && (
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm text-gray-700 mb-1">Highest Education</label>
+                    <input
+                      name="highestEducation"
+                      type="text"
+                      value={onboardingData.highestEducation}
+                      onChange={handleOnboardChange}
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                      placeholder="e.g., B.Tech, MSc, High School"
+                    />
+                  </div>
+                </div>
+              )}
+
+              {onboardingStep === 3 && (
+                <div className="space-y-4">
+                  <div>
+                    <label className="block text-sm text-gray-700 mb-1">Skills</label>
+                    <input
+                      name="skills"
+                      type="text"
+                      value={onboardingData.skills}
+                      onChange={handleOnboardChange}
+                      className="w-full border border-gray-300 rounded-lg px-3 py-2"
+                      placeholder="e.g., React, Node.js, SQL"
+                    />
+                    <p className="text-xs text-gray-500 mt-1">Comma-separated</p>
+                  </div>
+                </div>
+              )}
+
+              <div className="mt-6 flex justify-between">
+                <button
+                  type="button"
+                  onClick={prevStep}
+                  className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg"
+                  disabled={onboardingStep === 1 || onboardSaving}
+                >
+                  Back
+                </button>
+                {onboardingStep < 3 ? (
+                  <button
+                    type="button"
+                    onClick={nextStep}
+                    className="px-4 py-2 btn-accent rounded-lg"
+                    disabled={onboardSaving}
+                  >
+                    Next
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={submitOnboarding}
+                    className="px-4 py-2 btn-accent rounded-lg"
+                    disabled={onboardSaving}
+                  >
+                    {onboardSaving ? 'Saving...' : 'Finish'}
+                  </button>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

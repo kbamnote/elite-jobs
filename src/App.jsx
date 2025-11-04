@@ -32,7 +32,10 @@ import ApplicantProfile from "./components/jobHosting/myJobs/ApplicantProfile";
 import RecruiterPage from "./components/recruiter/main/RecruiterPage";
 // import RecruiterFilter from "./components/recruiter/filter/RecruiterFilter";  // Remove this line
 import RecruiterProfile from "./components/recruiter/profile/RecruiterProfile";
+import RecruiterProfileEdit from "./components/recruiter/profile/RecruiterProfileEdit";
 import RecruiterApplicantDetail from "./components/recruiter/applicantFullDetail/RecruiterApplicantDetail";
+import Onboarding from "./components/jobSeeker/seekerProfile/Onboarding";
+// import ProtectedRoute from "./components/jobSeeker/seekerAuth/ProtectedRoute";
 
 function App() {
   return (
@@ -59,6 +62,7 @@ function App() {
         <Route path="/recruiter/dashboard" element={<RecruiterPage/>} />
         {/* <Route path="/recruiter/filter" element={<RecruiterFilter/>} />  Remove this line */}
         <Route path="/recruiter/profile" element={<RecruiterProfile/>} />
+        <Route path="/recruiter/profile/edit" element={<RecruiterProfileEdit/>} />
         <Route path="/recruiter/applicant-details/:id" element={<RecruiterApplicantDetail/>} />
         
         {/* Job Seeker Pages */}
@@ -75,6 +79,7 @@ function App() {
         
         {/* Seeker Profile */}
         <Route path="/profile" element={<Profile />} />
+        <Route path="/onboarding" element={<Onboarding />} />
         <Route path="/user-detail" element={<UserDetails />} />
         <Route path="/my-jobs" element={<ShowJobs />} />
         <Route path="/*" element={<NotFoundPage />} />
