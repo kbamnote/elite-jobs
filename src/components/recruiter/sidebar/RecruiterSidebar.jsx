@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
   LogOut,
@@ -11,15 +11,32 @@ import {
   CalendarPlus,
 } from "lucide-react";
 import Cookies from "js-cookie";
+import { profile } from "../../../utils/Api";
 
-const RecruiterSidebar = () => {
+const RecruiterSidebar = ({ placement = 'side' }) => {
   const navigate = useNavigate();
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [isLogoutHovered, setIsLogoutHovered] = useState(false);
   
-  // Static user name for design-only mode
-  const userName = "Recruiter Name";
+  // Dynamic user name from profile
+  const [userName, setUserName] = useState("");
+
+  useEffect(() => {
+    let isMounted = true;
+    const loadName = async () => {
+      try {
+        const res = await profile();
+        const name = res?.data?.data?.name || "Recruiter";
+        if (isMounted) setUserName(name);
+      } catch (err) {
+        console.error("Failed to load recruiter name:", err);
+        if (isMounted) setUserName("Recruiter");
+      }
+    };
+    loadName();
+    return () => { isMounted = false; };
+  }, []);
 
   const handleLogout = () => {
     // Remove token and role from cookies
@@ -39,6 +56,72 @@ const RecruiterSidebar = () => {
   
    
   ];
+
+  if (placement === 'top') {
+    return (
+      <header
+        className="fixed top-0 left-0 right-0 z-40"
+        style={{
+          backgroundColor: 'var(--color-primary)',
+          boxShadow: 'var(--shadow-lg)'
+        }}
+      >
+        <div className="flex items-center justify-between px-6 py-3">
+          {/* Brand */}
+          <Link to="/recruiter/dashboard" className="flex items-center">
+            <BriefcaseBusiness className="w-6 h-6" style={{ color: 'var(--color-accent)' }} />
+            <span className="ml-2 text-xl font-bold" style={{ color: 'var(--color-text-white)', fontFamily: 'var(--font-heading)' }}>Elite Jobs</span>
+          </Link>
+
+          {/* Nav Links */}
+          <nav className="hidden md:flex items-center space-x-4">
+            <Link to="/recruiter/dashboard" className="px-3 py-2 rounded-md"
+              style={{
+                color: 'var(--color-text-white)',
+                backgroundColor: location.pathname === '/recruiter/dashboard' ? 'rgba(255,255,255,0.15)' : 'transparent',
+                transition: 'var(--transition-normal)'
+              }}
+            >
+              Dashboard
+            </Link>
+            {navItems.map((item, index) => (
+              <Link key={index} to={item.path} className="px-3 py-2 rounded-md"
+                style={{
+                  color: 'var(--color-text-white)',
+                  backgroundColor: location.pathname === item.path ? 'rgba(255,255,255,0.15)' : 'transparent',
+                  transition: 'var(--transition-normal)'
+                }}
+              >
+                {item.label}
+              </Link>
+            ))}
+          </nav>
+
+          {/* Profile + Logout */}
+          <div className="flex items-center space-x-3">
+            <Link to="/recruiter/profile" className="flex items-center">
+              <div className="w-8 h-8 bg-gray-300 rounded-full flex items-center justify-center text-gray-600">
+                <User className="w-5 h-5" />
+              </div>
+              <span className="ml-2" style={{ color: 'var(--color-text-white)', fontFamily: 'var(--font-body)', fontWeight: 600 }}>{userName}</span>
+            </Link>
+            <button
+              onClick={handleLogout}
+              className="px-3 py-2 rounded-md"
+              style={{
+                backgroundColor: 'rgba(255,255,255,0.15)',
+                color: 'var(--color-text-white)'
+              }}
+              onMouseEnter={(e) => { e.target.style.backgroundColor = 'rgba(220, 38, 38, 0.3)'; setIsLogoutHovered(true); }}
+              onMouseLeave={(e) => { e.target.style.backgroundColor = 'rgba(255,255,255,0.15)'; setIsLogoutHovered(false); }}
+            >
+              Logout
+            </button>
+          </div>
+        </div>
+      </header>
+    );
+  }
 
   return (
     <>

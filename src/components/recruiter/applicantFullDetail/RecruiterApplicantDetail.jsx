@@ -32,14 +32,10 @@ const RecruiterApplicantDetail = () => {
   if (loading) {
     return (
       <>
-        <div className="min-h-screen flex flex-col lg:flex-row bg-gray-50">
-          {/* Sidebar */}
-          <div className="w-[10px] lg:w-1/4 h-screen fixed top-0 left-0">
-            <RecruiterSidebar />
-          </div>
-          
+        <RecruiterSidebar placement="top" />
+        <div className="min-h-screen bg-gray-50">
           {/* Main content */}
-          <main className="w-full lg:ml-80 xl:ml-80 p-4 justify-center items-center flex min-h-screen overflow-y-auto">
+          <main className="w-full pt-16 p-4 justify-center items-center flex min-h-screen overflow-y-auto">
             <div className="max-w-4xl mx-auto">
               <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg border border-gray-200">
                 <div className="text-center py-10">
@@ -56,14 +52,10 @@ const RecruiterApplicantDetail = () => {
   if (error) {
     return (
       <>
-        <div className="min-h-screen flex flex-col lg:flex-row bg-gray-50">
-          {/* Sidebar */}
-          <div className="w-[10px] lg:w-1/4 h-screen fixed top-0 left-0">
-            <RecruiterSidebar />
-          </div>
-          
+        <RecruiterSidebar placement="top" />
+        <div className="min-h-screen bg-gray-50">
           {/* Main content */}
-          <main className="w-full lg:ml-80 xl:ml-80 p-4 justify-center items-center flex min-h-screen overflow-y-auto">
+          <main className="w-full pt-16 p-4 justify-center items-center flex min-h-screen overflow-y-auto">
             <div className="max-w-4xl mx-auto">
               <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg border border-gray-200">
                 <div className="text-center py-10">
@@ -86,14 +78,10 @@ const RecruiterApplicantDetail = () => {
   if (!applicant) {
     return (
       <>
-        <div className="min-h-screen flex flex-col lg:flex-row bg-gray-50">
-          {/* Sidebar */}
-          <div className="w-[10px] lg:w-1/4 h-screen fixed top-0 left-0">
-            <RecruiterSidebar />
-          </div>
-          
+        <RecruiterSidebar placement="top" />
+        <div className="min-h-screen bg-gray-50">
           {/* Main content */}
-          <main className="w-full lg:ml-80 xl:ml-80 p-4 justify-center items-center flex min-h-screen overflow-y-auto">
+          <main className="w-full pt-16 p-4 justify-center items-center flex min-h-screen overflow-y-auto">
             <div className="max-w-4xl mx-auto">
               <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg border border-gray-200">
                 <div className="text-center py-10">
@@ -109,14 +97,10 @@ const RecruiterApplicantDetail = () => {
 
   return (
     <>
-      <div className="min-h-screen flex flex-col lg:flex-row bg-gray-50">
-        {/* Sidebar */}
-        <div className="w-[10px] lg:w-1/4 h-screen fixed top-0 left-0">
-          <RecruiterSidebar />
-        </div>
-
+      <RecruiterSidebar placement="top" />
+      <div className="min-h-screen bg-gray-50">
         {/* Main content */}
-        <main className="w-full lg:ml-80 xl:ml-80 p-4 justify-center items-center flex min-h-screen overflow-y-auto">
+        <main className="w-full pt-16 p-4 justify-center items-center flex min-h-screen overflow-y-auto">
           <div className="max-w-4xl mx-auto">
             <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg border border-gray-200">
               {/* Title */}
