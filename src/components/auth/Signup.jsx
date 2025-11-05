@@ -53,7 +53,8 @@ const Signup = () => {
         // Navigate to onboarding page for job seekers
         navigate('/onboarding');
       } else if (role === 'jobHoster') {
-        navigate('/dashboard');
+        // Navigate to job hosting onboarding page
+        navigate('/hosting/onboarding');
       } else if (role === 'recruiter') {
         navigate('/recruiter/dashboard');
       }

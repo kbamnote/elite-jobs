@@ -23,6 +23,7 @@ import HostingLogin from "./components/jobHosting/hostingAuth/HostingLogin";
 import HostingSignup from "./components/jobHosting/hostingAuth/HostingSignup";
 import HostingProfileDetail from "./components/jobHosting/hostingProfile/HostingProfileDetail";
 import HostingProfileForm from "./components/jobHosting/hostingProfile/HostingProfileForm";
+import JobHostingOnboarding from "./components/jobHosting/hostingProfile/JobHostingOnboarding";
 import PostJob from "./components/jobHosting/postJob/PostJob";
 import MyJobs from "./components/jobHosting/myJobs/Myjobs";
 import ViewApplicant from "./components/jobHosting/myJobs/ViewApplicant";
@@ -52,6 +53,7 @@ function App() {
         <Route path="/hosting/login" element={<HostingLogin />} />
         <Route path="/hosting/signup" element={<HostingSignup />} />
         <Route path="/hosting/profile" element={<HostingProfileForm />} />
+        <Route path="/hosting/onboarding" element={<JobHostingOnboarding />} />
         <Route path="/hosting/profile/edit" element={<HostingProfileDetail />} />
         <Route path="/hosting/post-job" element={<PostJob />} />
         <Route path="/hosting/my-jobs" element={<MyJobs />} />
