@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import RecruiterSidebar from "../sidebar/RecruiterSidebar";
-import { profile, updateProfile, updateCompanyLogo } from "../../../utils/Api";
+import { profile, updateProfile, updateCompanyLogo, updateCompanyDocs, uploadFileHoster, updatephotoCompany } from "../../../utils/Api";
 
 const RecruiterProfileEdit = () => {
   const navigate = useNavigate();
@@ -26,7 +26,9 @@ const RecruiterProfileEdit = () => {
     }
   });
 
+  const [photoPreview, setPhotoPreview] = useState("");
   const [logoPreview, setLogoPreview] = useState("");
+  const [documentPreview, setDocumentPreview] = useState(""); // New state for document preview
 
   useEffect(() => {
     fetchProfileData();
@@ -52,7 +54,9 @@ const RecruiterProfileEdit = () => {
           gstNumber: data.profile.gstNumber || "",
         }
       });
+      setPhotoPreview(data.profile.photo || "");
       setLogoPreview(data.profile.companyLogo || "");
+      setDocumentPreview(data.profile.companyDocument || ""); // Set document preview
       setError("");
     } catch (err) {
       setError("Failed to fetch profile data");
@@ -81,20 +85,157 @@ const RecruiterProfileEdit = () => {
     }
   };
 
-  // Removed profile photo upload; only company logo can be updated
+  // Function to handle profile photo upload (checks if it's initial upload or update)
+  const handlePhotoChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const fd = new FormData();
+    fd.append("photo", file);
+    
+    try {
+      // Check if user already has a profile photo
+      const response = await profile();
+      const hasExistingPhoto = response.data.data.profile.photo;
+      
+      let result;
+      if (hasExistingPhoto) {
+        // Update existing photo
+        result = await updatephotoCompany(fd);
+      } else {
+        // Initial upload
+        result = await uploadFileHoster(fd);
+      }
+      
+      setPhotoPreview(result.data.data.profile.photo);
+      setMessage("Profile photo updated successfully!");
+    } catch (err) {
+      // More detailed error logging
+      console.error("Full error object:", err);
+      console.error("Error response:", err.response);
+      console.error("Error request:", err.request);
+      
+      let errorMessage = "Unknown error";
+      if (err.response) {
+        // Server responded with error status
+        errorMessage = `Server error: ${err.response.status} - ${err.response.data?.message || err.response.statusText}`;
+      } else if (err.request) {
+        // Request was made but no response received
+        errorMessage = "No response from server. Check network connection.";
+      } else {
+        // Something else happened
+        errorMessage = err.message || "Unknown error occurred";
+      }
+      
+      setMessage("Failed to update profile photo: " + errorMessage);
+      console.error("Error updating photo:", err);
+    }
+  };
 
+  // Function to handle company logo upload (checks if it's initial upload or update)
   const handleLogoChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
     const fd = new FormData();
     fd.append("companyLogo", file);
+    
     try {
-      const response = await updateCompanyLogo(fd);
-      setLogoPreview(response.data.data.profile.companyLogo);
+      // Check if user already has a company logo
+      const response = await profile();
+      const hasExistingLogo = response.data.data.profile.companyLogo;
+      
+      let result;
+      if (hasExistingLogo) {
+        // Update existing logo
+        result = await updateCompanyLogo(fd);
+      } else {
+        // Initial upload
+        result = await uploadFileHoster(fd);
+      }
+      
+      setLogoPreview(result.data.data.profile.companyLogo);
       setMessage("Company logo updated successfully!");
     } catch (err) {
-      setMessage("Failed to update company logo: " + (err.response?.data?.message || "Unknown error"));
+      // More detailed error logging
+      console.error("Full error object:", err);
+      console.error("Error response:", err.response);
+      console.error("Error request:", err.request);
+      
+      let errorMessage = "Unknown error";
+      if (err.response) {
+        // Server responded with error status
+        errorMessage = `Server error: ${err.response.status} - ${err.response.data?.message || err.response.statusText}`;
+      } else if (err.request) {
+        // Request was made but no response received
+        errorMessage = "No response from server. Check network connection.";
+      } else {
+        // Something else happened
+        errorMessage = err.message || "Unknown error occurred";
+      }
+      
+      setMessage("Failed to update company logo: " + errorMessage);
       console.error("Error updating logo:", err);
+    }
+  };
+
+  // New function to handle company document upload (checks if it's initial upload or update)
+  const handleDocumentChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("companyDocument", file);
+
+    try {
+      // Check if user already has a company document
+      const response = await profile();
+      const hasExistingDocument = response.data.data.profile.companyDocument && 
+        (Array.isArray(response.data.data.profile.companyDocument) 
+          ? response.data.data.profile.companyDocument.length > 0 
+          : response.data.data.profile.companyDocument);
+      
+      let result;
+      if (hasExistingDocument) {
+        // Update existing document
+        result = await updateCompanyDocs(formData);
+      } else {
+        // For initial upload, try updateCompanyDocs first
+        // If that fails, fall back to uploadFileHoster
+        try {
+          result = await updateCompanyDocs(formData);
+        } catch (updateError) {
+          // If update fails, try uploadFileHoster
+          console.log("Update failed, trying uploadFileHoster:", updateError);
+          result = await uploadFileHoster(formData);
+        }
+      }
+      
+      // Handle the response correctly - companyDocument is returned as an array
+      const documentUrl = Array.isArray(result.data.data.profile.companyDocument) 
+        ? result.data.data.profile.companyDocument[0] 
+        : result.data.data.profile.companyDocument;
+      
+      setDocumentPreview(documentUrl);
+      setMessage("Company document updated successfully!");
+    } catch (err) {
+      // More detailed error logging
+      console.error("Full error object:", err);
+      console.error("Error response:", err.response);
+      console.error("Error request:", err.request);
+      
+      let errorMessage = "Unknown error";
+      if (err.response) {
+        // Server responded with error status
+        errorMessage = `Server error: ${err.response.status} - ${err.response.data?.message || err.response.statusText}`;
+      } else if (err.request) {
+        // Request was made but no response received
+        errorMessage = "No response from server. Check network connection.";
+      } else {
+        // Something else happened
+        errorMessage = err.message || "Unknown error occurred";
+      }
+      
+      setMessage("Failed to update company document: " + errorMessage);
+      console.error("Error updating document:", err);
     }
   };
 
@@ -187,7 +328,29 @@ const RecruiterProfileEdit = () => {
               {error && <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-lg">{error}</div>}
 
               <form className="space-y-8" onSubmit={handleSubmit}>
-                <div className="grid grid-cols-1 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+                  {/* Profile Photo */}
+                  <div className="flex flex-col items-center">
+                    <div className="relative">
+                      <img 
+                        src={photoPreview || "https://placehold.co/150x150"} 
+                        alt="Profile" 
+                        className="w-32 h-32 rounded-full object-cover border-4 border-gray-200"
+                        onError={(e) => { e.target.src = "https://placehold.co/150x150"; }}
+                      />
+                    </div>
+                    <label className="mt-4 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 cursor-pointer">
+                      Change Photo
+                      <input 
+                        type="file" 
+                        accept="image/*" 
+                        onChange={handlePhotoChange}
+                        className="hidden"
+                      />
+                    </label>
+                  </div>
+                  
+                  {/* Company Logo */}
                   <div className="flex flex-col items-center">
                     <div className="relative">
                       <img 
@@ -201,6 +364,40 @@ const RecruiterProfileEdit = () => {
                       Change Logo
                       <input type="file" accept="image/*" onChange={handleLogoChange} className="hidden" />
                     </label>
+                  </div>
+                  
+                  {/* Company Document */}
+                  <div className="flex flex-col items-center">
+                    <div className="relative">
+                      {documentPreview ? (
+                        <div className="w-32 h-32 rounded-lg border-4 border-gray-200 flex items-center justify-center bg-gray-100">
+                          <span className="text-gray-600 text-sm text-center px-2">Company Document</span>
+                        </div>
+                      ) : (
+                        <div className="w-32 h-32 rounded-lg border-4 border-gray-200 flex items-center justify-center bg-gray-100">
+                          <span className="text-gray-400">No Document</span>
+                        </div>
+                      )}
+                    </div>
+                    <label className="mt-4 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 cursor-pointer">
+                      Upload Document
+                      <input 
+                        type="file" 
+                        accept=".pdf,.doc,.docx" 
+                        onChange={handleDocumentChange}
+                        className="hidden"
+                      />
+                    </label>
+                    {documentPreview && (
+                      <a 
+                        href={documentPreview} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="mt-2 text-sm text-blue-600 hover:underline"
+                      >
+                        View Document
+                      </a>
+                    )}
                   </div>
                 </div>
 
