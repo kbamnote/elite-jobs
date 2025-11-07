@@ -518,11 +518,9 @@ const RecruiterPage = () => {
                         <thead>
                           <tr>
                             <th className="text-left px-6 py-3 text-sm font-semibold" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-heading)' }}>Name</th>
-                            <th className="text-left px-6 py-3 text-sm font-semibold" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-heading)' }}>Email</th>
                             <th className="text-left px-6 py-3 text-sm font-semibold" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-heading)' }}>Age</th>
                             <th className="text-left px-6 py-3 text-sm font-semibold" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-heading)' }}>Gender</th>
-                            <th className="text-left px-6 py-3 text-sm font-semibold" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-heading)' }}>Experience</th>
-                            <th className="text-left px-6 py-3 text-sm font-semibold" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-heading)' }}>Education</th>
+                            <th className="text-left px-6 py-3 text-sm font-semibold" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-heading)' }}>Designation</th>
                             <th className="text-left px-6 py-3 text-sm font-semibold" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-heading)' }}>Actions</th>
                           </tr>
                         </thead>
@@ -530,10 +528,7 @@ const RecruiterPage = () => {
                           {applicants.map((applicant) => (
                             <tr key={applicant._id} className="border-t hover:bg-gray-50" style={{ borderColor: 'var(--color-border)' }}>
                               <td className="px-6 py-4" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
-                                {applicant.profile?.firstName || 'N/A'} {applicant.profile?.lastName || ''}
-                              </td>
-                              <td className="px-6 py-4" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
-                                {applicant.email || 'No email provided'}
+                                {applicant.name || 'N/A'}
                               </td>
                               <td className="px-6 py-4" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
                                 {applicant.profile?.age || 'Not specified'}
@@ -542,10 +537,7 @@ const RecruiterPage = () => {
                                 {applicant.profile?.gender || 'Not specified'}
                               </td>
                               <td className="px-6 py-4" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
-                                {applicant.profile?.expInWork || 'Not specified'}
-                              </td>
-                              <td className="px-6 py-4" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
-                                {applicant.profile?.highestEducation || 'Not specified'}
+                                {applicant.profile?.designation || 'Not specified'}
                               </td>
                               <td className="px-6 py-4">
                                 <button 

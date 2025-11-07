@@ -47,17 +47,17 @@ export const login = (post) => Apiauth.post("/auth/login", post);
 export const profile = () => Api.get("/auth/profile");
 
 // ============== Profile Update for Seeker, Hoster and Recruiter ==============
-export const updateProfile = (formData) => Api.patch("/auth/profile", formData);
+export const updateProfile = (formData) => Api.put("/auth/profile", formData);
 
 // ============== Uploading resume and photo of Seeker ==============
 export const uploadFileSeeker = (formData) =>
-  Api.post("/auth/profile/upload-multiple", formData, {
+  Api.post("/auth/upload-multiple", formData, {
     headers: { "Content-Type": "multipart/form-data" },
   });
 
-// ============== Uploading companyLogo and photo of Hoster and Recruiter ==============
+// ============== Uploading companyLogo, photo and companyDocument of Hoster and Recruiter ==============
 export const uploadFileHoster = (formData) =>
-  Api.post("/auth/profile/upload-multiple", formData, {
+  Api.post("/auth/upload-multiple", formData, {
     headers: { "Content-Type": "multipart/form-data" },
   });
 
@@ -70,6 +70,12 @@ export const updatephotoSeeker = (formData) =>
 // ============== Updating company photo for Hoster and Recruiter ==============
 export const updatephotoCompany = (formData) =>
   Api.put("/auth/profile/photo", formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+
+// ============== Updating company document for Hoster and Recruiter ==============
+export const updateCompanyDocs = (formData) =>
+  Api.put("/auth/profile/company-document", formData, {
     headers: { "Content-Type": "multipart/form-data" },
   });
 

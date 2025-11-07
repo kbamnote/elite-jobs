@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import JobHostingSidebar from "../commonHost/jobHostingSidebar";
-import { Pencil } from "lucide-react";
 import { profile } from "../../../utils/Api";
 
 const HostingProfileForm = () => {
@@ -33,7 +32,9 @@ const HostingProfileForm = () => {
         panCardNumber: data.profile.panCardNumber,
         gstNumber: data.profile.gstNumber,
         email: data.email,
-        companyLogo: data.profile.companyLogo
+        companyLogo: data.profile.companyLogo,
+        photo: data.profile.photo, // Add profile photo
+        companyDocument: data.profile.companyDocument // Add company document
       });
       
       setError("");
@@ -101,67 +102,188 @@ const HostingProfileForm = () => {
       {/* Profile Container - Right Side & Centered */}
       <main className="w-full lg:ml-80 xl:ml-80 p-4 flex justify-center items-center min-h-screen overflow-y-auto">
         <div className="w-full max-w-3xl bg-white shadow-xl rounded-2xl overflow-hidden p-4 sm:p-6 md:p-8 border border-gray-200 relative">
-          {/* Edit Profile Button with Icon at Top-Right */}
-          <div className="absolute top-2 right-2 sm:top-4 sm:right-4 z-10">
+          {/* Edit Profile Button */}
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold text-gray-900">
+              My Profile
+            </h2>
             <button
               onClick={() => navigate("/hosting/profile/edit")}
-              className="flex items-center gap-1 sm:gap-2 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white text-sm sm:text-base font-semibold py-1.5 sm:py-2 px-4 sm:px-6 rounded-lg shadow-md transition duration-200"
+              className="px-5 py-2.5 btn-accent rounded-lg transition-all hover:shadow-md"
             >
-              <Pencil size={16} className="sm:w-[18px]" />
-              <span className="hidden sm:inline">Edit Profile</span>
+              Edit Profile
             </button>
           </div>
 
-          {/* Profile Image & Info */}
-          <div className="flex flex-col items-center space-y-4 sm:flex-row sm:items-start sm:space-y-0 sm:space-x-6 pt-8 sm:pt-0">
-            <div className="relative w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32">
-              <img
-                src={hoster.companyLogo || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"}
-                alt="Company Logo"
-                className="w-full h-full object-cover rounded-full border-4 border-red-400 shadow-lg"
-              />
-            </div>
+          {/* Profile Header with Cover */}
+          <div className="h-32 bg-[#3675AC] rounded-t-2xl"></div>
+          
+          <div className="px-6 sm:px-8 pb-8">
+            <div className="flex flex-col sm:flex-row sm:items-end sm:space-x-6 -mt-16 sm:-mt-12">
+              {/* Profile Photo */}
+              <div className="relative group mb-4 sm:mb-0">
+                <img 
+                  src={hoster.photo || "https://placehold.co/150x150"} 
+                  alt="Profile" 
+                  className="w-32 h-32 rounded-2xl object-cover border-4 border-white shadow-lg"
+                  onError={(e) => { e.target.src = "https://placehold.co/150x150"; }}
+                />
+              </div>
 
-            <div className="text-center sm:text-left">
-              <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-gray-800">{hoster.fullName}</h2>
-              <p className="text-gray-500 text-sm mt-1">{hoster.companyName || "Company Representative"}</p>
-            </div>
-          </div>
-
-          {/* Profile Details */}
-          <div className="mt-6 border-t border-gray-200 pt-6">
-            <h2 className="text-lg sm:text-xl md:text-2xl font-extrabold text-gray-800">My Profile</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
-              {[
-                { label: "Full Name", value: hoster.fullName },
-                { label: "Email", value: hoster.email },
-                { label: "Company Name", value: hoster.companyName },
-                { label: "Company Phone", value: hoster.companyPhone },
-                { label: "Personal Phone", value: hoster.phone },
-                { label: "Company Email", value: hoster.companyEmail },
-                { label: "Company Website", value: hoster.companyWebsite },
-                { label: "Number of Employees", value: hoster.numberOfEmployees },
-                { label: "PAN Card Number", value: hoster.panCardNumber },
-                { label: "GST Number", value: hoster.gstNumber },
-              ].map(({ label, value }, index) => (
-                <div key={index} className="p-2">
-                  <p className="text-sm font-semibold text-gray-600">{label}</p>
-                  <p className="text-sm sm:text-base font-medium text-gray-800">
-                    {value || "Not specified"}
-                  </p>
+              {/* Profile Info */}
+              <div className="flex-1 sm:pb-4">
+                <h2 className="text-2xl font-bold text-gray-900">
+                  {hoster.fullName}
+                </h2>
+                <p className="text-gray-600 mt-1">
+                  {hoster.email}
+                </p>
+                
+                {/* Company Info */}
+                <div className="flex flex-wrap gap-4 mt-4">
+                  <div className="flex items-center text-sm text-gray-600">
+                    <span className="w-5 h-5 mr-2" style={{ color: 'var(--color-accent)' }}>
+                      🏢
+                    </span>
+                    {hoster.companyName || "Not provided"}
+                  </div>
                 </div>
-              ))}
+              </div>
+            </div>
+
+            {/* Company Logo */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mt-8">
+              <div className="bg-gray-50 rounded-lg p-4">
+                <div className="flex items-center mb-2">
+                  <span className="w-5 h-5 mr-2 text-gray-400">🏢</span>
+                  <p className="text-xs text-gray-500 uppercase tracking-wide">Company Logo</p>
+                </div>
+                <div className="flex items-center">
+                  {hoster.companyLogo ? (
+                    <img 
+                      src={hoster.companyLogo} 
+                      alt="Company Logo" 
+                      className="w-16 h-16 rounded-lg object-contain"
+                      onError={(e) => { e.target.src = "https://placehold.co/150x150"; }}
+                    />
+                  ) : (
+                    <span className="text-gray-500">Not provided</span>
+                  )}
+                </div>
+              </div>
+
+              {/* Company Document */}
+              <div className="bg-gray-50 rounded-lg p-4">
+                <div className="flex items-center mb-2">
+                  <span className="w-5 h-5 mr-2 text-gray-400">📄</span>
+                  <p className="text-xs text-gray-500 uppercase tracking-wide">Company Document</p>
+                </div>
+                <div className="flex items-center">
+                  {hoster.companyDocument ? (
+                    <a 
+                      href={hoster.companyDocument} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="font-medium hover:underline"
+                      style={{ color: 'var(--color-accent)' }}
+                    >
+                      View Document
+                    </a>
+                  ) : (
+                    <span className="text-gray-500">Not provided</span>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* Contact Information Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+              <div className="bg-gray-50 rounded-lg p-4">
+                <div className="flex items-center mb-2">
+                  <span className="w-5 h-5 mr-2 text-gray-400">📞</span>
+                  <p className="text-xs text-gray-500 uppercase tracking-wide">Company Phone</p>
+                </div>
+                <p className="font-medium text-gray-900">
+                  {hoster.companyPhone || "Not provided"}
+                </p>
+              </div>
+
+              <div className="bg-gray-50 rounded-lg p-4">
+                <div className="flex items-center mb-2">
+                  <span className="w-5 h-5 mr-2 text-gray-400">👤</span>
+                  <p className="text-xs text-gray-500 uppercase tracking-wide">Personal Phone</p>
+                </div>
+                <p className="font-medium text-gray-900">
+                  {hoster.phone || "Not provided"}
+                </p>
+              </div>
+
+              <div className="bg-gray-50 rounded-lg p-4">
+                <div className="flex items-center mb-2">
+                  <span className="w-5 h-5 mr-2 text-gray-400">✉️</span>
+                  <p className="text-xs text-gray-500 uppercase tracking-wide">Company Email</p>
+                </div>
+                <p className="font-medium text-gray-900">
+                  {hoster.companyEmail || "Not provided"}
+                </p>
+              </div>
+
+              <div className="bg-gray-50 rounded-lg p-4">
+                <div className="flex items-center mb-2">
+                  <span className="w-5 h-5 mr-2 text-gray-400">🌐</span>
+                  <p className="text-xs text-gray-500 uppercase tracking-wide">Company Website</p>
+                </div>
+                <p className="font-medium text-gray-900">
+                  {hoster.companyWebsite || "Not provided"}
+                </p>
+              </div>
+            </div>
+            
+            {/* Additional Profile Information */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
+              <div className="bg-gray-50 rounded-lg p-4">
+                <div className="flex items-center mb-2">
+                  <span className="w-5 h-5 mr-2 text-gray-400">👥</span>
+                  <p className="text-xs text-gray-500 uppercase tracking-wide">Employees</p>
+                </div>
+                <p className="font-medium text-gray-900">
+                  {hoster.numberOfEmployees || "Not provided"}
+                </p>
+              </div>
+              
+              <div className="bg-gray-50 rounded-lg p-4">
+                <div className="flex items-center mb-2">
+                  <span className="w-5 h-5 mr-2 text-gray-400">💳</span>
+                  <p className="text-xs text-gray-500 uppercase tracking-wide">PAN Card</p>
+                </div>
+                <p className="font-medium text-gray-900">
+                  {hoster.panCardNumber || "Not provided"}
+                </p>
+              </div>
+              
+              <div className="bg-gray-50 rounded-lg p-4">
+                <div className="flex items-center mb-2">
+                  <span className="w-5 h-5 mr-2 text-gray-400">📜</span>
+                  <p className="text-xs text-gray-500 uppercase tracking-wide">GST Number</p>
+                </div>
+                <p className="font-medium text-gray-900">
+                  {hoster.gstNumber || "Not provided"}
+                </p>
+              </div>
             </div>
             
             {/* Company Description */}
-            {hoster.companyDescription && (
-              <div className="mt-6">
-                <h3 className="text-lg font-semibold text-gray-800">Company Description</h3>
-                <p className="text-gray-600 mt-2">
-                  {hoster.companyDescription}
+            <div className="mt-6">
+              <div className="bg-gray-50 rounded-lg p-4">
+                <div className="flex items-center mb-2">
+                  <span className="w-5 h-5 mr-2 text-gray-400">📝</span>
+                  <p className="text-xs text-gray-500 uppercase tracking-wide">Company Description</p>
+                </div>
+                <p className="font-medium text-gray-900 whitespace-pre-line">
+                  {hoster.companyDescription || "Not provided"}
                 </p>
               </div>
-            )}
+            </div>
           </div>
         </div>
       </main>

@@ -86,15 +86,27 @@ const Profile = () => {
     formData.append("photo", file);
 
     try {
-      const response = await updatephotoSeeker(formData);
+      // Check if user already has a profile photo
+      const response = await profile();
+      const hasExistingPhoto = response.data.data.profile.photo;
+      
+      let result;
+      if (hasExistingPhoto) {
+        // Update existing photo
+        result = await updatephotoSeeker(formData);
+      } else {
+        // Initial upload
+        result = await uploadFileSeeker(formData);
+      }
+
       setUserData({
         ...userData,
         profile: {
           ...userData.profile,
-          photo: response.data.data.profile.photo
+          photo: result.data.data.profile.photo
         }
       });
-      setPhotoPreview(response.data.data.profile.photo);
+      setPhotoPreview(result.data.data.profile.photo);
       setMessage("Profile photo updated successfully!");
     } catch (err) {
       setMessage("Failed to update profile photo: " + (err.response?.data?.message || "Unknown error"));
@@ -110,15 +122,27 @@ const Profile = () => {
     formData.append("resume", file);
 
     try {
-      const response = await updateresumeSeeker(formData);
+      // Check if user already has a resume
+      const response = await profile();
+      const hasExistingResume = response.data.data.profile.resume;
+      
+      let result;
+      if (hasExistingResume) {
+        // Update existing resume
+        result = await updateresumeSeeker(formData);
+      } else {
+        // Initial upload
+        result = await uploadFileSeeker(formData);
+      }
+
       setUserData({
         ...userData,
         profile: {
           ...userData.profile,
-          resume: response.data.data.profile.resume
+          resume: result.data.data.profile.resume
         }
       });
-      setResumePreview(response.data.data.profile.resume);
+      setResumePreview(result.data.data.profile.resume);
       setMessage("Resume updated successfully!");
     } catch (err) {
       setMessage("Failed to update resume: " + (err.response?.data?.message || "Unknown error"));
@@ -318,15 +342,26 @@ const Profile = () => {
                   <p className="text-xs text-gray-500 uppercase tracking-wide" style={{ fontFamily: 'var(--font-body)' }}>Resume</p>
                 </div>
                 {userData.profile.resume ? (
-                  <a 
-                    href={userData.profile.resume} 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="font-medium hover:underline"
-                    style={{ color: 'var(--color-accent)', fontFamily: 'var(--font-body)' }}
-                  >
-                    View Document
-                  </a>
+                  <div className="flex items-center space-x-4">
+                    <a 
+                      href={userData.profile.resume} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="font-medium hover:underline"
+                      style={{ color: 'var(--color-accent)', fontFamily: 'var(--font-body)' }}
+                    >
+                      View Document
+                    </a>
+                    <label className="font-medium cursor-pointer hover:underline" style={{ color: 'var(--color-accent)', fontFamily: 'var(--font-body)' }}>
+                      Update
+                      <input 
+                        type="file" 
+                        accept=".pdf,.doc,.docx" 
+                        onChange={handleResumeChange}
+                        className="hidden"
+                      />
+                    </label>
+                  </div>
                 ) : (
                   <label className="font-medium cursor-pointer hover:underline" style={{ color: 'var(--color-accent)', fontFamily: 'var(--font-body)' }}>
                     Upload Now

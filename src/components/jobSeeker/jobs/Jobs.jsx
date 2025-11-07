@@ -47,8 +47,10 @@ const Jobs = () => {
     try {
       setLoading(true);
       const response = await allJobs();
-      setJobs(response.data.data.jobs);
-      setFilteredJobs(response.data.data.jobs);
+      // Filter jobs to only show verified jobs
+      const verifiedJobs = response.data.data.jobs.filter(job => job.verificationStatus === 'verified');
+      setJobs(verifiedJobs);
+      setFilteredJobs(verifiedJobs);
       setError('');
     } catch (err) {
       setError('Failed to fetch jobs');
@@ -522,7 +524,7 @@ const Jobs = () => {
                               color: 'var(--color-primary)',
                               fontFamily: 'var(--font-body)'
                             }}>
-                              📍 {job.location}
+                              📍 {Array.isArray(job.location) ? job.location.join(', ') : job.location}
                             </span>
                             <span className="px-3 py-1 text-sm rounded-full font-medium" style={{ 
                               backgroundColor: 'var(--color-secondary-light)', 

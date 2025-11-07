@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import JobHostingSidebar from "../commonHost/jobHostingSidebar";
-import { profile, updateProfile, updateCompanyLogo, updatephotoCompany, uploadFileHoster } from "../../../utils/Api";
+import { profile, updateProfile, updateCompanyLogo, updatephotoCompany, updateCompanyDocs, uploadFileHoster } from "../../../utils/Api";
 
 const HostingProfileDetail = () => {
   const navigate = useNavigate();
@@ -30,6 +30,7 @@ const HostingProfileDetail = () => {
   
   const [photoPreview, setPhotoPreview] = useState("");
   const [logoPreview, setLogoPreview] = useState("");
+  const [documentPreview, setDocumentPreview] = useState(""); // New state for document preview
 
   useEffect(() => {
     fetchProfileData();
@@ -59,6 +60,7 @@ const HostingProfileDetail = () => {
       
       setPhotoPreview(data.profile.photo || "");
       setLogoPreview(data.profile.companyLogo || "");
+      setDocumentPreview(data.profile.companyDocument || ""); // Set document preview
       setError("");
     } catch (err) {
       setError("Failed to fetch profile data");
@@ -97,8 +99,20 @@ const HostingProfileDetail = () => {
     formData.append("photo", file);
 
     try {
-      const response = await updatephotoCompany(formData);
-      setPhotoPreview(response.data.data.profile.photo);
+      // Check if user already has a profile photo
+      const response = await profile();
+      const hasExistingPhoto = response.data.data.profile.photo;
+      
+      let result;
+      if (hasExistingPhoto) {
+        // Update existing photo
+        result = await updatephotoCompany(formData);
+      } else {
+        // Initial upload
+        result = await uploadFileHoster(formData);
+      }
+
+      setPhotoPreview(result.data.data.profile.photo);
       setMessage("Profile photo updated successfully!");
     } catch (err) {
       setMessage("Failed to update profile photo: " + (err.response?.data?.message || "Unknown error"));
@@ -114,12 +128,79 @@ const HostingProfileDetail = () => {
     formData.append("companyLogo", file);
 
     try {
-      const response = await updateCompanyLogo(formData);
-      setLogoPreview(response.data.data.profile.companyLogo);
+      // Check if user already has a company logo
+      const response = await profile();
+      const hasExistingLogo = response.data.data.profile.companyLogo;
+      
+      let result;
+      if (hasExistingLogo) {
+        // Update existing logo
+        result = await updateCompanyLogo(formData);
+      } else {
+        // Initial upload
+        result = await uploadFileHoster(formData);
+      }
+      
+      setLogoPreview(result.data.data.profile.companyLogo);
       setMessage("Company logo updated successfully!");
     } catch (err) {
       setMessage("Failed to update company logo: " + (err.response?.data?.message || "Unknown error"));
       console.error("Error updating logo:", err);
+    }
+  };
+
+  // New function to handle company document upload
+  const handleDocumentChange = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("companyDocument", file);
+
+    try {
+      // Check if user already has a company document
+      const response = await profile();
+      const hasExistingDocument = response.data.data.profile.companyDocument && 
+        (Array.isArray(response.data.data.profile.companyDocument) 
+          ? response.data.data.profile.companyDocument.length > 0 
+          : response.data.data.profile.companyDocument);
+      
+      let result;
+      if (hasExistingDocument) {
+        // Update existing document
+        result = await updateCompanyDocs(formData);
+      } else {
+        // Initial upload
+        result = await uploadFileHoster(formData);
+      }
+      
+      // Handle the response correctly - companyDocument is returned as an array
+      const documentUrl = Array.isArray(result.data.data.profile.companyDocument) 
+        ? result.data.data.profile.companyDocument[0] 
+        : result.data.data.profile.companyDocument;
+      
+      setDocumentPreview(documentUrl);
+      setMessage("Company document updated successfully!");
+    } catch (err) {
+      // More detailed error logging
+      console.error("Full error object:", err);
+      console.error("Error response:", err.response);
+      console.error("Error request:", err.request);
+      
+      let errorMessage = "Unknown error";
+      if (err.response) {
+        // Server responded with error status
+        errorMessage = `Server error: ${err.response.status} - ${err.response.data?.message || err.response.statusText}`;
+      } else if (err.request) {
+        // Request was made but no response received
+        errorMessage = "No response from server. Check network connection.";
+      } else {
+        // Something else happened
+        errorMessage = err.message || "Unknown error occurred";
+      }
+      
+      setMessage("Failed to update company document: " + errorMessage);
+      console.error("Error updating document:", err);
     }
   };
 
@@ -238,8 +319,8 @@ const HostingProfileDetail = () => {
 
               {/* Form */}
               <form className="space-y-8" onSubmit={handleSubmit}>
-                {/* Profile Photo and Company Logo */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                {/* Profile Photo, Company Logo, and Company Document */}
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
                   {/* Profile Photo */}
                   <div className="flex flex-col items-center">
                     <div className="relative">
@@ -280,6 +361,40 @@ const HostingProfileDetail = () => {
                         className="hidden"
                       />
                     </label>
+                  </div>
+                  
+                  {/* Company Document */}
+                  <div className="flex flex-col items-center">
+                    <div className="relative">
+                      {documentPreview ? (
+                        <div className="w-32 h-32 rounded-lg border-4 border-gray-200 flex items-center justify-center bg-gray-100">
+                          <span className="text-gray-600 text-sm text-center px-2">Company Document</span>
+                        </div>
+                      ) : (
+                        <div className="w-32 h-32 rounded-lg border-4 border-gray-200 flex items-center justify-center bg-gray-100">
+                          <span className="text-gray-400">No Document</span>
+                        </div>
+                      )}
+                    </div>
+                    <label className="mt-4 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 cursor-pointer">
+                      Upload Document
+                      <input 
+                        type="file" 
+                        accept=".pdf,.doc,.docx" 
+                        onChange={handleDocumentChange}
+                        className="hidden"
+                      />
+                    </label>
+                    {documentPreview && (
+                      <a 
+                        href={documentPreview} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="mt-2 text-sm text-blue-600 hover:underline"
+                      >
+                        View Document
+                      </a>
+                    )}
                   </div>
                 </div>
                 
