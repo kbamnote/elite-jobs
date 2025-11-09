@@ -4,6 +4,20 @@ import Header from '../commonSeeker/Header';
 import Footer from '../commonSeeker/Footer';
 import { jobsById, jobApply, profile, appliedJobs } from '../../../utils/Api';
 
+// Utility function to properly handle image URLs
+const getImageUrl = (url) => {
+  if (!url) return 'https://placehold.co/80x80';
+  
+  // If it's already an absolute URL, return as is
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+    return url;
+  }
+  
+  // If it's a relative path, prepend the base URL
+  const baseUrl = import.meta.env.VITE_API_URL || "https://elite-jobs-backend.onrender.com";
+  return `${baseUrl}${url.startsWith('/') ? url : `/${url}`}`;
+};
+
 const ViewJobs = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -233,7 +247,7 @@ const ViewJobs = () => {
                     <div className="flex flex-col sm:flex-row items-start gap-6">
                       <div className="w-20 h-20 rounded-xl p-4 flex-shrink-0" style={{ backgroundColor: 'var(--color-white)', boxShadow: 'var(--shadow-md)' }}>
                         <img 
-                          src={job.company.logo || 'https://placehold.co/80x80'} 
+                          src={getImageUrl(job.company.logo)} 
                           alt={job.company.name} 
                           className="w-full h-full object-contain"
                           onError={(e) => { e.target.src = 'https://placehold.co/80x80'; }}

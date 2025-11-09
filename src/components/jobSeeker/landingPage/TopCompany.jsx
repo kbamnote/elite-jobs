@@ -20,10 +20,13 @@ const TopCompany = () => {
         const response = await allJobs();
         const jobsData = response.data.data.jobs;
         
+        // Filter jobs to only show verified jobs
+        const verifiedJobs = jobsData.filter(job => job.verificationStatus === 'verified');
+        
         // Extract unique companies from jobs
         const companyMap = new Map();
         
-        jobsData.forEach(job => {
+        verifiedJobs.forEach(job => {
           const companyId = job.postedBy._id;
           if (!companyMap.has(companyId)) {
             companyMap.set(companyId, {

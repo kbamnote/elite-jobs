@@ -30,8 +30,12 @@ const RecentJobs = () => {
         setLoading(true);
         const response = await allJobs();
         const jobsData = response.data.data.jobs;
+        
+        // Filter jobs to only show verified jobs
+        const verifiedJobs = jobsData.filter(job => job.verificationStatus === 'verified');
+        
         // Transform the API data to match the existing structure
-        const transformedJobs = jobsData.map((job) => ({
+        const transformedJobs = verifiedJobs.map((job) => ({
           id: job._id,
           title: job.title,
           company: job.company.name,
