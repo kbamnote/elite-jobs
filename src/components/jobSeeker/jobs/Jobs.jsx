@@ -4,6 +4,20 @@ import Footer from '../commonSeeker/Footer';
 import { allJobs, appliedJobs } from '../../../utils/Api';
 import { useNavigate, useLocation } from 'react-router-dom';
 
+// Utility function to properly handle image URLs
+const getImageUrl = (url) => {
+  if (!url) return 'https://placehold.co/60x60';
+  
+  // If it's already an absolute URL, return as is
+  if (url.startsWith('http://') || url.startsWith('https://')) {
+    return url;
+  }
+  
+  // If it's a relative path, prepend the base URL
+  const baseUrl = import.meta.env.VITE_API_URL || "https://elite-jobs-backend.onrender.com";
+  return `${baseUrl}${url.startsWith('/') ? url : `/${url}`}`;
+};
+
 const Jobs = () => {
   const [jobs, setJobs] = useState([]);
   const [filteredJobs, setFilteredJobs] = useState([]);
@@ -456,125 +470,125 @@ const Jobs = () => {
                 </div>
               ) : (
                 <div className="space-y-6">
-              {filteredJobs.map((job) => {
-                const alreadyApplied = hasUserAppliedForJob(job._id);
-                
-                return (
-                  <div 
-                    key={job._id} 
-                    className="rounded-xl border p-6 transition-all duration-300 hover:shadow-lg hover:border-opacity-60 cursor-pointer group"
-                    style={{ 
-                      backgroundColor: 'var(--color-white)', 
-                      boxShadow: 'var(--shadow-sm)', 
-                      borderColor: 'var(--color-border)' 
-                    }}
-                    onClick={() => handleViewJob(job._id)}
-                  >
-                    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
-                      {/* Left Section - Job Info */}
-                      <div className="flex items-start space-x-4 flex-1">
-                        {/* Company Logo */}
-                        <div className="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0" style={{ backgroundColor: 'var(--color-accent-light)' }}>
-                          {job.company.logo ? (
-                            <img 
-                              src={job.company.logo} 
-                              alt={job.company.name} 
-                              className="w-10 h-10 rounded-lg object-cover"
-                              onError={(e) => { e.target.src = 'https://placehold.co/60x60'; }}
-                            />
-                          ) : (
-                            <span className="text-xl font-bold" style={{ color: 'var(--color-accent)' }}>
-                              {job.company.name.charAt(0)}
-                            </span>
-                          )}
-                        </div>
-                        
-                        {/* Job Details */}
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-start justify-between mb-2">
-                            <h3 className="text-xl font-semibold group-hover:text-opacity-80 transition-all" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-heading)' }}>
-                              {job.title}
-                            </h3>
-                            {alreadyApplied && (
-                              <span className="px-3 py-1 text-xs rounded-full ml-2 flex-shrink-0" style={{ 
-                                backgroundColor: 'var(--color-success-light)', 
-                                color: 'var(--color-success)',
+                  {filteredJobs.map((job) => {
+                    const alreadyApplied = hasUserAppliedForJob(job._id);
+                    
+                    return (
+                      <div 
+                        key={job._id} 
+                        className="rounded-xl border p-6 transition-all duration-300 hover:shadow-lg hover:border-opacity-60 cursor-pointer group"
+                        style={{ 
+                          backgroundColor: 'var(--color-white)', 
+                          boxShadow: 'var(--shadow-sm)', 
+                          borderColor: 'var(--color-border)' 
+                        }}
+                        onClick={() => handleViewJob(job._id)}
+                      >
+                        <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                          {/* Left Section - Job Info */}
+                          <div className="flex items-start space-x-4 flex-1">
+                            {/* Company Logo */}
+                            <div className="w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0" style={{ backgroundColor: 'var(--color-accent-light)' }}>
+                              {job.company.logo ? (
+                                <img 
+                                  src={getImageUrl(job.company.logo)} 
+                                  alt={job.company.name} 
+                                  className="w-10 h-10 rounded-lg object-cover"
+                                  onError={(e) => { e.target.src = 'https://placehold.co/60x60'; }}
+                                />
+                              ) : (
+                                <span className="text-xl font-bold" style={{ color: 'var(--color-accent)' }}>
+                                  {job.company.name.charAt(0)}
+                                </span>
+                              )}
+                            </div>
+                            
+                            {/* Job Details */}
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-start justify-between mb-2">
+                                <h3 className="text-xl font-semibold group-hover:text-opacity-80 transition-all" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-heading)' }}>
+                                  {job.title}
+                                </h3>
+                                {alreadyApplied && (
+                                  <span className="px-3 py-1 text-xs rounded-full ml-2 flex-shrink-0" style={{ 
+                                    backgroundColor: 'var(--color-success-light)', 
+                                    color: 'var(--color-success)',
+                                    fontFamily: 'var(--font-body)'
+                                  }}>
+                                    ✓ Applied
+                                  </span>
+                                )}
+                              </div>
+                              
+                              <p className="text-base font-medium mb-3" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>
+                                {job.company.name}
+                              </p>
+                              
+                              {/* Job Tags */}
+                              <div className="flex flex-wrap gap-2 mb-4">
+                                <span className="px-3 py-1 text-sm rounded-full font-medium" style={{ 
+                                  backgroundColor: 'var(--color-accent-light)', 
+                                  color: 'var(--color-accent)',
+                                  fontFamily: 'var(--font-body)'
+                                }}>
+                                  {job.jobType}
+                                </span>
+                                <span className="px-3 py-1 text-sm rounded-full font-medium" style={{ 
+                                  backgroundColor: 'var(--color-primary-light)', 
+                                  color: 'var(--color-primary)',
+                                  fontFamily: 'var(--font-body)'
+                                }}>
+                                  📍 {Array.isArray(job.location) ? job.location.join(', ') : job.location}
+                                </span>
+                                <span className="px-3 py-1 text-sm rounded-full font-medium" style={{ 
+                                  backgroundColor: 'var(--color-secondary-light)', 
+                                  color: 'var(--color-secondary)',
+                                  fontFamily: 'var(--font-body)'
+                                }}>
+                                  {job.category}
+                                </span>
+                              </div>
+                              
+                              {/* Job Meta Info */}
+                              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>
+                                <div className="flex items-center space-x-2">
+                                  <span className="text-lg">💰</span>
+                                  <span className="font-medium">{job.salary ? `${job.salary.min} - ${job.salary.max} ${job.salary.currency}` : 'Not specified'}</span>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                  <span className="text-lg">📈</span>
+                                  <span>{job.experienceLevel}</span>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                  <span className="text-lg">📅</span>
+                                  <span>{new Date(job.createdAt).toLocaleDateString()}</span>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          {/* Right Section - Action Button */}
+                          <div className="flex sm:flex-col items-end justify-between sm:justify-start gap-3 sm:gap-2 flex-shrink-0">
+                            <div className="sm:hidden"></div> {/* Spacer for mobile */}
+                            <button 
+                              className="px-6 py-3 rounded-lg font-medium transition-all duration-200 hover:shadow-md hover:scale-105 active:scale-95"
+                              style={{ 
+                                backgroundColor: 'var(--color-accent)', 
+                                color: 'var(--color-white)',
                                 fontFamily: 'var(--font-body)'
-                              }}>
-                                ✓ Applied
-                              </span>
-                            )}
-                          </div>
-                          
-                          <p className="text-base font-medium mb-3" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>
-                            {job.company.name}
-                          </p>
-                          
-                          {/* Job Tags */}
-                          <div className="flex flex-wrap gap-2 mb-4">
-                            <span className="px-3 py-1 text-sm rounded-full font-medium" style={{ 
-                              backgroundColor: 'var(--color-accent-light)', 
-                              color: 'var(--color-accent)',
-                              fontFamily: 'var(--font-body)'
-                            }}>
-                              {job.jobType}
-                            </span>
-                            <span className="px-3 py-1 text-sm rounded-full font-medium" style={{ 
-                              backgroundColor: 'var(--color-primary-light)', 
-                              color: 'var(--color-primary)',
-                              fontFamily: 'var(--font-body)'
-                            }}>
-                              📍 {Array.isArray(job.location) ? job.location.join(', ') : job.location}
-                            </span>
-                            <span className="px-3 py-1 text-sm rounded-full font-medium" style={{ 
-                              backgroundColor: 'var(--color-secondary-light)', 
-                              color: 'var(--color-secondary)',
-                              fontFamily: 'var(--font-body)'
-                            }}>
-                              {job.category}
-                            </span>
-                          </div>
-                          
-                          {/* Job Meta Info */}
-                          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>
-                            <div className="flex items-center space-x-2">
-                              <span className="text-lg">💰</span>
-                              <span className="font-medium">{job.salary ? `${job.salary.min} - ${job.salary.max} ${job.salary.currency}` : 'Not specified'}</span>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                              <span className="text-lg">📈</span>
-                              <span>{job.experienceLevel}</span>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                              <span className="text-lg">📅</span>
-                              <span>{new Date(job.createdAt).toLocaleDateString()}</span>
-                            </div>
+                              }}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleViewJob(job._id);
+                              }}
+                            >
+                              View Details →
+                            </button>
                           </div>
                         </div>
                       </div>
-                      
-                      {/* Right Section - Action Button */}
-                      <div className="flex sm:flex-col items-end justify-between sm:justify-start gap-3 sm:gap-2 flex-shrink-0">
-                        <div className="sm:hidden"></div> {/* Spacer for mobile */}
-                        <button 
-                          className="px-6 py-3 rounded-lg font-medium transition-all duration-200 hover:shadow-md hover:scale-105 active:scale-95"
-                          style={{ 
-                            backgroundColor: 'var(--color-accent)', 
-                            color: 'var(--color-white)',
-                            fontFamily: 'var(--font-body)'
-                          }}
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleViewJob(job._id);
-                          }}
-                        >
-                          View Details →
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
+                    );
+                  })}
                 </div>
               )}
             </div>
