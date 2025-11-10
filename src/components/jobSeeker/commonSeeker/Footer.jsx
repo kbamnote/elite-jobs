@@ -13,6 +13,7 @@ import {
   Linkedin,
   Instagram,
 } from "lucide-react";
+import Logo from '../../../assets/logo.jpg'
 
 const Footer = () => {
   return (
@@ -25,7 +26,7 @@ const Footer = () => {
           {/* Logo and Description - Full width on small, 2/5 on medium, 1/3 on large */}
           <div className="md:col-span-2 lg:col-span-1">
             <div className="flex items-center gap-2 mb-4 flex-wrap">
-              <Briefcase className="w-6 h-6 sm:w-7 sm:h-7" style={{ color: 'var(--color-accent)' }} />
+              <img src={Logo} alt="Elite Jobs Logo" className="h-8 w-auto" />
               <span className="text-xl sm:text-2xl font-bold" style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-white)' }}>Elite Jobs</span>
             </div>
             <p className="leading-relaxed text-sm sm:text-base" style={{ color: 'var(--color-text-light)', fontFamily: 'var(--font-body)' }}>
