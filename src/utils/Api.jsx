@@ -95,7 +95,7 @@ export const updateCompanyLogo = (formData) =>
 export const accountDelete = () => Api.delete("/jobs/account");
 
 // ============== All Jobs GET ==============
-export const allJobs = () => Api.get("/jobs");
+export const allJobs = (params = {}) => Api.get("/jobs", { params });
 export const jobsById = (id) => Api.get(`/jobs/${id}`);
 
 // ============== All categories GET ==============

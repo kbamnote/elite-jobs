@@ -60,9 +60,22 @@ const Jobs = () => {
   const fetchJobs = async () => {
     try {
       setLoading(true);
-      const response = await allJobs();
+      
+      // Fetch all jobs by requesting a large page size
+      const response = await allJobs({ page: 1, limit: 100 });
+      
+      // Check the structure of the response
+      let allJobsData = [];
+      if (response.data.data.jobs) {
+        // If jobs are in a jobs array (paginated response)
+        allJobsData = response.data.data.jobs;
+      } else if (Array.isArray(response.data.data)) {
+        // If jobs are directly in the data array
+        allJobsData = response.data.data;
+      }
+      
       // Filter jobs to only show verified jobs
-      const verifiedJobs = response.data.data.jobs.filter(job => job.verificationStatus === 'verified');
+      const verifiedJobs = allJobsData.filter(job => job.verificationStatus === 'verified');
       setJobs(verifiedJobs);
       setFilteredJobs(verifiedJobs);
       setError('');
@@ -99,11 +112,17 @@ const Jobs = () => {
       );
     }
     
-    // Location filter
+    // Location filter (handle both string and array formats)
     if (locationFilter) {
-      result = result.filter(job => 
-        job.location.toLowerCase().includes(locationFilter.toLowerCase())
-      );
+      result = result.filter(job => {
+        if (Array.isArray(job.location)) {
+          return job.location.some(loc => 
+            loc.toLowerCase().includes(locationFilter.toLowerCase())
+          );
+        } else {
+          return job.location && job.location.toLowerCase().includes(locationFilter.toLowerCase());
+        }
+      });
     }
     
     // Experience level filter
