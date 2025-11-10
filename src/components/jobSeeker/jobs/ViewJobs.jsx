@@ -198,6 +198,34 @@ const ViewJobs = () => {
 
   const alreadyApplied = hasUserApplied();
 
+  // Check if job has directLink (regardless of who posted it)
+  const isDirectApplication = job?.directLink && job?.directLink.trim() !== "";
+  
+  // Function to handle direct application link
+  const handleDirectApply = () => {
+    const directLink = job.directLink;
+    
+    // Check if it's an email address (contains @ or contains ! which is often used instead of @)
+    if ((directLink.includes('@') || directLink.includes('!')) && !directLink.startsWith('http')) {
+      // Replace ! with @ if it's used as a substitute for email
+      const email = directLink.includes('!') ? directLink.replace('!', '@') : directLink;
+      window.location.href = `mailto:${email}`;
+    } 
+    // Check if it's an absolute URL
+    else if (directLink.startsWith('http://') || directLink.startsWith('https://')) {
+      window.open(directLink, '_blank');
+    }
+    // Check if it looks like a website (contains dots but no @)
+    else if (directLink.includes('.') && !directLink.includes('@')) {
+      const fullUrl = directLink.startsWith('www.') ? `https://${directLink}` : `https://${directLink}`;
+      window.open(fullUrl, '_blank');
+    }
+    // For anything else, treat as email
+    else {
+      window.location.href = `mailto:${directLink}`;
+    }
+  };
+
   return (
     <>
       <Header />
@@ -454,13 +482,16 @@ const ViewJobs = () => {
                     {job.company.description}
                   </p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-                    <div className="flex items-center gap-2">
-                      <span className="font-medium" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>Employees:</span>
-                      <span style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>
-                        {job.postedBy.profile.numberOfEmployees}
-                      </span>
-                    </div>
-                    {job.company.website && (
+                    {/* Only show employees info if it exists */}
+                    {job.postedBy?.profile?.numberOfEmployees && (
+                      <div className="flex items-center gap-2">
+                        <span className="font-medium" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>Employees:</span>
+                        <span style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>
+                          {job.postedBy.profile.numberOfEmployees}
+                        </span>
+                      </div>
+                    )}
+                    {job.company?.website && (
                       <div className="flex items-center gap-2">
                         <span className="font-medium" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>Website:</span>
                         <a 
@@ -475,7 +506,7 @@ const ViewJobs = () => {
                       </div>
                     )}
                   </div>
-                  {job.company.website && (
+                  {job.company?.website && (
                     <a 
                       href={job.company.website} 
                       target="_blank" 
@@ -521,132 +552,160 @@ const ViewJobs = () => {
                       </div>
                     </div>
                     
-                    <div className="flex items-start gap-3">
-                      <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-gray-100)' }}>
-                        <span className="text-lg">💰</span>
+                    {/* Salary - only show if available */}
+                    {job.salary && (
+                      <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-gray-100)' }}>
+                          <span className="text-lg">💰</span>
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}>Salary</p>
+                          <p className="font-semibold" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
+                            {job.salary.min && job.salary.max && job.salary.currency
+                              ? `${job.salary.min} - ${job.salary.max} ${job.salary.currency}`
+                              : 'Not specified'}
+                          </p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-sm font-medium" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}>Salary</p>
-                        <p className="font-semibold" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
-                          {job.salary 
-                            ? `${job.salary.min} - ${job.salary.max} ${job.salary.currency}`
-                            : 'Not specified'}
-                        </p>
-                      </div>
-                    </div>
+                    )}
                     
-                    <div className="flex items-start gap-3">
-                      <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-gray-100)' }}>
-                        <span className="text-lg">📅</span>
+                    {/* Application Deadline - only show if available */}
+                    {job.applicationDeadline && (
+                      <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-gray-100)' }}>
+                          <span className="text-lg">📅</span>
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}>Deadline</p>
+                          <p className="font-semibold" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
+                            {new Date(job.applicationDeadline).toLocaleDateString()}
+                          </p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-sm font-medium" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}>Deadline</p>
-                        <p className="font-semibold" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
-                          {new Date(job.applicationDeadline).toLocaleDateString()}
-                        </p>
-                      </div>
-                    </div>
+                    )}
                     
-                    <div className="flex items-start gap-3">
-                      <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-gray-100)' }}>
-                        <span className="text-lg">🎓</span>
+                    {/* Minimum Education - only show if available */}
+                    {job.minEducation && (
+                      <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-gray-100)' }}>
+                          <span className="text-lg">🎓</span>
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}>Minimum Education</p>
+                          <p className="font-semibold" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
+                            {job.minEducation}
+                          </p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-sm font-medium" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}>Minimum Education</p>
-                        <p className="font-semibold" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
-                          {job.minEducation}
-                        </p>
-                      </div>
-                    </div>
+                    )}
                     
-                    <div className="flex items-start gap-3">
-                      <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-gray-100)' }}>
-                        <span className="text-lg">🕒</span>
+                    {/* Notice Period - only show if available */}
+                    {job.noticePeriod && (
+                      <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-gray-100)' }}>
+                          <span className="text-lg">🕒</span>
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}>Notice Period</p>
+                          <p className="font-semibold" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
+                            {job.noticePeriod}
+                          </p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-sm font-medium" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}>Notice Period</p>
-                        <p className="font-semibold" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
-                          {job.noticePeriod}
-                        </p>
-                      </div>
-                    </div>
+                    )}
                     
-                    <div className="flex items-start gap-3">
-                      <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-gray-100)' }}>
-                        <span className="text-lg">💻</span>
+                    {/* Work Type - only show if available */}
+                    {job.workType && (
+                      <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-gray-100)' }}>
+                          <span className="text-lg">💻</span>
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}>Work Type</p>
+                          <p className="font-semibold" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
+                            {job.workType}
+                          </p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-sm font-medium" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}>Work Type</p>
-                        <p className="font-semibold" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
-                          {job.workType}
-                        </p>
-                      </div>
-                    </div>
+                    )}
                     
-                    <div className="flex items-start gap-3">
-                      <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-gray-100)' }}>
-                        <span className="text-lg">🎤</span>
+                    {/* Interview Type - only show if available */}
+                    {job.interviewType && (
+                      <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-gray-100)' }}>
+                          <span className="text-lg">🎤</span>
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}>Interview Type</p>
+                          <p className="font-semibold" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
+                            {job.interviewType}
+                          </p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-sm font-medium" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}>Interview Type</p>
-                        <p className="font-semibold" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
-                          {job.interviewType}
-                        </p>
-                      </div>
-                    </div>
+                    )}
                     
-                    {/* Number of Openings */}
-                    <div className="flex items-start gap-3">
-                      <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-gray-100)' }}>
-                        <span className="text-lg">👥</span>
+                    {/* Number of Openings - only show if available */}
+                    {(job.numberOfOpenings || job.numberOfOpenings === 0) && (
+                      <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-gray-100)' }}>
+                          <span className="text-lg">👥</span>
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}>Number of Openings</p>
+                          <p className="font-semibold" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
+                            {job.numberOfOpenings}
+                          </p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-sm font-medium" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}>Number of Openings</p>
-                        <p className="font-semibold" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
-                          {job.numberOfOpenings || 'Not specified'}
-                        </p>
-                      </div>
-                    </div>
+                    )}
                     
-                    {/* Year of Passing */}
-                    <div className="flex items-start gap-3">
-                      <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-gray-100)' }}>
-                        <span className="text-lg">🎓</span>
+                    {/* Year of Passing - only show if available */}
+                    {job.yearOfPassing && (
+                      <div className="flex items-start gap-3">
+                        <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-gray-100)' }}>
+                          <span className="text-lg">🎓</span>
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}>Year of Passing</p>
+                          <p className="font-semibold" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
+                            {job.yearOfPassing}
+                          </p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-sm font-medium" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}>Year of Passing</p>
-                        <p className="font-semibold" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
-                          {job.yearOfPassing || 'Not specified'}
-                        </p>
-                      </div>
-                    </div>
+                    )}
                     
                     {/* Walk-in Details (conditional) */}
                     {job.interviewType === 'Walk-in' && (
                       <>
-                        <div className="flex items-start gap-3">
-                          <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-gray-100)' }}>
-                            <span className="text-lg">🗓️</span>
+                        {/* Walk-in Date - only show if available */}
+                        {job.walkInDate && (
+                          <div className="flex items-start gap-3">
+                            <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-gray-100)' }}>
+                              <span className="text-lg">🗓️</span>
+                            </div>
+                            <div>
+                              <p className="text-sm font-medium" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}>Walk-in Date</p>
+                              <p className="font-semibold" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
+                                {new Date(job.walkInDate).toLocaleDateString()}
+                              </p>
+                            </div>
                           </div>
-                          <div>
-                            <p className="text-sm font-medium" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}>Walk-in Date</p>
-                            <p className="font-semibold" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
-                              {job.walkInDate ? new Date(job.walkInDate).toLocaleDateString() : 'Not specified'}
-                            </p>
-                          </div>
-                        </div>
+                        )}
                         
-                        <div className="flex items-start gap-3">
-                          <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-gray-100)' }}>
-                            <span className="text-lg">⏰</span>
+                        {/* Walk-in Time - only show if available */}
+                        {job.walkInTime && (
+                          <div className="flex items-start gap-3">
+                            <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-gray-100)' }}>
+                              <span className="text-lg">⏰</span>
+                            </div>
+                            <div>
+                              <p className="text-sm font-medium" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}>Walk-in Time</p>
+                              <p className="font-semibold" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
+                                {job.walkInTime}
+                              </p>
+                            </div>
                           </div>
-                          <div>
-                            <p className="text-sm font-medium" style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}>Walk-in Time</p>
-                            <p className="font-semibold" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
-                              {job.walkInTime || 'Not specified'}
-                            </p>
-                          </div>
-                        </div>
+                        )}
                       </>
                     )}
                   </div>
@@ -661,7 +720,7 @@ const ViewJobs = () => {
                     color: 'var(--color-text-primary)', 
                     fontFamily: 'var(--font-heading)' 
                   }}>
-                    Apply for this Job
+                    {isDirectApplication ? 'Apply Directly' : 'Apply for this Job'}
                   </h3>
                   
                   {error && (
@@ -691,19 +750,38 @@ const ViewJobs = () => {
                       Already Applied
                     </button>
                   ) : (
-                    <button
-                      onClick={handleApply}
-                      disabled={applying}
-                      className="w-full px-6 py-3 rounded-lg font-medium transition-all duration-300 hover:shadow-lg"
-                      style={{
-                        backgroundColor: applying ? 'var(--color-gray-300)' : 'var(--color-primary)',
-                        color: applying ? 'var(--color-text-muted)' : 'var(--color-text-white)',
-                        fontFamily: 'var(--font-body)',
-                        cursor: applying ? 'not-allowed' : 'pointer'
-                      }}
-                    >
-                      {applying ? 'Applying...' : 'Apply for Job'}
-                    </button>
+                    <>
+                      {/* Show Apply for Job button for all jobs */}
+                      <button
+                        onClick={handleApply}
+                        disabled={applying}
+                        className="w-full px-6 py-3 rounded-lg font-medium transition-all duration-300 hover:shadow-lg mb-3"
+                        style={{
+                          backgroundColor: applying ? 'var(--color-gray-300)' : 'var(--color-primary)',
+                          color: applying ? 'var(--color-text-muted)' : 'var(--color-text-white)',
+                          fontFamily: 'var(--font-body)',
+                          cursor: applying ? 'not-allowed' : 'pointer'
+                        }}
+                      >
+                        {applying ? 'Applying...' : 'Apply for Job'}
+                      </button>
+                      
+                      {/* Show Apply Direct button only when directLink exists */}
+                      {isDirectApplication && (
+                        <button
+                          onClick={handleDirectApply}
+                          className="w-full px-6 py-3 rounded-lg font-medium transition-all duration-300 hover:shadow-lg"
+                          style={{
+                            backgroundColor: 'var(--color-accent)',
+                            color: 'var(--color-text-white)',
+                            fontFamily: 'var(--font-body)',
+                            cursor: 'pointer'
+                          }}
+                        >
+                          Apply Direct
+                        </button>
+                      )}
+                    </>
                   )}
                 </div>
               </div>
