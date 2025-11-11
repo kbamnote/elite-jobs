@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { BriefcaseBusiness, ChevronDown, CircleUserRound, Menu, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import Logo from '../../../assets/logo.jpg'
+import Logo from '../../../assets/logos.png'
 import Cookies from "js-cookie";
 
 const Header = () => {
@@ -61,34 +61,33 @@ const Header = () => {
   }, []);
 
   return (
-    <header className="w-full shadow-lg sticky top-0 z-10 backdrop-blur-md" style={{ backgroundColor: 'var(--color-primary)', color: 'var(--color-text-white)' }}>
-      <div className="max-w-7xl mx-auto px-4 py-4">
+    <header className="w-full shadow-lg sticky top-0 z-10 backdrop-blur-md bg-neutral-100" style={{ color: 'var(--color-text-white)' }}>
+      <div className="max-w-7xl mx-auto px-3 py-2">
         <div className="flex justify-between items-center">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2 flex-shrink-0">
-            <img src={Logo} alt="Elite Jobs Logo" className="h-8 w-auto" />
-            <h1 className="text-2xl font-bold" style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-white)' }}>Elite Jobs</h1>
+            <img src={Logo} alt="Elite Jobs Logo" className="h-12 w-32 md:h-18 md:w-50" />
           </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
             <Link to="/">
-              <span className="transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)' }} 
+              <span className="transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)', color: 'navy' }} 
                     onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
-                    onMouseLeave={(e) => e.target.style.color = 'var(--color-text-white)'}>Home</span>
+                    onMouseLeave={(e) => e.target.style.color = 'navy'}>Home</span>
             </Link>
             <Link to="/jobs">
-              <span className="transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)' }}
+              <span className="transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)', color: 'navy' }}
                     onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
-                    onMouseLeave={(e) => e.target.style.color = 'var(--color-text-white)'}>Jobs</span>
+                    onMouseLeave={(e) => e.target.style.color = 'navy'}>Jobs</span>
             </Link>
             <div className="relative" ref={dropdownRef}>
               <button
                 onClick={toggleAIToolsDropdown}
                 className="flex items-center space-x-2 font-semibold transition-colors"
-                style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)' }}
+                style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)', color: 'navy' }}
                 onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
-                onMouseLeave={(e) => e.target.style.color = 'var(--color-text-white)'}
+                onMouseLeave={(e) => e.target.style.color = 'navy'}
               >
                 <span>AI Tools</span>
                 <ChevronDown size={16} />
@@ -116,19 +115,19 @@ const Header = () => {
               )}
             </div>
             <Link to="/salaries">
-              <span className="transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)' }}
+              <span className="transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)', color: 'navy' }}
                     onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
-                    onMouseLeave={(e) => e.target.style.color = 'var(--color-text-white)'}>Salaries</span>
+                    onMouseLeave={(e) => e.target.style.color = 'navy'}>Salaries</span>
             </Link>
             <Link to="/about">
-              <span className="transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)' }}
+              <span className="transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)', color: 'navy' }}
                     onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
-                    onMouseLeave={(e) => e.target.style.color = 'var(--color-text-white)'}>About Us</span>
+                    onMouseLeave={(e) => e.target.style.color = 'navy'}>About Us</span>
             </Link>
             <Link to="/contact">
-              <span className="transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)' }}
+              <span className="transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)', color: 'navy' }}
                     onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
-                    onMouseLeave={(e) => e.target.style.color = 'var(--color-text-white)'}>Contact Us</span>
+                    onMouseLeave={(e) => e.target.style.color = 'navy'}>Contact Us</span>
             </Link>
           </nav>
 
@@ -143,51 +142,28 @@ const Header = () => {
                   Logout
                 </button>
                 <Link to="/profile">
-                  <button className="transition-colors w-full flex justify-center cursor-pointer" style={{ transition: 'var(--transition-normal)' }}
-                          onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
-                          onMouseLeave={(e) => e.target.style.color = 'var(--color-text-white)'}>
-                    <div className="items-center flex space-x-1">
-                      <span>User</span>
-                      <CircleUserRound className="w-6 h-6" />
-                    </div>
+                  <button className="px-4 py-2 rounded transition-colors w-full cursor-pointer btn-accent flex items-center justify-center space-x-1">
+                    <span>User</span>
+                    <CircleUserRound className="w-6 h-6" />
                   </button>
                 </Link>
               </>
             ) : (
               <>
                 <Link to="/login">
-                  <button className="transition-colors px-4 py-2 cursor-pointer" style={{ transition: 'var(--transition-normal)' }}
+                  <button className="transition-colors px-4 py-2 cursor-pointer" style={{ transition: 'var(--transition-normal)', color: 'navy' }}
                           onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
-                          onMouseLeave={(e) => e.target.style.color = 'var(--color-text-white)'}>
+                          onMouseLeave={(e) => e.target.style.color = 'navy'}>
                     Login
                   </button>
                 </Link>
-                <Link to="/login">
+                <Link to="/login?role=jobHoster">
                   <button className="px-4 py-2 rounded transition-colors cursor-pointer btn-accent">
                     Job Hosting
                   </button>
                 </Link>
-                  <Link to="/login">
-                  <button 
-                    className="px-4 py-2 rounded transition-all cursor-pointer border-2 font-medium"
-                    style={{ 
-                      backgroundColor: 'transparent',
-                      color: 'var(--color-text-white)',
-                      borderColor: 'var(--color-text-white)',
-                      fontFamily: 'var(--font-body)',
-                      transition: 'var(--transition-normal)'
-                    }}
-                    onMouseEnter={(e) => {
-                      e.target.style.backgroundColor = 'var(--color-text-white)';
-                      e.target.style.color = 'var(--color-primary)';
-                      e.target.style.borderColor = 'var(--color-text-white)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.target.style.backgroundColor = 'transparent';
-                      e.target.style.color = 'var(--color-text-white)';
-                      e.target.style.borderColor = 'var(--color-text-white)';
-                    }}
-                  >
+                  <Link to="/login?role=recruiter">
+                  <button className="px-4 py-2 rounded transition-colors cursor-pointer btn-accent">
                     Job Recruiter
                   </button>
                 </Link>
@@ -197,7 +173,8 @@ const Header = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className="lg:hidden p-2 rounded transition-colors" style={{ transition: 'var(--transition-normal)' }}
+            className="lg:hidden p-2 rounded transition-colors"
+            style={{ color: 'var(--color-text-primary)' }}
             onClick={toggleMobileMenu}
             onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--color-dark-secondary)'}
             onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
@@ -211,16 +188,16 @@ const Header = () => {
           <div ref={mobileMenuRef} className="lg:hidden mt-4 py-4" style={{ borderTop: `1px solid var(--color-dark-secondary)` }}>
             <nav className="flex flex-col space-y-4">
               <Link to="/">
-                <span className="block py-2 transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)' }}
+                <span className="block py-2 transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)', color: 'navy' }}
                       onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
-                      onMouseLeave={(e) => e.target.style.color = 'var(--color-text-white)'}>
+                      onMouseLeave={(e) => e.target.style.color = 'navy'}>
                   Home
                 </span>
               </Link>
               <Link to="/jobs">
-                <span className="block py-2 transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)' }}
+                <span className="block py-2 transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)', color: 'navy' }}
                       onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
-                      onMouseLeave={(e) => e.target.style.color = 'var(--color-text-white)'}>
+                      onMouseLeave={(e) => e.target.style.color = 'navy'}>
                   Jobs
                 </span>
               </Link>
@@ -228,9 +205,9 @@ const Header = () => {
                 <button
                   onClick={toggleAIToolsDropdown}
                   className="w-full text-left py-2 font-semibold transition-colors flex items-center justify-between"
-                  style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)' }}
+                  style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)', color: 'navy' }}
                   onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
-                  onMouseLeave={(e) => e.target.style.color = 'var(--color-text-white)'}
+                  onMouseLeave={(e) => e.target.style.color = 'navy'}
                 >
                   AI Tools
                   <ChevronDown size={16} />
@@ -238,41 +215,41 @@ const Header = () => {
                 {isAIToolsOpen && (
                   <ul className="ml-4 mt-2 space-y-2">
                     <Link to="/ats-score-checker" onClick={handleMobileNavigation}>
-                      <li className="py-2 transition-colors" style={{ transition: 'var(--transition-normal)' }}
+                      <li className="py-2 transition-colors" style={{ transition: 'var(--transition-normal)', color: 'navy' }}
                           onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
-                          onMouseLeave={(e) => e.target.style.color = 'var(--color-text-white)'}>ATS Score Checker</li>
+                          onMouseLeave={(e) => e.target.style.color = 'navy'}>ATS Score Checker</li>
                     </Link>
                     <Link to="/ai-resume-builder" onClick={handleMobileNavigation}>
-                      <li className="py-2 transition-colors" style={{ transition: 'var(--transition-normal)' }}
+                      <li className="py-2 transition-colors" style={{ transition: 'var(--transition-normal)', color: 'navy' }}
                           onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
-                          onMouseLeave={(e) => e.target.style.color = 'var(--color-text-white)'}>AI Resume Builder</li>
+                          onMouseLeave={(e) => e.target.style.color = 'navy'}>AI Resume Builder</li>
                     </Link>
                     <Link to="/mock" onClick={handleMobileNavigation}>
-                      <li className="py-2 transition-colors" style={{ transition: 'var(--transition-normal)' }}
+                      <li className="py-2 transition-colors" style={{ transition: 'var(--transition-normal)', color: 'navy' }}
                           onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
-                          onMouseLeave={(e) => e.target.style.color = 'var(--color-text-white)'}>AI Mock Test</li>
+                          onMouseLeave={(e) => e.target.style.color = 'navy'}>AI Mock Test</li>
                     </Link>
                   </ul>
                 )}
               </div>
               <Link to="/salaries">
-                <span className="block py-2 transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)' }}
+                <span className="block py-2 transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)', color: 'navy' }}
                       onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
-                      onMouseLeave={(e) => e.target.style.color = 'var(--color-text-white)'}>
+                      onMouseLeave={(e) => e.target.style.color = 'navy'}>
                   Salaries
                 </span>
               </Link>
               <Link to="/about">
-                <span className="block py-2 transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)' }}
+                <span className="block py-2 transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)', color: 'navy' }}
                       onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
-                      onMouseLeave={(e) => e.target.style.color = 'var(--color-text-white)'}>
+                      onMouseLeave={(e) => e.target.style.color = 'navy'}>
                   About Us
                 </span>
               </Link>
               <Link to="/contact">
-                <span className="block py-2 transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)' }}
+                <span className="block py-2 transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)', color: 'navy' }}
                       onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
-                      onMouseLeave={(e) => e.target.style.color = 'var(--color-text-white)'}>
+                      onMouseLeave={(e) => e.target.style.color = 'navy'}>
                   Contact Us
                 </span>
               </Link>
@@ -286,31 +263,27 @@ const Header = () => {
                       Logout
                     </button>
                     <Link to="/user-profile">
-                      <button className="transition-colors w-full flex justify-center cursor-pointer" style={{ transition: 'var(--transition-normal)' }}
-                              onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
-                              onMouseLeave={(e) => e.target.style.color = 'var(--color-text-white)'}>
-                        <div className="items-center flex space-x-1">
-                          <span>User</span>
-                          <CircleUserRound className="w-6 h-6" />
-                        </div>
+                      <button className="px-4 py-2 rounded transition-colors w-full cursor-pointer btn-accent flex items-center justify-center space-x-1">
+                        <span>User</span>
+                        <CircleUserRound className="w-6 h-6" />
                       </button>
                     </Link>
                   </div>
                 ) : (
                   <div className="flex flex-col space-y-4">
                     <Link to="/login">
-                      <button className="transition-colors px-4 py-2 w-full cursor-pointer" style={{ transition: 'var(--transition-normal)' }}
+                      <button className="transition-colors px-4 py-2 w-full cursor-pointer" style={{ transition: 'var(--transition-normal)', color: 'navy' }}
                               onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
-                              onMouseLeave={(e) => e.target.style.color = 'var(--color-text-white)'}>
+                              onMouseLeave={(e) => e.target.style.color = 'navy'}>
                         Login
                       </button>
                     </Link>
-                    <Link to="/login">
+                    <Link to="/login?role=jobHoster">
                       <button className="px-4 py-2 rounded transition-colors w-full cursor-pointer btn-accent">
                         Job Hosting
                       </button>
                     </Link>
-                    <Link to="/login">
+                    <Link to="/login?role=recruiter">
                       <button 
                         className="px-4 py-2 rounded transition-all w-full cursor-pointer border-2 font-medium"
                         style={{ 

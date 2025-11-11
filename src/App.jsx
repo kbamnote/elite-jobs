@@ -35,6 +35,7 @@ import RecruiterPage from "./components/recruiter/main/RecruiterPage";
 import RecruiterProfile from "./components/recruiter/profile/RecruiterProfile";
 import RecruiterProfileEdit from "./components/recruiter/profile/RecruiterProfileEdit";
 import RecruiterApplicantDetail from "./components/recruiter/applicantFullDetail/RecruiterApplicantDetail";
+import RecruiterOnboarding from "./components/recruiter/profile/RecruiterOnboarding";
 import Onboarding from "./components/jobSeeker/seekerProfile/Onboarding";
 // import ProtectedRoute from "./components/jobSeeker/seekerAuth/ProtectedRoute";
 
@@ -63,6 +64,7 @@ function App() {
         {/* Recruiter Routes */}
         <Route path="/recruiter/dashboard" element={<RecruiterPage/>} />
         {/* <Route path="/recruiter/filter" element={<RecruiterFilter/>} />  Remove this line */}
+        <Route path="/recruiter/onboarding" element={<RecruiterOnboarding/>} />
         <Route path="/recruiter/profile" element={<RecruiterProfile/>} />
         <Route path="/recruiter/profile/edit" element={<RecruiterProfileEdit/>} />
         <Route path="/recruiter/applicant-details/:id" element={<RecruiterApplicantDetail/>} />
