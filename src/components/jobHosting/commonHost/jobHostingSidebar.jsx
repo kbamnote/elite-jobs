@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
   LogOut,
@@ -7,18 +7,46 @@ import {
   Menu,
   X,
   Users,
-  BriefcaseBusiness,
   CalendarPlus,
 } from "lucide-react";
 import Cookies from "js-cookie";
+import Logo from '../../../assets/logos.png';
+import { profile } from '../../../utils/Api';
 
 const JobHostingSidebar = () => {
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [isLogoutHovered, setIsLogoutHovered] = useState(false);
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
   
-  // Static user name for design-only mode
-  const userName = "John Doe";
+  useEffect(() => {
+    fetchProfileData();
+  }, []);
+
+  const fetchProfileData = async () => {
+    try {
+      setLoading(true);
+      const response = await profile();
+      const data = response.data.data;
+      
+      setUserData({
+        name: data.name,
+        email: data.email,
+        photo: data.profile.photo,
+      });
+    } catch (err) {
+      console.error("Failed to fetch profile data:", err);
+      // Fallback to static data if API fails
+      setUserData({
+        name: "John Doe",
+        email: "john@example.com",
+        photo: null,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleLogout = () => {
     // Remove token and role from cookies
@@ -51,7 +79,7 @@ const JobHostingSidebar = () => {
     <>
       {/* Mobile Menu Button */}
       <button
-        className="fixed top-4 left-4 z-50 block lg:hidden p-2 rounded"
+        className="fixed top-3 left-6 z-50 block lg:hidden p-2 rounded"
         style={{
           backgroundColor: 'var(--color-primary)',
           color: 'var(--color-text-white)',
@@ -67,32 +95,41 @@ const JobHostingSidebar = () => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed lg:relative inset-y-0 left-0 z-40 w-full sm:w-1/2 lg:w-80 p-6 transform transition-transform 
+        className={`fixed lg:relative inset-y-0 left-0 z-40 w-full sm:w-1/2 lg:w-70 p-6 transform transition-transform 
         ${isOpen ? "translate-x-0" : "-translate-x-full"} 
         lg:translate-x-0 lg:flex flex-col h-screen`}
         style={{
-          backgroundColor: 'var(--color-primary)',
+          backgroundColor: 'white',
           boxShadow: 'var(--shadow-lg)',
           borderRight: '1px solid var(--border-color)',
         }}
       >
         {/* Logo */}
-        <Link to="/" className="flex items-center mb-6">
-          <BriefcaseBusiness className="w-6 h-6" style={{ color: 'var(--color-accent)' }} />
-          <span className="ml-2 text-2xl font-bold" style={{ color: 'var(--color-text-white)', fontFamily: 'var(--font-heading)' }}>Elite Jobs</span>
+        <Link to="/dashboard" className="w-full flex justify-center items-center mb-6">
+          <img src={Logo} alt="Elite Jobs Logo" className="h-17 w-55" />
         </Link>
 
         {/* Profile Section */}
         <Link to="/hosting/profile" className="flex items-center mb-6">
           <div className="relative">
-            <div className="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center text-gray-600">
-              <User className="w-8 h-8" />
-            </div>
-            <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-400 border-2 rounded-full" style={{ borderColor: 'var(--color-primary)' }}></div>
+            {userData?.photo ? (
+              <img 
+                src={userData.photo} 
+                alt="Profile" 
+                className="w-12 h-12 rounded-full object-cover"
+                onError={(e) => { e.target.src = "https://placehold.co/150x150"; }}
+              />
+            ) : (
+              <div className="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center text-gray-600">
+                <User className="w-8 h-8" />
+              </div>
+            )}
+            <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-400 border-2 rounded-full" style={{ borderColor: 'white' }}></div>
           </div>
           <div className="ml-2">
-            <span style={{ fontSize: '16px', fontWeight: '600', color: 'var(--color-text-white)', fontFamily: 'var(--font-body)' }}>John Doe</span>
-           
+            <span style={{ fontSize: '16px', fontWeight: '600', color: 'navy', fontFamily: 'var(--font-body)' }}>
+              {userData?.name || "John Doe"}
+            </span>
           </div>
         </Link>
 
@@ -109,7 +146,7 @@ const JobHostingSidebar = () => {
                   marginBottom: '8px',
                   borderRadius: 'var(--border-radius)',
                   textDecoration: 'none',
-                  color: 'var(--color-text-white)',
+                  color: 'navy',
                   backgroundColor: location.pathname === "/dashboard" ? 'var(--color-accent)' : 'transparent',
                   transition: 'all 0.3s ease',
                   fontFamily: 'var(--font-body)',
@@ -118,11 +155,13 @@ const JobHostingSidebar = () => {
                 onMouseEnter={(e) => {
                   if (location.pathname !== "/dashboard") {
                     e.target.style.backgroundColor = 'rgba(220, 38, 38, 0.2)';
+                    e.target.style.color = 'var(--color-accent)';
                   }
                 }}
                 onMouseLeave={(e) => {
                   if (location.pathname !== "/dashboard") {
                     e.target.style.backgroundColor = 'transparent';
+                    e.target.style.color = 'navy';
                   }
                 }}
               >
@@ -142,7 +181,7 @@ const JobHostingSidebar = () => {
                    marginBottom: '8px',
                    borderRadius: 'var(--border-radius)',
                    textDecoration: 'none',
-                   color: 'var(--color-text-white)',
+                   color: 'navy',
                    backgroundColor: location.pathname === item.path ? 'var(--color-accent)' : 'transparent',
                    transition: 'all 0.3s ease',
                    fontFamily: 'var(--font-body)',
@@ -151,11 +190,13 @@ const JobHostingSidebar = () => {
                  onMouseEnter={(e) => {
                    if (location.pathname !== item.path) {
                      e.target.style.backgroundColor = 'rgba(220, 38, 38, 0.2)';
+                     e.target.style.color = 'var(--color-accent)';
                    }
                  }}
                  onMouseLeave={(e) => {
                    if (location.pathname !== item.path) {
                      e.target.style.backgroundColor = 'transparent';
+                     e.target.style.color = 'navy';
                    }
                  }}
                >
@@ -179,7 +220,7 @@ const JobHostingSidebar = () => {
               marginTop: 'auto',
               borderRadius: 'var(--border-radius)',
               backgroundColor: 'rgba(255, 255, 255, 0.1)',
-              color: 'var(--color-text-white)',
+              color: 'navy',
               border: 'none',
               cursor: 'pointer',
               transition: 'all 0.3s ease',
@@ -188,10 +229,12 @@ const JobHostingSidebar = () => {
             }}
             onMouseEnter={(e) => {
               e.target.style.backgroundColor = 'rgba(220, 38, 38, 0.2)';
+              e.target.style.color = 'var(--color-accent)';
               setIsLogoutHovered(true);
             }}
             onMouseLeave={(e) => {
               e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.1)';
+              e.target.style.color = 'navy';
               setIsLogoutHovered(false);
             }}
           >

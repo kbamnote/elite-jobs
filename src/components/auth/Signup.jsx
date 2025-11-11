@@ -56,7 +56,8 @@ const Signup = () => {
         // Navigate to job hosting onboarding page
         navigate('/hosting/onboarding');
       } else if (role === 'recruiter') {
-        navigate('/recruiter/dashboard');
+        // Navigate to recruiter onboarding page
+        navigate('/recruiter/onboarding');
       }
     } catch (err) {
       setError(err.response?.data?.message || 'Signup failed');

@@ -653,30 +653,33 @@ const Profile = () => {
               ) : applications.length > 0 ? (
                 <div className="space-y-3">
                   {applications.slice(0, 5).map((application) => (
-                    <div 
-                      key={application._id} 
-                      className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
-                    >
-                      <div className="flex items-start justify-between mb-2">
-                        <h4 className="font-semibold text-gray-900 text-sm" style={{ fontFamily: 'var(--font-heading)' }}>
-                          {application.jobId.title}
-                        </h4>
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          application.status === 'accepted' ? 'bg-green-100 text-green-800' :
-                          application.status === 'rejected' ? 'bg-red-100 text-red-800' :
-                          application.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                          'bg-blue-100 text-blue-800'
-                        }`}>
-                          {application.status}
-                        </span>
+                    // Skip applications with null jobId
+                    application.jobId ? (
+                      <div 
+                        key={application._id} 
+                        className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
+                      >
+                        <div className="flex items-start justify-between mb-2">
+                          <h4 className="font-semibold text-gray-900 text-sm" style={{ fontFamily: 'var(--font-heading)' }}>
+                            {application.jobId.title || 'Unknown Job'}
+                          </h4>
+                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                            application.status === 'accepted' ? 'bg-green-100 text-green-800' :
+                            application.status === 'rejected' ? 'bg-red-100 text-red-800' :
+                            application.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+                            'bg-blue-100 text-blue-800'
+                          }`}>
+                            {application.status}
+                          </span>
+                        </div>
+                        <p className="text-gray-600 text-sm mb-2" style={{ fontFamily: 'var(--font-body)' }}>
+                          {application.jobId.company?.name || 'Unknown Company'}
+                        </p>
+                        <p className="text-xs text-gray-500">
+                          Applied: {formatDateString(application.appliedAt)}
+                        </p>
                       </div>
-                      <p className="text-gray-600 text-sm mb-2" style={{ fontFamily: 'var(--font-body)' }}>
-                        {application.jobId.company.name}
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        Applied: {formatDateString(application.appliedAt)}
-                      </p>
-                    </div>
+                    ) : null
                   ))}
                   {applications.length > 5 && (
                     <Link to="/my-jobs">

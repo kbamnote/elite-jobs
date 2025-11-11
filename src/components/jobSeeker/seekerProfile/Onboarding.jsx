@@ -7,7 +7,47 @@ const suggestedLocations = [
   "Hyderabad / Secunderabad, Telangana",
   "Pune",
   "Chennai",
-  "Delhi"
+  "Delhi",
+  "Mumbai",
+  "Kolkata",
+  "Ahmedabad",
+  "Noida",
+  "Gurgaon",
+  "Indore",
+  "Nagpur",
+  "Jaipur",
+  "Surat",
+  "Kochi"
+];
+
+const GENDER_OPTIONS = ["male", "female", "other"];
+
+const NOTICE_PERIOD_OPTIONS = ['Immediate Joiner', 'Upto 1 week', 'Upto 1 month', 'Upto 2 month', 'Any'];
+
+const EXPERIENCE_OPTIONS = ['Fresher', '0-1 year of experience', '1-2 year of experience', '2-4 year of experience', '5+ year of experience', '10+ year of experience'];
+
+const CATEGORY_OPTIONS = ["IT & Networking", "Sales & Marketing", "Accounting", "Data Science", "Digital Marketing", "Human Resource", "Customer Service", "Project Manager", "Other"];
+
+const EDUCATION_OPTIONS = [
+  "High School (10th)",
+  "Higher Secondary (12th)",
+  "Diploma",
+  "Bachelor of Arts (BA)",
+  "Bachelor of Science (BSc)",
+  "Bachelor of Commerce (BCom)",
+  "Bachelor of Technology (BTech)",
+  "Bachelor of Engineering (BE)",
+  "Bachelor of Computer Applications (BCA)",
+  "Bachelor of Business Administration (BBA)",
+  "Master of Arts (MA)",
+  "Master of Science (MSc)",
+  "Master of Commerce (MCom)",
+  "Master of Technology (MTech)",
+  "Master of Engineering (ME)",
+  "Master of Computer Applications (MCA)",
+  "Master of Business Administration (MBA)",
+  "PhD (Doctorate)",
+  "Other"
 ];
 
 const Onboarding = () => {
@@ -272,14 +312,19 @@ const Onboarding = () => {
               <div className="space-y-5">
                 <div>
                   <label className="block text-sm text-gray-700 mb-2">Highest Education</label>
-                  <input
+                  <select
                     name="highestEducation"
-                    type="text"
                     value={form.highestEducation}
                     onChange={handleChange}
                     className="w-full border border-gray-200 rounded-lg px-3 py-2"
-                    placeholder="e.g., B.Tech, MSc"
-                  />
+                  >
+                    <option value="">Select Highest Education</option>
+                    {EDUCATION_OPTIONS.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
                 </div>
               </div>
             </div>
@@ -390,16 +435,23 @@ const Onboarding = () => {
                   <label className="block text-sm text-gray-700 mb-2">Experience Level</label>
                   <select name="expInWork" value={form.expInWork} onChange={handleChange} className="w-full border border-gray-200 rounded-lg px-3 py-2">
                     <option value="">Select Experience Level</option>
-                    <option value="0-1 year of experience">0-1 year of experience</option>
-                    <option value="1-2 year of experience">1-2 year of experience</option>
-                    <option value="2-4 year of experience">2-4 year of experience</option>
-                    <option value="5+ year of experience">5+ year of experience</option>
-                    <option value="10+ year of experience">10+ year of experience</option>
+                    {EXPERIENCE_OPTIONS.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
                   </select>
                 </div>
                 <div>
                   <label className="block text-sm text-gray-700 mb-2">Notice Period</label>
-                  <input name="noticePeriod" type="text" value={form.noticePeriod} onChange={handleChange} className="w-full border border-gray-200 rounded-lg px-3 py-2" placeholder="e.g., Immediate, 15 days, 30 days" />
+                  <select name="noticePeriod" value={form.noticePeriod} onChange={handleChange} className="w-full border border-gray-200 rounded-lg px-3 py-2">
+                    <option value="">Select Notice Period</option>
+                    {NOTICE_PERIOD_OPTIONS.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
                 </div>
                 <div>
                   <label className="block text-sm text-gray-700 mb-2">Salary Expectation</label>
@@ -415,7 +467,14 @@ const Onboarding = () => {
                 </div>
                 <div>
                   <label className="block text-sm text-gray-700 mb-2">Preferred Category</label>
-                  <input name="preferredCategory" type="text" value={form.preferredCategory} onChange={handleChange} className="w-full border border-gray-200 rounded-lg px-3 py-2" placeholder="e.g., Frontend, Backend, QA" />
+                  <select name="preferredCategory" value={form.preferredCategory} onChange={handleChange} className="w-full border border-gray-200 rounded-lg px-3 py-2">
+                    <option value="">Select Preferred Category</option>
+                    {CATEGORY_OPTIONS.map((option) => (
+                      <option key={option} value={option}>
+                        {option}
+                      </option>
+                    ))}
+                  </select>
                 </div>
                 <div>
                   <label className="block text-sm text-gray-700 mb-2">Age</label>
@@ -425,10 +484,11 @@ const Onboarding = () => {
                   <label className="block text-sm text-gray-700 mb-2">Gender</label>
                   <select name="gender" value={form.gender} onChange={handleChange} className="w-full border border-gray-200 rounded-lg px-3 py-2">
                     <option value="">Select Gender</option>
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                    <option value="other">Other</option>
-                    <option value="prefer_not_to_say">Prefer not to say</option>
+                    {GENDER_OPTIONS.map((option) => (
+                      <option key={option} value={option}>
+                        {option.charAt(0).toUpperCase() + option.slice(1)}
+                      </option>
+                    ))}
                   </select>
                 </div>
               </div>

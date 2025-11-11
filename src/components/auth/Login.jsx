@@ -1,14 +1,22 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { login } from '../../utils/Api';
 import Cookies from 'js-cookie';
 
 const Login = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  
+  const getDefaultRole = () => {
+    const params = new URLSearchParams(location.search);
+    const role = params.get('role');
+    return ['jobSeeker', 'jobHoster', 'recruiter'].includes(role) ? role : 'jobSeeker';
+  };
+  
   const [formData, setFormData] = useState({
     email: '',
     password: '',
-    role: 'jobSeeker'
+    role: getDefaultRole()
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);

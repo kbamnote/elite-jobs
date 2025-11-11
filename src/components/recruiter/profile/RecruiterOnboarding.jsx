@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { profile, updateProfile, uploadFileHoster, updateCompanyLogo, updatephotoCompany, updateCompanyDocs } from "../../../utils/Api";
 
-const JobHostingOnboarding = () => {
+const RecruiterOnboarding = () => {
   const navigate = useNavigate();
 
   const [step, setStep] = useState(1);
@@ -78,7 +78,7 @@ const JobHostingOnboarding = () => {
         }
       } catch (err) {
         // Non-blocking; user can still fill details
-        console.warn("Failed to prefill hoster profile:", err);
+        console.warn("Failed to prefill recruiter profile:", err);
       }
     };
     load();
@@ -94,6 +94,17 @@ const JobHostingOnboarding = () => {
       }));
     } else {
       setFormData((prev) => ({ ...prev, [name]: value }));
+    }
+  };
+
+  // Prevent form submission when pressing Enter in input fields
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      // If we're not on the last step, move to next step
+      if (step < totalSteps) {
+        nextStep();
+      }
     }
   };
 
@@ -156,7 +167,7 @@ const JobHostingOnboarding = () => {
     // Validate file type
     const validTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
     if (!validTypes.includes(documentFile.type)) {
-      setError("Please upload a valid document file (PDF). Other formats are not supported.");
+      setError("Please upload a valid document file (PDF, DOC, DOCX). Other formats are not supported.");
       return;
     }
     
@@ -328,10 +339,10 @@ const JobHostingOnboarding = () => {
       await updateProfile(payload);
       setMessage("Details saved successfully!");
       // Navigate immediately without delay
-      navigate("/hosting/profile");
+      navigate("/recruiter/profile");
     } catch (err) {
       setError(err.response?.data?.message || "Failed to save details");
-      console.error("Hoster onboarding save failed:", err);
+      console.error("Recruiter onboarding save failed:", err);
     } finally {
       setSaving(false);
     }
@@ -362,11 +373,11 @@ const JobHostingOnboarding = () => {
             <div className="mb-4 p-3 bg-blue-50 text-blue-700 rounded-lg text-sm">{info}</div>
           )}
 
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="space-y-6">
           {step === 1 && (
             <div className="text-center">
               <div className="max-w-2xl mx-auto">
-                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Welcome to Elite Jobs Hosting</h1>
+                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Welcome to Elite Jobs Recruiter</h1>
                 <h2 className="text-xl text-gray-700 mb-6">Let's get your company profile set up</h2>
                 <p className="text-sm text-gray-600 mb-6">To get started, please upload your company logo. This will be displayed on your job postings.</p>
                 <div className="border-2 rounded-xl p-6 mb-6" style={{ borderColor: 'var(--color-accent)' }}>
@@ -490,6 +501,7 @@ const JobHostingOnboarding = () => {
                     type="text"
                     value={formData.profile.companyName}
                     onChange={handleChange}
+                    onKeyPress={handleKeyPress}
                     className="w-full border border-gray-200 rounded-lg px-3 py-2"
                     placeholder="e.g., Tech Solutions Pvt Ltd"
                   />
@@ -502,6 +514,7 @@ const JobHostingOnboarding = () => {
                       type="email"
                       value={formData.profile.companyEmail}
                       onChange={handleChange}
+                      onKeyPress={handleKeyPress}
                       className="w-full border border-gray-200 rounded-lg px-3 py-2"
                       placeholder="e.g., contact@company.com"
                     />
@@ -513,6 +526,7 @@ const JobHostingOnboarding = () => {
                       type="tel"
                       value={formData.profile.companyPhone}
                       onChange={handleChange}
+                      onKeyPress={handleKeyPress}
                       className="w-full border border-gray-200 rounded-lg px-3 py-2"
                       placeholder="e.g., +91 9876543210"
                     />
@@ -526,6 +540,7 @@ const JobHostingOnboarding = () => {
                       type="number"
                       value={formData.profile.numberOfEmployees}
                       onChange={handleChange}
+                      onKeyPress={handleKeyPress}
                       className="w-full border border-gray-200 rounded-lg px-3 py-2"
                       placeholder="e.g., 50"
                     />
@@ -537,6 +552,7 @@ const JobHostingOnboarding = () => {
                       type="url"
                       value={formData.profile.companyWebsite}
                       onChange={handleChange}
+                      onKeyPress={handleKeyPress}
                       className="w-full border border-gray-200 rounded-lg px-3 py-2"
                       placeholder="e.g., https://company.com"
                     />
@@ -550,6 +566,7 @@ const JobHostingOnboarding = () => {
                       type="text"
                       value={formData.profile.panCardNumber}
                       onChange={handleChange}
+                      onKeyPress={handleKeyPress}
                       className="w-full border border-gray-200 rounded-lg px-3 py-2"
                       placeholder="e.g., ABCDE1234F"
                     />
@@ -561,6 +578,7 @@ const JobHostingOnboarding = () => {
                       type="text"
                       value={formData.profile.gstNumber}
                       onChange={handleChange}
+                      onKeyPress={handleKeyPress}
                       className="w-full border border-gray-200 rounded-lg px-3 py-2"
                       placeholder="e.g., 12ABCDE1234PZ"
                     />
@@ -572,6 +590,7 @@ const JobHostingOnboarding = () => {
                     name="profile.companyDescription"
                     value={formData.profile.companyDescription}
                     onChange={handleChange}
+                    onKeyPress={handleKeyPress}
                     className="w-full border border-gray-200 rounded-lg px-3 py-2"
                     rows="4"
                     placeholder="Tell us about your company, its mission, and what you do..."
@@ -594,14 +613,15 @@ const JobHostingOnboarding = () => {
               <button
                 type="button"
                 onClick={nextStep}
-                disabled={saving || !isStepValid()}
+                disabled={saving}
                 className="px-5 py-2 btn-accent rounded-lg"
               >
                 Continue →
               </button>
             ) : (
               <button
-                type="submit"
+                type="button"
+                onClick={handleSubmit}
                 disabled={saving}
                 className="px-5 py-2 btn-accent rounded-lg"
               >
@@ -609,11 +629,11 @@ const JobHostingOnboarding = () => {
               </button>
             )}
           </div>
-          </form>
+          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default JobHostingOnboarding;
+export default RecruiterOnboarding;

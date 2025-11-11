@@ -151,7 +151,7 @@ const JobHostingDashboard = () => {
                 e.target.style.backgroundColor = 'var(--color-accent)';
               }}
             >
-              <CirclePlus className="w-5 h-5" />
+              <CirclePlus className="w-auto h-5" />
               <span>Post New Job</span>
             </button>
           </Link>

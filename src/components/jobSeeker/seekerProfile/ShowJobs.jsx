@@ -8,8 +8,6 @@ const ShowJobs = () => {
   const [applications, setApplications] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [page, setPage] = useState(1);
-  const pageSize = 5;
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,9 +36,8 @@ const ShowJobs = () => {
     navigate(`/jobs/${jobId}`);
   };
 
-  const start = (page - 1) * pageSize;
-  const current = applications.slice(start, start + pageSize);
-  const totalPages = Math.ceil(applications.length / pageSize);
+  // Filter out applications with null jobId
+  const validApplications = applications.filter(application => application.jobId);
 
   if (loading) {
     return (
@@ -104,14 +101,14 @@ const ShowJobs = () => {
           ) : (
             <>
               <div className="space-y-4">
-                {current.map((application) => (
+                {validApplications.map((application) => (
                   <div 
                     key={application._id} 
                     className="border border-gray-100 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
                   >
                     <div>
-                      <h3 className="text-lg font-semibold text-gray-900">{application.jobId.title}</h3>
-                      <p className="text-gray-600">{application.jobId.company.name}</p>
+                      <h3 className="text-lg font-semibold text-gray-900">{application.jobId.title || 'Unknown Job'}</h3>
+                      <p className="text-gray-600">{application.jobId.company?.name || 'Unknown Company'}</p>
                       <p className="text-sm text-gray-500">
                         Applied on: {formatDateString(application.appliedAt)}
                       </p>
@@ -149,23 +146,7 @@ const ShowJobs = () => {
                 ))}
               </div>
 
-              <div className="flex items-center justify-between mt-6">
-                <button
-                  disabled={page === 1}
-                  onClick={() => setPage((p) => Math.max(1, p - 1))}
-                  className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50"
-                >
-                  Prev
-                </button>
-                <span className="text-gray-700">Page {page} of {totalPages}</span>
-                <button
-                  disabled={page === totalPages}
-                  onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-                  className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50"
-                >
-                  Next
-                </button>
-              </div>
+              {/* Pagination removed - showing all applications */}
             </>
           )}
         </div>
