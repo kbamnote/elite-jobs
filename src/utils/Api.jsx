@@ -42,6 +42,10 @@ Api.interceptors.response.use(
 // ============== AUTH ==============
 export const signup = (post) => Apiauth.post("/auth/signup", post);
 export const login = (post) => Apiauth.post("/auth/login", post);
+export const forgotPassword = (post) => Apiauth.post("/auth/forgot-password", post);
+export const verifyOTP = (post) => Apiauth.post("/auth/verify-otp", post);
+export const resetPassword = (post) => Apiauth.post("/auth/reset-password", post);
+export const resendOTP = (post) => Apiauth.post("/auth/resend-otp", post);
 
 // ============== Profile GET for Seeker, Hoster and Recruiter ==============
 export const profile = () => Api.get("/auth/profile");

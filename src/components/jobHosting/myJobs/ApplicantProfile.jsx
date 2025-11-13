@@ -5,7 +5,7 @@ import { applicantDetailById, applicantStatus } from "../../../utils/Api";
 import { ArrowLeft, User, Mail, Phone, MapPin, Calendar, GraduationCap, Briefcase, Link, FileText, UserCircle } from "lucide-react";
 
 const ApplicantProfile = () => {
-  const { jobId, applicationId } = useParams(); // Now we have both jobId and applicationId
+  const { jobId, id: applicationId } = useParams(); // Changed from { jobId, applicationId } to { jobId, id: applicationId } to match the route parameter
   const navigate = useNavigate();
   const [application, setApplication] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -21,8 +21,19 @@ const ApplicantProfile = () => {
   const fetchApplicantProfile = async () => {
     try {
       setLoading(true);
+      setError(null); // Clear any previous errors
+      
+      // Add a timeout to detect hanging requests
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error('Request timeout')), 10000); // 10 second timeout
+      });
+      
       // Using applicantDetailById which fetches /jobs/${jobId}/applications/${applicationId}
-      const response = await applicantDetailById(jobId, applicationId);
+      const response = await Promise.race([
+        applicantDetailById(jobId, applicationId),
+        timeoutPromise
+      ]);
+      
       if (response.data.success) {
         setApplication({
           ...response.data.data,
@@ -31,8 +42,11 @@ const ApplicantProfile = () => {
         setError("Failed to fetch applicant profile");
       }
     } catch (err) {
-      console.error("Error fetching applicant profile:", err);
-      setError("Error fetching applicant profile. Please try again later.");
+      if (err.message === 'Request timeout') {
+        setError("Request timed out. Please try again later.");
+      } else {
+        setError("Error fetching applicant profile. Please try again later.");
+      }
     } finally {
       setLoading(false);
     }
@@ -41,8 +55,10 @@ const ApplicantProfile = () => {
   const handleStatusChange = async (newStatus) => {
     try {
       setStatusUpdating(true);
+      console.log("Updating applicant status for application ID:", applicationId, "to status:", newStatus);
       // Using applicationId for the status update
       const response = await applicantStatus(applicationId, { status: newStatus });
+      console.log("Status update response:", response);
       if (response.data.success) {
         setApplication(prev => ({
           ...prev,
@@ -53,6 +69,7 @@ const ApplicantProfile = () => {
       }
     } catch (err) {
       console.error("Error updating applicant status:", err);
+      console.error("Error response:", err.response);
       setError("Error updating applicant status. Please try again later.");
     } finally {
       setStatusUpdating(false);
@@ -63,6 +80,61 @@ const ApplicantProfile = () => {
     navigate(-1);
   };
 
+  // Loading skeleton component
+  const renderLoadingSkeleton = () => {
+    return (
+      <div className="animate-pulse">
+        {/* Back button skeleton */}
+        <div className="flex items-center gap-4 mb-6">
+          <div className="h-10 w-20 bg-[var(--color-border)] rounded"></div>
+        </div>
+        
+        {/* Header skeleton */}
+        <div className="rounded-2xl px-6 py-5 w-full mb-6">
+          <div className="h-8 bg-[var(--color-border)] rounded w-48"></div>
+        </div>
+
+        <div className="bg-white rounded-2xl shadow-lg p-6">
+          {/* Profile Header skeleton */}
+          <div className="mb-8 bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-xl">
+            <div className="flex flex-col md:flex-row items-center gap-6">
+              <div className="flex-shrink-0">
+                <div className="w-32 h-32 rounded-full bg-[var(--color-border)]"></div>
+              </div>
+              <div className="flex-1 text-center md:text-left">
+                <div className="h-8 bg-[var(--color-border)] rounded w-64 mx-auto md:mx-0 mb-4"></div>
+                <div className="h-6 bg-[var(--color-border)] rounded w-48 mx-auto md:mx-0 mb-6"></div>
+                <div className="flex flex-wrap justify-center md:justify-start gap-3 mb-4">
+                  <div className="h-8 w-32 bg-[var(--color-border)] rounded"></div>
+                  <div className="h-8 w-40 bg-[var(--color-border)] rounded"></div>
+                </div>
+                <div className="mt-4 flex flex-col sm:flex-row items-center gap-3">
+                  <div className="h-6 bg-[var(--color-border)] rounded w-24"></div>
+                  <div className="h-10 w-40 bg-[var(--color-border)] rounded"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Sections skeleton */}
+          {[...Array(5)].map((_, sectionIndex) => (
+            <div key={sectionIndex} className="mb-8 bg-blue-50 p-6 rounded-xl">
+              <div className="h-6 bg-[var(--color-border)] rounded w-40 mb-4"></div>
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[...Array(6)].map((_, itemIndex) => (
+                  <div key={itemIndex}>
+                    <div className="h-4 bg-[var(--color-border)] rounded w-20 mb-2"></div>
+                    <div className="h-5 bg-[var(--color-border)] rounded w-32"></div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
   if (loading) {
     return (
       <div className="flex min-h-screen">
@@ -71,28 +143,7 @@ const ApplicantProfile = () => {
         </div>
         <div className="ml-0 lg:ml-80 flex-1 min-h-screen bg-gray-100 p-2 lg:p-8">
           <div className="max-w-6xl mx-auto bg-white rounded-xl shadow-lg p-2 lg:p-6">
-            <div className="flex items-center gap-4 mb-6">
-              <button 
-              onClick={handleBack}
-              className="flex items-center gap-2 hover:opacity-80"
-              style={{ color: 'var(--color-accent)' }}
-            >
-              <ArrowLeft className="w-5 h-5" />
-              Back
-            </button>
-          </div>
-          
-          <div className="rounded-2xl bg-gradient-to-r px-6 py-5 w-full flex justify-between items-center" style={{ background: 'linear-gradient(to right, #c73650, var(--color-accent))' }}>
-              <h2 className="lg:text-3xl text-lg font-bold text-white">Applicant Details</h2>
-            </div>
-
-            <div className="lg:p-6 p-2">
-              <div className="bg-white rounded-2xl shadow-lg lg:p-6 p-2">
-                <div className="flex justify-center items-center h-64">
-                  <p className="text-lg text-gray-600">Loading applicant profile...</p>
-                </div>
-              </div>
-            </div>
+            {renderLoadingSkeleton()}
           </div>
         </div>
       </div>
@@ -125,12 +176,12 @@ const ApplicantProfile = () => {
             <div className="lg:p-6 p-2">
               <div className="bg-white rounded-2xl shadow-lg lg:p-6 p-2">
                 <div className="p-6 rounded-xl" style={{ backgroundColor: '#fef2f2' }}>
-          <p style={{ color: 'var(--color-accent)' }}>{error}</p>
-          <button
-            onClick={fetchApplicantProfile}
-            className="mt-4 text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all duration-200"
-            style={{ backgroundColor: 'var(--color-accent)' }}
-          >
+                  <p style={{ color: 'var(--color-accent)' }}>{error}</p>
+                  <button
+                    onClick={fetchApplicantProfile}
+                    className="mt-4 text-white px-4 py-2 rounded-lg hover:opacity-90 transition-all duration-200"
+                    style={{ backgroundColor: 'var(--color-accent)' }}
+                  >
                     Retry
                   </button>
                 </div>
@@ -460,7 +511,7 @@ const ApplicantProfile = () => {
                         <span
                           key={index}
                           className="px-3 py-1 rounded-full"
-                style={{ backgroundColor: '#fef2f2', color: 'var(--color-accent)' }}
+                          style={{ backgroundColor: '#fef2f2', color: 'var(--color-accent)' }}
                         >
                           {skill}
                         </span>

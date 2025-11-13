@@ -15,7 +15,6 @@ function Home() {
 
   return (
     <>
-     <Header/>
      <Hero/>
      {/* <CompanyLogos/> */}
      <RecentJobs/>
@@ -24,7 +23,7 @@ function Home() {
      <About/>
      <Testimonials/>
      <NewsBlog/>
-     <Footer/>
+
     </>
   )
 }

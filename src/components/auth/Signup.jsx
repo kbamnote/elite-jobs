@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signup, updateProfile } from '../../utils/Api';
 import Cookies from 'js-cookie';
+import logo from '../../assets/logo.png';
+
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -110,6 +112,12 @@ const Signup = () => {
       style={{ backgroundColor: 'var(--color-accent-light)' }}
     >
       <div className="max-w-md w-full space-y-8">
+        {/* Logo added here */}
+        <div className="absolute top-4 left-4">
+          <a href="/">
+            <img src={logo} alt="Company Logo" className="h-12 w-auto" />
+          </a>
+        </div>
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
             Create your account

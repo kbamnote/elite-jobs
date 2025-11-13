@@ -83,7 +83,7 @@ const JobApplications = () => {
   };
 
   const handleViewApplicant = (application) => {
-    navigate(`/hosting/applicant/${application.jobId}/${application._id}`);
+    navigate(`/hosting/applicants/${application.jobId}/${application._id}`);
   };
 
   const handlePageChange = (newPage) => {

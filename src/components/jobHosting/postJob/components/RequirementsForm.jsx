@@ -24,6 +24,69 @@ const RequirementsForm = ({
   loading,
   handlePostJob
 }) => {
+  // Function to parse salary input (supports 10000, 10,000, 10k formats)
+  const parseSalaryInput = (value) => {
+    if (!value) return "";
+    
+    // Remove commas and 'k' suffix, then convert to number
+    const cleanValue = value.toString()
+      .replace(/,/g, '') // Remove commas
+      .replace(/k$/i, '000') // Replace 'k' with '000'
+      .trim();
+    
+    // Check if it's a valid number
+    const numValue = parseInt(cleanValue, 10);
+    return isNaN(numValue) ? "" : numValue.toString();
+  };
+
+  // Function to parse year of passing input (supports 2023, 2023-2025, 2023/2024/2025 formats)
+  const parseYearOfPassingInput = (value) => {
+    if (!value) return "";
+    
+    // Handle range formats (2023-2025 or 2023/2024/2025)
+    if (value.includes('-') || value.includes('/')) {
+      return value; // Keep range as is
+    }
+    
+    // Handle single year
+    const cleanValue = value.toString().trim();
+    const yearValue = parseInt(cleanValue, 10);
+    return isNaN(yearValue) ? "" : yearValue.toString();
+  };
+
+  // Custom handler for salary inputs
+  const handleSalaryInputChange = (e) => {
+    const { name, value } = e.target;
+    const salaryField = name.split(".")[1];
+    
+    // Parse the value for form data storage
+    const parsedValue = parseSalaryInput(value);
+    
+    // Update both display and parsed values in a single state update
+    setFormData(prev => ({
+      ...prev,
+      salaryDisplay: {
+        ...prev.salaryDisplay,
+        [salaryField]: value
+      },
+      salary: {
+        ...prev.salary,
+        [salaryField]: parsedValue
+      }
+    }));
+  };
+
+  // Custom handler for year of passing input
+  const handleYearOfPassingChange = (e) => {
+    const { name, value } = e.target;
+    const parsedValue = parseYearOfPassingInput(value);
+    
+    setFormData(prev => ({
+      ...prev,
+      [name]: parsedValue
+    }));
+  };
+
   return (
     <>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -32,10 +95,10 @@ const RequirementsForm = ({
             Minimum Salary
           </label>
           <input
-            type="number"
+            type="text"
             name="salary.min"
-            value={formData.salary.min}
-            onChange={handleInputChange}
+            value={formData.salaryDisplay.min}
+            onChange={handleSalaryInputChange}
             className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm"
             style={{ 
               '--tw-ring-color': 'var(--color-accent)',
@@ -43,18 +106,21 @@ const RequirementsForm = ({
             }}
             onFocus={(e) => e.target.style.borderColor = 'var(--color-accent)'}
             onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
-            placeholder="Enter minimum salary"
+            placeholder="e.g., 10000, 10,000, or 10k"
           />
+          <div className="mt-1 text-xs text-gray-500">
+            Enter as 10000, 10,000, or 10k
+          </div>
         </div>
         <div>
           <label className="block text-sm font-medium text-gray-700">
             Maximum Salary
           </label>
           <input
-            type="number"
+            type="text"
             name="salary.max"
-            value={formData.salary.max}
-            onChange={handleInputChange}
+            value={formData.salaryDisplay.max}
+            onChange={handleSalaryInputChange}
             className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm"
             style={{ 
               '--tw-ring-color': 'var(--color-accent)',
@@ -62,8 +128,11 @@ const RequirementsForm = ({
             }}
             onFocus={(e) => e.target.style.borderColor = 'var(--color-accent)'}
             onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
-            placeholder="Enter maximum salary"
+            placeholder="e.g., 20000, 20,000, or 20k"
           />
+          <div className="mt-1 text-xs text-gray-500">
+            Enter as 20000, 20,000, or 20k
+          </div>
         </div>
       </div>
 
@@ -98,7 +167,7 @@ const RequirementsForm = ({
           <select
             name="noticePeriod"
             value={formData.noticePeriod}
-            onChange={handleInputChange}
+            onChange={(e) => setFormData(prev => ({ ...prev, noticePeriod: e.target.value }))}
             required
             className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm"
             style={{ 
@@ -144,10 +213,10 @@ const RequirementsForm = ({
             Year of Passing
           </label>
           <input
-            type="number"
+            type="text"
             name="yearOfPassing"
             value={formData.yearOfPassing}
-            onChange={handleInputChange}
+            onChange={handleYearOfPassingChange}
             className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm"
             style={{ 
               '--tw-ring-color': 'var(--color-accent)',
@@ -155,8 +224,11 @@ const RequirementsForm = ({
             }}
             onFocus={(e) => e.target.style.borderColor = 'var(--color-accent)'}
             onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
-            placeholder="Enter year of passing"
+            placeholder="e.g., 2023, 2023-2025, or 2023/2024/2025"
           />
+          <div className="mt-1 text-xs text-gray-500">
+            Enter as 2023, 2023-2025, or 2023/2024/2025
+          </div>
         </div>
         
         <div>

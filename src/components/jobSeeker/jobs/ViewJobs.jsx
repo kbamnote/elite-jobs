@@ -118,14 +118,12 @@ const ViewJobs = () => {
   if (loading) {
     return (
       <>
-        <Header />
         <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: 'var(--color-background)' }}>
           <div className="text-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 mx-auto mb-4" style={{ borderColor: 'var(--color-primary)' }}></div>
             <p style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}>Loading job details...</p>
           </div>
         </div>
-        <Footer />
       </>
     );
   }
@@ -133,7 +131,6 @@ const ViewJobs = () => {
   if (error && !job) {
     return (
       <>
-        <Header />
         <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: 'var(--color-background)' }}>
           <div className="text-center max-w-md mx-auto p-8">
             <div className="w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--color-error)' }}>
@@ -158,7 +155,6 @@ const ViewJobs = () => {
             </button>
           </div>
         </div>
-        <Footer />
       </>
     );
   }
@@ -166,7 +162,6 @@ const ViewJobs = () => {
   if (!job) {
     return (
       <>
-        <Header />
         <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: 'var(--color-background)' }}>
           <div className="text-center max-w-md mx-auto p-8">
             <div className="w-20 h-20 mx-auto mb-6 rounded-full flex items-center justify-center" style={{ backgroundColor: 'var(--color-gray-200)' }}>
@@ -191,7 +186,6 @@ const ViewJobs = () => {
             </button>
           </div>
         </div>
-        <Footer />
       </>
     );
   }
@@ -228,7 +222,6 @@ const ViewJobs = () => {
 
   return (
     <>
-      <Header />
       <div className="min-h-screen py-10" style={{ backgroundColor: 'var(--color-background)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <button 
@@ -789,7 +782,6 @@ const ViewJobs = () => {
           )}
         </div>
       </div>
-      <Footer />
     </>
   );
 };

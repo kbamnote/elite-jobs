@@ -416,7 +416,7 @@ const AiResume = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
+  
       
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10">
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
@@ -482,7 +482,6 @@ const AiResume = () => {
         </div>
       </div>
 
-      <Footer />
     </div>
   );
 };

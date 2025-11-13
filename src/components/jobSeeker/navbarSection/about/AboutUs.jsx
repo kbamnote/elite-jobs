@@ -10,13 +10,12 @@ import Question from "./Question";
 
 const AboutUs = () => (
   <>
-    <Header />
     <SectionAbout />
     <Work />
     <Question />
     <WorkingWithTheBest />
     <NewsBlogSection />
-    <Footer />
+   
   </>
 );
 

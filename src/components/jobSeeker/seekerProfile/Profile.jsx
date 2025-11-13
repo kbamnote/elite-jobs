@@ -170,7 +170,7 @@ const Profile = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <Header />
+       
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12">
             <div className="flex flex-col items-center justify-center">
@@ -179,7 +179,7 @@ const Profile = () => {
             </div>
           </div>
         </div>
-        <Footer />
+        
       </div>
     );
   }
@@ -187,7 +187,7 @@ const Profile = () => {
   if (error) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <Header />
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12">
             <div className="text-center">
@@ -205,15 +205,14 @@ const Profile = () => {
             </div>
           </div>
         </div>
-        <Footer />
+      
       </div>
     );
   }
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
-      
+    
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Header Section */}
         <div className="mb-8">
@@ -705,7 +704,6 @@ const Profile = () => {
         </div>
       </div>
       
-      <Footer />
     </div>
   );
 };

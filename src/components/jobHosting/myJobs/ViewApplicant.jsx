@@ -5,7 +5,7 @@ import JobHostingSidebar from "../commonHost/jobHostingSidebar";
 import { applicantDetail } from "../../../utils/Api";
 
 const ViewApplicant = () => {
-  const { jobId } = useParams();
+  const { id: jobId } = useParams(); // Changed from { jobId } to { id: jobId } to match the route parameter
   const navigate = useNavigate();
   const [viewMode, setViewMode] = useState("all"); // Changed from shortlisted to status-based filtering
   const [applicants, setApplicants] = useState([]);
@@ -21,28 +21,91 @@ const ViewApplicant = () => {
   const fetchApplicantDetails = async () => {
     try {
       setLoading(true);
+      setError(null); // Clear any previous errors
+      
+      // Add a timeout to detect hanging requests
+      const timeoutPromise = new Promise((_, reject) => {
+        setTimeout(() => reject(new Error('Request timeout')), 10000); // 10 second timeout
+      });
+      
       // Using applicantDetail which fetches /jobs/${jobId}/applications
-      const response = await applicantDetail(jobId);
+      const response = await Promise.race([
+        applicantDetail(jobId),
+        timeoutPromise
+      ]);
+      
       if (response.data.success) {
         setApplicants(response.data.data);
       } else {
         setError("Failed to fetch applicants");
       }
     } catch (err) {
-      console.error("Error fetching applicants:", err);
-      setError("Error fetching applicants. Please try again later.");
+      if (err.message === 'Request timeout') {
+        setError("Request timed out. Please try again later.");
+      } else {
+        setError("Error fetching applicants. Please try again later.");
+      }
     } finally {
       setLoading(false);
     }
   };
 
   const handleViewProfile = (application) => {
-    // Navigate to the applicant profile using both jobId and application ID
-    navigate(`/hosting/applicant/${jobId}/${application._id}`);
+    navigate(`/hosting/applicants/${jobId}/${application._id}`);
   };
 
   const handleBack = () => {
     navigate(-1);
+  };
+
+  // Loading skeleton component
+  const renderLoadingSkeleton = () => {
+    return (
+      <div className="animate-pulse">
+        {/* Back button skeleton */}
+        <div className="flex items-center gap-4 mb-6">
+          <div className="h-10 w-20 bg-[var(--color-border)] rounded"></div>
+        </div>
+        
+        {/* Header skeleton */}
+        <div className="bg-white rounded-xl shadow-md lg:p-6 p-2 mb-8">
+          <div className="h-8 bg-[var(--color-border)] rounded w-48 mx-auto"></div>
+          
+          {/* Tab navigation skeleton */}
+          <div className="flex flex-wrap gap-4 mt-6">
+            {[...Array(6)].map((_, index) => (
+              <div key={index} className="h-8 w-24 bg-[var(--color-border)] rounded"></div>
+            ))}
+          </div>
+        </div>
+        
+        {/* Applicant cards skeleton */}
+        <div className="grid md:grid-cols-2 gap-6">
+          {[...Array(4)].map((_, index) => (
+            <div key={index} className="bg-white rounded-xl p-6 shadow-md">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-16 h-16 rounded-full bg-[var(--color-border)]"></div>
+                <div>
+                  <div className="h-6 bg-[var(--color-border)] rounded w-32 mb-2"></div>
+                  <div className="h-4 bg-[var(--color-border)] rounded w-40"></div>
+                </div>
+              </div>
+              
+              <div className="space-y-3 mb-6">
+                {[...Array(5)].map((_, i) => (
+                  <div key={i} className="flex items-center gap-3">
+                    <div className="h-5 w-5 bg-[var(--color-border)] rounded"></div>
+                    <div className="h-4 bg-[var(--color-border)] rounded w-3/4"></div>
+                  </div>
+                ))}
+              </div>
+              
+              <div className="h-10 bg-[var(--color-border)] rounded"></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
   };
 
   if (loading) {
@@ -54,26 +117,7 @@ const ViewApplicant = () => {
 
         <div className="ml-0 lg:ml-80 flex-1 min-h-screen p-2 lg:p-8">
           <div className="max-w-6xl mx-auto">
-            <div className="flex items-center gap-4 mb-6">
-              <button 
-                onClick={handleBack}
-                className="flex items-center gap-2 hover:opacity-80"
-                style={{ color: 'var(--color-accent)' }}
-              >
-                <ArrowLeft className="w-5 h-5" />
-                Back
-              </button>
-            </div>
-            
-            <div className="bg-white rounded-xl shadow-md lg:p-6 p-2 mb-8">
-              <h1 className="lg:text-3xl text-xl lg:text-left text-center font-bold" style={{ color: 'var(--color-accent)' }}>
-                Job Applicants
-              </h1>
-            </div>
-
-            <div className="flex justify-center items-center h-64">
-              <p className="text-lg text-gray-600">Loading applicants...</p>
-            </div>
+            {renderLoadingSkeleton()}
           </div>
         </div>
       </div>

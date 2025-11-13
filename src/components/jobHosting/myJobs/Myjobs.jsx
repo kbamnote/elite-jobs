@@ -82,6 +82,53 @@ const MyJobs = () => {
     }
   };
 
+  // Loading skeleton component
+  const renderLoadingSkeleton = () => {
+    return (
+      <div className="animate-pulse">
+        {/* Header skeleton */}
+        <div className="text-center px-2 mb-8">
+          <div className="h-8 bg-[var(--color-border)] rounded w-64 mx-auto mb-2"></div>
+          <div className="h-4 bg-[var(--color-border)] rounded w-80 mx-auto"></div>
+        </div>
+
+        {/* Job cards skeleton */}
+        <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 lg:gap-8">
+          {[...Array(4)].map((_, index) => (
+            <div key={index} className="bg-white rounded-xl sm:rounded-2xl shadow-sm overflow-hidden border border-gray-200">
+              <div className="p-4 sm:p-6">
+                <div className="flex items-start justify-between mb-4">
+                  <div className="h-6 bg-[var(--color-border)] rounded w-3/4"></div>
+                  <div className="h-6 w-20 bg-[var(--color-border)] rounded"></div>
+                </div>
+                
+                <div className="space-y-3 mb-6">
+                  {[...Array(5)].map((_, i) => (
+                    <div key={i} className="flex items-center">
+                      <div className="h-5 w-5 bg-[var(--color-border)] rounded mr-2"></div>
+                      <div className="h-4 bg-[var(--color-border)] rounded w-1/2"></div>
+                    </div>
+                  ))}
+                  
+                  <div className="flex flex-wrap gap-2 mt-4">
+                    {[...Array(3)].map((_, i) => (
+                      <div key={i} className="h-6 w-16 bg-[var(--color-border)] rounded"></div>
+                    ))}
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-4 pt-4 border-t border-gray-100">
+                  <div className="h-10 flex-1 bg-[var(--color-border)] rounded"></div>
+                  <div className="h-10 w-10 bg-[var(--color-border)] rounded"></div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex flex-col lg:flex-row bg-gray-50">
@@ -93,16 +140,7 @@ const MyJobs = () => {
         {/* Main content */}
         <main className="w-full lg:ml-72 xl:ml-80 p-3 sm:p-4 lg:p-6 xl:p-4 overflow-y-auto">
           <div className="max-w-7xl mx-auto space-y-4 sm:space-y-6">
-            <header className="text-center px-2">
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-zinc-600">My Job Listings</h1>
-              <p className="text-gray-600 mt-2">Manage and track your posted job opportunities</p>
-            </header>
-
-            <div className="sm:p-6 p-2">
-              <div className="flex justify-center items-center h-64">
-                <p className="text-lg text-gray-600">Loading jobs...</p>
-              </div>
-            </div>
+            {renderLoadingSkeleton()}
           </div>
         </main>
       </div>

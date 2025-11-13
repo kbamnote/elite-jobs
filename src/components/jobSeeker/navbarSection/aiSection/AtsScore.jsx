@@ -42,7 +42,6 @@ const ATS_Score = () => {
 
   return (
     <>
-      <Header />
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-slate-50" style={{ fontFamily: 'var(--font-body)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           {/* Hero Section */}
@@ -232,7 +231,6 @@ const ATS_Score = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 };

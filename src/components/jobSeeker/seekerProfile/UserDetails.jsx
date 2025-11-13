@@ -179,7 +179,7 @@ const UserDetails = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <Header />
+       
         <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10">
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Edit Profile</h1>
@@ -188,7 +188,7 @@ const UserDetails = () => {
             </div>
           </div>
         </div>
-        <Footer />
+    
       </div>
     );
   }
@@ -196,7 +196,7 @@ const UserDetails = () => {
   if (error) {
     return (
       <div className="min-h-screen bg-gray-50">
-        <Header />
+
         <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10">
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
             <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Edit Profile</h1>
@@ -212,7 +212,7 @@ const UserDetails = () => {
             </div>
           </div>
         </div>
-        <Footer />
+   
       </div>
     );
   }
@@ -224,7 +224,7 @@ const UserDetails = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Header />
+   
       <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10">
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Edit Profile</h1>
@@ -885,7 +885,7 @@ const UserDetails = () => {
           </form>
         </div>
       </div>
-      <Footer />
+ 
     </div>
   );
 };
