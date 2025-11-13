@@ -68,15 +68,57 @@ const TopCompany = () => {
     return (
       <div className="min-h-screen px-[10%] lg:py-16" style={{background: 'linear-gradient(to bottom, var(--color-accent-light), white)'}}>
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-extrabold text-gray-900 mb-4">
-            Top Companies Hiring
-          </h1>
-          <p className="text-gray-600 text-lg">
-            Discover opportunities at leading organizations worldwide.
-          </p>
+          <div className="h-10 bg-[var(--color-border)] rounded w-80 mx-auto mb-4 animate-pulse"></div>
+          <div className="h-6 bg-[var(--color-border)] rounded w-96 mx-auto animate-pulse"></div>
         </div>
-        <div className="flex justify-center items-center h-64">
-          <p className="text-gray-500">Loading companies...</p>
+        
+        {/* Company Cards Skeleton */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {[...Array(3)].map((_, index) => (
+            <div
+              key={index}
+              className="bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-100"
+            >
+              {/* Company header skeleton */}
+              <div className="p-6" style={{background: 'linear-gradient(to right, var(--color-accent-light), var(--color-accent-light))'}}>
+                <div className="flex items-center gap-4">
+                  <div className="w-16 h-16 rounded-xl bg-[var(--color-border)] animate-pulse"></div>
+                  <div>
+                    <div className="h-6 bg-[var(--color-border)] rounded w-32 mb-2 animate-pulse"></div>
+                    <div className="flex items-center gap-2">
+                      <div className="flex">
+                        {[...Array(5)].map((_, i) => (
+                          <div key={i} className="w-4 h-4 bg-[var(--color-border)] rounded-full mx-0.5 animate-pulse"></div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Company details skeleton */}
+              <div className="p-6 flex flex-col flex-grow">
+                <div className="mb-auto">
+                  <div className="h-4 bg-[var(--color-border)] rounded w-full mb-2 animate-pulse"></div>
+                  <div className="h-4 bg-[var(--color-border)] rounded w-5/6 mb-4 animate-pulse"></div>
+
+                  <div className="space-y-3 mb-6">
+                    <div className="flex items-center gap-3">
+                      <div className="w-5 h-5 bg-[var(--color-border)] rounded animate-pulse"></div>
+                      <div className="h-4 bg-[var(--color-border)] rounded w-32 animate-pulse"></div>
+                    </div>
+
+                    <div className="flex items-center gap-3">
+                      <div className="w-5 h-5 bg-[var(--color-border)] rounded animate-pulse"></div>
+                      <div className="h-4 bg-[var(--color-border)] rounded w-24 animate-pulse"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="h-12 bg-[var(--color-border)] rounded-xl animate-pulse"></div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     );
