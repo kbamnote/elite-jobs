@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { verifyOTP, resendOTP } from '../../utils/Api';
-import logo from '../../assets/logo.png';
+import Cookies from 'js-cookie';
+import logo from '../../assets/Logo.png';
 
 const VerifyOTP = () => {
   const navigate = useNavigate();

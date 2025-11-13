@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { login } from '../../utils/Api';
 import Cookies from 'js-cookie';
-import logo from '../../assets/logo.png'
+import logo from '../../assets/Logo.png'
 
 const Login = () => {
   const navigate = useNavigate();

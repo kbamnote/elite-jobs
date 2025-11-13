@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { resetPassword } from '../../utils/Api';
-import logo from '../../assets/logo.png';
+import logo from '../../assets/Logo.png';
 
 const AddNewPassword = () => {
   const navigate = useNavigate();

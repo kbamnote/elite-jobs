@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signup, updateProfile } from '../../utils/Api';
 import Cookies from 'js-cookie';
-import logo from '../../assets/logo.png';
+import logo from '../../assets/Logo.png';
 
 
 const Signup = () => {
