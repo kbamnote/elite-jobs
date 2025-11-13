@@ -9,7 +9,6 @@ const ContactUs = () => {
 
   return (
     <>
-      <Header />
       <div className="w-auto h-60 bg-gray-900 text-white flex justify-center items-center">
         <h1 className="text-3xl md:text-5xl font-semibold" style={{ color: 'var(--color-accent)', fontFamily: 'var(--font-heading)' }}>Contact Us</h1>
       </div>
@@ -113,7 +112,6 @@ const ContactUs = () => {
           referrerPolicy="no-referrer-when-downgrade"
         ></iframe>
       </div>
-      <Footer />
     </>
   );
 };

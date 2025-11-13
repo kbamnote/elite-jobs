@@ -1,25 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { login } from '../../utils/Api';
-import Cookies from 'js-cookie';
-import logo from '../../assets/Logo.png'
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { forgotPassword } from '../../utils/Api';
+import logo from '../../assets/Logo.png';
 
-const Login = () => {
+const ForgotPassword = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  
-  const getDefaultRole = () => {
-    const params = new URLSearchParams(location.search);
-    const role = params.get('role');
-    return ['jobSeeker', 'jobHoster', 'recruiter'].includes(role) ? role : 'jobSeeker';
-  };
-  
   const [formData, setFormData] = useState({
     email: '',
-    password: '',
-    role: getDefaultRole()
+    role: 'jobSeeker'
   });
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const handleChange = (e) => {
@@ -33,26 +24,17 @@ const Login = () => {
     e.preventDefault();
     setLoading(true);
     setError('');
+    setSuccess(false);
     
     try {
-      const response = await login(formData);
-      const { token, user } = response.data.data;
-      const { role } = user;
-      
-      // Store token and role in cookies
-      Cookies.set('token', token);
-      Cookies.set('role', role);
-      
-      // Navigate based on role
-      if (role === 'jobSeeker') {
-        navigate('/');
-      } else if (role === 'jobHoster') {
-        navigate('/hosting/dashboard');
-      } else if (role === 'recruiter') {
-        navigate('/recruiter/dashboard');
-      }
+      await forgotPassword(formData);
+      setSuccess(true);
+      // Redirect to OTP verification page after 2 seconds
+      setTimeout(() => {
+        navigate('/verify-otp', { state: { email: formData.email, role: formData.role } });
+      }, 2000);
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed');
+      setError(err.response?.data?.message || 'Failed to send reset link');
     } finally {
       setLoading(false);
     }
@@ -69,16 +51,24 @@ const Login = () => {
         </div>
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Sign in to your account
+            Forgot Password
           </h2>
           <p className="mt-2 text-center text-sm text-gray-600">
-            Welcome back! Please enter your details.
+            Enter your email and role to receive a password reset link
           </p>
         </div>
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
           {error && (
             <div className="rounded-lg bg-red-50 p-4 border border-red-200">
               <div className="text-sm text-red-700">{error}</div>
+            </div>
+          )}
+          {success && (
+            <div className="rounded-lg bg-green-50 p-4 border border-green-200">
+              <div className="text-sm text-green-700">
+                Reset link sent successfully! Redirecting to OTP verification...
+                <p className="mt-1 text-xs">OTP is valid for 5 minutes</p>
+              </div>
             </div>
           )}
           <div className="space-y-4">
@@ -109,55 +99,6 @@ const Login = () => {
                 value={formData.email}
                 onChange={handleChange}
               />
-            </div>
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                Password
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                required
-                className="appearance-none rounded-lg relative block w-full px-4 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-2 transition-colors"
-                style={{ 
-                  '--tw-ring-color': 'var(--color-accent)',
-                  borderColor: 'var(--color-accent)' 
-                }}
-                onFocus={(e) => {
-                  e.target.style.borderColor = 'var(--color-accent)';
-                  e.target.style.boxShadow = `0 0 0 2px var(--color-accent)`;
-                }}
-                onBlur={(e) => {
-                  e.target.style.borderColor = '#d1d5db';
-                  e.target.style.boxShadow = 'none';
-                }}
-                placeholder="Enter your password"
-                value={formData.password}
-                onChange={handleChange}
-              />
-              {/* Forgot Password link moved here */}
-              <div className="text-right mt-1">
-                <a 
-                  href="/forgot-password" 
-                  className="text-sm font-medium transition-colors"
-                  style={{ 
-                    color: 'var(--color-accent)',
-                    fontFamily: 'var(--font-body)' 
-                  }}
-                  onMouseEnter={(e) => {
-                    e.target.style.color = 'var(--color-accent-dark)';
-                    e.target.style.fontFamily = 'var(--font-heading)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.target.style.color = 'var(--color-accent)';
-                    e.target.style.fontFamily = 'var(--font-body)';
-                  }}
-                >
-                  Forgot Password?
-                </a>
-              </div>
             </div>
             <div>
               <label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-1">
@@ -205,15 +146,15 @@ const Login = () => {
                 e.target.style.boxShadow = 'none';
               }}
             >
-              {loading ? 'Signing in...' : 'Sign in'}
+              {loading ? 'Sending Reset Link...' : 'Send Reset Link'}
             </button>
           </div>
           
           <div className="text-center">
             <p className="text-sm text-gray-600">
-              Don't have an account?{' '}
+              Remember your password?{' '}
               <a 
-                href="/signup" 
+                href="/login" 
                 className="font-medium transition-colors"
                 style={{ 
                   color: 'var(--color-accent)',
@@ -228,7 +169,7 @@ const Login = () => {
                   e.target.style.fontFamily = 'var(--font-body)';
                 }}
               >
-                Sign up here
+                Sign in here
               </a>
             </p>
           </div>
@@ -238,4 +179,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default ForgotPassword;

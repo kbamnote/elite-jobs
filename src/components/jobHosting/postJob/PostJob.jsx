@@ -26,6 +26,11 @@ const PostJob = () => {
       max: "",
       currency: "INR" // Changed default to INR
     },
+    // Add display values for salary inputs
+    salaryDisplay: {
+      min: "",
+      max: ""
+    },
     requirements: [],
     responsibilities: [],
     skills: [],
@@ -224,11 +229,6 @@ const PostJob = () => {
       // Use the updated form data directly instead of relying on state
       const currentFormData = updatedFormData;
       
-      // Log the noticePeriod value for debugging
-      console.log("Notice Period Value:", currentFormData.noticePeriod);
-      console.log("Notice Period Type:", typeof currentFormData.noticePeriod);
-      console.log("Is Notice Period Empty:", currentFormData.noticePeriod === "");
-      
       // Validate required fields
       const requiredFields = [
         { field: currentFormData.title, name: "Job Title" },
@@ -267,17 +267,45 @@ const PostJob = () => {
         throw new Error("Please add at least one job responsibility");
       }
       
-      // Validate salary range if provided
-      if (currentFormData.salary.min || currentFormData.salary.max) {
-        const minSalary = parseInt(currentFormData.salary.min);
-        const maxSalary = parseInt(currentFormData.salary.max);
+      // Function to parse salary input (supports 10000, 10,000, 10k formats)
+      const parseSalaryInput = (value) => {
+        if (!value) return undefined;
         
-        if (isNaN(minSalary) || isNaN(maxSalary) || minSalary <= 0 || maxSalary <= 0) {
-          throw new Error("Salary values must be positive numbers");
+        // Remove commas and 'k' suffix, then convert to number
+        const cleanValue = value.toString()
+          .replace(/,/g, '') // Remove commas
+          .replace(/k$/i, '000') // Replace 'k' with '000'
+          .trim();
+        
+        // Check if it's a valid number
+        const numValue = parseInt(cleanValue, 10);
+        return isNaN(numValue) ? undefined : numValue;
+      };
+      
+      // Function to parse year of passing input
+      const parseYearOfPassingInput = (value) => {
+        if (!value) return undefined;
+        return value.toString().trim();
+      };
+      
+      // Validate salary range if provided
+      const minSalary = parseSalaryInput(currentFormData.salary.min);
+      const maxSalary = parseSalaryInput(currentFormData.salary.max);
+      
+      if ((currentFormData.salary.min || currentFormData.salary.max)) {
+        if ((minSalary === undefined && currentFormData.salary.min) || 
+            (maxSalary === undefined && currentFormData.salary.max)) {
+          throw new Error("Salary values must be valid numbers (e.g., 10000, 10,000, or 10k)");
         }
         
-        if (minSalary >= maxSalary) {
-          throw new Error("Maximum salary must be greater than minimum salary");
+        if (minSalary !== undefined && maxSalary !== undefined) {
+          if (minSalary <= 0 || maxSalary <= 0) {
+            throw new Error("Salary values must be positive numbers");
+          }
+          
+          if (minSalary >= maxSalary) {
+            throw new Error("Maximum salary must be greater than minimum salary");
+          }
         }
       }
       
@@ -291,8 +319,8 @@ const PostJob = () => {
         workType: currentFormData.workType,
         minEducation: currentFormData.minEducation.trim(),
         salary: {
-          min: currentFormData.salary.min ? parseInt(currentFormData.salary.min) : undefined,
-          max: currentFormData.salary.max ? parseInt(currentFormData.salary.max) : undefined,
+          min: minSalary,
+          max: maxSalary,
           currency: currentFormData.salary.currency
         },
         requirements: currentFormData.requirements,
@@ -304,7 +332,7 @@ const PostJob = () => {
         noticePeriod: currentFormData.noticePeriod,
         // New fields
         numberOfOpenings: currentFormData.numberOfOpenings ? parseInt(currentFormData.numberOfOpenings) : undefined,
-        yearOfPassing: currentFormData.yearOfPassing ? parseInt(currentFormData.yearOfPassing) : undefined,
+        yearOfPassing: parseYearOfPassingInput(currentFormData.yearOfPassing),
         shift: currentFormData.shift || undefined,
         // Conditional fields for Walk-in
         ...(currentFormData.interviewType === 'Walk-in' && {
@@ -331,6 +359,10 @@ const PostJob = () => {
           min: "",
           max: "",
           currency: "INR"
+        },
+        salaryDisplay: {
+          min: "",
+          max: ""
         },
         requirements: [],
         responsibilities: [],
@@ -362,7 +394,8 @@ const PostJob = () => {
       if (!errorMessage.includes("Please add at least one") && 
           !errorMessage.includes("Please fill all required fields") &&
           !errorMessage.includes("Salary values must be positive") &&
-          !errorMessage.includes("Maximum salary must be greater")) {
+          !errorMessage.includes("Maximum salary must be greater") &&
+          !errorMessage.includes("Salary values must be valid numbers")) {
         console.error("Response data:", err.response?.data);
       }
     } finally {

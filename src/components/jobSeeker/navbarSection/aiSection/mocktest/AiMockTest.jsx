@@ -82,7 +82,7 @@ const AiMockTest = () => {
 
   return (
     <div className="min-h-screen bg-gray-50" style={{ fontFamily: 'var(--font-body)' }}>
-      <Header />
+ 
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
@@ -270,7 +270,6 @@ const AiMockTest = () => {
         </div>
       </div>
 
-      <Footer />
     </div>
   );
 };

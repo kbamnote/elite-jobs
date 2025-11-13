@@ -252,7 +252,7 @@ const Jobs = () => {
   if (loading) {
     return (
       <>
-        <Header />
+  
         <div className="min-h-screen py-10" style={{ backgroundColor: 'var(--color-background)' }}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="text-center py-10">
@@ -260,7 +260,7 @@ const Jobs = () => {
             </div>
           </div>
         </div>
-        <Footer />
+     
       </>
     );
   }
@@ -268,7 +268,7 @@ const Jobs = () => {
   if (error) {
     return (
       <>
-        <Header />
+       
         <div className="min-h-screen py-10" style={{ backgroundColor: 'var(--color-background)' }}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="text-center py-10">
@@ -282,14 +282,13 @@ const Jobs = () => {
             </div>
           </div>
         </div>
-        <Footer />
+     
       </>
     );
   }
 
   return (
     <>
-      <Header />
       <div className="min-h-screen" style={{ backgroundColor: 'var(--color-background)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
           {/* Page Header */}
@@ -614,7 +613,6 @@ const Jobs = () => {
           </div>
         </div>
       </div>
-      <Footer />
     </>
   );
 };

@@ -1,9 +1,8 @@
-import Login from "./components/auth/Login";
-import Signup from "./components/auth/Signup";
-import JobHostingDashboard from "./components/jobHosting/HostingDashboard/JobHostingDashboard";
-import Home from "./components/jobSeeker/landingPage/Home";
+import React from "react";
 import { Routes, Route } from "react-router-dom";
-import NotFoundPage from "./components/notFoundPage/NotFoundPage";
+
+// Job Seeker Components
+import Home from "./components/jobSeeker/landingPage/Home";
 import Jobs from "./components/jobSeeker/jobs/Jobs";
 import ViewJobs from "./components/jobSeeker/jobs/ViewJobs";
 import AboutUs from "./components/jobSeeker/navbarSection/about/AboutUs";
@@ -12,15 +11,12 @@ import Salaries from "./components/jobSeeker/navbarSection/salarySection/Salarie
 import ATS_Score from "./components/jobSeeker/navbarSection/aiSection/AtsScore";
 import AiResume from "./components/jobSeeker/navbarSection/aiSection/AiResume";
 import AiMockTest from "./components/jobSeeker/navbarSection/aiSection/mocktest/AiMockTest";
-import SeekerLogin from "./components/jobSeeker/seekerAuth/Login";
-import SeekerSignup from "./components/jobSeeker/seekerAuth/Signup";
 import Profile from "./components/jobSeeker/seekerProfile/Profile";
+import Onboarding from "./components/jobSeeker/seekerProfile/Onboarding";
 import UserDetails from "./components/jobSeeker/seekerProfile/UserDetails";
 import ShowJobs from "./components/jobSeeker/seekerProfile/ShowJobs";
 
 // Job Hosting Components
-import HostingLogin from "./components/jobHosting/hostingAuth/HostingLogin";
-import HostingSignup from "./components/jobHosting/hostingAuth/HostingSignup";
 import HostingProfileDetail from "./components/jobHosting/hostingProfile/HostingProfileDetail";
 import HostingProfileForm from "./components/jobHosting/hostingProfile/HostingProfileForm";
 import JobHostingOnboarding from "./components/jobHosting/hostingProfile/JobHostingOnboarding";
@@ -28,65 +24,105 @@ import PostJob from "./components/jobHosting/postJob/PostJob";
 import MyJobs from "./components/jobHosting/myJobs/Myjobs";
 import ViewApplicant from "./components/jobHosting/myJobs/ViewApplicant";
 import ApplicantProfile from "./components/jobHosting/myJobs/ApplicantProfile";
+import JobHostingDashboard from "./components/jobHosting/HostingDashboard/JobHostingDashboard";
 
 // Recruiter Components
 import RecruiterPage from "./components/recruiter/main/RecruiterPage";
-// import RecruiterFilter from "./components/recruiter/filter/RecruiterFilter";  // Remove this line
 import RecruiterProfile from "./components/recruiter/profile/RecruiterProfile";
 import RecruiterProfileEdit from "./components/recruiter/profile/RecruiterProfileEdit";
 import RecruiterApplicantDetail from "./components/recruiter/applicantFullDetail/RecruiterApplicantDetail";
 import RecruiterOnboarding from "./components/recruiter/profile/RecruiterOnboarding";
-import Onboarding from "./components/jobSeeker/seekerProfile/Onboarding";
-// import ProtectedRoute from "./components/jobSeeker/seekerAuth/ProtectedRoute";
+
+// Common Components
+import NotFoundPage from "./components/notFoundPage/NotFoundPage";
+import Header from "./components/jobSeeker/commonSeeker/Header";
+import Footer from "./components/jobSeeker/commonSeeker/Footer";
+import Login from "./components/auth/Login";
+import Signup from "./components/auth/Signup";
+import ForgotPassword from "./components/auth/ForgotPassword";
+import VerifyOTP from "./components/auth/VerifyOTP";
+import AddNewPassword from "./components/auth/AddNewPassword";
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/signup" element={<Signup/>}/>
-        <Route path="/login" element={<Login/>}/>
-        <Route path="/jobs" element={<Jobs/>}/>
-        <Route path="/jobs/:id" element={<ViewJobs/>}/>
-        <Route path="/dashboard" element={<JobHostingDashboard/>}/>
-        
-        {/* Job Hosting Routes */}
-        <Route path="/hosting/login" element={<HostingLogin />} />
-        <Route path="/hosting/signup" element={<HostingSignup />} />
+        {/* Routes with Recruiter Header */}
+        <Route
+          path="/recruiter/*"
+          element={
+            <>
+              <Routes>
+                <Route path="/dashboard" element={<RecruiterPage />} />
+                <Route path="/onboarding" element={<RecruiterOnboarding />} />
+                <Route path="/profile" element={<RecruiterProfile />} />
+                <Route
+                  path="/profile/edit"
+                  element={<RecruiterProfileEdit />}
+                />
+                <Route
+                  path="/applicant-details/:id"
+                  element={<RecruiterApplicantDetail />}
+                />
+              </Routes>
+            </>
+          }
+        />
+
+        {/* Seeker Auth */}
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/forgot-password" element={<ForgotPassword/>}/>
+        <Route path="/verify-otp" element={<VerifyOTP/>}/>
+        <Route path="/add-new-password" element={<AddNewPassword/>}/>
+
+        {/* Routes with Main Header */}
+        <Route
+          path="*"
+          element={
+            <>
+              <Header />
+              <Routes>
+                {/* Public Routes */}
+                <Route path="/" element={<Home />} />
+                <Route path="/jobs" element={<Jobs />} />
+                <Route path="/jobs/:id" element={<ViewJobs />} />
+
+                {/* Job Seeker Pages */}
+                <Route path="/about" element={<AboutUs />} />
+                <Route path="/contact" element={<ContactUs />} />
+                <Route path="/salaries" element={<Salaries />} />
+                <Route path="/ats-score-checker" element={<ATS_Score />} />
+                <Route path="/ai-resume-builder" element={<AiResume />} />
+                <Route path="/mock" element={<AiMockTest />} />
+
+                {/* Seeker Profile */}
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/onboarding" element={<Onboarding />} />
+                <Route path="/user-detail" element={<UserDetails />} />
+                <Route path="/my-jobs" element={<ShowJobs />} />
+
+                {/* 404 Page */}
+                <Route path="*" element={<NotFoundPage />} />
+              </Routes>
+              <Footer />
+            </>
+          }
+        />
+
+        {/* Job Hosting Profile */}
+        <Route path="/hosting/profile/edit" element={<HostingProfileDetail />} />
         <Route path="/hosting/profile" element={<HostingProfileForm />} />
         <Route path="/hosting/onboarding" element={<JobHostingOnboarding />} />
-        <Route path="/hosting/profile/edit" element={<HostingProfileDetail />} />
+        <Route path="/hosting/dashboard" element={<JobHostingDashboard />} />
+        {/* Job Hosting Jobs */}
         <Route path="/hosting/post-job" element={<PostJob />} />
         <Route path="/hosting/my-jobs" element={<MyJobs />} />
-        <Route path="/hosting/applicants/:jobId" element={<ViewApplicant />} />
-        <Route path="/hosting/applicant/:jobId/:applicationId" element={<ApplicantProfile />} />
-
-        {/* Recruiter Routes */}
-        <Route path="/recruiter/dashboard" element={<RecruiterPage/>} />
-        {/* <Route path="/recruiter/filter" element={<RecruiterFilter/>} />  Remove this line */}
-        <Route path="/recruiter/onboarding" element={<RecruiterOnboarding/>} />
-        <Route path="/recruiter/profile" element={<RecruiterProfile/>} />
-        <Route path="/recruiter/profile/edit" element={<RecruiterProfileEdit/>} />
-        <Route path="/recruiter/applicant-details/:id" element={<RecruiterApplicantDetail/>} />
-        
-        {/* Job Seeker Pages */}
-        <Route path="/about" element={<AboutUs />} />
-        <Route path="/contact" element={<ContactUs />} />
-        <Route path="/salaries" element={<Salaries />} />
-        <Route path="/ats-score-checker" element={<ATS_Score />} />
-        <Route path="/ai-resume-builder" element={<AiResume />} />
-        <Route path="/mock" element={<AiMockTest />} />
-        
-        {/* Seeker Auth */}
-        <Route path="/seeker/login" element={<SeekerLogin />} />
-        <Route path="/seeker/signup" element={<SeekerSignup />} />
-        
-        {/* Seeker Profile */}
-        <Route path="/profile" element={<Profile />} />
-        <Route path="/onboarding" element={<Onboarding />} />
-        <Route path="/user-detail" element={<UserDetails />} />
-        <Route path="/my-jobs" element={<ShowJobs />} />
-        <Route path="/*" element={<NotFoundPage />} />
+        <Route path="/hosting/applicants/:id" element={<ViewApplicant />} />
+        <Route
+          path="/hosting/applicants/:jobId/:id"
+          element={<ApplicantProfile />}
+        />
       </Routes>
     </>
   );

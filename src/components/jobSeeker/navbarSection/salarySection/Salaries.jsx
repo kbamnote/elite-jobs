@@ -23,7 +23,6 @@ const Salaries = () => {
 
   return (
     <>
-      <Header />
       <div className="w-full h-40 sm:h-60 bg-gray-900 text-white flex justify-center items-center px-4">
         <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-center"
         style={{ color: 'var(--color-accent)', fontFamily: 'var(--font-heading)' }}>
@@ -168,7 +167,6 @@ const Salaries = () => {
           "Success comes to those who are too busy to be looking for it." –
         </p>
       </div>
-      <Footer />
     </>
   );
 };

@@ -242,6 +242,48 @@ const HostingProfileDetail = () => {
     }
   };
 
+  // Loading skeleton component
+  const renderLoadingSkeleton = () => {
+    return (
+      <div className="animate-pulse">
+        {/* Title skeleton */}
+        <div className="h-8 bg-[var(--color-border)] rounded w-64 mx-auto mb-8"></div>
+        
+        {/* Profile photos skeleton */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8">
+          {[1, 2, 3].map((item) => (
+            <div key={item} className="flex flex-col items-center">
+              <div className="w-32 h-32 rounded-full bg-[var(--color-border)] mb-4"></div>
+              <div className="h-10 w-32 bg-[var(--color-border)] rounded"></div>
+            </div>
+          ))}
+        </div>
+        
+        {/* Form fields skeleton */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {[...Array(12)].map((_, index) => (
+            <div key={index}>
+              <div className="h-4 bg-[var(--color-border)] rounded w-24 mb-2"></div>
+              <div className="h-12 bg-[var(--color-border)] rounded"></div>
+            </div>
+          ))}
+        </div>
+        
+        {/* Description field skeleton */}
+        <div className="mt-6">
+          <div className="h-4 bg-[var(--color-border)] rounded w-32 mb-2"></div>
+          <div className="h-24 bg-[var(--color-border)] rounded"></div>
+        </div>
+        
+        {/* Buttons skeleton */}
+        <div className="flex gap-4 mt-8">
+          <div className="h-12 w-24 bg-[var(--color-border)] rounded"></div>
+          <div className="h-12 w-24 bg-[var(--color-border)] rounded"></div>
+        </div>
+      </div>
+    );
+  };
+
   if (loading) {
     return (
       <>
@@ -255,9 +297,7 @@ const HostingProfileDetail = () => {
           <main className="w-full lg:ml-80 xl:ml-80 p-4 justify-center items-center flex min-h-screen overflow-y-auto">
             <div className="max-w-4xl mx-auto">
               <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg border border-gray-200 lg:w-[670px] mx-auto">
-                <div className="text-center py-10">
-                  <p>Loading profile...</p>
-                </div>
+                {renderLoadingSkeleton()}
               </div>
             </div>
           </main>

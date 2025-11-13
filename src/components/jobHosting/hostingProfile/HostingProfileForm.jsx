@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import JobHostingSidebar from "../commonHost/jobHostingSidebar";
 import { profile } from "../../../utils/Api";
+import { User, Mail, Phone, MapPin, Building, Calendar, Edit3, ArrowLeft } from 'lucide-react';
 
 const HostingProfileForm = () => {
   const navigate = useNavigate();
@@ -33,8 +34,9 @@ const HostingProfileForm = () => {
         gstNumber: data.profile.gstNumber,
         email: data.email,
         companyLogo: data.profile.companyLogo,
-        photo: data.profile.photo, // Add profile photo
-        companyDocument: data.profile.companyDocument // Add company document
+        photo: data.profile.photo,
+        companyDocument: data.profile.companyDocument,
+        createdAt: data.createdAt
       });
       
       setError("");
@@ -46,6 +48,110 @@ const HostingProfileForm = () => {
     }
   };
 
+  const handleEditProfile = () => {
+    navigate("/hosting/profile/edit");
+  };
+
+  const handleBack = () => {
+    navigate("/hosting/dashboard");
+  };
+
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+
+  // Loading skeleton component
+  const renderLoadingSkeleton = () => {
+    return (
+      <div className="animate-pulse">
+        {/* Back button skeleton */}
+        <div className="flex items-center gap-4 mb-6">
+          <div className="h-10 w-32 bg-[var(--color-border)] rounded"></div>
+        </div>
+        
+        {/* Profile Header */}
+        <div className="bg-white rounded-xl shadow-md p-6 mb-6">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <div className="w-16 h-16 rounded-full bg-[var(--color-border)]"></div>
+              <div>
+                <div className="h-6 bg-[var(--color-border)] rounded w-48 mb-2"></div>
+                <div className="h-4 bg-[var(--color-border)] rounded w-32"></div>
+              </div>
+            </div>
+            <div className="h-10 w-32 bg-[var(--color-border)] rounded"></div>
+          </div>
+        </div>
+        
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Main Content */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Personal Information */}
+            <div className="bg-white rounded-xl shadow-md p-6">
+              <div className="h-6 bg-[var(--color-border)] rounded w-40 mb-4"></div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {[1, 2, 3, 4].map((item) => (
+                  <div key={item}>
+                    <div className="h-3 bg-[var(--color-border)] rounded w-16 mb-2"></div>
+                    <div className="h-4 bg-[var(--color-border)] rounded w-32"></div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            {/* Company Information */}
+            <div className="bg-white rounded-xl shadow-md p-6">
+              <div className="h-6 bg-[var(--color-border)] rounded w-48 mb-4"></div>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {[1, 2, 3, 4, 5, 6].map((item) => (
+                  <div key={item}>
+                    <div className="h-3 bg-[var(--color-border)] rounded w-20 mb-2"></div>
+                    <div className="h-4 bg-[var(--color-border)] rounded w-40"></div>
+                  </div>
+                ))}
+                <div className="md:col-span-2">
+                  <div className="h-3 bg-[var(--color-border)] rounded w-24 mb-2"></div>
+                  <div className="h-4 bg-[var(--color-border)] rounded w-full"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          {/* Sidebar */}
+          <div className="space-y-6">
+            {/* Contact Information */}
+            <div className="bg-white rounded-xl shadow-md p-6">
+              <div className="h-6 bg-[var(--color-border)] rounded w-40 mb-4"></div>
+              <div className="space-y-3">
+                {[1, 2, 3, 4].map((item) => (
+                  <div key={item} className="flex items-center gap-3 p-3 rounded-lg bg-[var(--color-background-light)]">
+                    <div className="w-5 h-5 bg-[var(--color-border)] rounded"></div>
+                    <div className="h-4 bg-[var(--color-border)] rounded w-32"></div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            
+            {/* Account Actions */}
+            <div className="bg-white rounded-xl shadow-md p-6">
+              <div className="h-6 bg-[var(--color-border)] rounded w-32 mb-4"></div>
+              <div className="space-y-3">
+                <div className="flex items-center gap-3 p-3 rounded-lg bg-[var(--color-background-light)]">
+                  <div className="w-5 h-5 bg-[var(--color-border)] rounded"></div>
+                  <div className="h-4 bg-[var(--color-border)] rounded w-24"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex flex-col lg:flex-row bg-gray-50">
@@ -55,11 +161,9 @@ const HostingProfileForm = () => {
         </div>
 
         {/* Profile Container - Right Side & Centered */}
-        <main className="w-full lg:ml-80 xl:ml-80 p-4 flex justify-center items-center min-h-screen overflow-y-auto">
-          <div className="w-full max-w-3xl bg-white shadow-xl rounded-2xl overflow-hidden p-4 sm:p-6 md:p-8 border border-gray-200 relative">
-            <div className="text-center py-10">
-              <p>Loading profile...</p>
-            </div>
+        <main className="w-full lg:ml-80 xl:ml-80 p-2 lg:p-8 flex justify-center items-center min-h-screen overflow-y-auto">
+          <div className="max-w-6xl mx-auto w-full">
+            {renderLoadingSkeleton()}
           </div>
         </main>
       </div>
@@ -75,16 +179,18 @@ const HostingProfileForm = () => {
         </div>
 
         {/* Profile Container - Right Side & Centered */}
-        <main className="w-full lg:ml-80 xl:ml-80 p-4 flex justify-center items-center min-h-screen overflow-y-auto">
-          <div className="w-full max-w-3xl bg-white shadow-xl rounded-2xl overflow-hidden p-4 sm:p-6 md:p-8 border border-gray-200 relative">
-            <div className="text-center py-10">
-              <p className="text-red-500">{error}</p>
-              <button 
-                onClick={fetchProfileData}
-                className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
-              >
-                Retry
-              </button>
+        <main className="w-full lg:ml-80 xl:ml-80 p-2 lg:p-8 flex justify-center items-center min-h-screen overflow-y-auto">
+          <div className="max-w-6xl mx-auto w-full">
+            <div className="bg-white rounded-xl shadow-md p-6 mb-6">
+              <div className="text-center py-10">
+                <p className="text-red-500">{error}</p>
+                <button 
+                  onClick={fetchProfileData}
+                  className="mt-4 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700"
+                >
+                  Retry
+                </button>
+              </div>
             </div>
           </div>
         </main>
@@ -93,196 +199,234 @@ const HostingProfileForm = () => {
   }
 
   return (
-    <div className="min-h-screen flex flex-col lg:flex-row bg-gray-50">
+    <div className="min-h-screen flex flex-col lg:flex-row" style={{ backgroundColor: 'var(--color-background)' }}>
       {/* Sidebar - Fixed on Left */}
       <div className="w-full lg:w-1/4 h-auto lg:h-screen fixed lg:top-0 left-0 z-50">
         <JobHostingSidebar />
       </div>
 
       {/* Profile Container - Right Side & Centered */}
-      <main className="w-full lg:ml-80 xl:ml-80 p-4 flex justify-center items-center min-h-screen overflow-y-auto">
-        <div className="w-full max-w-3xl bg-white shadow-xl rounded-2xl overflow-hidden p-4 sm:p-6 md:p-8 border border-gray-200 relative">
-          {/* Edit Profile Button */}
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-gray-900">
-              My Profile
-            </h2>
-            <button
-              onClick={() => navigate("/hosting/profile/edit")}
-              className="px-5 py-2.5 btn-accent rounded-lg transition-all hover:shadow-md"
+      <main className="w-full lg:ml-80 xl:ml-80 p-2 lg:p-8 flex justify-center items-center min-h-screen overflow-y-auto">
+        <div className="max-w-6xl mx-auto w-full">
+          {/* Back button and Header Section */}
+          <div className="flex items-center gap-4 mb-6">
+            <button 
+              onClick={handleBack}
+              className="flex items-center gap-2 hover:opacity-80"
+              style={{ color: 'var(--color-primary)' }}
             >
-              Edit Profile
+              <ArrowLeft className="w-5 h-5" />
+              Back to Dashboard
             </button>
           </div>
 
-          {/* Profile Header with Cover */}
-          <div className="h-32 bg-[#3675AC] rounded-t-2xl"></div>
-          
-          <div className="px-6 sm:px-8 pb-8">
-            <div className="flex flex-col sm:flex-row sm:items-end sm:space-x-6 -mt-16 sm:-mt-12">
-              {/* Profile Photo */}
-              <div className="relative group mb-4 sm:mb-0">
-                <img 
-                  src={hoster.photo || "https://placehold.co/150x150"} 
-                  alt="Profile" 
-                  className="w-32 h-32 rounded-2xl object-cover border-4 border-white shadow-lg"
-                  onError={(e) => { e.target.src = "https://placehold.co/150x150"; }}
-                />
+          {/* Profile Header */}
+          <div className="bg-white rounded-xl shadow-md p-6 mb-6">
+            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+              <div className="flex items-center gap-4">
+                {/* Profile Photo */}
+                {hoster.photo ? (
+                  <img 
+                    src={hoster.photo} 
+                    alt={hoster.fullName || 'Hoster'} 
+                    className="w-16 h-16 rounded-full object-cover"
+                  />
+                ) : (
+                  <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center">
+                    <span className="text-2xl font-bold text-gray-600">
+                      {hoster.fullName?.charAt(0)?.toUpperCase() || 'H'}
+                    </span>
+                  </div>
+                )}
+                <div>
+                  <h1 className="text-2xl font-bold" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-heading)' }}>
+                    {hoster.fullName || 'Hoster'}
+                  </h1>
+                  <p className="text-gray-600" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>
+                    Member since {hoster.createdAt ? formatDate(hoster.createdAt) : 'Unknown'}
+                  </p>
+                </div>
+              </div>
+              <button 
+                onClick={handleEditProfile}
+                className="flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:shadow-md"
+                style={{ 
+                  backgroundColor: 'var(--color-primary)', 
+                  color: 'var(--color-white)',
+                  fontFamily: 'var(--font-body)'
+                }}
+              >
+                <Edit3 className="w-4 h-4" />
+                Edit Profile
+              </button>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Main Content */}
+            <div className="lg:col-span-2 space-y-6">
+              {/* Personal Information */}
+              <div className="bg-white rounded-xl shadow-md p-6">
+                <h2 className="text-xl font-bold mb-4 flex items-center gap-2" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-heading)' }}>
+                  <User className="w-5 h-5" />
+                  Personal Information
+                </h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-sm" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>Full Name</p>
+                    <p className="font-medium" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
+                      {hoster.fullName || 'Not provided'}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>Email</p>
+                    <p className="font-medium" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
+                      {hoster.email || 'Not provided'}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>Phone</p>
+                    <p className="font-medium" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
+                      {hoster.phone || 'Not provided'}
+                    </p>
+                  </div>
+                </div>
               </div>
 
-              {/* Profile Info */}
-              <div className="flex-1 sm:pb-4">
-                <h2 className="text-2xl font-bold text-gray-900">
-                  {hoster.fullName}
+              {/* Company Information */}
+              <div className="bg-white rounded-xl shadow-md p-6">
+                <h2 className="text-xl font-bold mb-4 flex items-center gap-2" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-heading)' }}>
+                  <Building className="w-5 h-5" />
+                  Company Information
                 </h2>
-                <p className="text-gray-600 mt-1">
-                  {hoster.email}
-                </p>
-                
-                {/* Company Info */}
-                <div className="flex flex-wrap gap-4 mt-4">
-                  <div className="flex items-center text-sm text-gray-600">
-                    <span className="w-5 h-5 mr-2" style={{ color: 'var(--color-accent)' }}>
-                      🏢
-                    </span>
-                    {hoster.companyName || "Not provided"}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-sm" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>Company Name</p>
+                    <p className="font-medium" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
+                      {hoster.companyName || 'Not provided'}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>Company Website</p>
+                    <p className="font-medium" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
+                      {hoster.companyWebsite || 'Not provided'}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>Company Email</p>
+                    <p className="font-medium" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
+                      {hoster.companyEmail || 'Not provided'}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>Company Phone</p>
+                    <p className="font-medium" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
+                      {hoster.companyPhone || 'Not provided'}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>Number of Employees</p>
+                    <p className="font-medium" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
+                      {hoster.numberOfEmployees || 'Not provided'}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>PAN Card Number</p>
+                    <p className="font-medium" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
+                      {hoster.panCardNumber || 'Not provided'}
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>GST Number</p>
+                    <p className="font-medium" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
+                      {hoster.gstNumber || 'Not provided'}
+                    </p>
+                  </div>
+                  <div className="md:col-span-2">
+                    <p className="text-sm" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>Company Description</p>
+                    <p className="font-medium" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
+                      {hoster.companyDescription || 'Not provided'}
+                    </p>
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Company Logo */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-4 mt-8">
-              <div className="bg-gray-50 rounded-lg p-4">
-                <div className="flex items-center mb-2">
-                  <span className="w-5 h-5 mr-2 text-gray-400">🏢</span>
-                  <p className="text-xs text-gray-500 uppercase tracking-wide">Company Logo</p>
-                </div>
-                <div className="flex items-center">
-                  {hoster.companyLogo ? (
+            {/* Sidebar */}
+            <div className="space-y-6">
+              {/* Company Logo */}
+              {hoster.companyLogo && (
+                <div className="bg-white rounded-xl shadow-md p-6">
+                  <h2 className="text-xl font-bold mb-4" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-heading)' }}>
+                    Company Logo
+                  </h2>
+                  <div className="flex justify-center">
                     <img 
                       src={hoster.companyLogo} 
                       alt="Company Logo" 
-                      className="w-16 h-16 rounded-lg object-contain"
-                      onError={(e) => { e.target.src = "https://placehold.co/150x150"; }}
+                      className="max-h-32 max-w-full object-contain"
                     />
-                  ) : (
-                    <span className="text-gray-500">Not provided</span>
-                  )}
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* Company Document */}
-              <div className="bg-gray-50 rounded-lg p-4">
-                <div className="flex items-center mb-2">
-                  <span className="w-5 h-5 mr-2 text-gray-400">📄</span>
-                  <p className="text-xs text-gray-500 uppercase tracking-wide">Company Document</p>
-                </div>
-                <div className="flex items-center">
-                  {hoster.companyDocument ? (
+              {hoster.companyDocument && (
+                <div className="bg-white rounded-xl shadow-md p-6">
+                  <h2 className="text-xl font-bold mb-4" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-heading)' }}>
+                    Company Document
+                  </h2>
+                  <div className="flex justify-center">
                     <a 
-                      href={hoster.companyDocument} 
+                      href={Array.isArray(hoster.companyDocument) ? hoster.companyDocument[0] : hoster.companyDocument} 
                       target="_blank" 
                       rel="noopener noreferrer"
-                      className="font-medium hover:underline"
-                      style={{ color: 'var(--color-accent)' }}
+                      className="px-4 py-2 rounded-lg font-medium transition-all duration-200 hover:shadow-md"
+                      style={{ 
+                        backgroundColor: 'var(--color-primary)', 
+                        color: 'var(--color-white)',
+                        fontFamily: 'var(--font-body)'
+                      }}
                     >
                       View Document
                     </a>
-                  ) : (
-                    <span className="text-gray-500">Not provided</span>
-                  )}
+                  </div>
                 </div>
-              </div>
-            </div>
-
-            {/* Contact Information Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-              <div className="bg-gray-50 rounded-lg p-4">
-                <div className="flex items-center mb-2">
-                  <span className="w-5 h-5 mr-2 text-gray-400">📞</span>
-                  <p className="text-xs text-gray-500 uppercase tracking-wide">Company Phone</p>
+              )}
+              {/* Contact Information */}
+              <div className="bg-white rounded-xl shadow-md p-6">
+                <h2 className="text-xl font-bold mb-4" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-heading)' }}>
+                  Contact Information
+                </h2>
+                <div className="space-y-3">
+                  <div className="flex items-center gap-3 p-3 rounded-lg" 
+                    style={{ backgroundColor: 'var(--color-background-light)' }}>
+                    <Mail className="w-5 h-5" style={{ color: 'var(--color-primary)' }} />
+                    <span style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>{hoster.email || 'Not provided'}</span>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 rounded-lg" 
+                    style={{ backgroundColor: 'var(--color-background-light)' }}>
+                    <Phone className="w-5 h-5" style={{ color: 'var(--color-primary)' }} />
+                    <span style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>{hoster.phone || 'Not provided'}</span>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 rounded-lg" 
+                    style={{ backgroundColor: 'var(--color-background-light)' }}>
+                    <Building className="w-5 h-5" style={{ color: 'var(--color-primary)' }} />
+                    <span style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>{hoster.companyName || 'Not provided'}</span>
+                  </div>
+                  <div className="flex items-center gap-3 p-3 rounded-lg" 
+                    style={{ backgroundColor: 'var(--color-background-light)' }}>
+                    <Calendar className="w-5 h-5" style={{ color: 'var(--color-primary)' }} />
+                    <span style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
+                      Member since {hoster.createdAt ? formatDate(hoster.createdAt) : 'Unknown'}
+                    </span>
+                  </div>
                 </div>
-                <p className="font-medium text-gray-900">
-                  {hoster.companyPhone || "Not provided"}
-                </p>
-              </div>
-
-              <div className="bg-gray-50 rounded-lg p-4">
-                <div className="flex items-center mb-2">
-                  <span className="w-5 h-5 mr-2 text-gray-400">👤</span>
-                  <p className="text-xs text-gray-500 uppercase tracking-wide">Personal Phone</p>
-                </div>
-                <p className="font-medium text-gray-900">
-                  {hoster.phone || "Not provided"}
-                </p>
-              </div>
-
-              <div className="bg-gray-50 rounded-lg p-4">
-                <div className="flex items-center mb-2">
-                  <span className="w-5 h-5 mr-2 text-gray-400">✉️</span>
-                  <p className="text-xs text-gray-500 uppercase tracking-wide">Company Email</p>
-                </div>
-                <p className="font-medium text-gray-900">
-                  {hoster.companyEmail || "Not provided"}
-                </p>
               </div>
 
-              <div className="bg-gray-50 rounded-lg p-4">
-                <div className="flex items-center mb-2">
-                  <span className="w-5 h-5 mr-2 text-gray-400">🌐</span>
-                  <p className="text-xs text-gray-500 uppercase tracking-wide">Company Website</p>
-                </div>
-                <p className="font-medium text-gray-900">
-                  {hoster.companyWebsite || "Not provided"}
-                </p>
-              </div>
-            </div>
-            
-            {/* Additional Profile Information */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
-              <div className="bg-gray-50 rounded-lg p-4">
-                <div className="flex items-center mb-2">
-                  <span className="w-5 h-5 mr-2 text-gray-400">👥</span>
-                  <p className="text-xs text-gray-500 uppercase tracking-wide">Employees</p>
-                </div>
-                <p className="font-medium text-gray-900">
-                  {hoster.numberOfEmployees || "Not provided"}
-                </p>
-              </div>
               
-              <div className="bg-gray-50 rounded-lg p-4">
-                <div className="flex items-center mb-2">
-                  <span className="w-5 h-5 mr-2 text-gray-400">💳</span>
-                  <p className="text-xs text-gray-500 uppercase tracking-wide">PAN Card</p>
-                </div>
-                <p className="font-medium text-gray-900">
-                  {hoster.panCardNumber || "Not provided"}
-                </p>
-              </div>
-              
-              <div className="bg-gray-50 rounded-lg p-4">
-                <div className="flex items-center mb-2">
-                  <span className="w-5 h-5 mr-2 text-gray-400">📜</span>
-                  <p className="text-xs text-gray-500 uppercase tracking-wide">GST Number</p>
-                </div>
-                <p className="font-medium text-gray-900">
-                  {hoster.gstNumber || "Not provided"}
-                </p>
-              </div>
-            </div>
-            
-            {/* Company Description */}
-            <div className="mt-6">
-              <div className="bg-gray-50 rounded-lg p-4">
-                <div className="flex items-center mb-2">
-                  <span className="w-5 h-5 mr-2 text-gray-400">📝</span>
-                  <p className="text-xs text-gray-500 uppercase tracking-wide">Company Description</p>
-                </div>
-                <p className="font-medium text-gray-900 whitespace-pre-line">
-                  {hoster.companyDescription || "Not provided"}
-                </p>
-              </div>
+
+             
             </div>
           </div>
         </div>

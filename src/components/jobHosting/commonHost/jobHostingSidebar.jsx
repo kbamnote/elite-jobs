@@ -105,7 +105,7 @@ const JobHostingSidebar = () => {
         }}
       >
         {/* Logo */}
-        <Link to="/dashboard" className="w-full flex justify-center items-center mb-6">
+        <Link to="/hosting/dashboard" className="w-full flex justify-center items-center mb-6">
           <img src={Logo} alt="Elite Jobs Logo" className="h-17 w-55" />
         </Link>
 
@@ -136,7 +136,7 @@ const JobHostingSidebar = () => {
         {/* Navigation Links */}
         <nav className="flex-1 overflow-y-auto">
           <div className="space-y-1">
-            <Link to="/dashboard" className="block">
+            <Link to="/hosting/dashboard" className="block">
               <div
                 className="flex items-center space-x-3 p-3 rounded-lg transition-colors duration-200"
                 style={{
