@@ -118,10 +118,162 @@ const ViewJobs = () => {
   if (loading) {
     return (
       <>
-        <div className="min-h-screen flex items-center justify-center" style={{ backgroundColor: 'var(--color-background)' }}>
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 mx-auto mb-4" style={{ borderColor: 'var(--color-primary)' }}></div>
-            <p style={{ color: 'var(--color-text-muted)', fontFamily: 'var(--font-body)' }}>Loading job details...</p>
+        <div className="min-h-screen py-10" style={{ backgroundColor: 'var(--color-background)' }}>
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Back Button Skeleton */}
+            <div className="mb-6 h-10 bg-[var(--color-border)] rounded-lg w-32 animate-pulse"></div>
+            
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              {/* Main Content Skeleton */}
+              <div className="lg:col-span-2 space-y-6">
+                {/* Job Header Card Skeleton */}
+                <div className="rounded-xl overflow-hidden" style={{ 
+                  backgroundColor: 'var(--color-white)', 
+                  boxShadow: 'var(--shadow-lg)' 
+                }}>
+                  <div className="p-8" style={{ background: 'linear-gradient(135deg, var(--color-primary) 0%, var(--color-dark-secondary) 100%)' }}>
+                    <div className="flex flex-col sm:flex-row items-start gap-6">
+                      <div className="w-20 h-20 rounded-xl bg-[var(--color-border)] animate-pulse flex-shrink-0"></div>
+                      <div className="flex-1">
+                        <div className="h-8 bg-[var(--color-border)] rounded w-3/4 mb-4 animate-pulse"></div>
+                        <div className="h-6 bg-[var(--color-border)] rounded w-1/2 mb-4 animate-pulse"></div>
+                        <div className="flex flex-wrap gap-4">
+                          <div className="h-4 bg-[var(--color-border)] rounded w-24 animate-pulse"></div>
+                          <div className="h-4 bg-[var(--color-border)] rounded w-20 animate-pulse"></div>
+                          <div className="h-4 bg-[var(--color-border)] rounded w-28 animate-pulse"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Job Tags Skeleton */}
+                  <div className="p-6 border-b" style={{ borderColor: 'var(--color-border)' }}>
+                    <div className="flex flex-wrap gap-2">
+                      <div className="h-6 bg-[var(--color-border)] rounded-full w-20 animate-pulse"></div>
+                      <div className="h-6 bg-[var(--color-border)] rounded-full w-24 animate-pulse"></div>
+                      <div className="h-6 bg-[var(--color-border)] rounded-full w-28 animate-pulse"></div>
+                      <div className="h-6 bg-[var(--color-border)] rounded-full w-24 animate-pulse"></div>
+                      <div className="h-6 bg-[var(--color-border)] rounded-full w-32 animate-pulse"></div>
+                    </div>
+                  </div>
+                </div>
+                
+                {/* Job Description Skeleton */}
+                <div className="rounded-xl p-8" style={{ 
+                  backgroundColor: 'var(--color-white)', 
+                  boxShadow: 'var(--shadow-lg)' 
+                }}>
+                  <div className="h-8 bg-[var(--color-border)] rounded w-1/3 mb-6 animate-pulse"></div>
+                  <div className="space-y-3">
+                    <div className="h-4 bg-[var(--color-border)] rounded w-full animate-pulse"></div>
+                    <div className="h-4 bg-[var(--color-border)] rounded w-5/6 animate-pulse"></div>
+                    <div className="h-4 bg-[var(--color-border)] rounded w-4/5 animate-pulse"></div>
+                    <div className="h-4 bg-[var(--color-border)] rounded w-3/4 animate-pulse"></div>
+                  </div>
+                </div>
+                
+                {/* Requirements Skeleton */}
+                <div className="rounded-xl p-8" style={{ 
+                  backgroundColor: 'var(--color-white)', 
+                  boxShadow: 'var(--shadow-lg)' 
+                }}>
+                  <div className="h-8 bg-[var(--color-border)] rounded w-1/3 mb-6 animate-pulse"></div>
+                  <div className="space-y-4">
+                    {[...Array(4)].map((_, index) => (
+                      <div key={index} className="flex items-start gap-3">
+                        <div className="w-6 h-6 rounded-full bg-[var(--color-border)] animate-pulse flex-shrink-0 mt-0.5"></div>
+                        <div className="h-4 bg-[var(--color-border)] rounded w-4/5 animate-pulse"></div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                
+                {/* Responsibilities Skeleton */}
+                <div className="rounded-xl p-8" style={{ 
+                  backgroundColor: 'var(--color-white)', 
+                  boxShadow: 'var(--shadow-lg)' 
+                }}>
+                  <div className="h-8 bg-[var(--color-border)] rounded w-1/3 mb-6 animate-pulse"></div>
+                  <div className="space-y-4">
+                    {[...Array(4)].map((_, index) => (
+                      <div key={index} className="flex items-start gap-3">
+                        <div className="w-6 h-6 rounded-full bg-[var(--color-border)] animate-pulse flex-shrink-0 mt-0.5"></div>
+                        <div className="h-4 bg-[var(--color-border)] rounded w-4/5 animate-pulse"></div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                
+                {/* Skills Skeleton */}
+                <div className="rounded-xl p-8" style={{ 
+                  backgroundColor: 'var(--color-white)', 
+                  boxShadow: 'var(--shadow-lg)' 
+                }}>
+                  <div className="h-8 bg-[var(--color-border)] rounded w-1/3 mb-6 animate-pulse"></div>
+                  <div className="flex flex-wrap gap-3">
+                    {[...Array(5)].map((_, index) => (
+                      <div key={index} className="h-8 bg-[var(--color-border)] rounded-full w-20 animate-pulse"></div>
+                    ))}
+                  </div>
+                </div>
+                
+                {/* Company Info Skeleton */}
+                <div className="rounded-xl p-8" style={{ 
+                  backgroundColor: 'var(--color-white)', 
+                  boxShadow: 'var(--shadow-lg)' 
+                }}>
+                  <div className="h-8 bg-[var(--color-border)] rounded w-1/3 mb-6 animate-pulse"></div>
+                  <div className="space-y-3 mb-6">
+                    <div className="h-4 bg-[var(--color-border)] rounded w-full animate-pulse"></div>
+                    <div className="h-4 bg-[var(--color-border)] rounded w-5/6 animate-pulse"></div>
+                    <div className="h-4 bg-[var(--color-border)] rounded w-4/5 animate-pulse"></div>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+                    <div className="flex items-center gap-2">
+                      <div className="h-4 bg-[var(--color-border)] rounded w-20 animate-pulse"></div>
+                      <div className="h-4 bg-[var(--color-border)] rounded w-16 animate-pulse"></div>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <div className="h-4 bg-[var(--color-border)] rounded w-20 animate-pulse"></div>
+                      <div className="h-4 bg-[var(--color-border)] rounded w-24 animate-pulse"></div>
+                    </div>
+                  </div>
+                  <div className="h-10 bg-[var(--color-border)] rounded-lg w-32 animate-pulse"></div>
+                </div>
+              </div>
+              
+              {/* Sidebar Skeleton */}
+              <div className="lg:col-span-1 space-y-6">
+                {/* Quick Info Card Skeleton */}
+                <div className="rounded-xl p-6" style={{ 
+                  backgroundColor: 'var(--color-white)', 
+                  boxShadow: 'var(--shadow-lg)' 
+                }}>
+                  <div className="h-6 bg-[var(--color-border)] rounded w-1/3 mb-6 animate-pulse"></div>
+                  
+                  <div className="space-y-4">
+                    {[...Array(8)].map((_, index) => (
+                      <div key={index} className="flex items-start gap-3">
+                        <div className="w-10 h-10 rounded-lg bg-[var(--color-border)] animate-pulse flex-shrink-0"></div>
+                        <div className="flex-1">
+                          <div className="h-3 bg-[var(--color-border)] rounded w-1/3 mb-2 animate-pulse"></div>
+                          <div className="h-4 bg-[var(--color-border)] rounded w-2/3 animate-pulse"></div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                
+                {/* Apply Card Skeleton */}
+                <div className="rounded-xl p-6" style={{ 
+                  backgroundColor: 'var(--color-white)', 
+                  boxShadow: 'var(--shadow-lg)' 
+                }}>
+                  <div className="h-6 bg-[var(--color-border)] rounded w-1/3 mb-4 animate-pulse"></div>
+                  <div className="h-12 bg-[var(--color-border)] rounded-lg animate-pulse"></div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </>

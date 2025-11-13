@@ -252,15 +252,153 @@ const Jobs = () => {
   if (loading) {
     return (
       <>
-  
         <div className="min-h-screen py-10" style={{ backgroundColor: 'var(--color-background)' }}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
-            <div className="text-center py-10">
-              <p style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>Loading jobs...</p>
+            {/* Page Header Skeleton */}
+            <div className="mb-8">
+              <div className="h-8 bg-[var(--color-border)] rounded w-1/3 mb-4 animate-pulse"></div>
+              <div className="h-6 bg-[var(--color-border)] rounded w-2/3 animate-pulse"></div>
+            </div>
+
+            {/* Main Layout: Sidebar + Content */}
+            <div className="flex flex-col lg:flex-row gap-8">
+              {/* Left Sidebar - Filters Skeleton */}
+              <div className="lg:w-80 flex-shrink-0">
+                <div className="sticky top-8">
+                  <div className="rounded-xl border p-6" style={{ 
+                    backgroundColor: 'var(--color-white)', 
+                    boxShadow: 'var(--shadow-md)', 
+                    borderColor: 'var(--color-border)' 
+                  }}>
+                    <div className="flex justify-between items-center mb-6">
+                      <div className="h-6 bg-[var(--color-border)] rounded w-1/3 mb-2 animate-pulse"></div>
+                      <div className="h-4 bg-[var(--color-border)] rounded w-16 animate-pulse"></div>
+                    </div>
+                    
+                    <div className="space-y-6">
+                      {/* Search Skeleton */}
+                      <div>
+                        <div className="h-4 bg-[var(--color-border)] rounded w-1/4 mb-2 animate-pulse"></div>
+                        <div className="h-10 bg-[var(--color-border)] rounded animate-pulse"></div>
+                      </div>
+                      
+                      {/* Location Skeleton */}
+                      <div>
+                        <div className="h-4 bg-[var(--color-border)] rounded w-1/4 mb-2 animate-pulse"></div>
+                        <div className="h-10 bg-[var(--color-border)] rounded animate-pulse"></div>
+                      </div>
+                      
+                      {/* Category Skeleton */}
+                      <div>
+                        <div className="h-4 bg-[var(--color-border)] rounded w-1/4 mb-2 animate-pulse"></div>
+                        <div className="h-10 bg-[var(--color-border)] rounded animate-pulse"></div>
+                      </div>
+                      
+                      {/* Experience Level Skeleton */}
+                      <div>
+                        <div className="h-4 bg-[var(--color-border)] rounded w-1/4 mb-2 animate-pulse"></div>
+                        <div className="h-10 bg-[var(--color-border)] rounded animate-pulse"></div>
+                      </div>
+                      
+                      {/* Work Type Skeleton */}
+                      <div>
+                        <div className="h-4 bg-[var(--color-border)] rounded w-1/4 mb-2 animate-pulse"></div>
+                        <div className="h-10 bg-[var(--color-border)] rounded animate-pulse"></div>
+                      </div>
+                      
+                      {/* Interview Type Skeleton */}
+                      <div>
+                        <div className="h-4 bg-[var(--color-border)] rounded w-1/4 mb-2 animate-pulse"></div>
+                        <div className="h-10 bg-[var(--color-border)] rounded animate-pulse"></div>
+                      </div>
+                      
+                      {/* Job Type Skeleton */}
+                      <div>
+                        <div className="h-4 bg-[var(--color-border)] rounded w-1/4 mb-2 animate-pulse"></div>
+                        <div className="h-10 bg-[var(--color-border)] rounded animate-pulse"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Content - Job Listings Skeleton */}
+              <div className="flex-1 min-w-0">
+                {/* Results Header Skeleton */}
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6 p-4 rounded-lg" style={{ 
+                  backgroundColor: 'var(--color-white)', 
+                  borderColor: 'var(--color-border)' 
+                }}>
+                  <div>
+                    <div className="h-6 bg-[var(--color-border)] rounded w-32 mb-2 animate-pulse"></div>
+                    <div className="h-4 bg-[var(--color-border)] rounded w-48 animate-pulse"></div>
+                  </div>
+                  <div className="mt-3 sm:mt-0">
+                    <div className="h-8 bg-[var(--color-border)] rounded w-48 animate-pulse"></div>
+                  </div>
+                </div>
+                
+                {/* Job Cards Skeleton */}
+                <div className="space-y-6">
+                  {[...Array(3)].map((_, index) => (
+                    <div 
+                      key={index} 
+                      className="rounded-xl border p-6"
+                      style={{ 
+                        backgroundColor: 'var(--color-white)', 
+                        boxShadow: 'var(--shadow-sm)', 
+                        borderColor: 'var(--color-border)' 
+                      }}
+                    >
+                      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                        {/* Left Section - Job Info */}
+                        <div className="flex items-start space-x-4 flex-1">
+                          {/* Company Logo Skeleton */}
+                          <div className="w-14 h-14 rounded-xl bg-[var(--color-border)] animate-pulse flex-shrink-0"></div>
+                          
+                          {/* Job Details Skeleton */}
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-start justify-between mb-2">
+                              <div className="h-6 bg-[var(--color-border)] rounded w-3/4 mb-2 animate-pulse"></div>
+                            </div>
+                            
+                            <div className="h-5 bg-[var(--color-border)] rounded w-1/2 mb-3 animate-pulse"></div>
+                            
+                            {/* Job Tags Skeleton */}
+                            <div className="flex flex-wrap gap-2 mb-4">
+                              <div className="h-6 bg-[var(--color-border)] rounded-full w-20 animate-pulse"></div>
+                              <div className="h-6 bg-[var(--color-border)] rounded-full w-24 animate-pulse"></div>
+                              <div className="h-6 bg-[var(--color-border)] rounded-full w-28 animate-pulse"></div>
+                            </div>
+                            
+                            {/* Job Meta Info Skeleton */}
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                              <div className="flex items-center space-x-2">
+                                <div className="h-4 bg-[var(--color-border)] rounded w-32 animate-pulse"></div>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <div className="h-4 bg-[var(--color-border)] rounded w-28 animate-pulse"></div>
+                              </div>
+                              <div className="flex items-center space-x-2">
+                                <div className="h-4 bg-[var(--color-border)] rounded w-24 animate-pulse"></div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        {/* Right Section - Action Button Skeleton */}
+                        <div className="flex sm:flex-col items-end justify-between sm:justify-start gap-3 sm:gap-2 flex-shrink-0">
+                          <div className="sm:hidden"></div> {/* Spacer for mobile */}
+                          <div className="h-10 bg-[var(--color-border)] rounded-lg w-32 animate-pulse"></div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
-     
       </>
     );
   }
