@@ -115,7 +115,7 @@ const Signup = () => {
         {/* Logo added here */}
         <div className="absolute top-4 left-4">
           <a href="/">
-            <img src={logo} alt="Company Logo" className="h-12 w-auto" />
+            <img src={logo} alt="Company Logo" className="h-14 md:h-28 w-auto" />
           </a>
         </div>
         <div>
