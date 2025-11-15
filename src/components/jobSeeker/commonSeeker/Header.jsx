@@ -66,7 +66,7 @@ const Header = () => {
         <div className="flex justify-between items-center">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2 flex-shrink-0">
-            <img src={Logo} alt="Elite Jobs Logo" className="h-12 w-32 md:h-18 md:w-50" />
+            <img src={Logo} alt="Elite Jobs Logo" className="h-12 w-32 md:h-18 md:w-40" />
           </Link>
 
           {/* Desktop Navigation */}
