@@ -170,16 +170,173 @@ const Profile = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50">
-       
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12">
-            <div className="flex flex-col items-center justify-center">
-              <Loader className="h-12 w-12 animate-spin text-gray-900 mb-4" />
-              <p className="text-gray-600" style={{ fontFamily: 'var(--font-body)' }}>Loading your profile...</p>
+          {/* Header Section Skeleton */}
+          <div className="mb-8">
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+              <div>
+                <div className="h-8 bg-[var(--color-border)] rounded w-48 mb-2 animate-pulse"></div>
+                <div className="h-5 bg-[var(--color-border)] rounded w-80 animate-pulse"></div>
+              </div>
+              <div className="flex flex-wrap gap-3">
+                <div className="h-10 bg-[var(--color-border)] rounded-lg w-32 animate-pulse"></div>
+                <div className="h-10 bg-[var(--color-border)] rounded-lg w-36 animate-pulse"></div>
+              </div>
+            </div>
+          </div>
+
+          {/* Main Profile Card Skeleton */}
+          <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
+            {/* Profile Header with Cover */}
+            <div className="h-32 bg-[var(--color-border)] animate-pulse"></div>
+            
+            <div className="px-6 sm:px-8 pb-8">
+              <div className="flex flex-col sm:flex-row sm:items-end sm:space-x-6 -mt-16 sm:-mt-12">
+                {/* Profile Photo Skeleton */}
+                <div className="relative mb-4 sm:mb-0">
+                  <div className="w-32 h-32 rounded-2xl bg-[var(--color-border)] animate-pulse"></div>
+                </div>
+
+                {/* Profile Info Skeleton */}
+                <div className="flex-1 sm:pb-4">
+                  <div className="h-7 bg-[var(--color-border)] rounded w-48 mb-2 animate-pulse"></div>
+                  <div className="h-5 bg-[var(--color-border)] rounded w-64 animate-pulse"></div>
+                  
+                  {/* Quick Stats Skeleton */}
+                  <div className="flex flex-wrap gap-4 mt-4">
+                    <div className="h-5 bg-[var(--color-border)] rounded w-32 animate-pulse"></div>
+                    <div className="h-5 bg-[var(--color-border)] rounded w-36 animate-pulse"></div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Contact Information Grid Skeleton */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
+                {[...Array(4)].map((_, index) => (
+                  <div key={index} className="bg-gray-50 rounded-lg p-4">
+                    <div className="flex items-center mb-2">
+                      <div className="h-4 bg-[var(--color-border)] rounded w-16 animate-pulse"></div>
+                    </div>
+                    <div className="h-5 bg-[var(--color-border)] rounded w-32 animate-pulse"></div>
+                  </div>
+                ))}
+              </div>
+              
+              {/* Additional Profile Information Skeleton */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
+                {[...Array(4)].map((_, index) => (
+                  <div key={index} className="bg-gray-50 rounded-lg p-4">
+                    <div className="flex items-center mb-2">
+                      <div className="h-4 bg-[var(--color-border)] rounded w-24 animate-pulse"></div>
+                    </div>
+                    <div className="h-5 bg-[var(--color-border)] rounded w-28 animate-pulse"></div>
+                  </div>
+                ))}
+              </div>
+              
+              {/* Salary and Notice Period Skeleton */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+                {[...Array(2)].map((_, index) => (
+                  <div key={index} className="bg-gray-50 rounded-lg p-4">
+                    <div className="flex items-center mb-2">
+                      <div className="h-4 bg-[var(--color-border)] rounded w-32 animate-pulse"></div>
+                    </div>
+                    <div className="h-5 bg-[var(--color-border)] rounded w-24 animate-pulse"></div>
+                  </div>
+                ))}
+              </div>
+              
+              {/* Social Links Skeleton */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+                {[...Array(2)].map((_, index) => (
+                  <div key={index} className="bg-gray-50 rounded-lg p-4">
+                    <div className="flex items-center mb-2">
+                      <div className="h-4 bg-[var(--color-border)] rounded w-20 animate-pulse"></div>
+                    </div>
+                    <div className="h-5 bg-[var(--color-border)] rounded w-28 animate-pulse"></div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Two Column Layout Skeleton */}
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Left Column - Skills, Education, Experience Skeleton */}
+            <div className="lg:col-span-2 space-y-6">
+              {/* Skills Section Skeleton */}
+              <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="h-6 bg-[var(--color-border)] rounded w-40 animate-pulse"></div>
+                  <div className="h-8 bg-[var(--color-border)] rounded w-16 animate-pulse"></div>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  {[...Array(5)].map((_, index) => (
+                    <div key={index} className="h-8 bg-[var(--color-border)] rounded-full w-20 animate-pulse"></div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Education Section Skeleton */}
+              <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="h-6 bg-[var(--color-border)] rounded w-32 animate-pulse"></div>
+                  <div className="h-8 bg-[var(--color-border)] rounded w-16 animate-pulse"></div>
+                </div>
+                <div className="space-y-4">
+                  {[...Array(2)].map((_, index) => (
+                    <div key={index} className="border-l-4 pl-4 py-2" style={{ borderColor: 'var(--color-border)' }}>
+                      <div className="h-5 bg-[var(--color-border)] rounded w-48 mb-2 animate-pulse"></div>
+                      <div className="h-5 bg-[var(--color-border)] rounded w-32 mb-3 animate-pulse"></div>
+                      <div className="h-4 bg-[var(--color-border)] rounded w-40 animate-pulse"></div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Work Experience Section Skeleton */}
+              <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="h-6 bg-[var(--color-border)] rounded w-48 animate-pulse"></div>
+                  <div className="h-8 bg-[var(--color-border)] rounded w-16 animate-pulse"></div>
+                </div>
+                <div className="space-y-6">
+                  {[...Array(2)].map((_, index) => (
+                    <div key={index} className="relative pl-8 pb-6 border-l-2 border-gray-200 last:border-l-0 last:pb-0">
+                      <div className="h-5 bg-[var(--color-border)] rounded w-40 mb-2 animate-pulse"></div>
+                      <div className="h-5 bg-[var(--color-border)] rounded w-32 mb-2 animate-pulse"></div>
+                      <div className="h-4 bg-[var(--color-border)] rounded w-48 mb-3 animate-pulse"></div>
+                      <div className="h-4 bg-[var(--color-border)] rounded w-full animate-pulse"></div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column - Applications Skeleton */}
+            <div className="lg:col-span-1">
+              <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sticky top-6">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="h-6 bg-[var(--color-border)] rounded w-48 animate-pulse"></div>
+                  <div className="h-8 bg-[var(--color-border)] rounded w-16 animate-pulse"></div>
+                </div>
+                
+                <div className="space-y-3">
+                  {[...Array(3)].map((_, index) => (
+                    <div key={index} className="border border-gray-200 rounded-lg p-4">
+                      <div className="flex items-start justify-between mb-2">
+                        <div className="h-5 bg-[var(--color-border)] rounded w-32 animate-pulse"></div>
+                        <div className="h-5 bg-[var(--color-border)] rounded w-16 animate-pulse"></div>
+                      </div>
+                      <div className="h-4 bg-[var(--color-border)] rounded w-24 mb-2 animate-pulse"></div>
+                      <div className="h-3 bg-[var(--color-border)] rounded w-20 animate-pulse"></div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
-        
       </div>
     );
   }

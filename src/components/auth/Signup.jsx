@@ -68,6 +68,12 @@ const Signup = () => {
     }
   };
 
+  // Handle Google signup redirect
+  const handleGoogleSignup = (role) => {
+    // Redirect to backend Google OAuth endpoint
+    window.location.href = `${import.meta.env.VITE_API_URL || 'https://elite-jobs-backend.onrender.com'}/auth/google?role=${role}`;
+  };
+
   const handleOnboardChange = (e) => {
     const { name, value } = e.target;
     setOnboardingData(prev => ({ ...prev, [name]: value }));
@@ -260,6 +266,47 @@ const Signup = () => {
             >
               {loading ? 'Signing up...' : 'Sign up'}
             </button>
+          </div>
+          
+          {/* Google Signup Buttons */}
+          <div className="mt-4">
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white text-gray-500">
+                  Or continue with
+                </span>
+              </div>
+            </div>
+            
+            <div className="mt-4 grid grid-cols-3 gap-3">
+              <button
+                type="button"
+                onClick={() => handleGoogleSignup('jobSeeker')}
+                disabled={loading}
+                className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+              >
+                <span>Job Seeker</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleGoogleSignup('jobHoster')}
+                disabled={loading}
+                className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+              >
+                <span>Job Hoster</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleGoogleSignup('recruiter')}
+                disabled={loading}
+                className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+              >
+                <span>Recruiter</span>
+              </button>
+            </div>
           </div>
           
           <div className="text-center">

@@ -29,6 +29,12 @@ const HostingSignup = () => {
     }
   };
 
+  // Handle Google signup redirect for job hosters
+  const handleGoogleSignup = () => {
+    // Redirect to backend Google OAuth endpoint with jobHoster role
+    window.location.href = `${import.meta.env.VITE_API_URL || 'https://elite-jobs-backend.onrender.com'}/auth/google?role=jobHoster`;
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
       <div className="bg-white shadow-lg rounded-lg flex flex-col md:flex-row w-full max-w-5xl">
@@ -118,9 +124,30 @@ const HostingSignup = () => {
             </div>
           )}
 
-          <div className="text-center text-sm text-gray-500 mt-4">
-            or sign in with
+          {/* Google Signup Button */}
+          <div className="mt-4">
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white text-gray-500">
+                  Or continue with
+                </span>
+              </div>
+            </div>
+            
+            <div className="mt-4">
+              <button
+                type="button"
+                onClick={handleGoogleSignup}
+                className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+              >
+                <span>Sign up with Google</span>
+              </button>
+            </div>
           </div>
+
           <div className="mt-6 text-center text-sm">
             Already have an account?{" "}
             <Link to="/host-login" className="text-teal-500 hover:text-teal-600">
