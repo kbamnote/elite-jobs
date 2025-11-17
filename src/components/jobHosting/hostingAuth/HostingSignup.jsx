@@ -1,15 +1,14 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 const HostingSignup = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
-  const [showPassword, setShowPassword] = useState(false);
-
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleSignup = (e) => {
     e.preventDefault();
@@ -34,6 +33,15 @@ const HostingSignup = () => {
     // Redirect to backend Google OAuth endpoint with jobHoster role
     window.location.href = `${import.meta.env.VITE_API_URL || 'https://elite-jobs-backend.onrender.com'}/auth/google?role=jobHoster`;
   };
+
+  // Handle Google authentication callback
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const error = params.get('error');
+    if (error) {
+      setError('Google authentication failed. Please try again.');
+    }
+  }, [location]);
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">

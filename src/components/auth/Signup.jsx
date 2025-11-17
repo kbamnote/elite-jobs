@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { signup, updateProfile } from '../../utils/Api';
 import Cookies from 'js-cookie';
 import logo from '../../assets/Logo.png';
 
-
 const Signup = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -73,6 +73,73 @@ const Signup = () => {
     // Redirect to backend Google OAuth endpoint
     window.location.href = `${import.meta.env.VITE_API_URL || 'https://elite-jobs-backend.onrender.com'}/auth/google?role=${role}`;
   };
+
+  // Handle Google authentication callback
+  useEffect(() => {
+    const handleGoogleCallback = async () => {
+      // Check for token in URL parameters (for existing users)
+      const params = new URLSearchParams(location.search);
+      const urlToken = params.get('token');
+      
+      if (urlToken) {
+        try {
+          // Store token in cookies
+          Cookies.set('token', urlToken);
+          
+          // Get user info from token by calling the profile endpoint
+          const response = await fetch(`${import.meta.env.VITE_API_URL || 'https://elite-jobs-backend.onrender.com'}/auth/profile`, {
+            headers: {
+              'Authorization': `Bearer ${urlToken}`
+            }
+          });
+          
+          if (response.ok) {
+            const userData = await response.json();
+            const { role } = userData.data;
+            
+            // Store role in cookies
+            Cookies.set('role', role);
+            
+            // Navigate based on role
+            if (role === 'jobSeeker') {
+              navigate('/onboarding');
+            } else if (role === 'jobHoster') {
+              navigate('/hosting/onboarding');
+            } else if (role === 'recruiter') {
+              navigate('/recruiter/onboarding');
+            }
+          } else {
+            throw new Error('Failed to fetch user profile');
+          }
+        } catch (err) {
+          setError('Google authentication failed. Please try again.');
+          // Clear any existing token
+          Cookies.remove('token');
+          Cookies.remove('role');
+        }
+        return;
+      }
+      
+      // Check for Google auth error in URL parameters
+      const error = params.get('error');
+      if (error) {
+        setError('Google authentication failed. Please try again.');
+        return;
+      }
+      
+      // Check for Google user data in URL parameters (for new users)
+      const googleId = params.get('googleId');
+      const email = params.get('email');
+      const name = params.get('name');
+      
+      if (googleId && email && name) {
+        // Redirect to Google role selection page with user data
+        navigate(`/google-role-selection?googleId=${googleId}&email=${email}&name=${name}`);
+      }
+    };
+
+    handleGoogleCallback();
+  }, [location, navigate]);
 
   const handleOnboardChange = (e) => {
     const { name, value } = e.target;
