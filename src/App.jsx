@@ -42,6 +42,8 @@ import Signup from "./components/auth/Signup";
 import ForgotPassword from "./components/auth/ForgotPassword";
 import VerifyOTP from "./components/auth/VerifyOTP";
 import AddNewPassword from "./components/auth/AddNewPassword";
+import GoogleRoleSelection from "./components/auth/GoogleRoleSelection";
+import GoogleCallbackHandler from "./components/auth/GoogleCallbackHandler";
 
 function App() {
   return (
@@ -75,6 +77,8 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword/>}/>
         <Route path="/verify-otp" element={<VerifyOTP/>}/>
         <Route path="/add-new-password" element={<AddNewPassword/>}/>
+        <Route path="/google-role-selection" element={<GoogleRoleSelection/>}/>
+        <Route path="/google-callback" element={<GoogleCallbackHandler/>}/>
 
         {/* Routes with Main Header */}
         <Route

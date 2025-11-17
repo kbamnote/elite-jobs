@@ -58,6 +58,79 @@ const Login = () => {
     }
   };
 
+  // Handle Google login redirect
+  const handleGoogleLogin = (role) => {
+    // Redirect to backend Google OAuth endpoint
+    window.location.href = `${import.meta.env.VITE_API_URL || 'https://elite-jobs-backend.onrender.com'}/auth/google?role=${role}`;
+  };
+
+  // Handle Google authentication callback
+  useEffect(() => {
+    const handleGoogleCallback = async () => {
+      // Check for token in URL parameters (for existing users)
+      const params = new URLSearchParams(location.search);
+      const urlToken = params.get('token');
+      
+      if (urlToken) {
+        try {
+          // Store token in cookies
+          Cookies.set('token', urlToken);
+          
+          // Get user info from token by calling the profile endpoint
+          const response = await fetch(`${import.meta.env.VITE_API_URL || 'https://elite-jobs-backend.onrender.com'}/auth/profile`, {
+            headers: {
+              'Authorization': `Bearer ${urlToken}`
+            }
+          });
+          
+          if (response.ok) {
+            const userData = await response.json();
+            const { role } = userData.data;
+            
+            // Store role in cookies
+            Cookies.set('role', role);
+            
+            // Navigate based on role
+            if (role === 'jobSeeker') {
+              navigate('/');
+            } else if (role === 'jobHoster') {
+              navigate('/hosting/dashboard');
+            } else if (role === 'recruiter') {
+              navigate('/recruiter/dashboard');
+            }
+          } else {
+            throw new Error('Failed to fetch user profile');
+          }
+        } catch (err) {
+          setError('Google authentication failed. Please try again.');
+          // Clear any existing token
+          Cookies.remove('token');
+          Cookies.remove('role');
+        }
+        return;
+      }
+      
+      // Check for Google auth error in URL parameters
+      const error = params.get('error');
+      if (error) {
+        setError('Google authentication failed. Please try again.');
+        return;
+      }
+      
+      // Check for Google user data in URL parameters (for new users)
+      const googleId = params.get('googleId');
+      const email = params.get('email');
+      const name = params.get('name');
+      
+      if (googleId && email && name) {
+        // Redirect to Google role selection page with user data
+        navigate(`/google-role-selection?googleId=${googleId}&email=${email}&name=${name}`);
+      }
+    };
+
+    handleGoogleCallback();
+  }, [location, navigate]);
+
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: 'var(--color-accent-light)' }}>
       <div className="max-w-md w-full space-y-8">
@@ -207,6 +280,47 @@ const Login = () => {
             >
               {loading ? 'Signing in...' : 'Sign in'}
             </button>
+          </div>
+          
+          {/* Google Login Buttons */}
+          <div className="mt-4">
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white text-gray-500">
+                  Or continue with
+                </span>
+              </div>
+            </div>
+            
+            <div className="mt-4 grid grid-cols-3 gap-3">
+              <button
+                type="button"
+                onClick={() => handleGoogleLogin('jobSeeker')}
+                disabled={loading}
+                className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+              >
+                <span>Job Seeker</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleGoogleLogin('jobHoster')}
+                disabled={loading}
+                className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+              >
+                <span>Job Hoster</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => handleGoogleLogin('recruiter')}
+                disabled={loading}
+                className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+              >
+                <span>Recruiter</span>
+              </button>
+            </div>
           </div>
           
           <div className="text-center">

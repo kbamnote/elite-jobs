@@ -1,6 +1,5 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 
 const HostingLogin = () => {
   const [email, setEmail] = useState("");
@@ -8,8 +7,8 @@ const HostingLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(null);
-
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -28,6 +27,21 @@ const HostingLogin = () => {
       setSuccess(null);
     }
   };
+
+  // Handle Google login redirect for job hosters
+  const handleGoogleLogin = () => {
+    // Redirect to backend Google OAuth endpoint with jobHoster role
+    window.location.href = `${import.meta.env.VITE_API_URL || 'https://elite-jobs-backend.onrender.com'}/auth/google?role=jobHoster`;
+  };
+
+  // Handle Google authentication callback
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const error = params.get('error');
+    if (error) {
+      setError('Google authentication failed. Please try again.');
+    }
+  }, [location]);
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
@@ -114,9 +128,31 @@ const HostingLogin = () => {
               </div>
             )}
           </form>
-          <div className="text-center text-sm text-gray-500 mt-4">
-            or sign in with
+          
+          {/* Google Login Button */}
+          <div className="mt-4">
+            <div className="relative">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300"></div>
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white text-gray-500">
+                  Or continue with
+                </span>
+              </div>
+            </div>
+            
+            <div className="mt-4">
+              <button
+                type="button"
+                onClick={handleGoogleLogin}
+                className="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50"
+              >
+                <span>Sign in with Google</span>
+              </button>
+            </div>
           </div>
+          
           <div className="mt-6 text-center text-sm">
             No account yet?{" "}
             <Link

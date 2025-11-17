@@ -42,6 +42,8 @@ Api.interceptors.response.use(
 // ============== AUTH ==============
 export const signup = (post) => Apiauth.post("/auth/signup", post);
 export const login = (post) => Apiauth.post("/auth/login", post);
+export const googleSignup = (post) => Apiauth.post("/auth/google-signup", post);
+export const googleLogin = (post) => Apiauth.post("/auth/google-login", post);
 export const forgotPassword = (post) => Apiauth.post("/auth/forgot-password", post);
 export const verifyOTP = (post) => Apiauth.post("/auth/verify-otp", post);
 export const resetPassword = (post) => Apiauth.post("/auth/reset-password", post);

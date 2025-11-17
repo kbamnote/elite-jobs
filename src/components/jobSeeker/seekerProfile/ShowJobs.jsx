@@ -42,12 +42,28 @@ const ShowJobs = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50">
-     
         <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10">
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">My Applications</h1>
-            <div className="text-center py-10">
-              <p>Loading applications...</p>
+            <div className="h-8 bg-[var(--color-border)] rounded w-48 mb-6 animate-pulse"></div>
+            
+            {/* Applications list skeleton */}
+            <div className="space-y-4">
+              {[...Array(3)].map((_, index) => (
+                <div 
+                  key={index} 
+                  className="border border-gray-100 rounded-xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                >
+                  <div className="flex-1">
+                    <div className="h-5 bg-[var(--color-border)] rounded w-3/4 mb-2 animate-pulse"></div>
+                    <div className="h-4 bg-[var(--color-border)] rounded w-1/2 mb-2 animate-pulse"></div>
+                    <div className="h-3 bg-[var(--color-border)] rounded w-40 animate-pulse"></div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="h-6 bg-[var(--color-border)] rounded-full w-20 animate-pulse"></div>
+                    <div className="h-8 bg-[var(--color-border)] rounded-lg w-20 animate-pulse"></div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>

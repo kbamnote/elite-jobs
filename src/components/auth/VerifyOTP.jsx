@@ -74,7 +74,6 @@ const VerifyOTP = () => {
     setError('');
     
     try {
-      // Use the resendOTP API instead of verifyOTP
       await resendOTP({ email: formData.email, role: formData.role });
       setResendSuccess(true);
       setTimeLeft(300); // Reset timer to 5 minutes

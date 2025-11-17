@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Header from "../commonSeeker/Header";
-import Footer from "../commonSeeker/Footer";
 import { profile, updateProfile } from "../../../utils/Api";
 import { useNavigate } from "react-router-dom";
 
@@ -179,16 +177,185 @@ const UserDetails = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50">
-       
         <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10">
           <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">Edit Profile</h1>
-            <div className="text-center py-10">
-              <p>Loading profile...</p>
+            <div className="h-8 bg-[var(--color-border)] rounded w-40 mb-6 animate-pulse"></div>
+            
+            {/* Form skeleton */}
+            <div className="space-y-5">
+              {/* Name and Email row */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div>
+                  <div className="h-4 bg-[var(--color-border)] rounded w-16 mb-2 animate-pulse"></div>
+                  <div className="h-10 bg-[var(--color-border)] rounded-lg animate-pulse"></div>
+                </div>
+                <div>
+                  <div className="h-4 bg-[var(--color-border)] rounded w-16 mb-2 animate-pulse"></div>
+                  <div className="h-10 bg-[var(--color-border)] rounded-lg animate-pulse"></div>
+                </div>
+              </div>
+              
+              {/* Phone and Location row */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div>
+                  <div className="h-4 bg-[var(--color-border)] rounded w-16 mb-2 animate-pulse"></div>
+                  <div className="h-10 bg-[var(--color-border)] rounded-lg animate-pulse"></div>
+                </div>
+                <div>
+                  <div className="h-4 bg-[var(--color-border)] rounded w-20 mb-2 animate-pulse"></div>
+                  <div className="h-10 bg-[var(--color-border)] rounded-lg animate-pulse"></div>
+                </div>
+              </div>
+              
+              {/* Age and Gender row */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div>
+                  <div className="h-4 bg-[var(--color-border)] rounded w-10 mb-2 animate-pulse"></div>
+                  <div className="h-10 bg-[var(--color-border)] rounded-lg animate-pulse"></div>
+                </div>
+                <div>
+                  <div className="h-4 bg-[var(--color-border)] rounded w-16 mb-2 animate-pulse"></div>
+                  <div className="h-10 bg-[var(--color-border)] rounded-lg animate-pulse"></div>
+                </div>
+              </div>
+              
+              {/* Designation and Preferred Location row */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div>
+                  <div className="h-4 bg-[var(--color-border)] rounded w-24 mb-2 animate-pulse"></div>
+                  <div className="h-10 bg-[var(--color-border)] rounded-lg animate-pulse"></div>
+                </div>
+                <div>
+                  <div className="h-4 bg-[var(--color-border)] rounded w-32 mb-2 animate-pulse"></div>
+                  <div className="h-10 bg-[var(--color-border)] rounded-lg animate-pulse"></div>
+                </div>
+              </div>
+              
+              {/* GitHub and LinkedIn row */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div>
+                  <div className="h-4 bg-[var(--color-border)] rounded w-20 mb-2 animate-pulse"></div>
+                  <div className="h-10 bg-[var(--color-border)] rounded-lg animate-pulse"></div>
+                </div>
+                <div>
+                  <div className="h-4 bg-[var(--color-border)] rounded w-24 mb-2 animate-pulse"></div>
+                  <div className="h-10 bg-[var(--color-border)] rounded-lg animate-pulse"></div>
+                </div>
+              </div>
+              
+              {/* Notice Period and Experience Level row */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div>
+                  <div className="h-4 bg-[var(--color-border)] rounded w-28 mb-2 animate-pulse"></div>
+                  <div className="h-10 bg-[var(--color-border)] rounded-lg animate-pulse"></div>
+                </div>
+                <div>
+                  <div className="h-4 bg-[var(--color-border)] rounded w-32 mb-2 animate-pulse"></div>
+                  <div className="h-10 bg-[var(--color-border)] rounded-lg animate-pulse"></div>
+                </div>
+              </div>
+              
+              {/* Salary Expectation and Preferred Category row */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div>
+                  <div className="h-4 bg-[var(--color-border)] rounded w-32 mb-2 animate-pulse"></div>
+                  <div className="h-10 bg-[var(--color-border)] rounded-lg animate-pulse"></div>
+                </div>
+                <div>
+                  <div className="h-4 bg-[var(--color-border)] rounded w-32 mb-2 animate-pulse"></div>
+                  <div className="h-10 bg-[var(--color-border)] rounded-lg animate-pulse"></div>
+                </div>
+              </div>
+              
+              {/* Highest Education */}
+              <div>
+                <div className="h-4 bg-[var(--color-border)] rounded w-32 mb-2 animate-pulse"></div>
+                <div className="h-10 bg-[var(--color-border)] rounded-lg animate-pulse"></div>
+              </div>
+              
+              {/* Skills */}
+              <div>
+                <div className="h-4 bg-[var(--color-border)] rounded w-32 mb-2 animate-pulse"></div>
+                <div className="h-10 bg-[var(--color-border)] rounded-lg animate-pulse"></div>
+                <div className="h-3 bg-[var(--color-border)] rounded w-64 mt-1 animate-pulse"></div>
+              </div>
+              
+              {/* Education Section */}
+              <div className="border-t border-gray-200 pt-5">
+                <div className="flex justify-between items-center mb-4">
+                  <div className="h-6 bg-[var(--color-border)] rounded w-24 animate-pulse"></div>
+                  <div className="h-8 bg-[var(--color-border)] rounded w-28 animate-pulse"></div>
+                </div>
+                
+                <div className="bg-gray-50 p-4 rounded-lg mb-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-3">
+                    <div>
+                      <div className="h-4 bg-[var(--color-border)] rounded w-16 mb-1 animate-pulse"></div>
+                      <div className="h-10 bg-[var(--color-border)] rounded-lg animate-pulse"></div>
+                    </div>
+                    <div>
+                      <div className="h-4 bg-[var(--color-border)] rounded w-20 mb-1 animate-pulse"></div>
+                      <div className="h-10 bg-[var(--color-border)] rounded-lg animate-pulse"></div>
+                    </div>
+                    <div>
+                      <div className="h-4 bg-[var(--color-border)] rounded w-24 mb-1 animate-pulse"></div>
+                      <div className="h-10 bg-[var(--color-border)] rounded-lg animate-pulse"></div>
+                    </div>
+                    <div>
+                      <div className="h-4 bg-[var(--color-border)] rounded w-20 mb-1 animate-pulse"></div>
+                      <div className="h-10 bg-[var(--color-border)] rounded-lg animate-pulse"></div>
+                    </div>
+                    <div>
+                      <div className="h-4 bg-[var(--color-border)] rounded w-20 mb-1 animate-pulse"></div>
+                      <div className="h-10 bg-[var(--color-border)] rounded-lg animate-pulse"></div>
+                    </div>
+                  </div>
+                  <div className="h-8 bg-[var(--color-border)] rounded-lg w-20 animate-pulse"></div>
+                </div>
+              </div>
+              
+              {/* Work Experience Section */}
+              <div className="border-t border-gray-200 pt-5">
+                <div className="flex justify-between items-center mb-4">
+                  <div className="h-6 bg-[var(--color-border)] rounded w-32 animate-pulse"></div>
+                  <div className="h-8 bg-[var(--color-border)] rounded w-32 animate-pulse"></div>
+                </div>
+                
+                <div className="bg-gray-50 p-4 rounded-lg mb-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-3">
+                    <div>
+                      <div className="h-4 bg-[var(--color-border)] rounded w-20 mb-1 animate-pulse"></div>
+                      <div className="h-10 bg-[var(--color-border)] rounded-lg animate-pulse"></div>
+                    </div>
+                    <div>
+                      <div className="h-4 bg-[var(--color-border)] rounded w-16 mb-1 animate-pulse"></div>
+                      <div className="h-10 bg-[var(--color-border)] rounded-lg animate-pulse"></div>
+                    </div>
+                    <div>
+                      <div className="h-4 bg-[var(--color-border)] rounded w-20 mb-1 animate-pulse"></div>
+                      <div className="h-10 bg-[var(--color-border)] rounded-lg animate-pulse"></div>
+                    </div>
+                    <div>
+                      <div className="h-4 bg-[var(--color-border)] rounded w-20 mb-1 animate-pulse"></div>
+                      <div className="h-10 bg-[var(--color-border)] rounded-lg animate-pulse"></div>
+                    </div>
+                  </div>
+                  <div>
+                    <div className="h-4 bg-[var(--color-border)] rounded w-20 mb-1 animate-pulse"></div>
+                    <div className="h-20 bg-[var(--color-border)] rounded-lg animate-pulse"></div>
+                  </div>
+                  <div className="h-8 bg-[var(--color-border)] rounded-lg w-20 mt-3 animate-pulse"></div>
+                </div>
+              </div>
+              
+              {/* Buttons */}
+              <div className="flex justify-end gap-3">
+                <div className="h-10 bg-[var(--color-border)] rounded-lg w-24 animate-pulse"></div>
+                <div className="h-10 bg-[var(--color-border)] rounded-lg w-32 animate-pulse"></div>
+              </div>
             </div>
           </div>
         </div>
-    
       </div>
     );
   }
