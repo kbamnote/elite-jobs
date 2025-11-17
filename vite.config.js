@@ -6,15 +6,14 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [react(), tailwindcss(),],
   css: {
-    transformer: 'lightningcss',
+    transformer: 'postcss',
   },
   build: {
-    cssMinify: 'lightningcss'
+    cssMinify: false // Disable LightningCSS minification
   },
-  resolve: {
-    alias: {
-      // Force Vite to use the same CSS processor across platforms
-      'lightningcss': 'lightningcss'
+  server: {
+    hmr: {
+      overlay: false
     }
   }
 })

@@ -76,7 +76,7 @@ const VerifyOTP = () => {
     try {
       await resendOTP({ email: formData.email, role: formData.role });
       setResendSuccess(true);
-      setTimeLeft(300); // Reset timer to 5 minutes
+      setTimeLeft(300); 
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to resend OTP');
     } finally {
@@ -87,7 +87,7 @@ const VerifyOTP = () => {
   return (
     <div className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: 'var(--color-accent-light)' }}>
       <div className="max-w-md w-full space-y-8">
-        {/* Logo added here */}
+        
         <div className="absolute top-4 left-4">
           <a href="/">
             <img src={logo} alt="Company Logo" className="h-14 md:h-28 w-auto" />
