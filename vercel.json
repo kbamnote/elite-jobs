@@ -4,5 +4,11 @@
       "source": "/(.*)",
       "destination": "/index.html"
     }
-  ]
+  ],
+  "buildCommand": "npm install @rollup/rollup-linux-x64-gnu@4.52.4 --no-save && npm run build",
+  "build": {
+    "env": {
+      "NODE_OPTIONS": "--max_old_space_size=4096"
+    }
+  }
 }
