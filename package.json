@@ -8,7 +8,6 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "prepare": "npm install",
     "postinstall": "node -e \"try{require('@rollup/rollup-linux-x64-gnu')}catch(e){}\" || echo 'Optional dependency not available on this platform'"
   },
   "dependencies": {
@@ -36,8 +35,5 @@
     "eslint-plugin-react-refresh": "^0.4.22",
     "globals": "^16.4.0",
     "vite": "^7.1.7"
-  },
-  "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "4.52.4"
   }
 }
