@@ -9,7 +9,11 @@ export default defineConfig({
     transformer: 'postcss',
   },
   build: {
-    cssMinify: false // Disable LightningCSS minification
+    cssMinify: false, // Disable LightningCSS minification
+    rollupOptions: {
+      external: [] // Ensure no external dependencies that might cause issues
+    },
+    target: 'es2020' // Ensure compatibility
   },
   server: {
     hmr: {
