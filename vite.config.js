@@ -33,5 +33,9 @@ export default defineConfig({
     hmr: {
       overlay: false
     }
+  },
+  // Add this to handle the rollup issue on Vercel
+  optimizeDeps: {
+    exclude: ['@rollup/rollup-linux-x64-gnu']
   }
 })
