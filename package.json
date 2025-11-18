@@ -6,10 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "build:vercel": "npm install @rollup/rollup-linux-x64-gnu@4.52.4 && vite build",
     "lint": "eslint .",
-    "preview": "vite preview",
-    "postinstall": "node -e \"try{require('@rollup/rollup-linux-x64-gnu')}catch(e){process.exit(0)}\" || echo 'Optional dependency handled'"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.14",
@@ -25,9 +23,6 @@
     "react-router-dom": "^7.9.4",
     "swiper": "^12.0.3",
     "tailwindcss": "^4.1.14"
-  },
-  "optionalDependencies": {
-    "@rollup/rollup-linux-x64-gnu": "4.52.4"
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",
