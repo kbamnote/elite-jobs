@@ -2,7 +2,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 // Base URL - Update this to your backend URL
-const BASE_URL = import.meta.env.VITE_API_URL || "https://elite-jobs-backend.onrender.com";
+const BASE_URL = import.meta.env.VITE_API_URL || "https://elitejobsbackend-production.up.railway.app";
 
 const Api = axios.create({
   baseURL: BASE_URL,
