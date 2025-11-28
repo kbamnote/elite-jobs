@@ -56,7 +56,8 @@ const GoogleRoleSelection = () => {
         googleId: formData.googleId,
         email: formData.email,
         name: formData.name,
-        role: formData.role
+        role: formData.role,
+        profile: {} // Add empty profile object
       };
       
       // Try to sign up first
