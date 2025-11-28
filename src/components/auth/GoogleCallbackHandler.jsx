@@ -20,7 +20,7 @@ const GoogleCallbackHandler = () => {
           Cookies.set('token', urlToken);
           
           // Get user info from token by calling the profile endpoint
-          const response = await fetch(`${import.meta.env.VITE_API_URL || 'https://elite-jobs-backend.onrender.com'}/auth/profile`, {
+          const response = await fetch(`${import.meta.env.VITE_API_URL || 'https://elitejobsbackend-production.up.railway.app'}/auth/profile`, {
             headers: {
               'Authorization': `Bearer ${urlToken}`
             }

@@ -61,7 +61,7 @@ const Login = () => {
   // Handle Google login redirect
   const handleGoogleLogin = (role) => {
     // Redirect to backend Google OAuth endpoint
-    window.location.href = `${import.meta.env.VITE_API_URL || 'https://elite-jobs-backend.onrender.com'}/auth/google?role=${role}`;
+    window.location.href = `${import.meta.env.VITE_API_URL || 'https://elitejobsbackend-production.up.railway.app'}/auth/google?role=${role}`;
   };
 
   // Handle Google authentication callback
