@@ -78,37 +78,35 @@ const GoogleRoleSelection = () => {
         navigate('/recruiter/onboarding');
       }
     } catch (err) {
-      // If signup fails, it might be because the user already exists
-      // Try to login instead
-      if (err.response?.data?.message?.includes('already exists')) {
-        try {
-          // Prepare data for Google login
-          const loginData = {
-            googleId: formData.googleId,
-            role: formData.role
-          };
-          
-          const loginResponse = await googleLogin(loginData);
-          const { token, user } = loginResponse.data.data;
-          const { role } = user;
-          
-          // Store token and role in cookies
-          Cookies.set('token', token);
-          Cookies.set('role', role);
-          
-          // Navigate based on role
-          if (role === 'jobSeeker') {
-            navigate('/');
-          } else if (role === 'jobHoster') {
-            navigate('/hosting/dashboard');
-          } else if (role === 'recruiter') {
-            navigate('/recruiter/dashboard');
-          }
-        } catch (loginError) {
-          setError(loginError.response?.data?.message || 'Google authentication failed');
+      console.error('Google signup error:', err);
+      // If signup fails, try to login instead
+      // This handles cases where the user already exists but signup failed for any reason
+      try {
+        // Prepare data for Google login
+        const loginData = {
+          googleId: formData.googleId,
+          role: formData.role
+        };
+        
+        const loginResponse = await googleLogin(loginData);
+        const { token, user } = loginResponse.data.data;
+        const { role } = user;
+        
+        // Store token and role in cookies
+        Cookies.set('token', token);
+        Cookies.set('role', role);
+        
+        // Navigate based on role
+        if (role === 'jobSeeker') {
+          navigate('/');
+        } else if (role === 'jobHoster') {
+          navigate('/hosting/dashboard');
+        } else if (role === 'recruiter') {
+          navigate('/recruiter/dashboard');
         }
-      } else {
-        setError(err.response?.data?.message || 'Google signup failed');
+      } catch (loginError) {
+        console.error('Google login error:', loginError);
+        setError(loginError.response?.data?.message || loginError.message || 'Google authentication failed');
       }
     } finally {
       setLoading(false);
