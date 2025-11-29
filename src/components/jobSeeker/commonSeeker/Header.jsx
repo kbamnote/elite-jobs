@@ -81,7 +81,7 @@ const Header = () => {
                     onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
                     onMouseLeave={(e) => e.target.style.color = 'navy'}>Jobs</span>
             </Link>
-            <div className="relative" ref={dropdownRef}>
+            {/* <div className="relative" ref={dropdownRef}>
               <button
                 onClick={toggleAIToolsDropdown}
                 className="flex items-center space-x-2 font-semibold transition-colors"
@@ -113,11 +113,16 @@ const Header = () => {
                   </ul>
                 </div>
               )}
-            </div>
+            </div> */}
             <Link to="/services">
               <span className="transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)', color: 'navy' }}
                     onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
                     onMouseLeave={(e) => e.target.style.color = 'navy'}>Services</span>
+            </Link>
+            <Link to="/blog">
+              <span className="transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)', color: 'navy' }}
+                    onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
+                    onMouseLeave={(e) => e.target.style.color = 'navy'}>Blogs</span>
             </Link>
             <Link to="/about">
               <span className="transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)', color: 'navy' }}
@@ -201,7 +206,7 @@ const Header = () => {
                   Jobs
                 </span>
               </Link>
-              <div className="relative">
+              {/* <div className="relative">
                 <button
                   onClick={toggleAIToolsDropdown}
                   className="w-full text-left py-2 font-semibold transition-colors flex items-center justify-between"
@@ -231,7 +236,7 @@ const Header = () => {
                     </Link>
                   </ul>
                 )}
-              </div>
+              </div> */}
               <Link to="/services">
                 <span className="block py-2 transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)', color: 'navy' }}
                       onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
@@ -239,7 +244,14 @@ const Header = () => {
                   Services
                 </span>
               </Link>
-                            <Link to="/about">
+              <Link to="/blog">
+                <span className="block py-2 transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)', color: 'navy' }}
+                      onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
+                      onMouseLeave={(e) => e.target.style.color = 'navy'}>
+                  Blogs
+                </span>
+              </Link>
+              <Link to="/about">
                 <span className="block py-2 transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)', color: 'navy' }}
                       onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
                       onMouseLeave={(e) => e.target.style.color = 'navy'}>

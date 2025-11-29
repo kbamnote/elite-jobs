@@ -9,6 +9,7 @@ import AboutUs from "./components/jobSeeker/navbarSection/about/AboutUs";
 import ContactUs from "./components/jobSeeker/navbarSection/contactUs/ContactUs";
 import Salaries from "./components/jobSeeker/navbarSection/salarySection/Salaries";
 import Services from "./components/jobSeeker/navbarSection/Services/Services";
+import Blog from "./components/jobSeeker/navbarSection/Blog/Blog";
 import ATS_Score from "./components/jobSeeker/navbarSection/aiSection/AtsScore";
 import AiResume from "./components/jobSeeker/navbarSection/aiSection/AiResume";
 import AiMockTest from "./components/jobSeeker/navbarSection/aiSection/mocktest/AiMockTest";
@@ -97,6 +98,7 @@ function App() {
                 <Route path="/about" element={<AboutUs />} />
                 <Route path="/contact" element={<ContactUs />} />
                 <Route path="/services" element={<Services />} />
+                <Route path="/blog" element={<Blog />} />
                 <Route path="/salaries" element={<Salaries />} />
                 <Route path="/ats-score-checker" element={<ATS_Score />} />
                 <Route path="/ai-resume-builder" element={<AiResume />} />
