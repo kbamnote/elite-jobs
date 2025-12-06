@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { BriefcaseBusiness, User, LogOut, Menu, X } from "lucide-react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import Logo from '../../../assets/logos.png';
+import Logo from '../../../assets/ejLogo.png';
 import Cookies from "js-cookie";
 import { profile } from "../../../utils/Api";
 

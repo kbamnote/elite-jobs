@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { BriefcaseBusiness, ChevronDown, CircleUserRound, Menu, X } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
-import Logo from '../../../assets/logos.png'
+import Logo from '../../../assets/ejLogo.png'
 import Cookies from "js-cookie";
 
 const Header = () => {
@@ -66,7 +66,8 @@ const Header = () => {
         <div className="flex justify-between items-center">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2 flex-shrink-0">
-            <img src={Logo} alt="Elite Jobs Logo" className="h-12 w-32 md:h-18 md:w-40" />
+            <img src={Logo} alt="Elite Jobs Logo" className="h-12 w-auto md:h-18 md:w-auto" />
+            <span className="text-blue-800 font-bold text-2xl">ELITE <span className="text-red-600">JOBS</span></span>
           </Link>
 
           {/* Desktop Navigation */}

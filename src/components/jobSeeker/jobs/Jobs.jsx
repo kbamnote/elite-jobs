@@ -60,22 +60,34 @@ const Jobs = () => {
   const fetchJobs = async () => {
     try {
       setLoading(true);
-      
-      // Fetch all jobs by requesting a large page size
-      const response = await allJobs({ page: 1, limit: 100 });
-      
-      // Check the structure of the response
       let allJobsData = [];
-      if (response.data.data.jobs) {
-        // If jobs are in a jobs array (paginated response)
-        allJobsData = response.data.data.jobs;
-      } else if (Array.isArray(response.data.data)) {
-        // If jobs are directly in the data array
-        allJobsData = response.data.data;
+      let page = 1;
+      let hasMore = true;
+      
+      // Fetch all jobs using pagination
+      while (hasMore) {
+        const response = await allJobs({ page, limit: 50 }); // Fetch 50 jobs per page
+        
+        if (response.data.data.jobs) {
+          const newJobs = response.data.data.jobs;
+          allJobsData = [...allJobsData, ...newJobs];
+          
+          // Check if there are more pages
+          if (response.data.data.currentPage >= response.data.data.totalPages) {
+            hasMore = false;
+          } else {
+            page++;
+          }
+        } else {
+          hasMore = false;
+        }
       }
       
       // Filter jobs to only show verified jobs
-      const verifiedJobs = allJobsData.filter(job => job.verificationStatus === 'verified');
+      const verifiedJobs = allJobsData.filter(job => 
+        job.verificationStatus === 'verified'
+      );
+      
       setJobs(verifiedJobs);
       setFilteredJobs(verifiedJobs);
       setError('');

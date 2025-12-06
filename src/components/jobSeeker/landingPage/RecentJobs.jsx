@@ -11,10 +11,6 @@ import {
 import { GiWallet } from "react-icons/gi";
 import { TbCategory } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/autoplay";
-import { Autoplay } from "swiper/modules";
 import { Link } from "react-router-dom";
 import { allJobs } from "../../../utils/Api";
 
@@ -28,24 +24,46 @@ const RecentJobs = () => {
     const fetchJobs = async () => {
       try {
         setLoading(true);
-        const response = await allJobs();
-        const jobsData = response.data.data.jobs;
+        let allJobsData = [];
+        let page = 1;
+        let hasMore = true;
+        
+        // Fetch all jobs using pagination
+        while (hasMore) {
+          const response = await allJobs({ page, limit: 50 }); // Fetch 50 jobs per page
+          
+          if (response.data.data.jobs) {
+            const newJobs = response.data.data.jobs;
+            allJobsData = [...allJobsData, ...newJobs];
+            
+            // Check if there are more pages
+            if (response.data.data.currentPage >= response.data.data.totalPages) {
+              hasMore = false;
+            } else {
+              page++;
+            }
+          } else {
+            hasMore = false;
+          }
+        }
         
         // Filter jobs to only show verified jobs
-        const verifiedJobs = jobsData.filter(job => job.verificationStatus === 'verified');
+        const verifiedJobs = allJobsData.filter(job => 
+          job.verificationStatus === 'verified'
+        );
         
         // Transform the API data to match the existing structure
         const transformedJobs = verifiedJobs.map((job) => ({
           id: job._id,
           title: job.title,
-          company: job.company.name,
+          company: job.company?.name || job.postedBy?.profile?.companyName || "Unknown Company",
           category: job.category || "Other",
           type: job.jobType || "Full-time",
           salary: `${job.salary?.min || 0} - ${job.salary?.max || 0} ${job.salary?.currency || 'INR'}`,
           location: job.location,
           worktype: job.workType,
           experience: job.experienceLevel || "Not specified",
-          logo: job.company.logo || job.postedBy?.profile?.companyLogo || `https://ui-avatars.com/api/?name=${encodeURIComponent(job.company.name)}&background=random`, // Use company logo if available
+          logo: job.company?.logo || job.postedBy?.profile?.companyLogo || `https://ui-avatars.com/api/?name=${encodeURIComponent(job.company?.name || job.postedBy?.profile?.companyName || 'Company')}&background=random`,
           interviewType: job.interviewType,
           noticePeriod: job.noticePeriod,
           minEducation: job.minEducation
@@ -169,26 +187,12 @@ const RecentJobs = () => {
           </Link>
         </div>
 
-        <Swiper
-          modules={[Autoplay]}
-          spaceBetween={32}
-          slidesPerView={1}
-          autoplay={{
-            delay: 2000,
-            disableOnInteraction: false,
-            pauseOnMouseEnter: true,
-          }}
-          loop={true}
-          breakpoints={{
-            0: { slidesPerView: 1, spaceBetween: 16 },
-            768: { slidesPerView: 2, spaceBetween: 24 },
-            1024: { slidesPerView: 3, spaceBetween: 32 },
-          }}
-          className="pb-12"
-        >
-          {jobs.map((job) => (
-            <SwiperSlide key={job.id}>
+        {/* Replaced Swiper with Grid */}
+        {jobs.length > 0 ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {jobs.slice(0, 6).map((job) => ( // Show only first 6 jobs
               <div
+                key={job.id}
                 className="group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col min-h-[25rem] p-8 hover:-translate-y-1 cursor-pointer"
                 onClick={() => handleJobClick(job)}
               >
@@ -259,9 +263,13 @@ const RecentJobs = () => {
                   </button>
                 </div>
               </div>
-            </SwiperSlide>
-          ))}
-        </Swiper>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-12">
+            <p className="text-gray-500 text-lg">No jobs available at the moment.</p>
+          </div>
+        )}
       </div>
     </div>
   );

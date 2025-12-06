@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { googleSignup, googleLogin } from '../../utils/Api';
 import Cookies from 'js-cookie';
-import logo from '../../assets/Logo.png';
+import logo from '../../assets/ejLogo.png';
 
 const GoogleRoleSelection = () => {
   const navigate = useNavigate();

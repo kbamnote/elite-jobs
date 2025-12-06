@@ -10,7 +10,7 @@ import {
   CalendarPlus,
 } from "lucide-react";
 import Cookies from "js-cookie";
-import Logo from '../../../assets/logos.png';
+import Logo from '../../../assets/ejLogo.png';
 import { profile } from '../../../utils/Api';
 
 const JobHostingSidebar = () => {

@@ -13,7 +13,7 @@ import {
   Linkedin,
   Instagram,
 } from "lucide-react";
-import Logo from '../../../assets/logo.jpg'
+import Logo from '../../../assets/ej.png'
 
 const Footer = () => {
   return (
@@ -56,7 +56,7 @@ const Footer = () => {
             <ul className="space-y-2 sm:space-y-3">
               {[
                 { name: "Home", link: "/" },
-                { name: "Mocks", link: "/mock" },
+                
                 { name: "Jobs", link: "/jobs" },
                 { name: "About", link: "/about" },
                 { name: "Contact Us", link: "/contact" },

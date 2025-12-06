@@ -19,7 +19,7 @@ function Home() {
      {/* <CompanyLogos/> */}
      <RecentJobs/>
      <Categories/>
-     <TopCompany/>
+   
      <About/>
      <Testimonials/>
      <NewsBlog/>
