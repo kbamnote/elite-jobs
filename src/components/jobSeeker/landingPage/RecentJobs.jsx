@@ -59,7 +59,9 @@ const RecentJobs = () => {
           company: job.company?.name || job.postedBy?.profile?.companyName || "Unknown Company",
           category: job.category || "Other",
           type: job.jobType || "Full-time",
-          salary: `${job.salary?.min || 0} - ${job.salary?.max || 0} ${job.salary?.currency || 'INR'}`,
+          salary: job.salary?.min && job.salary?.max && job.salary?.currency 
+            ? `${job.salary.min} - ${job.salary.max} ${job.salary.currency}` 
+            : "Not specified",
           location: job.location,
           worktype: job.workType,
           experience: job.experienceLevel || "Not specified",
@@ -190,9 +192,9 @@ const RecentJobs = () => {
         {/* Replaced Swiper with Grid */}
         {jobs.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {jobs.slice(0, 6).map((job) => ( // Show only first 6 jobs
+            {jobs.slice(0, 6).map((job, index) => ( // Show only first 6 jobs
               <div
-                key={job.id}
+                key={`${job.id}-${index}`}
                 className="group bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col min-h-[25rem] p-8 hover:-translate-y-1 cursor-pointer"
                 onClick={() => handleJobClick(job)}
               >
@@ -217,10 +219,10 @@ const RecentJobs = () => {
                     <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-green-500 rounded-full border-2 border-white"></div>
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-xl font-semibold text-gray-900 mb-2 transition-colors duration-200" style={{ fontFamily: 'var(--font-heading)' }}>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2 transition-colors duration-200 truncate" style={{ fontFamily: 'var(--font-heading)' }}>
                       {job.title}
                     </h3>
-                    <p className="text-gray-500 text-base">{job.company}</p>
+                    <p className="text-gray-500 text-base truncate">{job.company}</p>
                   </div>
                 </div>
 

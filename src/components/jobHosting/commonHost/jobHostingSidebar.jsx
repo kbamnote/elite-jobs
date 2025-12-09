@@ -106,7 +106,8 @@ const JobHostingSidebar = () => {
       >
         {/* Logo */}
         <Link to="/hosting/dashboard" className="w-full flex justify-center items-center mb-6">
-          <img src={Logo} alt="Elite Jobs Logo" className="h-17 w-55" />
+          <img src={Logo} alt="Elite Jobs Logo" className="h-17 w-auto" />
+          <span className="ml-2 text-2xl font-bold text-gray-800">Elite Jobs</span>
         </Link>
 
         {/* Profile Section */}

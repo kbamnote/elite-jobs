@@ -182,9 +182,9 @@ const TopCompany = () => {
       {/* Replaced Swiper with Grid */}
       {companies.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {companies.slice(0, 6).map((company) => ( // Show only first 6 companies
+          {companies.slice(0, 6).map((company, index) => ( // Show only first 6 companies
             <div
-              key={company.id}
+              key={`${company.id}-${index}`}
               className="bg-white rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 group hover:-translate-y-1 cursor-pointer"
               onClick={() => handleCompanyClick(company.company)}
             >
@@ -200,7 +200,7 @@ const TopCompany = () => {
                     />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-gray-900">
+                    <h3 className="text-xl font-bold text-gray-900 truncate">
                       {company.company}
                     </h3>
                     <div className="flex items-center gap-2 mt-1">
@@ -226,7 +226,7 @@ const TopCompany = () => {
               <div className="p-6 flex flex-col flex-grow">
                 <div className="mb-auto">
                   <p className="text-gray-600 mb-4 line-clamp-2">
-                    {company.description}
+                    {company.description || "No description available"}
                   </p>
 
                   <div className="space-y-3 mb-6">
@@ -237,7 +237,7 @@ const TopCompany = () => {
 
                     <div className="flex items-center gap-3 text-gray-600">
                       <MapPin className="w-5 h-5 flex-shrink-0" style={{color: 'var(--color-accent)'}} />
-                      <span>{company.location}</span>
+                      <span className="truncate">{company.location}</span>
                     </div>
                   </div>
                 </div>

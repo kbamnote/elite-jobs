@@ -42,6 +42,7 @@ const Jobs = () => {
   const [interviewTypeFilter, setInterviewTypeFilter] = useState('');
   const [jobTypeFilter, setJobTypeFilter] = useState('');
   const [categoryFilter, setCategoryFilter] = useState(categoryFromUrl);
+  const [sortBy, setSortBy] = useState('newest');
 
   useEffect(() => {
     fetchJobs();
@@ -118,9 +119,9 @@ const Jobs = () => {
     // Search term filter
     if (searchTerm) {
       result = result.filter(job => 
-        job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        job.company.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        job.description.toLowerCase().includes(searchTerm.toLowerCase())
+        (job.title && job.title.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (job.company && job.company.name && job.company.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (job.description && job.description.toLowerCase().includes(searchTerm.toLowerCase()))
       );
     }
     
@@ -137,49 +138,104 @@ const Jobs = () => {
       });
     }
     
-    // Experience level filter
+    // Experience level filter (case-insensitive)
     if (experienceLevelFilter) {
       result = result.filter(job => 
-        job.experienceLevel.toLowerCase() === experienceLevelFilter.toLowerCase()
+        job.experienceLevel && job.experienceLevel.toLowerCase() === experienceLevelFilter.toLowerCase()
       );
     }
     
-    // Work type filter
+    // Work type filter (case-insensitive)
     if (workTypeFilter) {
       result = result.filter(job => 
-        job.workType.toLowerCase() === workTypeFilter.toLowerCase()
+        job.workType && job.workType.toLowerCase() === workTypeFilter.toLowerCase()
       );
     }
     
-    // Interview type filter
+    // Interview type filter (case-insensitive)
     if (interviewTypeFilter) {
       result = result.filter(job => 
-        job.interviewType.toLowerCase() === interviewTypeFilter.toLowerCase()
+        job.interviewType && job.interviewType.toLowerCase() === interviewTypeFilter.toLowerCase()
       );
     }
     
-    // Job type filter
+    // Job type filter (case-insensitive)
     if (jobTypeFilter) {
       result = result.filter(job => 
-        job.jobType.toLowerCase() === jobTypeFilter.toLowerCase()
+        job.jobType && job.jobType.toLowerCase() === jobTypeFilter.toLowerCase()
       );
     }
     
-    // Category filter
+    // Category filter (case-insensitive)
     if (categoryFilter) {
       result = result.filter(job => 
-        job.category.toLowerCase() === categoryFilter.toLowerCase()
+        job.category && job.category.toLowerCase() === categoryFilter.toLowerCase()
       );
+    }
+    
+    // Sort results
+    switch (sortBy) {
+      case 'newest':
+        result.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        break;
+      case 'oldest':
+        result.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+        break;
+      case 'salaryHighLow':
+        result.sort((a, b) => {
+          const aMax = a.salary?.max ? parseInt(a.salary.max) : 0;
+          const bMax = b.salary?.max ? parseInt(b.salary.max) : 0;
+          return bMax - aMax;
+        });
+        break;
+      case 'salaryLowHigh':
+        result.sort((a, b) => {
+          const aMax = a.salary?.max ? parseInt(a.salary.max) : 0;
+          const bMax = b.salary?.max ? parseInt(b.salary.max) : 0;
+          return aMax - bMax;
+        });
+        break;
+      case 'company':
+        result.sort((a, b) => {
+          const aCompany = a.company?.name || '';
+          const bCompany = b.company?.name || '';
+          return aCompany.localeCompare(bCompany);
+        });
+        break;
+      default:
+        result.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
     }
     
     setFilteredJobs(result);
-  }, [searchTerm, locationFilter, experienceLevelFilter, workTypeFilter, interviewTypeFilter, jobTypeFilter, categoryFilter, jobs]);
+  }, [searchTerm, locationFilter, experienceLevelFilter, workTypeFilter, interviewTypeFilter, jobTypeFilter, categoryFilter, jobs, sortBy]);
 
-  // Get unique filter options
+  // Get unique filter options (case-insensitive)
   const getUniqueValues = (array, key) => {
-    const uniqueValues = [...new Set(array.map(item => item[key]))];
-    return uniqueValues.filter(val => val); // Remove null/undefined values
+    const seen = new Set();
+    const uniqueValues = [];
+    
+    array.forEach(item => {
+      const value = item[key];
+      if (value && !seen.has(value.toLowerCase())) {
+        seen.add(value.toLowerCase());
+        uniqueValues.push(value);
+      }
+    });
+    
+    return uniqueValues;
   };
+
+  // Experience level options - dynamically generated
+  const experienceLevelOptions = getUniqueValues(jobs, 'experienceLevel');
+
+  // Work type options - dynamically generated
+  const workTypeOptions = getUniqueValues(jobs, 'workType');
+
+  // Interview type options - dynamically generated
+  const interviewTypeOptions = getUniqueValues(jobs, 'interviewType');
+
+  // Job type options - dynamically generated
+  const jobTypeOptions = getUniqueValues(jobs, 'jobType');
 
   const handleViewJob = (jobId) => {
     navigate(`/jobs/${jobId}`);
@@ -232,34 +288,6 @@ const Jobs = () => {
       navigate('/jobs', { replace: true });
     }
   };
-
-  // Experience level options
-  const experienceLevelOptions = [
-    'Fresher',
-    '0-1 year of experience',
-    '1-2 year of experience',
-    '2-4 year of experience',
-    '5+ year of experience'
-  ];
-
-  // Work type options
-  const workTypeOptions = [
-    'Remote',
-    'On-site',
-    'Hybrid'
-  ];
-
-  // Interview type options
-  const interviewTypeOptions = [
-    'Online',
-    'On-site'
-  ];
-
-  // Job type options
-  const jobTypeOptions = [
-    'Full-time',
-    'Part-time'
-  ];
 
   if (loading) {
     return (
@@ -608,11 +636,16 @@ const Jobs = () => {
                   </p>
                 </div>
                 <div className="mt-3 sm:mt-0">
-                  <select className="input-field text-sm">
-                    <option>Sort by: Most Recent</option>
-                    <option>Sort by: Salary (High to Low)</option>
-                    <option>Sort by: Salary (Low to High)</option>
-                    <option>Sort by: Company Name</option>
+                  <select 
+                    className="input-field text-sm"
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                  >
+                    <option value="newest">Sort by: Newest</option>
+                    <option value="oldest">Sort by: Oldest</option>
+                    <option value="salaryHighLow">Sort by: Salary (High to Low)</option>
+                    <option value="salaryLowHigh">Sort by: Salary (Low to High)</option>
+                    <option value="company">Sort by: Company Name</option>
                   </select>
                 </div>
               </div>
@@ -638,12 +671,12 @@ const Jobs = () => {
                 </div>
               ) : (
                 <div className="space-y-6">
-                  {filteredJobs.map((job) => {
+                  {filteredJobs.map((job, index) => {
                     const alreadyApplied = hasUserAppliedForJob(job._id);
                     
                     return (
                       <div 
-                        key={job._id} 
+                        key={`${job._id}-${index}`} 
                         className="rounded-xl border p-6 transition-all duration-300 hover:shadow-lg hover:border-opacity-60 cursor-pointer group"
                         style={{ 
                           backgroundColor: 'var(--color-white)', 
@@ -674,7 +707,7 @@ const Jobs = () => {
                             {/* Job Details */}
                             <div className="flex-1 min-w-0">
                               <div className="flex items-start justify-between mb-2">
-                                <h3 className="text-xl font-semibold group-hover:text-opacity-80 transition-all" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-heading)' }}>
+                                <h3 className="text-xl font-semibold group-hover:text-opacity-80 transition-all truncate" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-heading)' }}>
                                   {job.title}
                                 </h3>
                                 {alreadyApplied && (
@@ -688,48 +721,60 @@ const Jobs = () => {
                                 )}
                               </div>
                               
-                              <p className="text-base font-medium mb-3" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>
+                              <p className="text-base font-medium mb-3 truncate" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>
                                 {job.company.name}
                               </p>
                               
                               {/* Job Tags */}
                               <div className="flex flex-wrap gap-2 mb-4">
-                                <span className="px-3 py-1 text-sm rounded-full font-medium" style={{ 
-                                  backgroundColor: 'var(--color-accent-light)', 
-                                  color: 'var(--color-accent)',
-                                  fontFamily: 'var(--font-body)'
-                                }}>
-                                  {job.jobType}
-                                </span>
-                                <span className="px-3 py-1 text-sm rounded-full font-medium" style={{ 
+                                {job.jobType && (
+                                  <span className="px-3 py-1 text-sm rounded-full font-medium truncate max-w-[150px]" style={{ 
+                                    backgroundColor: 'var(--color-accent-light)', 
+                                    color: 'var(--color-accent)',
+                                    fontFamily: 'var(--font-body)'
+                                  }}>
+                                    {job.jobType}
+                                  </span>
+                                )}
+                                <span className="px-3 py-1 text-sm rounded-full font-medium truncate max-w-[150px]" style={{ 
                                   backgroundColor: 'var(--color-primary-light)', 
                                   color: 'var(--color-primary)',
                                   fontFamily: 'var(--font-body)'
                                 }}>
                                   📍 {Array.isArray(job.location) ? job.location.join(', ') : job.location}
                                 </span>
-                                <span className="px-3 py-1 text-sm rounded-full font-medium" style={{ 
-                                  backgroundColor: 'var(--color-secondary-light)', 
-                                  color: 'var(--color-secondary)',
-                                  fontFamily: 'var(--font-body)'
-                                }}>
-                                  {job.category}
-                                </span>
+                                {job.category && (
+                                  <span className="px-3 py-1 text-sm rounded-full font-medium truncate max-w-[150px]" style={{ 
+                                    backgroundColor: 'var(--color-secondary-light)', 
+                                    color: 'var(--color-secondary)',
+                                    fontFamily: 'var(--font-body)'
+                                  }}>
+                                    {job.category}
+                                  </span>
+                                )}
                               </div>
                               
                               {/* Job Meta Info */}
                               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>
                                 <div className="flex items-center space-x-2">
                                   <span className="text-lg">💰</span>
-                                  <span className="font-medium">{job.salary ? `${job.salary.min} - ${job.salary.max} ${job.salary.currency}` : 'Not specified'}</span>
+                                  <span className="font-medium truncate">
+                                    {job.salary && job.salary.min && job.salary.max && job.salary.currency 
+                                      ? `${job.salary.min} - ${job.salary.max} ${job.salary.currency}` 
+                                      : 'Not specified'}
+                                  </span>
                                 </div>
                                 <div className="flex items-center space-x-2">
                                   <span className="text-lg">📈</span>
-                                  <span>{job.experienceLevel}</span>
+                                  <span className="truncate">
+                                    {job.experienceLevel || 'Not specified'}
+                                  </span>
                                 </div>
                                 <div className="flex items-center space-x-2">
                                   <span className="text-lg">📅</span>
-                                  <span>{new Date(job.createdAt).toLocaleDateString()}</span>
+                                  <span className="truncate">
+                                    {job.createdAt ? new Date(job.createdAt).toLocaleDateString() : 'Not specified'}
+                                  </span>
                                 </div>
                               </div>
                             </div>

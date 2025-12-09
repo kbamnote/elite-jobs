@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import JobHostingSidebar from "../commonHost/jobHostingSidebar";
-import { createJob } from "../../../utils/Api";
+import { createJob, allCategories } from "../../../utils/Api";
 import JobDetailsForm from "./components/JobDetailsForm";
 import RequirementsForm from "./components/RequirementsForm";
 
@@ -12,6 +12,8 @@ const PostJob = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [categoryOptions, setCategoryOptions] = useState([]);
+  const [categoriesLoading, setCategoriesLoading] = useState(true);
   
   const [formData, setFormData] = useState({
     title: "",
@@ -48,9 +50,43 @@ const PostJob = () => {
   const jobTypeOptions = ['Full-time', 'Part-time'];
   const interviewTypeOptions = ['Online', 'On-site', 'Walk-in'];
   const workTypeOptions = ['Remote', 'On-site', 'Hybrid'];
-  const categoryOptions = ["IT & Networking", "Sales & Marketing", "Accounting", "Data Science", "Digital Marketing", "Human Resource", "Customer Service", "Project Manager", "Other"];
   const experienceLevelOptions = ['Fresher', '0-1 year of experience', '1-2 year of experience', '2-4 year of experience', '5+ year of experience'];
   const noticePeriodOptions = ['Immediate Joiner', 'Upto 1 week', 'Upto 1 month', 'Upto 2 month', 'Any']; // Added noticePeriod options
+
+  // Fetch categories on component mount
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        setCategoriesLoading(true);
+        const response = await allCategories();
+        if (response.data.success) {
+          // Extract just the category names from the response and sort them alphabetically
+          const categories = response.data.data
+            .map(item => item.category)
+            .sort((a, b) => a.localeCompare(b));
+          setCategoryOptions(categories);
+        }
+      } catch (err) {
+        console.error("Error fetching categories:", err);
+        // Fallback to hardcoded options if API fails, sorted alphabetically
+        setCategoryOptions([
+          "Accounting", 
+          "Customer Service", 
+          "Data Science", 
+          "Digital Marketing", 
+          "Human Resource", 
+          "IT & Networking", 
+          "Project Manager", 
+          "Sales & Marketing",
+          "Other"
+        ]);
+      } finally {
+        setCategoriesLoading(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -429,6 +465,7 @@ const PostJob = () => {
         handleRemoveLocation={handleRemoveLocation}
         isStep1Valid={isStep1Valid}
         handleNext={handleNext}
+        categoriesLoading={categoriesLoading}
       />
     );
   };

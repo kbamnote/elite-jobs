@@ -14,7 +14,8 @@ const JobDetailsForm = ({
   addLocation,
   handleRemoveLocation,
   isStep1Valid,
-  handleNext
+  handleNext,
+  categoriesLoading
 }) => {
   return (
     <>
@@ -44,26 +45,32 @@ const JobDetailsForm = ({
           <label className="block text-sm font-medium text-gray-700">
             Category *
           </label>
-          <select
-            name="category"
-            value={formData.category}
-            onChange={handleInputChange}
-            required
-            className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm"
-            style={{ 
-              '--tw-ring-color': 'var(--color-accent)',
-              '--tw-border-opacity': '1'
-            }}
-            onFocus={(e) => e.target.style.borderColor = 'var(--color-accent)'}
-            onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
-          >
-            <option value="">Select Category</option>
-            {categoryOptions.map((category) => (
-              <option key={category} value={category}>
-                {category}
-              </option>
-            ))}
-          </select>
+          {categoriesLoading ? (
+            <div className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm bg-gray-100 animate-pulse">
+              Loading categories...
+            </div>
+          ) : (
+            <select
+              name="category"
+              value={formData.category}
+              onChange={handleInputChange}
+              required
+              className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 sm:text-sm"
+              style={{ 
+                '--tw-ring-color': 'var(--color-accent)',
+                '--tw-border-opacity': '1'
+              }}
+              onFocus={(e) => e.target.style.borderColor = 'var(--color-accent)'}
+              onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
+            >
+              <option value="">Select Category</option>
+              {categoryOptions.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
+          )}
         </div>
       </div>
 
