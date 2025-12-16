@@ -33,6 +33,7 @@ const Jobs = () => {
   const urlParams = new URLSearchParams(location.search);
   const categoryFromUrl = urlParams.get('category') ? decodeURIComponent(urlParams.get('category')) : '';
   const titleFromUrl = urlParams.get('title') ? decodeURIComponent(urlParams.get('title')) : '';
+  const companyFromUrl = urlParams.get('company') ? decodeURIComponent(urlParams.get('company')) : '';
   
   // Filter states
   const [searchTerm, setSearchTerm] = useState(titleFromUrl);
@@ -125,6 +126,13 @@ const Jobs = () => {
       );
     }
     
+    // Company filter
+    if (companyFromUrl) {
+      result = result.filter(job => 
+        job.company && job.company.name && job.company.name.toLowerCase() === companyFromUrl.toLowerCase()
+      );
+    }
+    
     // Location filter (handle both string and array formats)
     if (locationFilter) {
       result = result.filter(job => {
@@ -207,7 +215,7 @@ const Jobs = () => {
     }
     
     setFilteredJobs(result);
-  }, [searchTerm, locationFilter, experienceLevelFilter, workTypeFilter, interviewTypeFilter, jobTypeFilter, categoryFilter, jobs, sortBy]);
+  }, [searchTerm, companyFromUrl, locationFilter, experienceLevelFilter, workTypeFilter, interviewTypeFilter, jobTypeFilter, categoryFilter, jobs, sortBy]);
 
   // Get unique filter options (case-insensitive)
   const getUniqueValues = (array, key) => {
