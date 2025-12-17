@@ -29,7 +29,14 @@ import {
   FaVideo,  
   FaDollarSign, 
   FaQuestionCircle,
-  FaMotorcycle
+  FaMotorcycle,
+  // Adding missing icons
+  FaBolt,
+  FaGavel,
+  FaSeedling,
+  FaMobileAlt,
+  FaMicroscope,
+  FaCheck
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { allCategories } from "../../../utils/Api";
@@ -122,6 +129,9 @@ const Categories = () => {
     consulting: ["CONSULTING", "CONSULTANT", "ADVISORY", "STRATEGY", "ANALYSIS"]
   };
 
+  // Default icon for categories not in the map
+  const defaultIcon = FaDesktop;
+
   // Function to assign icons to categories based on keywords
   const getIconForCategory = (categoryName) => {
     // First check if we have a specific icon for this category
@@ -137,32 +147,58 @@ const Categories = () => {
       if (keywords.some(keyword => categoryUpper.includes(keyword))) {
         // Return appropriate icon based on group
         switch (group) {
-          case 'technology': return FaDesktop;
-          case 'sales': return FaShoppingBag;
-          case 'healthcare': return FaStethoscope;
-          case 'finance': return FaDollarSign;
-          case 'education': return FaBook;
-          case 'construction': return FaHammer;
-          case 'transportation': return FaTruck;
-          case 'customerService': return FaHeadphones;
-          case 'humanResources': return FaGraduationCap;
-          case 'government': return FaBuilding;
-          case 'creative': return FaCamera;
-          case 'legal': return FaGavel;
-          case 'administration': return FaBriefcase;
-          case 'manufacturing': return FaIndustry;
-          case 'retail': return FaStore;
-          case 'hospitality': return FaUsers;
-          case 'agriculture': return FaSeedling;
-          case 'energy': return FaBolt;
-          case 'telecommunications': return FaMobileAlt;
-          case 'security': return FaShieldAlt;
-          case 'research': return FaMicroscope;
-          case 'quality': return FaCheck;
-          case 'maintenance': return FaWrench;
-          case 'projectManagement': return FaBriefcase;
-          case 'consulting': return FaChartBar;
-          default: return defaultIcon;
+          case 'technology': 
+            return typeof FaDesktop !== 'undefined' ? FaDesktop : defaultIcon;
+          case 'sales': 
+            return typeof FaShoppingBag !== 'undefined' ? FaShoppingBag : defaultIcon;
+          case 'healthcare': 
+            return typeof FaStethoscope !== 'undefined' ? FaStethoscope : defaultIcon;
+          case 'finance': 
+            return typeof FaDollarSign !== 'undefined' ? FaDollarSign : defaultIcon;
+          case 'education': 
+            return typeof FaBook !== 'undefined' ? FaBook : defaultIcon;
+          case 'construction': 
+            return typeof FaHammer !== 'undefined' ? FaHammer : defaultIcon;
+          case 'transportation': 
+            return typeof FaTruck !== 'undefined' ? FaTruck : defaultIcon;
+          case 'customerService': 
+            return typeof FaHeadphones !== 'undefined' ? FaHeadphones : defaultIcon;
+          case 'humanResources': 
+            return typeof FaGraduationCap !== 'undefined' ? FaGraduationCap : defaultIcon;
+          case 'government': 
+            return typeof FaBuilding !== 'undefined' ? FaBuilding : defaultIcon;
+          case 'creative': 
+            return typeof FaCamera !== 'undefined' ? FaCamera : defaultIcon;
+          case 'legal': 
+            return typeof FaGavel !== 'undefined' ? FaGavel : defaultIcon;
+          case 'administration': 
+            return typeof FaBriefcase !== 'undefined' ? FaBriefcase : defaultIcon;
+          case 'manufacturing': 
+            return typeof FaIndustry !== 'undefined' ? FaIndustry : defaultIcon;
+          case 'retail': 
+            return typeof FaStore !== 'undefined' ? FaStore : defaultIcon;
+          case 'hospitality': 
+            return typeof FaUsers !== 'undefined' ? FaUsers : defaultIcon;
+          case 'agriculture': 
+            return typeof FaSeedling !== 'undefined' ? FaSeedling : defaultIcon;
+          case 'energy': 
+            return typeof FaBolt !== 'undefined' ? FaBolt : defaultIcon;
+          case 'telecommunications': 
+            return typeof FaMobileAlt !== 'undefined' ? FaMobileAlt : defaultIcon;
+          case 'security': 
+            return typeof FaShieldAlt !== 'undefined' ? FaShieldAlt : defaultIcon;
+          case 'research': 
+            return typeof FaMicroscope !== 'undefined' ? FaMicroscope : defaultIcon;
+          case 'quality': 
+            return typeof FaCheck !== 'undefined' ? FaCheck : defaultIcon;
+          case 'maintenance': 
+            return typeof FaWrench !== 'undefined' ? FaWrench : defaultIcon;
+          case 'projectManagement': 
+            return typeof FaBriefcase !== 'undefined' ? FaBriefcase : defaultIcon;
+          case 'consulting': 
+            return typeof FaChartBar !== 'undefined' ? FaChartBar : defaultIcon;
+          default: 
+            return defaultIcon;
         }
       }
     }
@@ -170,9 +206,6 @@ const Categories = () => {
     // If no match found, return default icon
     return defaultIcon;
   };
-
-  // Default icon for categories not in the map
-  const defaultIcon = FaDesktop;
 
   useEffect(() => {
     fetchCategories();
@@ -198,7 +231,7 @@ const Categories = () => {
     try {
       setLoading(true);
       const response = await allCategories();
-      
+     
       // Sort categories by count in descending order
       const sortedCategories = response.data.data.sort((a, b) => b.count - a.count);
       
