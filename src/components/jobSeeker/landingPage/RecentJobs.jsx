@@ -19,41 +19,22 @@ const RecentJobs = () => {
   const [jobs, setJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchJobs = async () => {
-      try {
-        setLoading(true);
-        let allJobsData = [];
-        let page = 1;
-        let hasMore = true;
-        
-        // Fetch all jobs using pagination
-        while (hasMore) {
-          const response = await allJobs({ page, limit: 50 }); // Fetch 50 jobs per page
-          
-          if (response.data.data.jobs) {
-            const newJobs = response.data.data.jobs;
-            allJobsData = [...allJobsData, ...newJobs];
-            
-            // Check if there are more pages
-            if (response.data.data.currentPage >= response.data.data.totalPages) {
-              hasMore = false;
-            } else {
-              page++;
-            }
-          } else {
-            hasMore = false;
-          }
-        }
-        
-        // Filter jobs to only show verified jobs
-        const verifiedJobs = allJobsData.filter(job => 
-          job.verificationStatus === 'verified'
-        );
+  const fetchJobs = async () => {
+    try {
+      setLoading(true);
+      
+      // Fetch only verified jobs with a limit of 6
+      const response = await allJobs({ 
+        page: 1, 
+        limit: 6,
+        verificationStatus: 'verified'
+      });
+      
+      if (response.data.data.jobs) {
+        const newJobs = response.data.data.jobs;
         
         // Transform the API data to match the existing structure
-        const transformedJobs = verifiedJobs.map((job) => ({
+        const transformedJobs = newJobs.map((job) => ({
           id: job._id,
           title: job.title,
           company: job.company?.name || job.postedBy?.profile?.companyName || "Unknown Company",
@@ -70,15 +51,18 @@ const RecentJobs = () => {
           noticePeriod: job.noticePeriod,
           minEducation: job.minEducation
         }));
+        
         setJobs(transformedJobs);
-      } catch (err) {
-        setError(err.message);
-        console.error("Error fetching jobs:", err);
-      } finally {
-        setLoading(false);
       }
-    };
+    } catch (err) {
+      setError(err.message);
+      console.error("Error fetching jobs:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchJobs();
   }, []);
 
@@ -272,6 +256,18 @@ const RecentJobs = () => {
             <p className="text-gray-500 text-lg">No jobs available at the moment.</p>
           </div>
         )}
+        
+        {/* {hasMore && (
+          <div className="flex justify-center mt-8">
+            <button
+              onClick={loadMoreJobs}
+              disabled={loading}
+              className="px-6 py-3 bg-[var(--color-accent)] text-white font-medium rounded-lg hover:bg-[var(--color-accent-dark)] transition-colors duration-200 disabled:opacity-50"
+            >
+              {loading ? 'Loading...' : 'View More Jobs'}
+            </button>
+          </div>
+        )} */}
       </div>
     </div>
   );

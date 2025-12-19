@@ -181,7 +181,7 @@ const Onboarding = () => {
 
   const autoApplyRecommended = async () => {
     try {
-      const res = await allJobs();
+      const res = await allJobs({ verificationStatus: 'verified' });
       const jobs = res?.data?.data || res?.data || [];
       const skillSet = (form.skills || "").toLowerCase().split(",").map(s => s.trim()).filter(Boolean);
       const scored = jobs.map(j => {

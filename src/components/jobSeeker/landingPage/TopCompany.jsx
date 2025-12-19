@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { getAllCompanies } from "../../../utils/Api";
+import { getAllCompanies, allJobs } from "../../../utils/Api";
 
 const TopCompany = () => {
   const navigate = useNavigate();
@@ -13,10 +13,38 @@ const TopCompany = () => {
     const fetchCompanies = async () => {
       try {
         setLoading(true);
-        const response = await getAllCompanies();
+        
+        // Fetch verified jobs and derive company information
+        const response = await allJobs({
+          page: 1,
+          limit: 100, // Fetch a reasonable number of jobs to get company data
+          verificationStatus: 'verified'
+        });
         
         if (response.data.success) {
-          setCompanies(response.data.data);
+          // Extract unique companies from verified jobs
+          const companiesMap = {};
+          
+          response.data.data.jobs.forEach(job => {
+            if (job.company && job.company.name) {
+              const companyName = job.company.name;
+              if (!companiesMap[companyName]) {
+                companiesMap[companyName] = {
+                  companyName: companyName,
+                  companyInfo: job.company,
+                  count: 0
+                };
+              }
+              companiesMap[companyName].count += 1;
+            }
+          });
+          
+          // Convert to array and sort by count
+          const companiesArray = Object.values(companiesMap)
+            .sort((a, b) => b.count - a.count || a.companyName.localeCompare(b.companyName))
+            .slice(0, 6); // Limit to top 6 companies
+          
+          setCompanies(companiesArray);
         } else {
           setError("Failed to fetch companies");
         }

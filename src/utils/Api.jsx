@@ -110,6 +110,9 @@ export const allCategories = () => Api.get("/jobs/categories");
 // ============== All companies GET ==============
 export const getAllCompanies = () => Api.get("/jobs/companies");
 
+// ============== All filter options GET ==============
+export const getAllFilterOptions = () => Api.get("/jobs/filter-options");
+
 // ============== Job apply for Seeker ==============
 export const jobApply = (id, formData) => Api.post(`/jobs/${id}/apply`, formData);
 
