@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../commonSeeker/Header';
-import Footer from '../commonSeeker/Footer';
-import { allJobs, appliedJobs } from '../../../utils/Api';
+import { allJobs, appliedJobs, allCategories } from '../../../utils/Api';
 import { useNavigate, useLocation } from 'react-router-dom';
 
 // Utility function to properly handle image URLs
@@ -20,11 +18,20 @@ const getImageUrl = (url) => {
 
 const Jobs = () => {
   const [jobs, setJobs] = useState([]);
-  const [filteredJobs, setFilteredJobs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [userApplications, setUserApplications] = useState([]);
   const [applicationsLoading, setApplicationsLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalJobs, setTotalJobs] = useState(0);
+  const [filterOptions, setFilterOptions] = useState({
+    categories: [],
+    experienceLevels: [],
+    jobTypes: [],
+    workTypes: [],
+    interviewTypes: []
+  });
   
   const navigate = useNavigate();
   const location = useLocation();
@@ -34,6 +41,7 @@ const Jobs = () => {
   const categoryFromUrl = urlParams.get('category') ? decodeURIComponent(urlParams.get('category')) : '';
   const titleFromUrl = urlParams.get('title') ? decodeURIComponent(urlParams.get('title')) : '';
   const companyFromUrl = urlParams.get('company') ? decodeURIComponent(urlParams.get('company')) : '';
+  const pageFromUrl = parseInt(urlParams.get('page')) || 1;
   
   // Filter states
   const [searchTerm, setSearchTerm] = useState(titleFromUrl);
@@ -46,60 +54,124 @@ const Jobs = () => {
   const [sortBy, setSortBy] = useState('newest');
 
   useEffect(() => {
-    fetchJobs();
+    setCurrentPage(pageFromUrl);
+    fetchJobs(pageFromUrl);
     fetchUserApplications();
-  }, []);
+    fetchFilterOptions();
+  }, [pageFromUrl]);
 
   // Monitor URL changes and update filters
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const categoryFromUrl = urlParams.get('category') ? decodeURIComponent(urlParams.get('category')) : '';
     const titleFromUrl = urlParams.get('title') ? decodeURIComponent(urlParams.get('title')) : '';
+    const locationFromUrl = urlParams.get('location') ? decodeURIComponent(urlParams.get('location')) : '';
+    const pageFromUrl = parseInt(urlParams.get('page')) || 1;
     setCategoryFilter(categoryFromUrl);
     setSearchTerm(titleFromUrl);
+    setLocationFilter(locationFromUrl);
+    setCurrentPage(pageFromUrl);
   }, [location.search]);
 
-  const fetchJobs = async () => {
+  const fetchJobs = async (page = 1) => {
     try {
       setLoading(true);
-      let allJobsData = [];
-      let page = 1;
-      let hasMore = true;
       
-      // Fetch all jobs using pagination
-      while (hasMore) {
-        const response = await allJobs({ page, limit: 50 }); // Fetch 50 jobs per page
-        
-        if (response.data.data.jobs) {
-          const newJobs = response.data.data.jobs;
-          allJobsData = [...allJobsData, ...newJobs];
-          
-          // Check if there are more pages
-          if (response.data.data.currentPage >= response.data.data.totalPages) {
-            hasMore = false;
-          } else {
-            page++;
-          }
-        } else {
-          hasMore = false;
-        }
+      // Prepare filter parameters
+      const params = {
+        page: page,
+        limit: 10, // Same as admin panel
+        verificationStatus: 'verified' // Only fetch verified jobs
+      };
+      
+      // Add search term if provided
+      if (searchTerm) {
+        params.search = searchTerm;
       }
       
-      // Filter jobs to only show verified jobs
-      const verifiedJobs = allJobsData.filter(job => 
-        job.verificationStatus === 'verified'
-      );
+      // Add location filter if provided
+      if (locationFilter) {
+        params.location = locationFilter;
+      }
       
-      setJobs(verifiedJobs);
-      setFilteredJobs(verifiedJobs);
+      // Add category filter if provided
+      if (categoryFilter) {
+        params.category = categoryFilter;
+      }
+      
+      // Add other filters if provided
+      if (experienceLevelFilter) {
+        params.experienceLevel = experienceLevelFilter;
+      }
+      
+      if (workTypeFilter) {
+        params.workType = workTypeFilter;
+      }
+      
+      if (interviewTypeFilter) {
+        params.interviewType = interviewTypeFilter;
+      }
+      
+      if (jobTypeFilter) {
+        params.employmentType = jobTypeFilter;
+      }
+      
+      // Add company filter if provided
+      if (companyFromUrl) {
+        params.company = companyFromUrl;
+      }
+      
+      // Add sortBy parameter
+      if (sortBy) {
+        params.sortBy = sortBy;
+      }
+      
+      const response = await allJobs(params);
+      
+      if (response.data.data.jobs) {
+        const jobsData = response.data.data.jobs;
+        setJobs(jobsData);
+        setTotalPages(response.data.data.totalPages || 1);
+        setCurrentPage(response.data.data.currentPage || 1);
+        setTotalJobs(response.data.data.totalJobs || jobsData.length || 0);
+      } else {
+        setJobs([]);
+        setTotalPages(1);
+        setCurrentPage(1);
+        setTotalJobs(0);
+      }
+      
       setError('');
     } catch (err) {
       setError('Failed to fetch jobs');
       console.error('Error fetching jobs:', err);
+      setJobs([]);
+      setTotalPages(1);
+      setCurrentPage(1);
+      setTotalJobs(0);
     } finally {
       setLoading(false);
     }
   };
+  
+  const fetchFilterOptions = async () => {
+    try {
+      const response = await allCategories();
+      if (response.data.success) {
+        // Extract just the category names from the response
+        const categories = response.data.data.map(item => item.category);
+        setFilterOptions(prev => ({
+          ...prev,
+          categories: categories
+        }));
+      }
+    } catch (err) {
+      console.error('Error fetching filter options:', err);
+    }
+  };
+  
+  // For other filter options, we'll keep them as they are for now
+  // In a real implementation, you might want to fetch these from the backend as well
 
   const fetchUserApplications = async () => {
     try {
@@ -115,107 +187,35 @@ const Jobs = () => {
 
   // Apply filters whenever filter values change
   useEffect(() => {
-    let result = jobs;
+    // Update URL with current filters
+    const params = new URLSearchParams();
     
-    // Search term filter
     if (searchTerm) {
-      result = result.filter(job => 
-        (job.title && job.title.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        (job.company && job.company.name && job.company.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        (job.description && job.description.toLowerCase().includes(searchTerm.toLowerCase()))
-      );
+      params.set('title', searchTerm);
     }
     
-    // Company filter
-    if (companyFromUrl) {
-      result = result.filter(job => 
-        job.company && job.company.name && job.company.name.toLowerCase() === companyFromUrl.toLowerCase()
-      );
-    }
-    
-    // Location filter (handle both string and array formats)
     if (locationFilter) {
-      result = result.filter(job => {
-        if (Array.isArray(job.location)) {
-          return job.location.some(loc => 
-            loc.toLowerCase().includes(locationFilter.toLowerCase())
-          );
-        } else {
-          return job.location && job.location.toLowerCase().includes(locationFilter.toLowerCase());
-        }
-      });
+      params.set('location', locationFilter);
     }
     
-    // Experience level filter (case-insensitive)
-    if (experienceLevelFilter) {
-      result = result.filter(job => 
-        job.experienceLevel && job.experienceLevel.toLowerCase() === experienceLevelFilter.toLowerCase()
-      );
-    }
-    
-    // Work type filter (case-insensitive)
-    if (workTypeFilter) {
-      result = result.filter(job => 
-        job.workType && job.workType.toLowerCase() === workTypeFilter.toLowerCase()
-      );
-    }
-    
-    // Interview type filter (case-insensitive)
-    if (interviewTypeFilter) {
-      result = result.filter(job => 
-        job.interviewType && job.interviewType.toLowerCase() === interviewTypeFilter.toLowerCase()
-      );
-    }
-    
-    // Job type filter (case-insensitive)
-    if (jobTypeFilter) {
-      result = result.filter(job => 
-        job.jobType && job.jobType.toLowerCase() === jobTypeFilter.toLowerCase()
-      );
-    }
-    
-    // Category filter (case-insensitive)
     if (categoryFilter) {
-      result = result.filter(job => 
-        job.category && job.category.toLowerCase() === categoryFilter.toLowerCase()
-      );
+      params.set('category', categoryFilter);
     }
     
-    // Sort results
-    switch (sortBy) {
-      case 'newest':
-        result.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-        break;
-      case 'oldest':
-        result.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
-        break;
-      case 'salaryHighLow':
-        result.sort((a, b) => {
-          const aMax = a.salary?.max ? parseInt(a.salary.max) : 0;
-          const bMax = b.salary?.max ? parseInt(b.salary.max) : 0;
-          return bMax - aMax;
-        });
-        break;
-      case 'salaryLowHigh':
-        result.sort((a, b) => {
-          const aMax = a.salary?.max ? parseInt(a.salary.max) : 0;
-          const bMax = b.salary?.max ? parseInt(b.salary.max) : 0;
-          return aMax - bMax;
-        });
-        break;
-      case 'company':
-        result.sort((a, b) => {
-          const aCompany = a.company?.name || '';
-          const bCompany = b.company?.name || '';
-          return aCompany.localeCompare(bCompany);
-        });
-        break;
-      default:
-        result.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    if (companyFromUrl) {
+      params.set('company', companyFromUrl);
     }
     
-    setFilteredJobs(result);
-  }, [searchTerm, companyFromUrl, locationFilter, experienceLevelFilter, workTypeFilter, interviewTypeFilter, jobTypeFilter, categoryFilter, jobs, sortBy]);
+    if (currentPage > 1) {
+      params.set('page', currentPage);
+    }
+    
+    const newUrl = params.toString() ? `/jobs?${params.toString()}` : '/jobs';
+    navigate(newUrl, { replace: true });
+    
+    // Fetch jobs with current filters
+    fetchJobs(currentPage);
+  }, [searchTerm, locationFilter, categoryFilter, companyFromUrl, experienceLevelFilter, workTypeFilter, interviewTypeFilter, jobTypeFilter, currentPage, sortBy]);
 
   // Get unique filter options (case-insensitive)
   const getUniqueValues = (array, key) => {
@@ -245,6 +245,8 @@ const Jobs = () => {
   // Job type options - dynamically generated
   const jobTypeOptions = getUniqueValues(jobs, 'jobType');
 
+  // Category options - from filter options
+  const categoryOptions = filterOptions.categories || [];
   const handleViewJob = (jobId) => {
     navigate(`/jobs/${jobId}`);
   };
@@ -269,32 +271,66 @@ const Jobs = () => {
     setInterviewTypeFilter('');
     setJobTypeFilter('');
     setCategoryFilter('');
-    // Clear URL parameters when resetting
-    navigate('/jobs', { replace: true });
+    setCurrentPage(1); // Reset to first page when filters are reset
   };
-
-  // Handle category filter change
-  const handleCategoryChange = (categoryValue) => {
-    setCategoryFilter(categoryValue);
-    
-    // Update URL with category parameter
-    if (categoryValue) {
-      navigate(`/jobs?category=${encodeURIComponent(categoryValue)}`, { replace: true });
-    } else {
-      navigate('/jobs', { replace: true });
-    }
+  
+  // Handle location filter change
+  const handleLocationChange = (locationValue) => {
+    setLocationFilter(locationValue);
+    setCurrentPage(1); // Reset to first page when filter changes
+    // Trigger the search by calling fetchJobs directly
+    fetchJobs(1);
   };
 
   // Handle search term change
   const handleSearchChange = (searchValue) => {
     setSearchTerm(searchValue);
-    
-    // Update URL with search parameter
-    if (searchValue.trim()) {
-      navigate(`/jobs?title=${encodeURIComponent(searchValue)}`, { replace: true });
-    } else {
-      navigate('/jobs', { replace: true });
+    setCurrentPage(1); // Reset to first page when search changes
+    // Trigger the search by calling fetchJobs directly
+    fetchJobs(1);
+  };
+
+  // Handle experience level filter change
+  const handleExperienceLevelChange = (experienceLevelValue) => {
+    setExperienceLevelFilter(experienceLevelValue);
+    setCurrentPage(1); // Reset to first page when filter changes
+  };
+
+  // Handle work type filter change
+  const handleWorkTypeChange = (workTypeValue) => {
+    setWorkTypeFilter(workTypeValue);
+    setCurrentPage(1); // Reset to first page when filter changes
+  };
+
+  // Handle interview type filter change
+  const handleInterviewTypeChange = (interviewTypeValue) => {
+    setInterviewTypeFilter(interviewTypeValue);
+    setCurrentPage(1); // Reset to first page when filter changes
+  };
+
+  // Handle job type filter change
+  const handleJobTypeChange = (jobTypeValue) => {
+    setJobTypeFilter(jobTypeValue);
+    setCurrentPage(1); // Reset to first page when filter changes
+  };
+
+  // Handle sort by change
+  const handleSortByChange = (sortByValue) => {
+    setSortBy(sortByValue);
+    // Sorting is done client-side, so no need to reset page
+  };
+
+  // Handle page change
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
     }
+  };
+
+  // Handle category filter change
+  const handleCategoryChange = (categoryValue) => {
+    setCategoryFilter(categoryValue);
+    setCurrentPage(1); // Reset to first page when filter changes
   };
 
   if (loading) {
@@ -436,7 +472,7 @@ const Jobs = () => {
                         
                         {/* Right Section - Action Button Skeleton */}
                         <div className="flex sm:flex-col items-end justify-between sm:justify-start gap-3 sm:gap-2 flex-shrink-0">
-                          <div className="sm:hidden"></div> {/* Spacer for mobile */}
+                          <div className="sm:hidden"></div>
                           <div className="h-10 bg-[var(--color-border)] rounded-lg w-32 animate-pulse"></div>
                         </div>
                       </div>
@@ -454,7 +490,6 @@ const Jobs = () => {
   if (error) {
     return (
       <>
-       
         <div className="min-h-screen py-10" style={{ backgroundColor: 'var(--color-background)' }}>
           <div className="max-w-7xl mx-auto px-4 sm:px-6">
             <div className="text-center py-10">
@@ -468,7 +503,6 @@ const Jobs = () => {
             </div>
           </div>
         </div>
-     
       </>
     );
   }
@@ -519,28 +553,34 @@ const Jobs = () => {
                       <label className="block text-sm font-medium mb-2" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
                         Search Jobs
                       </label>
-                      <input
-                        type="text"
-                        placeholder="Job title, company, keywords..."
-                        value={searchTerm}
-                        onChange={(e) => handleSearchChange(e.target.value)}
-                        className="input-field w-full"
-                      />
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          placeholder="Job title, company, keywords..."
+                          value={searchTerm}
+                          onChange={(e) => handleSearchChange(e.target.value)}
+                          className="input-field flex-1"
+                        />
+                      </div>
                     </div>
+
                     
                     {/* Location */}
                     <div>
                       <label className="block text-sm font-medium mb-2" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>
                         Location
                       </label>
-                      <input
-                        type="text"
-                        placeholder="City, state, country..."
-                        value={locationFilter}
-                        onChange={(e) => setLocationFilter(e.target.value)}
-                        className="input-field w-full"
-                      />
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          placeholder="City, state, country..."
+                          value={locationFilter}
+                          onChange={(e) => handleLocationChange(e.target.value)}
+                          className="input-field flex-1"
+                        />
+                      </div>
                     </div>
+
                     
                     {/* Category */}
                     <div>
@@ -553,7 +593,7 @@ const Jobs = () => {
                         className="input-field w-full"
                       >
                         <option value="">All Categories</option>
-                        {getUniqueValues(jobs, 'category').map(category => (
+                        {categoryOptions.map(category => (
                           <option key={category} value={category}>{category}</option>
                         ))}
                       </select>
@@ -566,7 +606,7 @@ const Jobs = () => {
                       </label>
                       <select
                         value={experienceLevelFilter}
-                        onChange={(e) => setExperienceLevelFilter(e.target.value)}
+                        onChange={(e) => handleExperienceLevelChange(e.target.value)}
                         className="input-field w-full"
                       >
                         <option value="">All Levels</option>
@@ -583,7 +623,7 @@ const Jobs = () => {
                       </label>
                       <select
                         value={workTypeFilter}
-                        onChange={(e) => setWorkTypeFilter(e.target.value)}
+                        onChange={(e) => handleWorkTypeChange(e.target.value)}
                         className="input-field w-full"
                       >
                         <option value="">All Types</option>
@@ -600,7 +640,7 @@ const Jobs = () => {
                       </label>
                       <select
                         value={interviewTypeFilter}
-                        onChange={(e) => setInterviewTypeFilter(e.target.value)}
+                        onChange={(e) => handleInterviewTypeChange(e.target.value)}
                         className="input-field w-full"
                       >
                         <option value="">All Types</option>
@@ -617,7 +657,7 @@ const Jobs = () => {
                       </label>
                       <select
                         value={jobTypeFilter}
-                        onChange={(e) => setJobTypeFilter(e.target.value)}
+                        onChange={(e) => handleJobTypeChange(e.target.value)}
                         className="input-field w-full"
                       >
                         <option value="">All Types</option>
@@ -640,14 +680,14 @@ const Jobs = () => {
                     Job Results
                   </h3>
                   <p className="text-sm mt-1" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>
-                    Showing {filteredJobs.length} of {jobs.length} jobs
+                    Showing {jobs.length} of {totalJobs} jobs
                   </p>
                 </div>
                 <div className="mt-3 sm:mt-0">
                   <select 
                     className="input-field text-sm"
                     value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value)}
+                    onChange={(e) => handleSortByChange(e.target.value)}
                   >
                     <option value="newest">Sort by: Newest</option>
                     <option value="oldest">Sort by: Oldest</option>
@@ -659,7 +699,7 @@ const Jobs = () => {
               </div>
               
               {/* Job Cards */}
-              {filteredJobs.length === 0 ? (
+              {jobs.length === 0 ? (
                 <div className="rounded-xl border p-12 text-center" style={{ 
                   backgroundColor: 'var(--color-white)', 
                   boxShadow: 'var(--shadow-sm)', 
@@ -679,7 +719,7 @@ const Jobs = () => {
                 </div>
               ) : (
                 <div className="space-y-6">
-                  {filteredJobs.map((job, index) => {
+                  {jobs.map((job, index) => {
                     const alreadyApplied = hasUserAppliedForJob(job._id);
                     
                     return (
@@ -790,7 +830,7 @@ const Jobs = () => {
                           
                           {/* Right Section - Action Button */}
                           <div className="flex sm:flex-col items-end justify-between sm:justify-start gap-3 sm:gap-2 flex-shrink-0">
-                            <div className="sm:hidden"></div> {/* Spacer for mobile */}
+                            <div className="sm:hidden"></div>
                             <button 
                               className="px-6 py-3 rounded-lg font-medium transition-all duration-200 hover:shadow-md hover:scale-105 active:scale-95"
                               style={{ 
@@ -810,6 +850,39 @@ const Jobs = () => {
                       </div>
                     );
                   })}
+                </div>
+              )}
+              
+              {/* Pagination */}
+              {totalPages > 1 && (
+                <div className="flex justify-between items-center mt-8">
+                  <button
+                    onClick={() => handlePageChange(currentPage - 1)}
+                    disabled={currentPage === 1}
+                    className={`px-4 py-2 rounded-lg ${
+                      currentPage === 1 
+                        ? 'bg-gray-200 text-gray-500 cursor-not-allowed' 
+                        : 'bg-blue-500 text-white hover:bg-blue-600'
+                    }`}
+                  >
+                    Previous
+                  </button>
+                  
+                  <div className="text-sm text-gray-600">
+                    Page {currentPage} of {totalPages}
+                  </div>
+                  
+                  <button
+                    onClick={() => handlePageChange(currentPage + 1)}
+                    disabled={currentPage === totalPages}
+                    className={`px-4 py-2 rounded-lg ${
+                      currentPage === totalPages 
+                        ? 'bg-gray-200 text-gray-500 cursor-not-allowed' 
+                        : 'bg-blue-500 text-white hover:bg-blue-600'
+                    }`}
+                  >
+                    Next
+                  </button>
                 </div>
               )}
             </div>
