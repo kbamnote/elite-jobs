@@ -45,88 +45,82 @@ const Categories = () => {
   const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
   const [displayedCategories, setDisplayedCategories] = useState([]);
-  const [showAll, setShowAll] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(12); // Start with 12 categories
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-
-  // Number of categories to show initially
-  const initialDisplayCount = {
-    sm: 6,
-    lg: 12
-  };
 
   // Icon mapping for categories - only define icons for known categories
   // For unknown categories, a default icon will be used
   const iconMap = {
-    "IT & NETWORKING": FaDesktop,
-    "SALES & MARKETING": FaShoppingBag,
-    "ACCOUNTING": FaWallet,
-    "DATA SCIENCE": FaDatabase,
-    "DIGITAL MARKETING": FaBuilding,
-    "HUMAN RESOURCE": FaGraduationCap,
-    "CUSTOMER SERVICE": FaHeadphones,
-    "PROJECT MANAGER": FaBriefcase,
-    "OTHER": FaQuestionCircle,
-    "ARCHITECT": FaDraftingCompass,
-    "ASSISTANT": FaUsers,
-    "CLOUD COMPUTING": FaCloud,
-    "CONTENT CREATOR": FaCamera,
-    "DATA ANALYST": FaChartBar,
-    "DELIVERY": FaTruck,
-    "EDUCATION & TRAINING": FaBook,
-    "FASHION": FaPalette,
-    "FINANCE": FaDollarSign,
-    "FIRE & SAFETY": FaShieldAlt,
-    "GOVERNMENT OF NAGPUR": FaBuilding,
-    "HEALTHCARE": FaStethoscope,
-    "HELPER": FaUsers,
-    "MANUFACTURING": FaIndustry,
-    "MARKETING": FaBullhorn,
-    "MEDIA & JOURNALISM": FaCamera,
-    "OFFICE ADMINISTRATOR": FaBriefcase,
-    "OFFICE BOY": FaUsers,
-    "RETAIL & STORE": FaStore,
-    "RIDER": FaMotorcycle,
-    "SUPPLY CHAIN": FaTruck,
-    "SUPPORT": FaHeadphones,
-    "TECHNICIAN": FaWrench,
-    "UI/UX DESIGNER": FaPalette,
-    "VIDEO EDITING": FaVideo,
-    "WAREHOUSE OPERATIONS": FaHome,
-    "AUTOMOBILE": FaCar,
-    "CONSTRUCTION": FaHammer,
-    "SALES & MANAGEMENT": FaShoppingBag,
-    "SALESFORCE": FaCloud,
-    "TRAVEL": FaPlane
+    "IT & Networking": FaDesktop,
+    "Sales & Marketing": FaShoppingBag,
+    "Accounting": FaWallet,
+    "Data Science": FaDatabase,
+    "Digital Marketing": FaBuilding,
+    "Human Resource": FaGraduationCap,
+    "Customer Service": FaHeadphones,
+    "Project Manager": FaBriefcase,
+    "Other": FaQuestionCircle,
+    "Architect": FaDraftingCompass,
+    "Assistant": FaUsers,
+    "Cloud Computing": FaCloud,
+    "Content Creator": FaCamera,
+    "Data Analyst": FaChartBar,
+    "Delivery": FaTruck,
+    "Education & Training": FaBook,
+    "Fashion": FaPalette,
+    "Finance": FaDollarSign,
+    "Fire & Safety": FaShieldAlt,
+    "Government of Nagpur": FaBuilding,
+    "Healthcare": FaStethoscope,
+    "Helper": FaUsers,
+    "Manufacturing": FaIndustry,
+    "Marketing": FaBullhorn,
+    "Media & Journalism": FaCamera,
+    "Office Administrator": FaBriefcase,
+    "Office Boy": FaUsers,
+    "Retail & Store": FaStore,
+    "Rider": FaMotorcycle,
+    "Supply Chain": FaTruck,
+    "Support": FaHeadphones,
+    "Technician": FaWrench,
+    "UI/UX Designer": FaPalette,
+    "Video Editing": FaVideo,
+    "Warehouse Operations": FaHome,
+    "Automobile": FaCar,
+    "Construction": FaHammer,
+    "Sales & Management": FaShoppingBag,
+    "Salesforce": FaCloud,
+    "Travel": FaPlane
   };
 
   // Category groups for assigning icons to new categories based on keywords
   const categoryGroups = {
-    technology: ["IT", "TECHNOLOGY", "SOFTWARE", "DEVELOPER", "PROGRAMMER", "CODING", "WEB", "MOBILE", "APP", "COMPUTER", "SYSTEM", "NETWORK"],
-    sales: ["SALES", "SELLING", "BUSINESS", "COMMERCE", "RETAIL", "MARKETING", "ADVERTISING", "PROMOTION"],
-    healthcare: ["HEALTH", "MEDICAL", "HOSPITAL", "CLINIC", "DOCTOR", "NURSE", "PATIENT", "CLINICAL"],
-    finance: ["FINANCE", "ACCOUNTING", "BANKING", "MONEY", "PAYMENT", "LOAN", "INVESTMENT", "TAX"],
-    education: ["EDUCATION", "TEACHING", "SCHOOL", "UNIVERSITY", "COLLEGE", "TRAINING", "LEARNING", "ACADEMIC"],
-    construction: ["CONSTRUCTION", "BUILDING", "ARCHITECTURE", "ENGINEERING", "CIVIL", "STRUCTURE"],
-    transportation: ["TRANSPORT", "DELIVERY", "DRIVER", "TRUCK", "LOGISTICS", "SHIPPING", "FREIGHT"],
-    customerService: ["CUSTOMER", "SERVICE", "SUPPORT", "HELP", "CALL CENTER", "CLIENT"],
-    humanResources: ["HR", "HUMAN RESOURCE", "RECRUITMENT", "HIRING", "STAFF", "EMPLOYEE", "PERSONNEL"],
-    government: ["GOVERNMENT", "PUBLIC", "MUNICIPAL", "CITY", "STATE", "FEDERAL"],
-    creative: ["DESIGN", "CREATIVE", "ART", "GRAPHIC", "VIDEO", "PHOTO", "CAMERA", "MEDIA", "JOURNALISM"],
-    legal: ["LEGAL", "LAW", "ATTORNEY", "LAWYER", "COURT", "JUDGE", "PARALEGAL"],
-    administration: ["ADMIN", "ADMINISTRATION", "OFFICE", "SECRETARY", "CLERK", "COORDINATOR"],
-    manufacturing: ["MANUFACTURING", "FACTORY", "PRODUCTION", "ASSEMBLY", "INDUSTRIAL"],
-    retail: ["RETAIL", "STORE", "SHOP", "MERCHANT", "SALES"],
-    hospitality: ["HOSPITALITY", "HOTEL", "RESTAURANT", "FOOD", "BEVERAGE", "CATERING"],
-    agriculture: ["AGRICULTURE", "FARMING", "FARM", "AGRICULTURAL", "CROP", "LIVESTOCK"],
-    energy: ["ENERGY", "ELECTRIC", "POWER", "UTILITY", "OIL", "GAS", "RENEWABLE"],
-    telecommunications: ["TELECOM", "COMMUNICATION", "NETWORK", "WIRELESS", "CELLULAR", "PHONE"],
-    security: ["SECURITY", "SAFETY", "PROTECTION", "GUARD", "POLICE", "FIRE"],
-    research: ["RESEARCH", "SCIENCE", "LABORATORY", "SCIENTIFIC", "ANALYST", "DATA"],
-    quality: ["QUALITY", "QA", "TESTING", "INSPECTION", "COMPLIANCE", "AUDIT"],
-    maintenance: ["MAINTENANCE", "REPAIR", "TECHNICIAN", "MECHANIC", "ELECTRICIAN", "PLUMBER"],
-    projectManagement: ["PROJECT", "MANAGEMENT", "MANAGER", "COORDINATION", "PLANNING"],
-    consulting: ["CONSULTING", "CONSULTANT", "ADVISORY", "STRATEGY", "ANALYSIS"]
+    technology: ["IT", "Technology", "Software", "Developer", "Programmer", "Coding", "Web", "Mobile", "App", "Computer", "System", "Network"],
+    sales: ["Sales", "Selling", "Business", "Commerce", "Retail", "Marketing", "Advertising", "Promotion"],
+    healthcare: ["Health", "Medical", "Hospital", "Clinic", "Doctor", "Nurse", "Patient", "Clinical"],
+    finance: ["Finance", "Accounting", "Banking", "Money", "Payment", "Loan", "Investment", "Tax"],
+    education: ["Education", "Teaching", "School", "University", "College", "Training", "Learning", "Academic"],
+    construction: ["Construction", "Building", "Architecture", "Engineering", "Civil", "Structure"],
+    transportation: ["Transport", "Delivery", "Driver", "Truck", "Logistics", "Shipping", "Freight"],
+    customerService: ["Customer", "Service", "Support", "Help", "Call Center", "Client"],
+    humanResources: ["HR", "Human Resource", "Recruitment", "Hiring", "Staff", "Employee", "Personnel"],
+    government: ["Government", "Public", "Municipal", "City", "State", "Federal"],
+    creative: ["Design", "Creative", "Art", "Graphic", "Video", "Photo", "Camera", "Media", "Journalism"],
+    legal: ["Legal", "Law", "Attorney", "Lawyer", "Court", "Judge", "Paralegal"],
+    administration: ["Admin", "Administration", "Office", "Secretary", "Clerk", "Coordinator"],
+    manufacturing: ["Manufacturing", "Factory", "Production", "Assembly", "Industrial"],
+    retail: ["Retail", "Store", "Shop", "Merchant", "Sales"],
+    hospitality: ["Hospitality", "Hotel", "Restaurant", "Food", "Beverage", "Catering"],
+    agriculture: ["Agriculture", "Farming", "Farm", "Agricultural", "Crop", "Livestock"],
+    energy: ["Energy", "Electric", "Power", "Utility", "Oil", "Gas", "Renewable"],
+    telecommunications: ["Telecom", "Communication", "Network", "Wireless", "Cellular", "Phone"],
+    security: ["Security", "Safety", "Protection", "Guard", "Police", "Fire"],
+    research: ["Research", "Science", "Laboratory", "Scientific", "Analyst", "Data"],
+    quality: ["Quality", "QA", "Testing", "Inspection", "Compliance", "Audit"],
+    maintenance: ["Maintenance", "Repair", "Technician", "Mechanic", "Electrician", "Plumber"],
+    projectManagement: ["Project", "Management", "Manager", "Coordination", "Planning"],
+    consulting: ["Consulting", "Consultant", "Advisory", "Strategy", "Analysis"]
   };
 
   // Default icon for categories not in the map
@@ -213,19 +207,7 @@ const Categories = () => {
 
   useEffect(() => {
     updateDisplayedCategories();
-    
-    // Add resize event listener for responsive behavior
-    const handleResize = () => {
-      updateDisplayedCategories();
-    };
-    
-    window.addEventListener('resize', handleResize);
-    
-    // Clean up event listener
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, [categories, showAll]);
+  }, [categories, visibleCount]);
 
   const fetchCategories = async () => {
     try {
@@ -235,16 +217,13 @@ const Categories = () => {
       // Sort categories by count in descending order
       const sortedCategories = response.data.data.sort((a, b) => b.count - a.count);
       
-      // Convert category names to uppercase and remove duplicates
+      // Remove duplicate categories (case-insensitive comparison) but preserve original case
       const categoryMap = new Map();
       sortedCategories.forEach(cat => {
-        const upperCaseCategory = cat.category.toUpperCase();
+        const lowerCaseCategory = cat.category.toLowerCase();
         // Only keep the entry with the highest count for duplicate categories
-        if (!categoryMap.has(upperCaseCategory) || categoryMap.get(upperCaseCategory).count < cat.count) {
-          categoryMap.set(upperCaseCategory, {
-            ...cat,
-            category: upperCaseCategory
-          });
+        if (!categoryMap.has(lowerCaseCategory) || categoryMap.get(lowerCaseCategory).count < cat.count) {
+          categoryMap.set(lowerCaseCategory, cat);
         }
       });
       
@@ -261,21 +240,19 @@ const Categories = () => {
   };
 
   const updateDisplayedCategories = () => {
-    if (showAll) {
-      setDisplayedCategories(categories);
-    } else {
-      // Show initial count based on screen size
-      const count = window.innerWidth >= 1024 ? initialDisplayCount.lg : initialDisplayCount.sm;
-      setDisplayedCategories(categories.slice(0, count));
-    }
+    setDisplayedCategories(categories.slice(0, visibleCount));
   };
 
   const handleCategoryClick = (categoryName) => {
     navigate(`/jobs?category=${encodeURIComponent(categoryName)}`);
   };
 
-  const toggleShowAll = () => {
-    setShowAll(!showAll);
+  const handleViewMore = () => {
+    setVisibleCount(prevCount => prevCount + 12);
+  };
+
+  const handleViewLess = () => {
+    setVisibleCount(prevCount => Math.max(12, prevCount - 12));
   };
 
   if (loading) {
@@ -396,18 +373,32 @@ const Categories = () => {
           );
         })}
       </div>
-      {categories.length > displayedCategories.length && (
-        <div className="text-center mt-12">
-          <button
-            onClick={toggleShowAll}
-            className="px-6 py-3 btn-accent rounded-lg font-semibold"
-            style={{ 
-              fontFamily: 'var(--font-body)',
-              transition: 'var(--transition-normal)'
-            }}
-          >
-            {showAll ? 'Show Less' : 'View More Categories'}
-          </button>
+      {categories.length > 12 && (
+        <div className="text-center mt-12 flex justify-center gap-4">
+          {visibleCount > 12 && (
+            <button
+              onClick={handleViewLess}
+              className="px-6 py-3 btn-accent rounded-lg font-semibold"
+              style={{ 
+                fontFamily: 'var(--font-body)',
+                transition: 'var(--transition-normal)'
+              }}
+            >
+              View Less
+            </button>
+          )}
+          {categories.length > visibleCount && (
+            <button
+              onClick={handleViewMore}
+              className="px-6 py-3 btn-accent rounded-lg font-semibold"
+              style={{ 
+                fontFamily: 'var(--font-body)',
+                transition: 'var(--transition-normal)'
+              }}
+            >
+              View More
+            </button>
+          )}
         </div>
       )}
     </div>

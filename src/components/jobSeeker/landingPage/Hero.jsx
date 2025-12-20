@@ -39,16 +39,6 @@ const Hero = () => {
   const [_categories, _setCategories] = useState([]);
   const [animationStarted, setAnimationStarted] = useState(false);
 
-  // useEffect(() => {
-  //   fetch('https://jobquick.onrender.com/categories')
-  //     .then(response => response.json())
-  //     .then(data => {
-  //       if (data.success) {
-  //         setCategories(data.data.map(cat => cat.title));
-  //       }
-  //     })
-  //     .catch(error => console.error('Error fetching categories:', error));
-  // }, []);
 
   useEffect(() => {
     setAnimationStarted(true);
@@ -141,29 +131,6 @@ const Hero = () => {
             </button>
           </div>
         </form>
-
-        {/* Animated Statistics Section */}
-        <div className="mt-16 sm:mt-24 grid grid-cols-1 md:grid-cols-3 gap-8 px-4">
-          {stats.map((stat, index) => (
-            <div
-              key={index}
-              className="text-center transform transition-all duration-300 hover:-translate-y-2 cursor-pointer rounded-2xl p-8 border card"
-              style={{ 
-                boxShadow: 'var(--shadow-lg)',
-                borderColor: 'var(--color-border)',
-                transition: 'var(--transition-normal)'
-              }}
-            >
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-6" style={{ backgroundColor: 'var(--color-primary)', boxShadow: 'var(--shadow-sm)' }}>
-                <span className="text-3xl">{stat.icon}</span>
-              </div>
-              <h3 className="text-3xl sm:text-4xl font-bold mb-2" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-heading)' }}>
-                {animationStarted && <NumberTicker endValue={stat.number} />}
-              </h3>
-              <p className="font-medium" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>{stat.label}</p>
-            </div>
-          ))}
-        </div>
 
       </div>
     </div>
