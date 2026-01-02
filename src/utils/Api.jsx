@@ -12,6 +12,10 @@ const Apiauth = axios.create({
   baseURL: BASE_URL,
 });
 
+const ApiContact = axios.create({
+    baseURL:'https://elite-backend-production.up.railway.app/'
+})
+
 Api.interceptors.request.use(
   (config) => {
     const token = Cookies.get("token");
@@ -38,6 +42,11 @@ Api.interceptors.response.use(
     return Promise.reject(error);
   }
 );
+
+// ============== Enquiry ==============
+export const enquiry = (detail) => {
+    return ApiContact.post("form/create-form", detail);
+}
 
 // ============== AUTH ==============
 export const signup = (post) => Apiauth.post("/auth/signup", post);

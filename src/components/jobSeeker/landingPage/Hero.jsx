@@ -1,32 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Search } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
-
-const NumberTicker = ({ endValue }) => {
-  const [count, setCount] = useState(0);
-  const duration = 2000; // Animation duration in milliseconds
-
-  useEffect(() => {
-    let start = 0;
-    const increment = Math.ceil(endValue / (duration / 16)); // Approximate per-frame increment
-    const startTime = Date.now();
-
-    const updateCount = () => {
-      const elapsed = Date.now() - startTime;
-      if (elapsed < duration) {
-        start = Math.min(start + increment, endValue);
-        setCount(start);
-        requestAnimationFrame(updateCount);
-      } else {
-        setCount(endValue);
-      }
-    };
-
-    requestAnimationFrame(updateCount);
-  }, [endValue]);
-
-  return count.toLocaleString();
-};
+import video from '../../../assets/vid.mp4'
 
 const Hero = () => {
   const location = useLocation();
@@ -61,7 +36,7 @@ const Hero = () => {
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: 'var(--color-background)' }}>
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-20 text-center">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 text-center">
         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold mb-4 leading-tight" style={{ color: 'var(--color-primary)', fontFamily: 'var(--font-heading)' }}>
           Find Your Dream Job Today!
         </h1>
@@ -99,28 +74,6 @@ const Hero = () => {
               />
             </div>
 
-            {/* <select
-              className="w-full sm:w-48 py-2 px-3 rounded-md border border-gray-200 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500"
-              value={searchLocation}
-              onChange={(e) => setLocation(e.target.value)}
-            >
-              <option value="">Select Location</option>
-              <option value="ny">New York</option>
-              <option value="sf">San Francisco</option>
-              <option value="ld">London</option>
-            </select> */}
-{/* 
-            <select
-              className="w-full sm:w-48 py-2 px-3 rounded-md border border-gray-200 focus:outline-none focus:border-teal-500 focus:ring-1 focus:ring-teal-500"
-              value={category}
-              onChange={(e) => setCategory(e.target.value)}
-            >
-              <option value="">Select Category</option>
-              {categories.map((cat, index) => (
-                <option key={index} value={cat}>{cat}</option>
-              ))}
-            </select> */}
-
             <button
               type="submit"
               className="w-full sm:w-auto px-6 sm:px-8 py-3 rounded-xl flex items-center justify-center space-x-2 transition-all duration-200 font-semibold hover:-translate-y-0.5 btn-accent"
@@ -131,7 +84,20 @@ const Hero = () => {
             </button>
           </div>
         </form>
-
+        
+        <div className="mt-8 max-w-4xl mx-auto">
+          <video 
+            src={video} 
+            autoPlay 
+            loop 
+            muted 
+            playsInline
+            className="w-full h-auto "
+            
+          >
+          </video>
+        </div>
+      
       </div>
     </div>
   );

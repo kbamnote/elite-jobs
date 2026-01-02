@@ -1,10 +1,61 @@
-import React from "react";
-import Header from "../../commonSeeker/Header";
-import Footer from "../../commonSeeker/Footer";
+import React, { useState } from "react";
+import { enquiry } from "../../../../utils/Api";
 
 const ContactUs = () => {
-  const handleSubmit = (e) => {
+    const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    phoneNo: '',
+    message: '',
+    productCompany: "Elite-Jobs"
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState(null); // 'success', 'error', or null
+
+  const handleInputChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setSubmitStatus(null);
+
+    try {
+      // Prepare the data for API
+      const detailData = {
+        fullName: formData.fullName,
+        email: formData.email,
+        phoneNo: formData.phoneNo,
+        message: formData.message,
+        productCompany: formData.productCompany
+      };
+
+      // Call the API
+      const response = await enquiry(detailData);
+      
+      console.log('Form submitted successfully:', response.data);
+      setSubmitStatus('success');
+      
+      // Reset form after successful submission
+      setFormData({
+        fullName: '',
+        email: '',
+        phoneNo: '',
+        message: '',
+        productCompany: "Elite-Jobs"
+      });
+
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      setSubmitStatus('error');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -19,9 +70,8 @@ const ContactUs = () => {
               You Will Grow, You Will Succeed. We Promise That
             </h2>
             <p className="text-gray-600 mb-8">
-              Pellentesque arcu facilisis nunc mi proin. Dignissim mattis in
-              lectus tincidunt tincidunt ultrices. Diam convallis morbi
-              pellentesque adipiscing
+              Have questions or need assistance? Our team is here to help you with any inquiries
+              regarding job postings, applications, or account management.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
               <div>
@@ -67,35 +117,86 @@ const ContactUs = () => {
                   </div>
                   <h3 className="font-semibold">Office</h3>
                 </div>
-                <p className="text-gray-600">1st Floor Mohota Complex, Above State Bank Of India Katol Road, Chhaoni Rd, Nagpur, Maharashtra 440013</p>
+                <p className="text-gray-600">Elite Jobs Office, 1st Floor Mohota Complex, Above State Bank Of India, Katol Road, Chhaoni, Nagpur, Maharashtra 440013</p>
               </div>
             </div>
           </div>
           <div className="bg-gray-50 rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow">
-            <h3 className="text-xl font-semibold mb-4">Contact Info</h3>
-            <p className="text-gray-600 mb-6">Nibh dis faucibus proin lacus tristique</p>
+            <h3 className="text-xl font-semibold mb-4">Get In Touch</h3>
+            <p className="text-gray-600 mb-6">Reach out to us with any questions or concerns</p>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">First Name</label>
-                  <input type="text" id="firstName" className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:border-transparent outline-none" style={{'--tw-ring-color': 'var(--color-accent)'}} placeholder="Your name" />
+                  <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                  <input 
+                    type="text" 
+                    id="fullName" 
+                    name="fullName"
+                    value={formData.fullName}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:border-transparent outline-none" 
+                    style={{'--tw-ring-color': 'var(--color-accent)'}} 
+                    placeholder="Your full name" 
+                  />
                 </div>
                 <div>
-                  <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1">Last Name</label>
-                  <input type="text" id="lastName" className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:border-transparent outline-none" style={{'--tw-ring-color': 'var(--color-accent)'}} placeholder="Your last name" />
+                  <label htmlFor="phoneNo" className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                  <input 
+                    type="tel" 
+                    id="phoneNo" 
+                    name="phoneNo"
+                    value={formData.phoneNo}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:border-transparent outline-none" 
+                    style={{'--tw-ring-color': 'var(--color-accent)'}} 
+                    placeholder="Your phone number" 
+                  />
                 </div>
               </div>
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                <input type="email" id="email" className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:border-transparent outline-none" style={{'--tw-ring-color': 'var(--color-accent)'}} placeholder="Your E-mail address" />
+                <input 
+                  type="email" 
+                  id="email" 
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:border-transparent outline-none" 
+                  style={{'--tw-ring-color': 'var(--color-accent)'}} 
+                  placeholder="Your E-mail address" 
+                />
               </div>
               <div>
                 <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Message</label>
-                <textarea id="message" rows={4} className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:border-transparent outline-none" style={{'--tw-ring-color': 'var(--color-accent)'}} placeholder="Your message..." />
+                <textarea 
+                  id="message" 
+                  name="message"
+                  value={formData.message}
+                  onChange={handleInputChange}
+                  rows={4} 
+                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:border-transparent outline-none" 
+                  style={{'--tw-ring-color': 'var(--color-accent)'}} 
+                  placeholder="Your message..." 
+                />
               </div>
-              <button type="submit" className="btn-accent w-full py-2 px-4 rounded-md transition-colors focus:ring-2 focus:ring-offset-2" style={{'--tw-ring-color': 'var(--color-accent)'}}>
-                Send Message
-              </button>
+              {submitStatus === 'success' && (
+              <div className="mb-4 p-3 bg-green-100 text-green-700 rounded-md">
+                Thank you for your message! We'll get back to you soon.
+              </div>
+            )}
+            {submitStatus === 'error' && (
+              <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-md">
+                There was an error submitting your message. Please try again.
+              </div>
+            )}
+            <button 
+              type="submit" 
+              className="btn-accent w-full py-2 px-4 rounded-md transition-colors focus:ring-2 focus:ring-offset-2" 
+              style={{'--tw-ring-color': 'var(--color-accent)'}}
+              disabled={loading}
+            >
+              {loading ? 'Sending...' : 'Send Message'}
+            </button>
             </form>
           </div>
         </div>
@@ -103,7 +204,7 @@ const ContactUs = () => {
       <div className="w-full h-[480px] overflow-hidden p-6 mb-4">
         <iframe
           title="Google Map Location"
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3732.0740918264177!2d79.07522737523014!3d21.169049584761134!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bd4c1dfdc6c9b43%3A0x54f93538e6888db3!2sElite%20Associate!5e0!3m2!1sen!2sin!4v1730000000000!5m2!1sen!2sin"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3732.0740918264177!2d79.07522737523014!3d21.169049584761134!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bd4c1dfdc6c9b43%3A0x54f93538e6888db3!2sElite%20Jobs!5e0!3m2!1sen!2sin!4v1735766400000!5m2!1sen!2sin"
           width="100%"
           height="450"
           style={{ border: 0 }}
