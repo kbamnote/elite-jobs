@@ -46,6 +46,7 @@ import VerifyOTP from "./components/auth/VerifyOTP";
 import AddNewPassword from "./components/auth/AddNewPassword";
 import GoogleRoleSelection from "./components/auth/GoogleRoleSelection";
 import GoogleCallbackHandler from "./components/auth/GoogleCallbackHandler";
+import Auth from "./components/auth/Auth";
 
 function App() {
   return (
@@ -74,13 +75,14 @@ function App() {
         />
 
         {/* Seeker Auth */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/forgot-password" element={<ForgotPassword/>}/>
-        <Route path="/verify-otp" element={<VerifyOTP/>}/>
-        <Route path="/add-new-password" element={<AddNewPassword/>}/>
-        <Route path="/google-role-selection" element={<GoogleRoleSelection/>}/>
-        <Route path="/google-callback" element={<GoogleCallbackHandler/>}/>
+        <Route path="/login" element={<Auth />} />
+        {/* <Route path="/logincode" element={<Login />} />
+        <Route path="/signup" element={<Signup />} /> */}
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/verify-otp" element={<VerifyOTP />} />
+        <Route path="/add-new-password" element={<AddNewPassword />} />
+        <Route path="/google-role-selection" element={<GoogleRoleSelection />} />
+        <Route path="/google-callback" element={<GoogleCallbackHandler />} />
 
         {/* Routes with Main Header */}
         <Route
