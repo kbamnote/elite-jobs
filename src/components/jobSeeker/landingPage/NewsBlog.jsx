@@ -1,19 +1,24 @@
-import React from "react";
 import { ArrowRight } from "lucide-react";
+import blog1 from "../../../assets/blog1.jpeg";
+import blog2 from "../../../assets/blog2.jpeg";
 
 const NewsBlog = () => {
   const posts = [
     {
-      category: "",
+      category: "Blog",
       date: "30 March 2024",
-      title:
-        "Revitalizing Workplace Morale: Innovative Tactics For Boosting Employee Engagement In 2024",
-      image:
-        "https://images.unsplash.com/photo-1495020689067-958852a7765e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bmV3c3xlbnwwfHwwfHx8MA%3D%3D",
+      title: "The Growing Demand for Technology and Network Professionals: A Career Path to Consider",
+      image: blog1,
     },
     {
       category: "Blog",
-      date: "30 March 2024",
+      date: "21 March 2024",
+      title: "DevOps: Powering Modern Software Delivery and Career Advancement",
+      image: blog2
+    },
+    {
+      category: "Blog",
+      date: "3 March 2024",
       title: "How To Avoid The Top Six Most Common Job Interview Mistakes",
       image:
         "https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -27,7 +32,7 @@ const NewsBlog = () => {
         <a
           href="#"
           className="transition-colors"
-          style={{ 
+          style={{
             color: 'var(--color-accent)',
             fontFamily: 'var(--font-body)'
           }}
@@ -47,11 +52,11 @@ const NewsBlog = () => {
         tristique in dolor
       </p>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-9">
         {posts.map((post, index) => (
-          <div key={index} className="flex flex-col">
+          <div key={index} className="h-full rounded-2xl" style={{ background: 'linear-gradient(0deg, rgb(255, 238, 238) 10%, rgba(255, 255, 255, 0) 40%)' }}>
             {/* Image Container */}
-            <div className="relative rounded-2xl overflow-hidden mb-4 aspect-[16/10]">
+            <div className="relative rounded-2xl overflow-hidden aspect-[16/10]">
               <img
                 src={post.image}
                 alt={post.title}
@@ -60,13 +65,13 @@ const NewsBlog = () => {
             </div>
 
             {/* Content */}
-            <div className="space-y-3">
-              <span className="text-gray-500">{post.date}</span>
-              <h3 className="text-2xl font-bold leading-tight">{post.title}</h3>
+            <div className="p-3">
+              <div className="py-1"><span className="text-gray-500 py-2 px-3 text-xs bg-[var(--color-text-light)] text-white rounded-4xl">{post.date}</span></div>
+              <h3 className="text-xl py-2 font-bold leading-tight">{post.title}</h3>
               <a
                 href="https://economictimes.indiatimes.com/jobs"
                 className="inline-flex items-center transition-colors"
-                style={{ 
+                style={{
                   color: 'var(--color-accent)',
                   fontFamily: 'var(--font-body)'
                 }}
