@@ -128,7 +128,7 @@ const TopCompany = () => {
             >
               {/* Company header */}
               <div className="p-6" style={{background: 'linear-gradient(to right, var(--color-accent-light), var(--color-accent-light))'}}>
-                <div className="flex items-center gap-4">
+                <div className="grid items-center gap-4">
                   <div className="w-16 h-16 rounded-xl bg-white p-2 shadow-sm">
                     <img
                       src={company.companyInfo.logo || 'https://placehold.co/60x60'}
@@ -137,7 +137,7 @@ const TopCompany = () => {
                       onError={(e) => { e.target.src = 'https://placehold.co/60x60'; }}
                     />
                   </div>
-                  <div>
+                  <div className="grid">
                     <h3 className="text-xl font-bold text-gray-900 truncate">
                       {company.companyName}
                     </h3>
