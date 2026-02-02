@@ -2,7 +2,7 @@ import axios from "axios";
 import Cookies from "js-cookie";
 
 // Base URL - Update this to your backend URL
-const BASE_URL = import.meta.env.VITE_API_URL || "https://elitejobsbackend-production.up.railway.app";
+const BASE_URL = import.meta.env.VITE_API_URL || "https://api.eliteindiajobs.in";
 
 const Api = axios.create({
   baseURL: BASE_URL,
@@ -13,7 +13,7 @@ const Apiauth = axios.create({
 });
 
 const ApiContact = axios.create({
-    baseURL:'https://elite-backend-production.up.railway.app/'
+    baseURL:'https://api.eliteindiajobs.in/'
 })
 
 Api.interceptors.request.use(
