@@ -25,8 +25,8 @@ const About = () => {
   return (
     <div className="px-4 sm:px-6 lg:px-8 xl:px-[10%] py-8 sm:py-12 bg-gray-50">
       <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 mb-12 lg:mb-16 items-center">
-          {/* Left side - Image */}
+        {/* <div className="flex flex-col lg:flex-row gap-8 lg:gap-12 mb-12 lg:mb-16 items-center">
+          {/* Left side - Image *
           <div className="w-full lg:w-1/2">
             <div className="rounded-3xl overflow-hidden shadow-lg aspect-video">
               <img
@@ -37,7 +37,7 @@ const About = () => {
             </div>
           </div>
 
-          {/* Right side - Content */}
+          {/* Right side - Content *
           <div className="w-full lg:w-1/2 flex flex-col justify-center text-center lg:text-left">
             <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight text-gray-900">
               Good Life Begins With
@@ -59,7 +59,7 @@ const About = () => {
               </button>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Stats Section */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">

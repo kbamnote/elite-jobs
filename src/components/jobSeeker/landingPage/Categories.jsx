@@ -348,7 +348,7 @@ const Categories = () => {
               className="card cursor-pointer transform hover:scale-105"
               style={{ transition: 'var(--transition-normal)' }}
             >
-              <div className="flex flex-col items-center text-center">
+              <div className="flex flex-col items-center text-center p-3">
                 <div className="w-14 h-14 flex items-center justify-center rounded-full mb-5" style={{ 
                   backgroundColor: 'var(--color-accent-light)', 
                   boxShadow: 'var(--shadow-md)' 
