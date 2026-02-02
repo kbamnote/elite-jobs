@@ -1,6 +1,8 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { BookOpen, Users, TrendingUp, Lightbulb, Calendar, Clock, Tag } from "lucide-react";
+import { useState } from "react";
+import { BookOpen, Users, TrendingUp, Lightbulb, Calendar, Clock } from "lucide-react";
+import blog1 from "../../../../assets/blog1.jpeg";
+import blog2 from "../../../../assets/blog2.jpeg";
+import blog3 from "../../../../assets/blog3.jpeg";
 
 const Blog = () => {
   const [activeCategory, setActiveCategory] = useState("All");
@@ -112,13 +114,43 @@ const Blog = () => {
       category: "Job Market Insights",
       author: "Robert Kim",
       image: "ai-workplace"
+    },
+    {
+      id: 7,
+      title: "DevOps: Powering Modern Software Delivery and Career Advancement",
+      excerpt: "In today’s fast-moving technology landscape, organizations are under constant pressure to deliver reliable software faster than ever before.",
+      date: "February 02, 2026",
+      readTime: "9 min read",
+      category: "Career Development",
+      author: "Admin",
+      image: blog1
+    },
+    {
+      id: 8,
+      title: "The Growing Demand for Technology and Network Professionals: A Career Path to Consider",
+      excerpt: "In today’s digital-first world, technology-driven roles have become essential to the success of modern businesses.",
+      date: "February 02, 2026",
+      readTime: "7 min read",
+      category: "Career Development",
+      author: "Admin",
+      image: blog2
+    },
+    {
+      id: 9,
+      title: "Frontend Development: Shaping the Digital User Experience",
+      excerpt: "In today’s digital-driven world, the way a website or application looks and feels can define a brand’s success. This is where frontend developers play a critical role.",
+      date: "February 02, 2026",
+      readTime: "10 min read",
+      category: "Career Development",
+      author: "Admin",
+      image: blog3
     }
   ];
 
   const categories = ["All", "Career Development", "Education & Learning", "Job Market Insights", "Success Stories"];
 
-  const filteredPosts = activeCategory === "All" 
-    ? blogPosts 
+  const filteredPosts = activeCategory === "All"
+    ? blogPosts
     : blogPosts.filter(post => post.category === activeCategory);
 
   const featuredPost = blogPosts[0];
@@ -191,8 +223,8 @@ const Blog = () => {
           <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">Explore Topics</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {blogCategories.map((category, index) => (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className="p-6 bg-white rounded-lg shadow-md transition-all duration-300 hover:shadow-lg hover:-translate-y-1"
               >
                 <div className="mb-4 flex justify-center">
@@ -217,18 +249,17 @@ const Blog = () => {
         <div className="mb-16">
           <div className="flex justify-between items-center mb-8">
             <h2 className="text-3xl font-bold text-gray-800">Latest Articles</h2>
-            
+
             {/* Category Filter */}
             <div className="hidden md:flex space-x-2 overflow-x-auto pb-2">
               {categories.map((category) => (
                 <button
                   key={category}
                   onClick={() => setActiveCategory(category)}
-                  className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
-                    activeCategory === category
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                  }`}
+                  className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${activeCategory === category
+                    ? 'bg-blue-600 text-white'
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                    }`}
                 >
                   {category}
                 </button>
@@ -255,8 +286,12 @@ const Blog = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredPosts.map((post) => (
               <div key={post.id} className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg">
-                <div className="bg-gray-200 border-2 border-dashed w-full h-48 flex items-center justify-center text-gray-500">
-                  Blog Image
+                <div className="bg-gray-200 border-2 border-dashed w-full h-48 flex items-center justify-center overflow-hidden rounded-lg">
+                  <img
+                    src= {post.image}  // put your image path here
+                    alt="Blog"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <div className="p-6">
                   <div className="flex items-center mb-3">
@@ -303,9 +338,9 @@ const Blog = () => {
             Subscribe to our newsletter and never miss out on the latest career advice, industry insights, and job opportunities.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center max-w-2xl mx-auto">
-            <input 
-              type="email" 
-              placeholder="Enter your email" 
+            <input
+              type="email"
+              placeholder="Enter your email"
               className="px-6 py-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 flex-grow"
             />
             <button className="px-8 py-4 btn-accent rounded-lg font-medium transition-colors duration-300 whitespace-nowrap">
