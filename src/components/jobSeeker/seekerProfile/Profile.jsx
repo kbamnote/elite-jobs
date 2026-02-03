@@ -414,7 +414,7 @@ const Profile = () => {
         {/* Main Profile Card */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-6">
           {/* Profile Header with Cover */}
-          <div className="h-32 bg-[#3675AC]"></div>
+          <div className="h-32 bg-[var(--color-accent)]"></div>
           
           <div className="px-6 sm:px-8 pb-8">
             <div className="flex flex-col sm:flex-row sm:items-end sm:space-x-6 -mt-16 sm:-mt-12">
@@ -439,7 +439,7 @@ const Profile = () => {
 
               {/* Profile Info */}
               <div className="flex-1 sm:pb-4">
-                <h2 className="text-2xl font-bold text-gray-900" style={{ fontFamily: 'var(--font-heading)' }}>
+                <h2 className="text-2xl font-bold" style={{ color: 'white', fontFamily: 'var(--font-heading)' }}>
                   {userData.name}
                 </h2>
                 <p className="text-gray-600 mt-1" style={{ fontFamily: 'var(--font-body)' }}>

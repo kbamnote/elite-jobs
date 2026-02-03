@@ -91,7 +91,7 @@ const TopCompany = () => {
 
   if (error) {
     return (
-      <div className="min-h-screen px-[10%] lg:py-16" style={{background: 'linear-gradient(to bottom, var(--color-accent-light), white)'}}>
+      <div className=" px-[10%] py-16" style={{background: 'linear-gradient(to bottom, var(--color-accent-light), white)'}}>
         <div className="text-center mb-12">
           <h1 className="text-4xl font-extrabold text-gray-900 mb-4">
             Top Companies Hiring

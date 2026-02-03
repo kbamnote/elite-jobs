@@ -1,10 +1,10 @@
-import React from "react";
+import aboutimg1 from "../../../../assets/company culture.jpg"
 
 const WorkingWithTheBest = () => (
   <section className="py-12 px-6 sm:px-[5%] lg:px-[10%] bg-gradient-to-r from-gray-100 to-gray-50 flex flex-col lg:flex-row items-center">
     {/* Left Section - Image Grid */}
     <div className="grid grid-cols-2 gap-4 w-full lg:w-1/2">
-      {["https://images.unsplash.com/photo-1529336953121-cfece3dd0c1b?w=600","https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600","https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=600","https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?w=600"].map(
+      {[aboutimg1, "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=600", "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=600", "https://images.unsplash.com/photo-1496307042754-b4aa456c4a2d?w=600"].map(
         (src, index) => (
           <div key={index} className="rounded-xl overflow-hidden shadow-lg">
             <img
@@ -32,11 +32,11 @@ const WorkingWithTheBest = () => (
         {["Quality Job", "Resume Builder", "Top Companies", "Top Talents"].map(
           (feature, index) => (
             <div key={index} className="flex items-center group">
-              <span 
+              <span
                 className="p-3 rounded-full shadow-md transition-all duration-300"
-                style={{ 
-                  backgroundColor: 'var(--color-accent-light)', 
-                  color: 'var(--color-accent)' 
+                style={{
+                  backgroundColor: 'var(--color-accent-light)',
+                  color: 'var(--color-accent)'
                 }}
                 onMouseEnter={(e) => {
                   e.target.style.backgroundColor = 'var(--color-accent)';
@@ -62,7 +62,7 @@ const WorkingWithTheBest = () => (
                   />
                 </svg>
               </span>
-              <span 
+              <span
                 className="ml-4 font-medium text-gray-800 text-lg transition-all duration-300"
                 onMouseEnter={(e) => {
                   e.target.style.color = 'var(--color-accent)';

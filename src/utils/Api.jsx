@@ -160,4 +160,4 @@ export const allapplicant = (params = {}) => Api.get("/recruiter/applicants/filt
 export const allapplicantById = (id) => Api.get(`/recruiter/jobseekers/${id}`);
 
 // ============== Filter Applicants for Recruiter ==============
-export const filterApplicants = (params = {}) => Api.get("/recruiter/applicants/filter", { params });
+// export const filterApplicants = (params = {}) => Api.get("/recruiter/applicants/filter", { params });

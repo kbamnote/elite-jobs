@@ -8,27 +8,27 @@ const Testimonials = () => {
       title: "Amazing services",
       content:
         "I was struggling to find a job in my field, but this website made the process so much easier. The search filters are great, and I was able to find relevant openings quickly. I landed my dream job within a month! Thank you! - Sarah J., Marketing Professional",
-      author: "Marco Kihn",
+      author: "Shobhit Gajbe",
       role: "Happy Client",
-      image: "https://randomuser.me/api/portraits/men/32.jpg",
+      image: "https://media.licdn.com/dms/image/v2/D5635AQEuAqgIH05c8A/profile-framedphoto-shrink_400_400/B56ZfCgI29HUAg-/0/1751314894556?e=1769680800&v=beta&t=xVwTWTgDBi8oM9I9k_lTzz3LxmoTBY8cE2wjWngyFAE",
     },
     {
       rating: 5,
       title: "Everything simple",
       content:
         "The resume builder tool was a lifesaver! It helped me create a professional resume that highlighted my skills and experience. I received so much more interest from employers after using it. - David L., Software Engineer",
-      author: "Kristin Hester",
+      author: "Pranay Charde",
       role: "Happy Client",
-      image: "https://randomuser.me/api/portraits/women/44.jpg",
+      image: "https://media.licdn.com/dms/image/v2/D4D35AQGwEUxnokFG_g/profile-framedphoto-shrink_400_400/profile-framedphoto-shrink_400_400/0/1727369964836?e=1769680800&v=beta&t=zOVRUAETPdelERhCYH-DsPGIsS-TR5XQ2ZOKpgAXk6A",
     },
     {
       rating: 5,
       title: "Awesome, thank you!",
       content:
         "The resources and articles on the site were incredibly helpful. I learned so much about interview techniques and job search strategies. It gave me the confidence I needed to succeed. - John K., Recent Graduate",
-      author: "Zion Cisneros",
+      author: "Saurabh Bante",
       role: "Happy Client",
-      image: "https://randomuser.me/api/portraits/men/86.jpg",
+      image: "https://media.licdn.com/dms/image/v2/D4D35AQEYQ9m2WsgdoQ/profile-framedphoto-shrink_400_400/B4DZhyVRowHYAc-/0/1754264837056?e=1769680800&v=beta&t=1me2k_JF02TBUEKvu0Ft1Du3TpslgfKnA54FQ-oacW4",
     },
   ];
 

@@ -149,7 +149,7 @@ const Footer = () => {
     { Icon: Facebook, url: "https://facebook.com/" },
     { Icon: Twitter, url: "https://twitter.com/" },
     { Icon: Linkedin, url: "https://linkedin.com/in/" },
-    { Icon: Instagram, url: "https://www.instagram.com/udaa.nous?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" }
+    { Icon: Instagram, url: "https://www.instagram.com/elite._.jobss/" }
   ].map((item, index) => (
     <a
       key={index}

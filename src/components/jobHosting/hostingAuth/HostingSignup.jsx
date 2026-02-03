@@ -31,7 +31,7 @@ const HostingSignup = () => {
   // Handle Google signup redirect for job hosters
   const handleGoogleSignup = () => {
     // Redirect to backend Google OAuth endpoint with jobHoster role
-    window.location.href = `${import.meta.env.VITE_API_URL || 'https://elitejobsbackend-production.up.railway.app'}/auth/google?role=jobHoster`;
+    window.location.href = `${import.meta.env.VITE_API_URL || 'https://api.eliteindiajobs.com'}/auth/google?role=jobHoster`;
   };
 
   // Handle Google authentication callback

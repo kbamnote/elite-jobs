@@ -72,7 +72,7 @@ const Auth = () => {
     };
 
     const handleGoogleAuth = () => {
-        window.location.href = `${import.meta.env.VITE_API_URL || 'https://elitejobsbackend-production.up.railway.app'}/auth/google`;
+        window.location.href = `${import.meta.env.VITE_API_URL || 'https://api.eliteindiajobs.com'}/auth/google`;
     };
 
     useEffect(() => {

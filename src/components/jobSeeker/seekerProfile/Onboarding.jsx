@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { updateProfile, updateresumeSeeker, profile, allJobs, jobApply } from "../../../utils/Api";
 import { useNavigate } from "react-router-dom";
 
@@ -84,6 +84,12 @@ const Onboarding = () => {
 
   const progress = Math.round((step / totalSteps) * 100);
 
+  // Clear error when step changes
+  useEffect(() => {
+    setError("");
+    setInfo("");
+  }, [step]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
@@ -146,8 +152,8 @@ const Onboarding = () => {
       const url = response?.data?.data?.profile?.resume || "";
       setResumeUploadedUrl(url);
       setInfo("Resume updated successfully!");
-      await tryAutofillFromResume();
-      setStep(2);
+      // await tryAutofillFromResume();
+      // setStep(2);
     } catch (err) {
       setError(err.response?.data?.message || "Failed to update resume");
     } finally {
@@ -155,61 +161,61 @@ const Onboarding = () => {
     }
   };
 
-  const uploadResume = async () => {
-    if (!resumeFile) {
-      setError("Please choose a resume file first.");
-      return;
-    }
-    setResumeUploading(true);
-    setError("");
-    setInfo("");
-    try {
-      const fd = new FormData();
-      fd.append("resume", resumeFile);
-      const response = await updateresumeSeeker(fd);
-      const url = response?.data?.data?.profile?.resume || "";
-      setResumeUploadedUrl(url);
-      setInfo("Resume uploaded successfully.");
-      await tryAutofillFromResume();
-      setStep(2);
-    } catch (err) {
-      setError(err.response?.data?.message || "Failed to upload resume");
-    } finally {
-      setResumeUploading(false);
-    }
-  };
+  // const uploadResume = async () => {
+  //   if (!resumeFile) {
+  //     setError("Please choose a resume file first.");
+  //     return;
+  //   }
+  //   setResumeUploading(true);
+  //   setError("");
+  //   setInfo("");
+  //   try {
+  //     const fd = new FormData();
+  //     fd.append("resume", resumeFile);
+  //     const response = await updateresumeSeeker(fd);
+  //     const url = response?.data?.data?.profile?.resume || "";
+  //     setResumeUploadedUrl(url);
+  //     setInfo("Resume uploaded successfully.");
+  //     // await tryAutofillFromResume();
+  //     // setStep(2);
+  //   } catch (err) {
+  //     setError(err.response?.data?.message || "Failed to upload resume");
+  //   } finally {
+  //     setResumeUploading(false);
+  //   }
+  // };
 
-  const autoApplyRecommended = async () => {
-    try {
-      const res = await allJobs({ verificationStatus: 'verified' });
-      const jobs = res?.data?.data || res?.data || [];
-      const skillSet = (form.skills || "").toLowerCase().split(",").map(s => s.trim()).filter(Boolean);
-      const scored = jobs.map(j => {
-        const tags = (j?.skills || []).map(s => String(s).toLowerCase());
-        const overlap = skillSet.filter(s => tags.includes(s));
-        return { job: j, score: overlap.length };
-      }).sort((a,b) => b.score - a.score);
+  // const autoApplyRecommended = async () => {
+  //   try {
+  //     const res = await allJobs({ verificationStatus: 'verified' });
+  //     const jobs = res?.data?.data || res?.data || [];
+  //     const skillSet = (form.skills || "").toLowerCase().split(",").map(s => s.trim()).filter(Boolean);
+  //     const scored = jobs.map(j => {
+  //       const tags = (j?.skills || []).map(s => String(s).toLowerCase());
+  //       const overlap = skillSet.filter(s => tags.includes(s));
+  //       return { job: j, score: overlap.length };
+  //     }).sort((a, b) => b.score - a.score);
 
-      const best = scored[0]?.job;
-      if (!best || scored[0].score === 0) {
-        setInfo("No strong matches found to auto-apply. You can continue manually.");
-        return;
-      }
-      const applicationData = {
-        name: "",
-        email: "",
-        phone: form.phone || "",
-        address: form.address || "",
-        experience: [],
-        education: [],
-        skills: skillSet
-      };
-      await jobApply(best._id, applicationData);
-      setInfo(`Auto-applied to a recommended job: ${best.title}`);
-    } catch (e) {
-      setError(e.response?.data?.message || "Auto-apply failed");
-    }
-  };
+  //     const best = scored[0]?.job;
+  //     if (!best || scored[0].score === 0) {
+  //       setInfo("No strong matches found to auto-apply. You can continue manually.");
+  //       return;
+  //     }
+  //     const applicationData = {
+  //       name: "",
+  //       email: "",
+  //       phone: form.phone || "",
+  //       address: form.address || "",
+  //       experience: [],
+  //       education: [],
+  //       skills: skillSet
+  //     };
+  //     await jobApply(best._id, applicationData);
+  //     setInfo(`Auto-applied to a recommended job: ${best.title}`);
+  //   } catch (e) {
+  //     setError(e.response?.data?.message || "Auto-apply failed");
+  //   }
+  // };
 
   const submit = async () => {
     setError("");
@@ -263,10 +269,11 @@ const Onboarding = () => {
         </div>
 
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
-          {error && (
+          {[1, 2, 3, 4, 5, 6].includes(step) && error && (
             <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-lg text-sm">{error}</div>
           )}
-          {info && (
+
+          {info && step === 1 && (
             <div className="mb-4 p-3 bg-blue-50 text-blue-700 rounded-lg text-sm">{info}</div>
           )}
 
@@ -283,14 +290,14 @@ const Onboarding = () => {
                   </button>
                   <p className="mt-2 text-xs text-gray-500">Supported formats: .pdf, .doc, .docx</p>
                   <div className="mt-4 flex items-center justify-between">
-                    <button type="button" onClick={uploadResume} className="px-5 py-2 btn-accent rounded-lg" disabled={resumeUploading}>
+                    {/* <button type="button" onClick={uploadResume} className="px-5 py-2 btn-accent rounded-lg" disabled={resumeUploading}>
                       {resumeUploading ? 'Uploading…' : 'Upload & Auto-fill'}
-                    </button>
-                    <button type="button" onClick={() => setStep(2)} className="px-5 py-2 bg-gray-100 text-gray-700 rounded-lg" disabled={resumeUploading}>
+                    </button> */}
+                    {/* <button type="button" onClick={() => setStep(2)} className="px-5 py-2 bg-gray-100 text-gray-700 rounded-lg" disabled={resumeUploading}>
                       Continue manually
-                    </button>
+                    </button> */}
                   </div>
-                  <div className="mt-6 text-left">
+                  {/* <div className="mt-6 text-left">
                     <label className="inline-flex items-center gap-2 text-sm text-gray-700">
                       <input type="checkbox" checked={autoApplyEnabled} onChange={(e) => setAutoApplyEnabled(e.target.checked)} />
                       Enable auto-apply to a recommended job (beta)
@@ -300,7 +307,7 @@ const Onboarding = () => {
                         <button type="button" onClick={autoApplyRecommended} className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg">Auto-apply now</button>
                       </div>
                     )}
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
@@ -513,7 +520,10 @@ const Onboarding = () => {
                 onClick={() => {
                   // Enforce mandatory validation per step before advancing
                   setError("");
-                  if (step === 2) {
+                  if (!resumeUploadedUrl && step === 1) {
+                    setError("Please upload a resume to continue.");
+                    return;
+                  } else if (step === 2) {
                     if (!form.highestEducation) { setError("Highest education is required."); return; }
                   } else if (step === 3) {
                     if (!form.phone || !form.address) { setError("Phone and address are required."); return; }

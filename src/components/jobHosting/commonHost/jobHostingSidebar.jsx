@@ -19,7 +19,7 @@ const JobHostingSidebar = () => {
   const [isLogoutHovered, setIsLogoutHovered] = useState(false);
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
-  
+
   useEffect(() => {
     fetchProfileData();
   }, []);
@@ -29,7 +29,7 @@ const JobHostingSidebar = () => {
       setLoading(true);
       const response = await profile();
       const data = response.data.data;
-      
+
       setUserData({
         name: data.name,
         email: data.email,
@@ -52,7 +52,7 @@ const JobHostingSidebar = () => {
     // Remove token and role from cookies
     Cookies.remove("token");
     Cookies.remove("role");
-    
+
     // Navigate to home page
     navigate("/");
   };
@@ -114,9 +114,9 @@ const JobHostingSidebar = () => {
         <Link to="/hosting/profile" className="flex items-center mb-6">
           <div className="relative">
             {userData?.photo ? (
-              <img 
-                src={userData.photo} 
-                alt="Profile" 
+              <img
+                src={userData.photo}
+                alt="Profile"
                 className="w-12 h-12 rounded-full object-cover"
                 onError={(e) => { e.target.src = "https://placehold.co/150x150"; }}
               />
@@ -173,38 +173,26 @@ const JobHostingSidebar = () => {
 
             {navItems.map((item, index) => (
               <Link to={item.path} key={index} className="block">
-               <div
-                 className="flex items-center space-x-3 p-3 rounded-lg transition-colors duration-200"
-                 style={{
-                   display: 'flex',
-                   alignItems: 'center',
-                   padding: '12px 16px',
-                   marginBottom: '8px',
-                   borderRadius: 'var(--border-radius)',
-                   textDecoration: 'none',
-                   color: 'navy',
-                   backgroundColor: location.pathname === item.path ? 'var(--color-accent)' : 'transparent',
-                   transition: 'all 0.3s ease',
-                   fontFamily: 'var(--font-body)',
-                   fontWeight: '500',
-                 }}
-                 onMouseEnter={(e) => {
-                   if (location.pathname !== item.path) {
-                     e.target.style.backgroundColor = 'rgba(220, 38, 38, 0.2)';
-                     e.target.style.color = 'var(--color-accent)';
-                   }
-                 }}
-                 onMouseLeave={(e) => {
-                   if (location.pathname !== item.path) {
-                     e.target.style.backgroundColor = 'transparent';
-                     e.target.style.color = 'navy';
-                   }
-                 }}
-               >
-                 {item.icon(location.pathname === item.path)}
-                 <span className="text-base">{item.label}</span>
-               </div>
-             </Link>
+                <div
+                  className={`flex items-center space-x-3 p-3 rounded-lg transition-all duration-300 ${location.pathname === item.path
+                    ? 'bg-[var(--color-accent)] text-white shadow-lg'
+                    : 'hover:bg-red-500/20 hover:text-[var(--color-accent)] text-navy'
+                    }`}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: '12px 16px',
+                    marginBottom: '8px',
+                    borderRadius: 'var(--border-radius)',
+                    textDecoration: 'none',
+                    fontFamily: 'var(--font-body)',
+                    fontWeight: '500',
+                  }}
+                >
+                  {item.icon(location.pathname === item.path)}
+                  <span className="text-base font-medium"> {item.label}</span>
+                </div>
+              </Link>
             ))}
           </div>
         </nav>

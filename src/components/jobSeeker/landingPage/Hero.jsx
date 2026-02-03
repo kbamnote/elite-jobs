@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Search } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import video from '../../../assets/vid.mp4'
+import video from '../../../assets/vid3.mp4'
 
 const Hero = () => {
   const location = useLocation();

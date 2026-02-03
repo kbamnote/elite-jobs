@@ -182,8 +182,6 @@ const Header = () => {
             className="lg:hidden p-2 rounded transition-colors"
             style={{ color: 'var(--color-text-primary)' }}
             onClick={toggleMobileMenu}
-            onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--color-dark-secondary)'}
-            onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
@@ -298,9 +296,8 @@ const Header = () => {
                     </Link>
                     <Link to="/login?role=recruiter">
                       <button 
-                        className="px-4 py-2 rounded transition-all w-full cursor-pointer border-2 font-medium"
+                        className="px-4 py-2 rounded transition-all w-full cursor-pointer btn-accent border-2 font-medium"
                         style={{ 
-                          backgroundColor: 'transparent',
                           color: 'var(--color-text-white)',
                           borderColor: 'var(--color-text-white)',
                           fontFamily: 'var(--font-body)',
@@ -312,7 +309,7 @@ const Header = () => {
                           e.target.style.borderColor = 'var(--color-text-white)';
                         }}
                         onMouseLeave={(e) => {
-                          e.target.style.backgroundColor = 'transparent';
+                          e.target.style.backgroundColor = 'var(--color-accent)';
                           e.target.style.color = 'var(--color-text-white)';
                           e.target.style.borderColor = 'var(--color-text-white)';
                         }}
