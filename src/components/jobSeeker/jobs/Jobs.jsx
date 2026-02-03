@@ -933,7 +933,7 @@ const Jobs = () => {
                                 <img
                                   src={getImageUrl(job.company.logo)}
                                   alt={job.company.name}
-                                  className="w-10 h-10 rounded-lg object-cover"
+                                  className="w-10 h-10 rounded-lg object-contain"
                                   onError={(e) => {
                                     e.target.src = "https://placehold.co/60x60";
                                   }}

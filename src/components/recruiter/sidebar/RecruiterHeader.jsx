@@ -65,7 +65,7 @@ const RecruiterHeader = () => {
         <div className="flex justify-between items-center">
           {/* Logo */}
           <Link to="/recruiter/dashboard" className="flex items-center space-x-2 flex-shrink-0">
-            <img src={Logo} alt="Elite Jobs Logo" className="h-12 w-32 md:h-18 md:w-50" />
+            <img src={Logo} alt="Elite Jobs Logo" className="h-12 md:h-18" />
           </Link>
 
           {/* Desktop Navigation */}
@@ -90,7 +90,7 @@ const RecruiterHeader = () => {
                   <User className="w-5 h-5" />
                 </div>
               </Link>
-              <span style={{ color: 'navy', fontWeight: 600, fontFamily: 'var(--font-body)' }}>{userName}</span>
+              <span className="flex w-max" style={{ color: 'navy', fontWeight: 600, fontFamily: 'var(--font-body)' }}>{userName}</span>
             </div>
             <button
               onClick={handleLogout}
@@ -118,8 +118,6 @@ const RecruiterHeader = () => {
             className="lg:hidden p-2 rounded transition-colors"
             style={{ color: 'var(--color-text-primary)' }}
             onClick={toggleMobileMenu}
-            onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--color-dark-secondary)'}
-            onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>

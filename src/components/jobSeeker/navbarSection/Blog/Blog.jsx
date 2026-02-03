@@ -288,7 +288,7 @@ const Blog = () => {
               <div key={post.id} className="bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300 hover:shadow-lg">
                 <div className="bg-gray-200 border-2 border-dashed w-full h-48 flex items-center justify-center overflow-hidden rounded-lg">
                   <img
-                    src= {post.image}  // put your image path here
+                    src={post.image}  // put your image path here
                     alt="Blog"
                     className="w-full h-full object-cover"
                   />

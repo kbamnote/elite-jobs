@@ -282,6 +282,8 @@ const RecruiterOnboarding = () => {
   const validateStep = () => {
     const errs = getStepErrors();
     setError("");
+    setMessage("");
+    setInfo("");
     if (errs.length) {
       setError(`Please complete: ${errs.join(", ")}.`);
       return false;
@@ -289,12 +291,21 @@ const RecruiterOnboarding = () => {
     return true;
   };
 
+  const clearAndSetStep = (s) => {
+    setError("");
+    setMessage("");
+    setInfo("");
+    setStep(s);
+  };
+
   const nextStep = () => {
     if (!validateStep()) return;
-    setStep((s) => Math.min(totalSteps, s + 1));
+    clearAndSetStep(Math.min(totalSteps, step + 1));
   };
   
-  const prevStep = () => setStep((s) => Math.max(1, s - 1));
+  const prevStep = () => {
+    clearAndSetStep(Math.max(1, step - 1));
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -303,15 +314,15 @@ const RecruiterOnboarding = () => {
     if (!formData.profile.companyName.trim()) {
       step5Errors.push("company name");
     }
-    if (!documentUploadedUrl) {
-      step5Errors.push("company document");
-    }
-    if (!formData.profile.panCardNumber.trim() || !isPAN(formData.profile.panCardNumber)) {
-      step5Errors.push("valid PAN card number");
-    }
-    if (!formData.profile.gstNumber.trim() || !isGST(formData.profile.gstNumber)) {
-      step5Errors.push("valid GST number");
-    }
+    // if (!documentUploadedUrl) {
+    //   step5Errors.push("company document");
+    // }
+    // if (!formData.profile.panCardNumber.trim() || !isPAN(formData.profile.panCardNumber)) {
+    //   step5Errors.push("valid PAN card number");
+    // }
+    // if (!formData.profile.gstNumber.trim() || !isGST(formData.profile.gstNumber)) {
+    //   step5Errors.push("valid GST number");
+    // }
     
     if (step5Errors.length > 0) {
       setError(`Please complete: ${step5Errors.join(", ")}.`);
@@ -363,19 +374,18 @@ const RecruiterOnboarding = () => {
         </div>
 
         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 sm:p-8">
-          {error && (
-            <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-lg text-sm">{error}</div>
-          )}
-          {message && (
-            <div className="mb-4 p-3 bg-green-50 text-green-700 rounded-lg text-sm">{message}</div>
-          )}
-          {info && (
-            <div className="mb-4 p-3 bg-blue-50 text-blue-700 rounded-lg text-sm">{info}</div>
-          )}
-
           <div className="space-y-6">
           {step === 1 && (
             <div className="text-center">
+              {error && (
+                <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-lg text-sm">{error}</div>
+              )}
+              {message && (
+                <div className="mb-4 p-3 bg-green-50 text-green-700 rounded-lg text-sm">{message}</div>
+              )}
+              {info && (
+                <div className="mb-4 p-3 bg-blue-50 text-blue-700 rounded-lg text-sm">{info}</div>
+              )}
               <div className="max-w-2xl mx-auto">
                 <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Welcome to Elite Jobs Recruiter</h1>
                 <h2 className="text-xl text-gray-700 mb-6">Let's get your company profile set up</h2>
@@ -390,7 +400,7 @@ const RecruiterOnboarding = () => {
                     <button type="button" onClick={uploadLogo} className="px-5 py-2 btn-accent rounded-lg" disabled={logoUploading}>
                       {logoUploading ? 'Uploading…' : 'Upload Logo'}
                     </button>
-                    <button type="button" onClick={() => setStep(2)} className="px-5 py-2 bg-gray-100 text-gray-700 rounded-lg" disabled={logoUploading}>
+                    <button type="button" onClick={() => clearAndSetStep(2)} className="px-5 py-2 bg-gray-100 text-gray-700 rounded-lg" disabled={logoUploading}>
                       Skip for now
                     </button>
                   </div>
@@ -401,6 +411,15 @@ const RecruiterOnboarding = () => {
 
           {step === 2 && (
             <div className="text-center">
+              {error && (
+                <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-lg text-sm">{error}</div>
+              )}
+              {message && (
+                <div className="mb-4 p-3 bg-green-50 text-green-700 rounded-lg text-sm">{message}</div>
+              )}
+              {info && (
+                <div className="mb-4 p-3 bg-blue-50 text-blue-700 rounded-lg text-sm">{info}</div>
+              )}
               <div className="max-w-2xl mx-auto">
                 <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Company Documents</h1>
                 <h2 className="text-xl text-gray-700 mb-6">Upload your company registration documents</h2>
@@ -415,7 +434,7 @@ const RecruiterOnboarding = () => {
                     <button type="button" onClick={uploadDocument} className="px-5 py-2 btn-accent rounded-lg" disabled={documentUploading}>
                       {documentUploading ? 'Uploading…' : 'Upload Document'}
                     </button>
-                    <button type="button" onClick={() => setStep(3)} className="px-5 py-2 bg-gray-100 text-gray-700 rounded-lg" disabled={documentUploading}>
+                    <button type="button" onClick={() => clearAndSetStep(3)} className="px-5 py-2 bg-gray-100 text-gray-700 rounded-lg" disabled={documentUploading}>
                       Skip for now
                     </button>
                   </div>
@@ -426,6 +445,15 @@ const RecruiterOnboarding = () => {
 
           {step === 3 && (
             <div className="text-center">
+              {error && (
+                <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-lg text-sm">{error}</div>
+              )}
+              {message && (
+                <div className="mb-4 p-3 bg-green-50 text-green-700 rounded-lg text-sm">{message}</div>
+              )}
+              {info && (
+                <div className="mb-4 p-3 bg-blue-50 text-blue-700 rounded-lg text-sm">{info}</div>
+              )}
               <div className="max-w-2xl mx-auto">
                 <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Profile Photo</h1>
                 <h2 className="text-xl text-gray-700 mb-6">Upload your profile photo</h2>
@@ -440,7 +468,7 @@ const RecruiterOnboarding = () => {
                     <button type="button" onClick={uploadPhoto} className="px-5 py-2 btn-accent rounded-lg" disabled={photoUploading}>
                       {photoUploading ? 'Uploading…' : 'Upload Photo'}
                     </button>
-                    <button type="button" onClick={() => setStep(4)} className="px-5 py-2 bg-gray-100 text-gray-700 rounded-lg" disabled={photoUploading}>
+                    <button type="button" onClick={() => clearAndSetStep(4)} className="px-5 py-2 bg-gray-100 text-gray-700 rounded-lg" disabled={photoUploading}>
                       Skip for now
                     </button>
                   </div>
@@ -451,6 +479,15 @@ const RecruiterOnboarding = () => {
 
           {step === 4 && (
             <div>
+              {error && (
+                <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-lg text-sm">{error}</div>
+              )}
+              {message && (
+                <div className="mb-4 p-3 bg-green-50 text-green-700 rounded-lg text-sm">{message}</div>
+              )}
+              {info && (
+                <div className="mb-4 p-3 bg-blue-50 text-blue-700 rounded-lg text-sm">{info}</div>
+              )}
               <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">Personal Information</h1>
               <div className="space-y-5">
                 <div>
@@ -492,6 +529,15 @@ const RecruiterOnboarding = () => {
 
           {step === 5 && (
             <div>
+              {error && (
+                <div className="mb-4 p-3 bg-red-50 text-red-700 rounded-lg text-sm">{error}</div>
+              )}
+              {message && (
+                <div className="mb-4 p-3 bg-green-50 text-green-700 rounded-lg text-sm">{message}</div>
+              )}
+              {info && (
+                <div className="mb-4 p-3 bg-blue-50 text-blue-700 rounded-lg text-sm">{info}</div>
+              )}
               <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">Company Information</h1>
               <div className="space-y-5">
                 <div>

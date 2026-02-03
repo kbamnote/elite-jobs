@@ -11,6 +11,10 @@ const RecruiterPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [showFilters, setShowFilters] = useState(false); // For mobile filter toggle
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [totalApplicants, setTotalApplicants] = useState(0);
+  const itemsPerPage = 10;
 
   // Define filter options
   const EXPERIENCE_OPTIONS = [
@@ -76,13 +80,16 @@ const RecruiterPage = () => {
   const [appliedFilters, setAppliedFilters] = useState({ ...filters });
 
   useEffect(() => {
-    fetchApplicants();
-  }, [appliedFilters]);
+    fetchApplicants(currentPage);
+  }, [appliedFilters, currentPage]);
 
-  const fetchApplicants = async () => {
+  const fetchApplicants = async (page = 1) => {
     try {
       setLoading(true);
-      const filterParams = {};
+      const filterParams = {
+        page: page,
+        limit: itemsPerPage
+      };
       Object.keys(appliedFilters).forEach(key => {
         if (appliedFilters[key]) {
           filterParams[key] = appliedFilters[key];
@@ -93,6 +100,8 @@ const RecruiterPage = () => {
       // Extract applicants from the nested data structure
       const applicantsData = response.data.data.applicants || [];
       setApplicants(applicantsData);
+      setTotalPages(response.data.data.totalPages || 1);
+      setTotalApplicants(response.data.data.totalApplicants || applicantsData.length || 0);
       setError('');
     } catch (err) {
       console.error('Error fetching applicants:', err);
@@ -113,6 +122,7 @@ const RecruiterPage = () => {
 
   const applyFilters = () => {
     setAppliedFilters({ ...filters });
+    setCurrentPage(1); // Reset to first page when applying filters
     // Hide filters on mobile after applying
     if (window.innerWidth < 768) {
       setShowFilters(false);
@@ -146,6 +156,7 @@ const RecruiterPage = () => {
       salaryMin: '',
       salaryMax: ''
     });
+    setCurrentPage(1); // Reset to first page when resetting filters
     // Navigate to the base dashboard URL without filters
     navigate('/recruiter/dashboard', { replace: true });
     // Hide filters on mobile after resetting
@@ -161,6 +172,9 @@ const RecruiterPage = () => {
   const toggleFilters = () => {
     setShowFilters(!showFilters);
   };
+
+  // Pagination Logic
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   const renderLoadingSkeleton = () => {
     return (
@@ -283,7 +297,6 @@ const RecruiterPage = () => {
             backgroundColor: 'var(--color-white)', 
             borderColor: 'var(--color-border)',
             boxShadow: '2px 0 10px rgba(0, 0, 0, 0.05)',
-            height: 'calc(100vh - 64px)'
           }}>
             <div className="p-4 md:p-6">
               <div className="mb-4 md:mb-6">
@@ -513,6 +526,7 @@ const RecruiterPage = () => {
                       className="w-full px-2 py-2 md:px-3 md:py-2.5 border rounded-lg text-xs md:text-sm transition-all duration-200 focus:ring-2 focus:ring-opacity-50 focus:border-transparent"
                       style={{ 
                         color: 'var(--color-text-primary)', 
+                        
                         fontFamily: 'var(--font-body)',
                         borderColor: 'var(--color-border)',
                         backgroundColor: 'var(--color-white)',
@@ -536,7 +550,7 @@ const RecruiterPage = () => {
                       Student Applicants
                     </h1>
                     <p className="text-base md:text-lg" style={{ color: 'var(--color-text-secondary)', fontFamily: 'var(--font-body)' }}>
-                      {applicants.length} {applicants.length === 1 ? 'applicant' : 'applicants'} found
+                      {totalApplicants} {totalApplicants === 1 ? 'applicant' : 'applicants'} found
                     </p>
                   </div>
                   <div className="text-right">
@@ -678,6 +692,77 @@ const RecruiterPage = () => {
                       ))}
                     </tbody>
                   </table>
+                  
+                  {/* Pagination Controls */}
+                  {totalApplicants > itemsPerPage && (
+                    <div className="px-6 py-4 flex items-center justify-between border-t" style={{ borderColor: 'var(--color-border)' }}>
+                      <div className="flex-1 flex justify-between sm:hidden">
+                        <button
+                          onClick={() => paginate(Math.max(1, currentPage - 1))}
+                          disabled={currentPage === 1}
+                          className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50"
+                        >
+                          Previous
+                        </button>
+                        <button
+                          onClick={() => paginate(Math.min(totalPages, currentPage + 1))}
+                          disabled={currentPage === totalPages}
+                          className="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50"
+                        >
+                          Next
+                        </button>
+                      </div>
+                      <div className="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                        <div>
+                          <p className="text-sm text-gray-700">
+                            Showing <span className="font-medium">{(currentPage - 1) * itemsPerPage + 1}</span> to <span className="font-medium">{Math.min(currentPage * itemsPerPage, totalApplicants)}</span> of{' '}
+                            <span className="font-medium">{totalApplicants}</span> results
+                          </p>
+                        </div>
+                        <div>
+                          <nav className="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                            <button
+                              onClick={() => paginate(Math.max(1, currentPage - 1))}
+                              disabled={currentPage === 1}
+                              className="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50"
+                            >
+                              <span className="sr-only">Previous</span>
+                              <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
+                              </svg>
+                            </button>
+                           
+                            {[...Array(totalPages)].map((_, i) => (
+                              <button
+                                key={i + 1}
+                                onClick={() => paginate(i + 1)}
+                                className={`relative inline-flex items-center px-4 py-2 border text-sm font-medium ${
+                                  currentPage === i + 1
+                                    ? 'z-10 bg-red-50 border-red-500 text-red-600'
+                                    : 'bg-white border-gray-300 text-gray-500 hover:bg-gray-50'
+                                }`}
+                                style={currentPage === i + 1 ? { backgroundColor: 'var(--color-primary-light)', borderColor: 'var(--color-primary)', color: 'var(--color-primary)' } : {}}
+                              >
+                                {i + 1}
+                              </button>
+                            ))}
+
+
+                            <button
+                              onClick={() => paginate(Math.min(totalPages, currentPage + 1))}
+                              disabled={currentPage === totalPages}
+                              className="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50 disabled:opacity-50"
+                            >
+                              <span className="sr-only">Next</span>
+                              <svg className="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                              </svg>
+                            </button>
+                          </nav>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               )}
             </div>

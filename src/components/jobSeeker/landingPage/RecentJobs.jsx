@@ -22,17 +22,17 @@ const RecentJobs = () => {
   const fetchJobs = async () => {
     try {
       setLoading(true);
-
+      
       // Fetch only verified jobs with a limit of 6
-      const response = await allJobs({
-        page: 1,
+      const response = await allJobs({ 
+        page: 1, 
         limit: 6,
         verificationStatus: 'verified'
       });
-
+      
       if (response.data.data.jobs) {
         const newJobs = response.data.data.jobs;
-
+        
         // Transform the API data to match the existing structure
         const transformedJobs = newJobs.map((job) => ({
           id: job._id,
@@ -40,8 +40,8 @@ const RecentJobs = () => {
           company: job.company?.name || job.postedBy?.profile?.companyName || "Unknown Company",
           category: job.category || "Other",
           type: job.jobType || "Full-time",
-          salary: job.salary?.min && job.salary?.max && job.salary?.currency
-            ? `${job.salary.min} - ${job.salary.max} ${job.salary.currency}`
+          salary: job.salary?.min && job.salary?.max && job.salary?.currency 
+            ? `${job.salary.min} - ${job.salary.max} ${job.salary.currency}` 
             : "Not specified",
           location: job.location,
           worktype: job.workType,
@@ -51,7 +51,7 @@ const RecentJobs = () => {
           noticePeriod: job.noticePeriod,
           minEducation: job.minEducation
         }));
-
+        
         setJobs(transformedJobs);
       }
     } catch (err) {
@@ -82,7 +82,7 @@ const RecentJobs = () => {
             </div>
             <div className="h-4 bg-[var(--color-border)] rounded w-24 animate-pulse"></div>
           </div>
-
+          
           {/* Job Cards Skeleton */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[...Array(3)].map((_, index) => (
@@ -256,6 +256,18 @@ const RecentJobs = () => {
             <p className="text-gray-500 text-lg">No jobs available at the moment.</p>
           </div>
         )}
+        
+        {/* {hasMore && (
+          <div className="flex justify-center mt-8">
+            <button
+              onClick={loadMoreJobs}
+              disabled={loading}
+              className="px-6 py-3 bg-[var(--color-accent)] text-white font-medium rounded-lg hover:bg-[var(--color-accent-dark)] transition-colors duration-200 disabled:opacity-50"
+            >
+              {loading ? 'Loading...' : 'View More Jobs'}
+            </button>
+          </div>
+        )} */}
       </div>
     </div>
   );

@@ -11,8 +11,10 @@
 
 /* Hide scrollbar for IE, Edge and Firefox */
 * {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
 
 /* JobSeeker Theme Variables */
@@ -21,6 +23,7 @@
   --color-primary: #0F3460;
   --color-accent: #E94560;
   --color-accent-light: #FEF2F2;
+  --color-accent-Darklight: #fcc1c1;
   --color-background: #F9F7F7;
   --color-white: #FFFFFF;
   --color-background-light: #FAFAFA;
@@ -31,25 +34,25 @@
   --color-text-muted: #6B7280;
   --color-text-light: #9CA3AF;
   --color-text-white: #FFFFFF;
-  
+
   /* Border Colors */
   --color-border: #E5E7EB;
-  
+
   /* Semantic Colors */
   --color-success: #10B981;
   --color-warning: #F59E0B;
   --color-error: #EF4444;
   --color-info: #3B82F6;
-  
+
   /* Typography */
   --font-heading: "Helvetica Now", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-body: "Neue Montreal", "Inter", system-ui, -apple-system, sans-serif;
-  
+
   /* Transitions */
   --transition-fast: 150ms ease-in-out;
   --transition-normal: 300ms ease-in-out;
   --transition-slow: 500ms ease-in-out;
-  
+
   /* Shadows */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
@@ -66,7 +69,12 @@ body {
 }
 
 /* Heading Styles */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-heading);
   font-weight: 600;
   color: var(--color-text-primary);
@@ -150,9 +158,13 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Utility to hide scrollbars while preserving scroll behavior */
 .no-scrollbar {
-  -ms-overflow-style: none; /* IE and old Edge */
-  scrollbar-width: none;    /* Firefox */
+  -ms-overflow-style: none;
+  /* IE and old Edge */
+  scrollbar-width: none;
+  /* Firefox */
 }
+
 .no-scrollbar::-webkit-scrollbar {
-  display: none;            /* Chrome, Safari, and Opera */
+  display: none;
+  /* Chrome, Safari, and Opera */
 }

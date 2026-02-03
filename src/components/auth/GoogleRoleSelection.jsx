@@ -34,7 +34,7 @@ const GoogleRoleSelection = () => {
       }));
     } else {
       // If missing required parameters, redirect to login
-      navigate('/login');
+      navigate('/onboarding');
     }
   }, [location, navigate]);
   
@@ -98,7 +98,7 @@ const GoogleRoleSelection = () => {
         
         // Navigate based on role
         if (role === 'jobSeeker') {
-          navigate('/');
+          navigate('/onboarding');
         } else if (role === 'jobHoster') {
           navigate('/hosting/dashboard');
         } else if (role === 'recruiter') {

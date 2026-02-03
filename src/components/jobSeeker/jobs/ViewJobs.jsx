@@ -7,12 +7,12 @@ import { jobsById, jobApply, profile, appliedJobs } from '../../../utils/Api';
 // Utility function to properly handle image URLs
 const getImageUrl = (url) => {
   if (!url) return 'https://placehold.co/80x80';
-  
+
   // If it's already an absolute URL, return as is
   if (url.startsWith('http://') || url.startsWith('https://')) {
     return url;
   }
-  
+
   // If it's a relative path, prepend the base URL
   const baseUrl = import.meta.env.VITE_API_URL || "https://elite-jobs-backend.onrender.com";
   return `${baseUrl}${url.startsWith('/') ? url : `/${url}`}`;
@@ -21,7 +21,7 @@ const getImageUrl = (url) => {
 const ViewJobs = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  
+
   const [job, setJob] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -77,8 +77,8 @@ const ViewJobs = () => {
     if (!userApplications.length || !job) {
       return false;
     }
-    
-    return userApplications.some(application => 
+
+    return userApplications.some(application =>
       application.jobId && application.jobId._id === job._id
     );
   };
@@ -86,7 +86,7 @@ const ViewJobs = () => {
   const handleApply = async () => {
     try {
       setApplying(true);
-      
+
       // Prepare application data from user profile
       const applicationData = {
         name: userProfile.name,
@@ -122,14 +122,14 @@ const ViewJobs = () => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* Back Button Skeleton */}
             <div className="mb-6 h-10 bg-[var(--color-border)] rounded-lg w-32 animate-pulse"></div>
-            
+
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Main Content Skeleton */}
               <div className="lg:col-span-2 space-y-6">
                 {/* Job Header Card Skeleton */}
-                <div className="rounded-xl overflow-hidden" style={{ 
-                  backgroundColor: 'var(--color-white)', 
-                  boxShadow: 'var(--shadow-lg)' 
+                <div className="rounded-xl overflow-hidden" style={{
+                  backgroundColor: 'var(--color-white)',
+                  boxShadow: 'var(--shadow-lg)'
                 }}>
                   <div className="p-8" style={{ background: 'linear-gradient(135deg, var(--color-primary) 0%, var(--color-dark-secondary) 100%)' }}>
                     <div className="flex flex-col sm:flex-row items-start gap-6">
@@ -145,7 +145,7 @@ const ViewJobs = () => {
                       </div>
                     </div>
                   </div>
-                  
+
                   {/* Job Tags Skeleton */}
                   <div className="p-6 border-b" style={{ borderColor: 'var(--color-border)' }}>
                     <div className="flex flex-wrap gap-2">
@@ -157,11 +157,11 @@ const ViewJobs = () => {
                     </div>
                   </div>
                 </div>
-                
+
                 {/* Job Description Skeleton */}
-                <div className="rounded-xl p-8" style={{ 
-                  backgroundColor: 'var(--color-white)', 
-                  boxShadow: 'var(--shadow-lg)' 
+                <div className="rounded-xl p-8" style={{
+                  backgroundColor: 'var(--color-white)',
+                  boxShadow: 'var(--shadow-lg)'
                 }}>
                   <div className="h-8 bg-[var(--color-border)] rounded w-1/3 mb-6 animate-pulse"></div>
                   <div className="space-y-3">
@@ -171,11 +171,11 @@ const ViewJobs = () => {
                     <div className="h-4 bg-[var(--color-border)] rounded w-3/4 animate-pulse"></div>
                   </div>
                 </div>
-                
+
                 {/* Requirements Skeleton */}
-                <div className="rounded-xl p-8" style={{ 
-                  backgroundColor: 'var(--color-white)', 
-                  boxShadow: 'var(--shadow-lg)' 
+                <div className="rounded-xl p-8" style={{
+                  backgroundColor: 'var(--color-white)',
+                  boxShadow: 'var(--shadow-lg)'
                 }}>
                   <div className="h-8 bg-[var(--color-border)] rounded w-1/3 mb-6 animate-pulse"></div>
                   <div className="space-y-4">
@@ -187,11 +187,11 @@ const ViewJobs = () => {
                     ))}
                   </div>
                 </div>
-                
+
                 {/* Responsibilities Skeleton */}
-                <div className="rounded-xl p-8" style={{ 
-                  backgroundColor: 'var(--color-white)', 
-                  boxShadow: 'var(--shadow-lg)' 
+                <div className="rounded-xl p-8" style={{
+                  backgroundColor: 'var(--color-white)',
+                  boxShadow: 'var(--shadow-lg)'
                 }}>
                   <div className="h-8 bg-[var(--color-border)] rounded w-1/3 mb-6 animate-pulse"></div>
                   <div className="space-y-4">
@@ -203,11 +203,11 @@ const ViewJobs = () => {
                     ))}
                   </div>
                 </div>
-                
+
                 {/* Skills Skeleton */}
-                <div className="rounded-xl p-8" style={{ 
-                  backgroundColor: 'var(--color-white)', 
-                  boxShadow: 'var(--shadow-lg)' 
+                <div className="rounded-xl p-8" style={{
+                  backgroundColor: 'var(--color-white)',
+                  boxShadow: 'var(--shadow-lg)'
                 }}>
                   <div className="h-8 bg-[var(--color-border)] rounded w-1/3 mb-6 animate-pulse"></div>
                   <div className="flex flex-wrap gap-3">
@@ -216,11 +216,11 @@ const ViewJobs = () => {
                     ))}
                   </div>
                 </div>
-                
+
                 {/* Company Info Skeleton */}
-                <div className="rounded-xl p-8" style={{ 
-                  backgroundColor: 'var(--color-white)', 
-                  boxShadow: 'var(--shadow-lg)' 
+                <div className="rounded-xl p-8" style={{
+                  backgroundColor: 'var(--color-white)',
+                  boxShadow: 'var(--shadow-lg)'
                 }}>
                   <div className="h-8 bg-[var(--color-border)] rounded w-1/3 mb-6 animate-pulse"></div>
                   <div className="space-y-3 mb-6">
@@ -241,16 +241,16 @@ const ViewJobs = () => {
                   <div className="h-10 bg-[var(--color-border)] rounded-lg w-32 animate-pulse"></div>
                 </div>
               </div>
-              
+
               {/* Sidebar Skeleton */}
               <div className="lg:col-span-1 space-y-6">
                 {/* Quick Info Card Skeleton */}
-                <div className="rounded-xl p-6" style={{ 
-                  backgroundColor: 'var(--color-white)', 
-                  boxShadow: 'var(--shadow-lg)' 
+                <div className="rounded-xl p-6" style={{
+                  backgroundColor: 'var(--color-white)',
+                  boxShadow: 'var(--shadow-lg)'
                 }}>
                   <div className="h-6 bg-[var(--color-border)] rounded w-1/3 mb-6 animate-pulse"></div>
-                  
+
                   <div className="space-y-4">
                     {[...Array(8)].map((_, index) => (
                       <div key={index} className="flex items-start gap-3">
@@ -263,11 +263,11 @@ const ViewJobs = () => {
                     ))}
                   </div>
                 </div>
-                
+
                 {/* Apply Card Skeleton */}
-                <div className="rounded-xl p-6" style={{ 
-                  backgroundColor: 'var(--color-white)', 
-                  boxShadow: 'var(--shadow-lg)' 
+                <div className="rounded-xl p-6" style={{
+                  backgroundColor: 'var(--color-white)',
+                  boxShadow: 'var(--shadow-lg)'
                 }}>
                   <div className="h-6 bg-[var(--color-border)] rounded w-1/3 mb-4 animate-pulse"></div>
                   <div className="h-12 bg-[var(--color-border)] rounded-lg animate-pulse"></div>
@@ -297,8 +297,8 @@ const ViewJobs = () => {
             <button
               onClick={() => window.location.reload()}
               className="px-6 py-3 rounded-lg font-medium transition-all duration-300"
-              style={{ 
-                backgroundColor: 'var(--color-primary)', 
+              style={{
+                backgroundColor: 'var(--color-primary)',
                 color: 'var(--color-text-white)',
                 fontFamily: 'var(--font-body)'
               }}
@@ -328,8 +328,8 @@ const ViewJobs = () => {
             <button
               onClick={handleGoBack}
               className="px-6 py-3 rounded-lg font-medium transition-all duration-300"
-              style={{ 
-                backgroundColor: 'var(--color-primary)', 
+              style={{
+                backgroundColor: 'var(--color-primary)',
                 color: 'var(--color-text-white)',
                 fontFamily: 'var(--font-body)'
               }}
@@ -346,17 +346,23 @@ const ViewJobs = () => {
 
   // Check if job has directLink (regardless of who posted it)
   const isDirectApplication = job?.directLink && job?.directLink.trim() !== "";
-  
+
   // Function to handle direct application link
   const handleDirectApply = () => {
+    // Check if user has uploaded a resume
+    if (!userProfile?.profile?.resume) {
+      setError('Please upload your resume before applying directly. Update your profile to add a resume.');
+      return;
+    }
+
     const directLink = job.directLink;
-    
+
     // Check if it's an email address (contains @ or contains ! which is often used instead of @)
     if ((directLink.includes('@') || directLink.includes('!')) && !directLink.startsWith('http')) {
       // Replace ! with @ if it's used as a substitute for email
       const email = directLink.includes('!') ? directLink.replace('!', '@') : directLink;
       window.location.href = `mailto:${email}`;
-    } 
+    }
     // Check if it's an absolute URL
     else if (directLink.startsWith('http://') || directLink.startsWith('https://')) {
       window.open(directLink, '_blank');
@@ -376,11 +382,11 @@ const ViewJobs = () => {
     <>
       <div className="min-h-screen py-10" style={{ backgroundColor: 'var(--color-background)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <button 
+          <button
             onClick={handleGoBack}
             className="mb-6 inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-300 hover:shadow-md"
-            style={{ 
-              backgroundColor: 'var(--color-white)', 
+            style={{
+              backgroundColor: 'var(--color-white)',
               color: 'var(--color-primary)',
               border: '2px solid var(--color-primary)',
               fontFamily: 'var(--font-body)'
@@ -388,10 +394,10 @@ const ViewJobs = () => {
           >
             ← Back to Jobs
           </button>
-          
+
           {applicationSuccess ? (
-            <div className="mb-6 p-4 rounded-lg border-l-4" style={{ 
-              backgroundColor: 'var(--color-success)', 
+            <div className="mb-6 p-4 rounded-lg border-l-4" style={{
+              backgroundColor: 'var(--color-success)',
               borderColor: 'var(--color-success)',
               color: 'white'
             }}>
@@ -412,16 +418,16 @@ const ViewJobs = () => {
               {/* Main Content */}
               <div className="lg:col-span-2 space-y-6">
                 {/* Job Header Card */}
-                <div className="rounded-xl overflow-hidden" style={{ 
-                  backgroundColor: 'var(--color-white)', 
-                  boxShadow: 'var(--shadow-lg)' 
+                <div className="rounded-xl overflow-hidden" style={{
+                  backgroundColor: 'var(--color-white)',
+                  boxShadow: 'var(--shadow-lg)'
                 }}>
                   <div className="p-8" style={{ background: 'linear-gradient(135deg, var(--color-primary) 0%, var(--color-dark-secondary) 100%)' }}>
                     <div className="flex flex-col sm:flex-row items-start gap-6">
                       <div className="w-20 h-20 rounded-xl p-4 flex-shrink-0" style={{ backgroundColor: 'var(--color-white)', boxShadow: 'var(--shadow-md)' }}>
-                        <img 
-                          src={getImageUrl(job.company.logo)} 
-                          alt={job.company.name} 
+                        <img
+                          src={getImageUrl(job.company.logo)}
+                          alt={job.company.name}
                           className="w-full h-full object-contain"
                           onError={(e) => { e.target.src = 'https://placehold.co/80x80'; }}
                         />
@@ -449,40 +455,40 @@ const ViewJobs = () => {
                       </div>
                     </div>
                   </div>
-                  
+
                   {/* Job Tags */}
                   <div className="p-6 border-b" style={{ borderColor: 'var(--color-border)' }}>
                     <div className="flex flex-wrap gap-2">
-                      <span className="px-3 py-1 rounded-full text-sm font-medium" style={{ 
-                        backgroundColor: 'var(--color-accent)', 
+                      <span className="px-3 py-1 rounded-full text-sm font-medium" style={{
+                        backgroundColor: 'var(--color-accent)',
                         color: 'var(--color-text-white)',
                         fontFamily: 'var(--font-body)'
                       }}>
                         {job.category}
                       </span>
-                      <span className="px-3 py-1 rounded-full text-sm font-medium" style={{ 
-                        backgroundColor: 'var(--color-gray-100)', 
+                      <span className="px-3 py-1 rounded-full text-sm font-medium" style={{
+                        backgroundColor: 'var(--color-gray-100)',
                         color: 'var(--color-text-secondary)',
                         fontFamily: 'var(--font-body)'
                       }}>
                         {job.jobType}
                       </span>
-                      <span className="px-3 py-1 rounded-full text-sm font-medium" style={{ 
-                        backgroundColor: 'var(--color-gray-100)', 
+                      <span className="px-3 py-1 rounded-full text-sm font-medium" style={{
+                        backgroundColor: 'var(--color-gray-100)',
                         color: 'var(--color-text-secondary)',
                         fontFamily: 'var(--font-body)'
                       }}>
                         {job.experienceLevel}
                       </span>
-                      <span className="px-3 py-1 rounded-full text-sm font-medium" style={{ 
-                        backgroundColor: 'var(--color-gray-100)', 
+                      <span className="px-3 py-1 rounded-full text-sm font-medium" style={{
+                        backgroundColor: 'var(--color-gray-100)',
                         color: 'var(--color-text-secondary)',
                         fontFamily: 'var(--font-body)'
                       }}>
                         {job.workType}
                       </span>
-                      <span className="px-3 py-1 rounded-full text-sm font-medium" style={{ 
-                        backgroundColor: 'var(--color-gray-100)', 
+                      <span className="px-3 py-1 rounded-full text-sm font-medium" style={{
+                        backgroundColor: 'var(--color-gray-100)',
                         color: 'var(--color-text-secondary)',
                         fontFamily: 'var(--font-body)'
                       }}>
@@ -491,36 +497,36 @@ const ViewJobs = () => {
                     </div>
                   </div>
                 </div>
-                
+
                 {/* Job Description */}
-                <div className="rounded-xl p-8" style={{ 
-                  backgroundColor: 'var(--color-white)', 
-                  boxShadow: 'var(--shadow-lg)' 
+                <div className="rounded-xl p-8" style={{
+                  backgroundColor: 'var(--color-white)',
+                  boxShadow: 'var(--shadow-lg)'
                 }}>
-                  <h2 className="text-2xl font-bold mb-6" style={{ 
-                    color: 'var(--color-text-primary)', 
-                    fontFamily: 'var(--font-heading)' 
+                  <h2 className="text-2xl font-bold mb-6" style={{
+                    color: 'var(--color-text-primary)',
+                    fontFamily: 'var(--font-heading)'
                   }}>
                     Job Description
                   </h2>
-                  <div className="prose max-w-none" style={{ 
-                    color: 'var(--color-text-secondary)', 
+                  <div className="prose max-w-none" style={{
+                    color: 'var(--color-text-secondary)',
                     fontFamily: 'var(--font-body)',
                     lineHeight: '1.7'
                   }}>
                     <p className="whitespace-pre-line">{job.description}</p>
                   </div>
                 </div>
-                
+
                 {/* Requirements */}
                 {job.requirements && job.requirements.length > 0 && (
-                  <div className="rounded-xl p-8" style={{ 
-                    backgroundColor: 'var(--color-white)', 
-                    boxShadow: 'var(--shadow-lg)' 
+                  <div className="rounded-xl p-8" style={{
+                    backgroundColor: 'var(--color-white)',
+                    boxShadow: 'var(--shadow-lg)'
                   }}>
-                    <h2 className="text-2xl font-bold mb-6" style={{ 
-                      color: 'var(--color-text-primary)', 
-                      fontFamily: 'var(--font-heading)' 
+                    <h2 className="text-2xl font-bold mb-6" style={{
+                      color: 'var(--color-text-primary)',
+                      fontFamily: 'var(--font-heading)'
                     }}>
                       Requirements
                     </h2>
@@ -532,8 +538,8 @@ const ViewJobs = () => {
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path>
                             </svg>
                           </div>
-                          <span style={{ 
-                            color: 'var(--color-text-secondary)', 
+                          <span style={{
+                            color: 'var(--color-text-secondary)',
                             fontFamily: 'var(--font-body)',
                             lineHeight: '1.6'
                           }}>
@@ -544,16 +550,16 @@ const ViewJobs = () => {
                     </ul>
                   </div>
                 )}
-                
+
                 {/* Responsibilities */}
                 {job.responsibilities && job.responsibilities.length > 0 && (
-                  <div className="rounded-xl p-8" style={{ 
-                    backgroundColor: 'var(--color-white)', 
-                    boxShadow: 'var(--shadow-lg)' 
+                  <div className="rounded-xl p-8" style={{
+                    backgroundColor: 'var(--color-white)',
+                    boxShadow: 'var(--shadow-lg)'
                   }}>
-                    <h2 className="text-2xl font-bold mb-6" style={{ 
-                      color: 'var(--color-text-primary)', 
-                      fontFamily: 'var(--font-heading)' 
+                    <h2 className="text-2xl font-bold mb-6" style={{
+                      color: 'var(--color-text-primary)',
+                      fontFamily: 'var(--font-heading)'
                     }}>
                       Responsibilities
                     </h2>
@@ -565,8 +571,8 @@ const ViewJobs = () => {
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path>
                             </svg>
                           </div>
-                          <span style={{ 
-                            color: 'var(--color-text-secondary)', 
+                          <span style={{
+                            color: 'var(--color-text-secondary)',
                             fontFamily: 'var(--font-body)',
                             lineHeight: '1.6'
                           }}>
@@ -577,23 +583,23 @@ const ViewJobs = () => {
                     </ul>
                   </div>
                 )}
-                
+
                 {/* Skills */}
                 {job.skills && job.skills.length > 0 && (
-                  <div className="rounded-xl p-8" style={{ 
-                    backgroundColor: 'var(--color-white)', 
-                    boxShadow: 'var(--shadow-lg)' 
+                  <div className="rounded-xl p-8" style={{
+                    backgroundColor: 'var(--color-white)',
+                    boxShadow: 'var(--shadow-lg)'
                   }}>
-                    <h2 className="text-2xl font-bold mb-6" style={{ 
-                      color: 'var(--color-text-primary)', 
-                      fontFamily: 'var(--font-heading)' 
+                    <h2 className="text-2xl font-bold mb-6" style={{
+                      color: 'var(--color-text-primary)',
+                      fontFamily: 'var(--font-heading)'
                     }}>
                       Required Skills
                     </h2>
                     <div className="flex flex-wrap gap-3">
                       {job.skills.map((skill, index) => (
-                        <span 
-                          key={index} 
+                        <span
+                          key={index}
                           className="px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:scale-105"
                           style={{
                             backgroundColor: 'var(--color-gray-100)',
@@ -607,20 +613,20 @@ const ViewJobs = () => {
                     </div>
                   </div>
                 )}
-                
+
                 {/* Company Info */}
-                <div className="rounded-xl p-8" style={{ 
-                  backgroundColor: 'var(--color-white)', 
-                  boxShadow: 'var(--shadow-lg)' 
+                <div className="rounded-xl p-8" style={{
+                  backgroundColor: 'var(--color-white)',
+                  boxShadow: 'var(--shadow-lg)'
                 }}>
-                  <h2 className="text-2xl font-bold mb-6" style={{ 
-                    color: 'var(--color-text-primary)', 
-                    fontFamily: 'var(--font-heading)' 
+                  <h2 className="text-2xl font-bold mb-6" style={{
+                    color: 'var(--color-text-primary)',
+                    fontFamily: 'var(--font-heading)'
                   }}>
                     About {job.company.name}
                   </h2>
-                  <p className="mb-6" style={{ 
-                    color: 'var(--color-text-secondary)', 
+                  <p className="mb-6" style={{
+                    color: 'var(--color-text-secondary)',
                     fontFamily: 'var(--font-body)',
                     lineHeight: '1.7'
                   }}>
@@ -639,9 +645,9 @@ const ViewJobs = () => {
                     {job.company?.website && (
                       <div className="flex items-center gap-2">
                         <span className="font-medium" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>Website:</span>
-                        <a 
-                          href={job.company.website} 
-                          target="_blank" 
+                        <a
+                          href={job.company.website}
+                          target="_blank"
                           rel="noopener noreferrer"
                           className="text-blue-600 hover:underline"
                           style={{ fontFamily: 'var(--font-body)' }}
@@ -652,9 +658,9 @@ const ViewJobs = () => {
                     )}
                   </div>
                   {job.company?.website && (
-                    <a 
-                      href={job.company.website} 
-                      target="_blank" 
+                    <a
+                      href={job.company.website}
+                      target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium transition-all duration-300 hover:shadow-md"
                       style={{
@@ -671,21 +677,21 @@ const ViewJobs = () => {
                   )}
                 </div>
               </div>
-              
+
               {/* Sidebar */}
               <div className="lg:col-span-1 space-y-6">
                 {/* Quick Info Card */}
-                <div className="rounded-xl p-6" style={{ 
-                  backgroundColor: 'var(--color-white)', 
-                  boxShadow: 'var(--shadow-lg)' 
+                <div className="rounded-xl p-6" style={{
+                  backgroundColor: 'var(--color-white)',
+                  boxShadow: 'var(--shadow-lg)'
                 }}>
-                  <h3 className="text-xl font-bold mb-6" style={{ 
-                    color: 'var(--color-text-primary)', 
-                    fontFamily: 'var(--font-heading)' 
+                  <h3 className="text-xl font-bold mb-6" style={{
+                    color: 'var(--color-text-primary)',
+                    fontFamily: 'var(--font-heading)'
                   }}>
                     Job Details
                   </h3>
-                  
+
                   <div className="space-y-4">
                     <div className="flex items-start gap-3">
                       <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ backgroundColor: 'var(--color-gray-100)' }}>
@@ -696,7 +702,7 @@ const ViewJobs = () => {
                         <p className="font-semibold" style={{ color: 'var(--color-text-primary)', fontFamily: 'var(--font-body)' }}>{job.location}</p>
                       </div>
                     </div>
-                    
+
                     {/* Salary - only show if available */}
                     {job.salary && (
                       <div className="flex items-start gap-3">
@@ -713,7 +719,7 @@ const ViewJobs = () => {
                         </div>
                       </div>
                     )}
-                    
+
                     {/* Application Deadline - only show if available */}
                     {job.applicationDeadline && (
                       <div className="flex items-start gap-3">
@@ -728,7 +734,7 @@ const ViewJobs = () => {
                         </div>
                       </div>
                     )}
-                    
+
                     {/* Minimum Education - only show if available */}
                     {job.minEducation && (
                       <div className="flex items-start gap-3">
@@ -743,7 +749,7 @@ const ViewJobs = () => {
                         </div>
                       </div>
                     )}
-                    
+
                     {/* Notice Period - only show if available */}
                     {job.noticePeriod && (
                       <div className="flex items-start gap-3">
@@ -758,7 +764,7 @@ const ViewJobs = () => {
                         </div>
                       </div>
                     )}
-                    
+
                     {/* Work Type - only show if available */}
                     {job.workType && (
                       <div className="flex items-start gap-3">
@@ -773,7 +779,7 @@ const ViewJobs = () => {
                         </div>
                       </div>
                     )}
-                    
+
                     {/* Interview Type - only show if available */}
                     {job.interviewType && (
                       <div className="flex items-start gap-3">
@@ -788,7 +794,7 @@ const ViewJobs = () => {
                         </div>
                       </div>
                     )}
-                    
+
                     {/* Number of Openings - only show if available */}
                     {(job.numberOfOpenings || job.numberOfOpenings === 0) && (
                       <div className="flex items-start gap-3">
@@ -803,7 +809,7 @@ const ViewJobs = () => {
                         </div>
                       </div>
                     )}
-                    
+
                     {/* Year of Passing - only show if available */}
                     {job.yearOfPassing && (
                       <div className="flex items-start gap-3">
@@ -818,7 +824,7 @@ const ViewJobs = () => {
                         </div>
                       </div>
                     )}
-                    
+
                     {/* Walk-in Details (conditional) */}
                     {job.interviewType === 'Walk-in' && (
                       <>
@@ -836,7 +842,7 @@ const ViewJobs = () => {
                             </div>
                           </div>
                         )}
-                        
+
                         {/* Walk-in Time - only show if available */}
                         {job.walkInTime && (
                           <div className="flex items-start gap-3">
@@ -855,25 +861,25 @@ const ViewJobs = () => {
                     )}
                   </div>
                 </div>
-                
+
                 {/* Apply Card */}
-                <div className="rounded-xl p-6" style={{ 
-                  backgroundColor: 'var(--color-white)', 
-                  boxShadow: 'var(--shadow-lg)' 
+                <div className="rounded-xl p-6" style={{
+                  backgroundColor: 'var(--color-white)',
+                  boxShadow: 'var(--shadow-lg)'
                 }}>
-                  <h3 className="text-xl font-bold mb-4" style={{ 
-                    color: 'var(--color-text-primary)', 
-                    fontFamily: 'var(--font-heading)' 
+                  <h3 className="text-xl font-bold mb-4" style={{
+                    color: 'var(--color-text-primary)',
+                    fontFamily: 'var(--font-heading)'
                   }}>
                     {isDirectApplication ? 'Apply Directly' : 'Apply for this Job'}
                   </h3>
-                  
+
                   {error && (
                     <div className="mb-4 p-3 rounded-lg" style={{ backgroundColor: 'var(--color-error)', color: 'white' }}>
                       <p className="text-sm" style={{ fontFamily: 'var(--font-body)' }}>{error}</p>
                     </div>
                   )}
-                  
+
                   {alreadyApplied && (
                     <div className="mb-4 p-3 rounded-lg" style={{ backgroundColor: 'var(--color-success)', color: 'white' }}>
                       <p className="text-sm" style={{ fontFamily: 'var(--font-body)' }}>
@@ -881,7 +887,7 @@ const ViewJobs = () => {
                       </p>
                     </div>
                   )}
-                  
+
                   {alreadyApplied ? (
                     <button
                       disabled
@@ -910,7 +916,7 @@ const ViewJobs = () => {
                       >
                         {applying ? 'Applying...' : 'Apply for Job'}
                       </button>
-                      
+
                       {/* Show Apply Direct button only when directLink exists */}
                       {isDirectApplication && (
                         <button
