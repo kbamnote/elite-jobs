@@ -117,25 +117,25 @@ const Onboarding = () => {
   const next = () => setStep((s) => Math.min(totalSteps, s + 1));
   const back = () => setStep((s) => Math.max(1, s - 1));
 
-  const tryAutofillFromResume = async () => {
-    try {
-      const res = await profile();
-      const p = res?.data?.data?.profile || {};
-      setForm((prev) => ({
-        ...prev,
-        phone: prev.phone || p.phone || "",
-        address: prev.address || p.address || "",
-        highestEducation: prev.highestEducation || p.highestEducation || "",
-        skills: prev.skills || (Array.isArray(p.skills) ? p.skills.join(", ") : ""),
-        preferredLocations: prev.preferredLocations?.length ? prev.preferredLocations : (Array.isArray(p.preferredLocation) ? p.preferredLocation : [])
-      }));
-      if (p.skills || p.phone || p.address || p.highestEducation) {
-        setInfo("Some fields were auto-filled from your resume.");
-      }
-    } catch (e) {
-      // silent
-    }
-  };
+  // const tryAutofillFromResume = async () => {
+  //   try {
+  //     const res = await profile();
+  //     const p = res?.data?.data?.profile || {};
+  //     setForm((prev) => ({
+  //       ...prev,
+  //       phone: prev.phone || p.phone || "",
+  //       address: prev.address || p.address || "",
+  //       highestEducation: prev.highestEducation || p.highestEducation || "",
+  //       skills: prev.skills || (Array.isArray(p.skills) ? p.skills.join(", ") : ""),
+  //       preferredLocations: prev.preferredLocations?.length ? prev.preferredLocations : (Array.isArray(p.preferredLocation) ? p.preferredLocation : [])
+  //     }));
+  //     if (p.skills || p.phone || p.address || p.highestEducation) {
+  //       setInfo("Some fields were auto-filled from your resume.");
+  //     }
+  //   } catch (e) {
+  //     // silent
+  //   }
+  // };
 
   const handleResumeSelect = async (e) => {
     const file = e.target.files?.[0];
@@ -161,29 +161,29 @@ const Onboarding = () => {
     }
   };
 
-  // const uploadResume = async () => {
-  //   if (!resumeFile) {
-  //     setError("Please choose a resume file first.");
-  //     return;
-  //   }
-  //   setResumeUploading(true);
-  //   setError("");
-  //   setInfo("");
-  //   try {
-  //     const fd = new FormData();
-  //     fd.append("resume", resumeFile);
-  //     const response = await updateresumeSeeker(fd);
-  //     const url = response?.data?.data?.profile?.resume || "";
-  //     setResumeUploadedUrl(url);
-  //     setInfo("Resume uploaded successfully.");
-  //     // await tryAutofillFromResume();
-  //     // setStep(2);
-  //   } catch (err) {
-  //     setError(err.response?.data?.message || "Failed to upload resume");
-  //   } finally {
-  //     setResumeUploading(false);
-  //   }
-  // };
+  const uploadResume = async () => {
+    if (!resumeFile) {
+      setError("Please choose a resume file first.");
+      return;
+    }
+    setResumeUploading(true);
+    setError("");
+    setInfo("");
+    try {
+      const fd = new FormData();
+      fd.append("resume", resumeFile);
+      const response = await updateresumeSeeker(fd);
+      const url = response?.data?.data?.profile?.resume || "";
+      setResumeUploadedUrl(url);
+      setInfo("Resume uploaded successfully.");
+      // await tryAutofillFromResume();
+      // setStep(2);
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to upload resume");
+    } finally {
+      setResumeUploading(false);
+    }
+  };
 
   // const autoApplyRecommended = async () => {
   //   try {

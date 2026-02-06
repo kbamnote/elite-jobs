@@ -190,9 +190,9 @@ const Auth = () => {
 
                 .auth-body button {
                     border-radius: 25px;
-                    border: 1px solid #e94560;
+                    border: 1px solid #87CEEB;
                     // background: #e94560;
-                    color: #e94560;
+                    color: #65b3d2;
                     font-size: 12px;
                     font-weight: 700;
                     padding: 12px 45px;
@@ -200,7 +200,7 @@ const Auth = () => {
                     text-transform: uppercase;
                     transition: all 0.3s ease;
                     cursor: pointer;
-                    box-shadow: 0 4px 15px rgba(233, 69, 96, 0.4);
+                    box-shadow: 0 4px 15px rgba(69, 198, 233, 0.4);
                 }
 
                 .auth-body button:hover {
@@ -378,7 +378,7 @@ const Auth = () => {
                 }
 
                 .overlay {
-                    background: linear-gradient(135deg, #ffe1e1 0%, #d88c8c 100%);
+                    background: linear-gradient(135deg, #e1f9ff 0%, #87CEEB 100%);
                     background-repeat: no-repeat;
                     background-size: cover;
                     background-position: 0 0;

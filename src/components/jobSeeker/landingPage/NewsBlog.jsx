@@ -30,7 +30,7 @@ const NewsBlog = () => {
       <div className="flex justify-between items-center mb-2">
         <h2 className="text-4xl font-bold">News and Blog</h2>
         <a
-          href="#"
+          href="/blog"
           className="transition-colors"
           style={{
             color: 'var(--color-accent)',
