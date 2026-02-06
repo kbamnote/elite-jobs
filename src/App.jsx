@@ -47,6 +47,7 @@ import AddNewPassword from "./components/auth/AddNewPassword";
 import GoogleRoleSelection from "./components/auth/GoogleRoleSelection";
 import GoogleCallbackHandler from "./components/auth/GoogleCallbackHandler";
 import Auth from "./components/auth/Auth";
+import ChatBot from "./components/auth/ChatBot";
 
 function App() {
   return (
@@ -89,6 +90,7 @@ function App() {
           path="*"
           element={
             <>
+              <ChatBot />
               <Header />
               <Routes>
                 {/* Public Routes */}
