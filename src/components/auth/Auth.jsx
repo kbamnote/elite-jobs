@@ -190,9 +190,9 @@ const Auth = () => {
 
                 .auth-body button {
                     border-radius: 25px;
-                    border: 1px solid #87CEEB;
+                    border: 1px solid #193cb8;
                     // background: #e94560;
-                    color: #65b3d2;
+                    color: #193cb8;
                     font-size: 12px;
                     font-weight: 700;
                     padding: 12px 45px;
@@ -200,7 +200,7 @@ const Auth = () => {
                     text-transform: uppercase;
                     transition: all 0.3s ease;
                     cursor: pointer;
-                    box-shadow: 0 4px 15px rgba(69, 198, 233, 0.4);
+                    box-shadow: 0 4px 15px #193cb84d;
                 }
 
                 .auth-body button:hover {
@@ -378,7 +378,7 @@ const Auth = () => {
                 }
 
                 .overlay {
-                    background: linear-gradient(135deg, #e1f9ff 0%, #87CEEB 100%);
+                    background: #193cb8;
                     background-repeat: no-repeat;
                     background-size: cover;
                     background-position: 0 0;
@@ -570,7 +570,7 @@ const Auth = () => {
 
     return (
         <div className="auth-body">
-            <div className={`auth-container ${!isLogin ? 'right-panel-active' : ''}`}>
+            <div className={`auth-container content-center ${!isLogin ? 'right-panel-active' : ''}`}>
                 {/* Sign Up Form */}
                 <div className="form-container sign-up-container">
                     <form onSubmit={handleSubmit}>
@@ -737,7 +737,7 @@ const Auth = () => {
                     <div className="overlay">
                         <div className="overlay-panel overlay-left">
                             <img src={logo} alt="Elite Jobs" className="overlay-logo" />
-                            <h1>Welcome Back!</h1>
+                            <h1 style={{color: 'white'}}>Welcome Back!</h1>
                             <p>To keep connected with us please login with your personal info</p>
                             <button className="ghost" style={{color: 'white'}} onClick={() => setIsLogin(true)}>
                                 Sign In
@@ -745,7 +745,7 @@ const Auth = () => {
                         </div>
                         <div className="overlay-panel overlay-right">
                             <img src={logo} alt="Elite Jobs" className="overlay-logo" />
-                            <h1>Hello, Friend!</h1>
+                            <h1 style={{color: 'white'}}>Hello, Friend!</h1>
                             <p>Enter your personal details and start your journey with us</p>
                             <button className="ghost" style={{color: 'white'}} onClick={() => setIsLogin(false)}>
                                 Sign Up

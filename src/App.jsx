@@ -48,6 +48,7 @@ import GoogleRoleSelection from "./components/auth/GoogleRoleSelection";
 import GoogleCallbackHandler from "./components/auth/GoogleCallbackHandler";
 import Auth from "./components/auth/Auth";
 import ChatBot from "./components/auth/ChatBot";
+import NewsBlogSingle from "./components/jobSeeker/landingPage/NewsBlogSingle";
 
 function App() {
   return (
@@ -103,6 +104,7 @@ function App() {
                 <Route path="/contact" element={<ContactUs />} />
                 <Route path="/services" element={<Services />} />
                 <Route path="/blog" element={<Blog />} />
+                <Route path="/blog/:id" element={<NewsBlogSingle />} />
                 <Route path="/salaries" element={<Salaries />} />
                 <Route path="/ats-score-checker" element={<ATS_Score />} />
                 <Route path="/ai-resume-builder" element={<AiResume />} />
