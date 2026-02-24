@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { getAllCompanies } from "../../../utils/Api";
+import { getAllCompanies } from "../../utils/Api";
 
 const TopCompany = () => {
   const navigate = useNavigate();

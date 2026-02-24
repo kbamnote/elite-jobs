@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { resetPassword } from '../../utils/Api';
+import { resetPassword } from '../utils/Api';
 import logo from '../../assets/ejLogo.png';
 
 const AddNewPassword = () => {

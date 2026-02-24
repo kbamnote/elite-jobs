@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { User, Filter } from 'lucide-react';
 import RecruiterHeader from '../sidebar/RecruiterHeader';
-import { allapplicant } from '../../../utils/Api';
+import { allapplicant } from '../../utils/Api';
 
 const RecruiterPage = () => {
   const navigate = useNavigate();

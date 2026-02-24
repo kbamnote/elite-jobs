@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { User, Mail, MapPin, FileText, Calendar, ArrowLeft, UserCircle } from "lucide-react";
 import { useParams, useNavigate } from "react-router-dom";
 import JobHostingSidebar from "../commonHost/jobHostingSidebar";
-import { applicantDetail } from "../../../utils/Api";
+import { applicantDetail } from "../../utils/Api";
 
 const ViewApplicant = () => {
   const { id: jobId } = useParams(); // Changed from { jobId } to { id: jobId } to match the route parameter

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { googleLogin } from '../../utils/Api';
+import { googleLogin } from '../utils/Api';
 import Cookies from 'js-cookie';
 
 const GoogleCallbackHandler = () => {

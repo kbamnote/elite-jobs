@@ -1,6 +1,7 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { login } from '../../utils/Api';
+import { login } from '../utils/Api';
 import Cookies from 'js-cookie';
 import logo from '../../assets/ejLogo.png';
 import professsionalLogin from '../../assets/Professional-login.jpg';

@@ -1,6 +1,7 @@
+/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { profile, updateProfile, uploadFileHoster, updateCompanyLogo, updatephotoCompany, updateCompanyDocs } from "../../../utils/Api";
+import { profile, updateProfile, uploadFileHoster, updateCompanyLogo, updatephotoCompany, updateCompanyDocs } from "../../utils/Api";
 
 const RecruiterOnboarding = () => {
   const navigate = useNavigate();

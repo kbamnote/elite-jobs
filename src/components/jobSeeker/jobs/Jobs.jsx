@@ -1,5 +1,7 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from "react";
-import { allJobs, appliedJobs, allCategories } from "../../../utils/Api";
+import { allJobs, appliedJobs, allCategories } from "../../utils/Api";
 import { useNavigate, useLocation } from "react-router-dom";
 
 // Utility function to properly handle image URLs

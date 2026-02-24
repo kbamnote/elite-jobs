@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { forgotPassword } from '../../utils/Api';
+import { forgotPassword } from '../utils/Api';
 import logo from '../../assets/ejLogo.png';
 
 const ForgotPassword = () => {

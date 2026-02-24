@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User, Mail, Phone, MapPin, Building, ArrowLeft, Upload } from 'lucide-react';
 import RecruiterHeader from "../sidebar/RecruiterHeader";
-import { profile, updateProfile, updateCompanyLogo, updatephotoCompany, updateCompanyDocs, uploadFileHoster } from "../../../utils/Api";
+import { profile, updateProfile, updateCompanyLogo, updatephotoCompany, updateCompanyDocs, uploadFileHoster } from "../../utils/Api";
 
 const RecruiterProfileEdit = () => {
   const navigate = useNavigate();

@@ -1,6 +1,7 @@
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import JobHostingSidebar from "../commonHost/jobHostingSidebar";
-import { createJob, allCategories } from "../../../utils/Api";
+import { createJob, allCategories } from "../../utils/Api";
 import JobDetailsForm from "./components/JobDetailsForm";
 import RequirementsForm from "./components/RequirementsForm";
 

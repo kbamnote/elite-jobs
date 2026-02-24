@@ -12,7 +12,7 @@ import { GiWallet } from "react-icons/gi";
 import { TbCategory } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { allJobs } from "../../../utils/Api";
+import { allJobs } from "../../utils/Api";
 
 const RecentJobs = () => {
   const navigate = useNavigate();

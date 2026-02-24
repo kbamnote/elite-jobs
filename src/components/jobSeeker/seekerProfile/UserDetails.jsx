@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { profile, updateProfile } from "../../../utils/Api";
+import { profile, updateProfile } from "../../utils/Api";
 import { useNavigate } from "react-router-dom";
 
 const UserDetails = () => {

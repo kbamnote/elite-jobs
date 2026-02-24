@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Header from "../commonSeeker/Header";
 import Footer from "../commonSeeker/Footer";
-import { appliedJobs } from "../../../utils/Api";
+import { appliedJobs } from "../../utils/Api";
 import { useNavigate } from "react-router-dom";
 
 const ShowJobs = () => {

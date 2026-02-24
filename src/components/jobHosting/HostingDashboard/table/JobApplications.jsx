@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Search, ChevronDown, ChevronLeft, ChevronRight, User } from "lucide-react";
-import { getHosterJobs, applicantDetail } from "../../../../utils/Api";
+import { getHosterJobs, applicantDetail } from "../../../utils/Api";
 import { useNavigate } from "react-router-dom";
 
 const JobApplications = () => {

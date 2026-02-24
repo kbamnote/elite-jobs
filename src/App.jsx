@@ -49,6 +49,7 @@ import GoogleCallbackHandler from "./components/auth/GoogleCallbackHandler";
 import Auth from "./components/auth/Auth";
 import ChatBot from "./components/auth/ChatBot";
 import NewsBlogSingle from "./components/jobSeeker/landingPage/NewsBlogSingle";
+import AiCandidateRecommendation from "./components/recruiter/aiCandidate/AiCandidateRecommendation";
 
 function App() {
   return (
@@ -70,6 +71,10 @@ function App() {
                 <Route
                   path="/applicant-details/:id"
                   element={<RecruiterApplicantDetail />}
+                />
+                <Route
+                  path="/ai-candidate"
+                  element={<AiCandidateRecommendation />}
                 />
               </Routes>
             </>

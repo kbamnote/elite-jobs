@@ -9,6 +9,7 @@ import {
   BriefcaseBusiness,
   Briefcase,
   CalendarPlus,
+  Bot,
 } from "lucide-react";
 import Cookies from "js-cookie";
 import { profile } from "../../../utils/Api";
@@ -53,8 +54,11 @@ const RecruiterSidebar = ({ placement = 'side' }) => {
       label: "My Profile",
       path: "/recruiter/profile",
     },
-  
-   
+    {
+      icon: (isActive) => <Bot className="w-5 h-5" style={{ color: isActive ? 'var(--color-text-white)' : 'var(--color-accent)' }} />,
+      label: "AI Candidate",
+      path: "/recruiter/ai-candidate",
+    },
   ];
 
   if (placement === 'top') {

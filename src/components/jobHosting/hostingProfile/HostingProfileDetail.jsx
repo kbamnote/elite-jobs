@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import JobHostingSidebar from "../commonHost/jobHostingSidebar";
-import { profile, updateProfile, updateCompanyLogo, updatephotoCompany, updateCompanyDocs, uploadFileHoster } from "../../../utils/Api";
+import { profile, updateProfile, updateCompanyLogo, updatephotoCompany, updateCompanyDocs, uploadFileHoster } from "../../utils/Api";
 
 const HostingProfileDetail = () => {
   const navigate = useNavigate();

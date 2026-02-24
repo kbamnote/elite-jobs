@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import JobHostingSidebar from "../commonHost/jobHostingSidebar";
 import { Briefcase, MapPin, Users, Trash2, UserCheck, IndianRupee } from "lucide-react";
-import { getHosterJobs, deleteJob } from "../../../utils/Api";
+import { getHosterJobs, deleteJob } from "../../utils/Api";
 
 const Badge = ({ children, variant = "default", className = "" }) => {
   const baseStyles = "inline-flex items-center rounded-full px-3 py-1 text-xs font-medium transition-all duration-200";
