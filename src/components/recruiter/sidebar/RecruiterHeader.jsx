@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { BriefcaseBusiness, User, LogOut, Menu, X } from "lucide-react";
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from '../../../assets/ejLogo.png';
 import Cookies from "js-cookie";
 import { profile } from "../../../utils/Api";
 
 const RecruiterHeader = () => {
   const navigate = useNavigate();
-  const location = useLocation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [userDropdown, setUserDropdown] = useState(false);
   const [userName, setUserName] = useState("");
@@ -80,6 +79,11 @@ const RecruiterHeader = () => {
                     onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
                     onMouseLeave={(e) => e.target.style.color = 'navy'}>My Profile</span>
             </Link>
+            <Link to="/recruiter/ai-candidate">
+              <span className="transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)', color: 'navy' }}
+                    onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
+                    onMouseLeave={(e) => e.target.style.color = 'navy'}>AI Candidate</span>
+            </Link>
           </nav>
 
           {/* Desktop Auth Buttons */}
@@ -139,6 +143,13 @@ const RecruiterHeader = () => {
                       onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
                       onMouseLeave={(e) => e.target.style.color = 'navy'}>
                   My Profile
+                </span>
+              </Link>
+              <Link to="/recruiter/ai-candidate" onClick={() => setIsMobileMenuOpen(false)}>
+                <span className="block py-2 transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)', color: 'navy' }}
+                      onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
+                      onMouseLeave={(e) => e.target.style.color = 'navy'}>
+                  AI Candidate
                 </span>
               </Link>
               <div className="pt-4" style={{ borderTop: `1px solid var(--color-dark-secondary)` }}>
