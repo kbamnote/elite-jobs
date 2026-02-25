@@ -1,11 +1,10 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import LineChart from "./graphs/LineChart";
 import PieChart from "./graphs/PieChart";
 import JobApplications from "./table/JobApplications";
 import HostSidebar from "../commonHost/jobHostingSidebar";
-import { getHosterJobs, getJobStats, applicantDetail } from "../../utils/Api";
+import { getHosterJobs, getJobStats, applicantDetail } from "../../../utils/Api";
 import {
   Building2,
   Users,

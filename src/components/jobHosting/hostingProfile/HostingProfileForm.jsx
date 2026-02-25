@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import JobHostingSidebar from "../commonHost/jobHostingSidebar";
-import { profile } from "../../utils/Api";
+import { profile } from "../../../utils/Api";
 import { User, Mail, Phone, MapPin, Building, Calendar, Edit3, ArrowLeft } from 'lucide-react';
 
 const HostingProfileForm = () => {

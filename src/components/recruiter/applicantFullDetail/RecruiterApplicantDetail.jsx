@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { User, Mail, Phone, MapPin, Calendar, Briefcase, GraduationCap, FileText, ArrowLeft } from 'lucide-react';
 import RecruiterHeader from '../../recruiter/sidebar/RecruiterHeader';
-import { allapplicantById } from '../../utils/Api';
+import { allapplicantById } from '../../../utils/Api';
 
 const RecruiterApplicantDetail = () => {
   const { id } = useParams();

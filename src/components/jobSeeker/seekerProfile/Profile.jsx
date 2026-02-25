@@ -1,9 +1,8 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
 import Header from "../commonSeeker/Header";
 import Footer from "../commonSeeker/Footer";
 import { Link, useNavigate } from "react-router-dom";
-import { profile, updateProfile, uploadFileSeeker, updatephotoSeeker, updateresumeSeeker, appliedJobs, accountDelete } from "../../utils/Api";
+import { profile, updateProfile, uploadFileSeeker, updatephotoSeeker, updateresumeSeeker, appliedJobs, accountDelete } from "../../../utils/Api";
 import { 
   Edit, 
   Trash2, 

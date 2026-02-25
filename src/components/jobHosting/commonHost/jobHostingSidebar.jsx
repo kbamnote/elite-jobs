@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import Cookies from "js-cookie";
 import Logo from '../../../assets/ejLogo.png';
-import { profile } from '../../utils/Api';
+import { profile } from '../../../utils/Api';
 
 const JobHostingSidebar = () => {
   const navigate = useNavigate();

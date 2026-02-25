@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import JobHostingSidebar from "../commonHost/jobHostingSidebar";
-import { applicantDetailById, applicantStatus } from "../../utils/Api";
+import { applicantDetailById, applicantStatus } from "../../../utils/Api";
 import { ArrowLeft, User, Mail, Phone, MapPin, Calendar, GraduationCap, Briefcase, Link, FileText, UserCircle } from "lucide-react";
 
 const ApplicantProfile = () => {

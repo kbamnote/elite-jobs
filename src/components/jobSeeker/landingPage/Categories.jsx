@@ -39,7 +39,7 @@ import {
   FaCheck
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { allCategories } from "../../utils/Api";
+import { allCategories } from "../../../utils/Api";
 
 const Categories = () => {
   const navigate = useNavigate();

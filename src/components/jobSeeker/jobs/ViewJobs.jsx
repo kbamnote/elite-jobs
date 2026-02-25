@@ -1,9 +1,8 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Header from '../commonSeeker/Header';
 import Footer from '../commonSeeker/Footer';
-import { jobsById, jobApply, profile, appliedJobs } from '../../utils/Api';
+import { jobsById, jobApply, profile, appliedJobs } from '../../../utils/Api';
 
 // Utility function to properly handle image URLs
 const getImageUrl = (url) => {

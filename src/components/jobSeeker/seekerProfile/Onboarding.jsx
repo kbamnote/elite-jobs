@@ -1,6 +1,5 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from "react";
-import { updateProfile, updateresumeSeeker, profile, allJobs, jobApply } from "../../utils/Api";
+import { updateProfile, updateresumeSeeker, profile, allJobs, jobApply } from "../../../utils/Api";
 import { useNavigate } from "react-router-dom";
 
 const suggestedLocations = [
