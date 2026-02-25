@@ -8,7 +8,6 @@ const Header = () => {
   const [isAIToolsOpen, setIsAIToolsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [userDropdown, setUserDropdown] = useState(false);
   const dropdownRef = useRef(null);
   const mobileMenuRef = useRef(null);
   const navigate = useNavigate();
@@ -35,11 +34,6 @@ const Header = () => {
     if (isAIToolsOpen) setIsAIToolsOpen(false);
   };
 
-  const handleMobileNavigation = (e) => {
-    // Prevent the click from bubbling up and triggering the outside click handler
-    e.stopPropagation();
-  };
-
   useEffect(() => {
     const handleClickOutside = (event) => {
       // Don't close dropdowns if clicking on a link
@@ -52,7 +46,6 @@ const Header = () => {
       }
       if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target)) {
         setIsMobileMenuOpen(false);
-        setUserDropdown(false);
       }
     };
 
@@ -82,7 +75,7 @@ const Header = () => {
                 onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
                 onMouseLeave={(e) => e.target.style.color = 'navy'}>Jobs</span>
             </Link>
-            {/* <div className="relative" ref={dropdownRef}>
+            <div className="relative" ref={dropdownRef}>
               <button
                 onClick={toggleAIToolsDropdown}
                 className="flex items-center space-x-2 font-semibold transition-colors"
@@ -96,17 +89,17 @@ const Header = () => {
               {isAIToolsOpen && (
                 <div className="absolute top-full left-0 mt-2 rounded-md shadow-lg w-48" style={{ backgroundColor: 'var(--color-dark-secondary)', boxShadow: 'var(--shadow-lg)' }}>
                   <ul className="py-2">
-                    <Link to="/ats-score-checker">
+                    <Link to="/ats-score-checker" onClick={() => setIsAIToolsOpen(false)}>
                       <li className="px-4 py-2 cursor-pointer transition-colors" style={{ transition: 'var(--transition-fast)' }}
                           onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--color-dark-primary)'}
                           onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}>ATS Score Checker</li>
                     </Link>
-                    <Link to="/ai-resume-builder">
+                    <Link to="/ai-resume-builder" onClick={() => setIsAIToolsOpen(false)}>
                       <li className="px-4 py-2 cursor-pointer transition-colors" style={{ transition: 'var(--transition-fast)' }}
                           onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--color-dark-primary)'}
                           onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}>AI Resume Builder</li>
                     </Link>
-                    <Link to="/mock">
+                    <Link to="/mock" onClick={() => setIsAIToolsOpen(false)}>
                       <li className="px-4 py-2 cursor-pointer transition-colors" style={{ transition: 'var(--transition-fast)' }}
                           onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--color-dark-primary)'}
                           onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}>AI Mock Test</li>
@@ -114,7 +107,7 @@ const Header = () => {
                   </ul>
                 </div>
               )}
-            </div> */}
+            </div>
             <Link to="/services">
               <span className="transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)', color: 'navy' }}
                 onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
@@ -205,7 +198,7 @@ const Header = () => {
                   Jobs
                 </span>
               </Link>
-              {/* <div className="relative">
+              <div className="relative">
                 <button
                   onClick={toggleAIToolsDropdown}
                   className="w-full text-left py-2 font-semibold transition-colors flex items-center justify-between"
@@ -218,24 +211,24 @@ const Header = () => {
                 </button>
                 {isAIToolsOpen && (
                   <ul className="ml-4 mt-2 space-y-2">
-                    <Link to="/ats-score-checker" onClick={handleMobileNavigation}>
+                    <Link to="/ats-score-checker" onClick={() => {setIsAIToolsOpen(false); setIsMobileMenuOpen(false);}}>
                       <li className="py-2 transition-colors" style={{ transition: 'var(--transition-normal)', color: 'navy' }}
                           onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
                           onMouseLeave={(e) => e.target.style.color = 'navy'}>ATS Score Checker</li>
                     </Link>
-                    <Link to="/ai-resume-builder" onClick={handleMobileNavigation}>
+                    <Link to="/ai-resume-builder" onClick={() => {setIsAIToolsOpen(false); setIsMobileMenuOpen(false);}}>
                       <li className="py-2 transition-colors" style={{ transition: 'var(--transition-normal)', color: 'navy' }}
                           onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
                           onMouseLeave={(e) => e.target.style.color = 'navy'}>AI Resume Builder</li>
                     </Link>
-                    <Link to="/mock" onClick={handleMobileNavigation}>
+                    <Link to="/mock" onClick={() => {setIsAIToolsOpen(false); setIsMobileMenuOpen(false);}}>
                       <li className="py-2 transition-colors" style={{ transition: 'var(--transition-normal)', color: 'navy' }}
                           onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
                           onMouseLeave={(e) => e.target.style.color = 'navy'}>AI Mock Test</li>
                     </Link>
                   </ul>
                 )}
-              </div> */}
+              </div>
               <Link to="/services">
                 <span className="block py-2 transition-colors font-semibold" style={{ fontFamily: 'var(--font-body)', transition: 'var(--transition-normal)', color: 'navy' }}
                   onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}

@@ -172,3 +172,15 @@ export const formatResume = async (payload) => {
   });
   return response.data;
 };
+
+// ============== AI Mock Test API ==============
+const MOCK_TEST_API_URL = "https://eliteassociate1.app.n8n.cloud/webhook/mock-test";
+
+export const getMockTestQuestions = async (payload) => {
+  const response = await axios.post(MOCK_TEST_API_URL, payload, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return response.data;
+};
