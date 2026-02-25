@@ -39,8 +39,6 @@ import RecruiterOnboarding from "./components/recruiter/profile/RecruiterOnboard
 import NotFoundPage from "./components/notFoundPage/NotFoundPage";
 import Header from "./components/jobSeeker/commonSeeker/Header";
 import Footer from "./components/jobSeeker/commonSeeker/Footer";
-import Login from "./components/auth/Login";
-import Signup from "./components/auth/Signup";
 import ForgotPassword from "./components/auth/ForgotPassword";
 import VerifyOTP from "./components/auth/VerifyOTP";
 import AddNewPassword from "./components/auth/AddNewPassword";
@@ -49,6 +47,11 @@ import GoogleCallbackHandler from "./components/auth/GoogleCallbackHandler";
 import Auth from "./components/auth/Auth";
 import ChatBot from "./components/auth/ChatBot";
 import NewsBlogSingle from "./components/jobSeeker/landingPage/NewsBlogSingle";
+import Resume from "./components/Resume";
+import { ResumeIcon } from "./components/auth/resume/ResumeIcon";
+import { Resumes } from "./components/auth/resume/Resumes";
+import ResumeEditor from "./components/auth/resume/ResumeEditor";
+import ResumePreview from "./components/auth/resume/ResumePreview";
 
 function App() {
   return (
@@ -92,6 +95,7 @@ function App() {
           element={
             <>
               <ChatBot />
+              <ResumeIcon />
               <Header />
               <Routes>
                 {/* Public Routes */}
@@ -109,6 +113,10 @@ function App() {
                 <Route path="/ats-score-checker" element={<ATS_Score />} />
                 <Route path="/ai-resume-builder" element={<AiResume />} />
                 <Route path="/mock" element={<AiMockTest />} />
+                <Route path="/resume" element={<Resume />} />
+                <Route path="/resumes" element={<Resumes />} />
+                <Route path="/resumes/edit" element={<ResumeEditor />} />
+                <Route path="/resumes/preview" element={<ResumePreview />} />
 
                 {/* Seeker Profile */}
                 <Route path="/profile" element={<Profile />} />
@@ -143,3 +151,17 @@ function App() {
 }
 
 export default App;
+
+
+
+{/* <svg width="48" height="48" viewBox="0 0 24 24" fill="none"
+     xmlns="http://www.w3.org/2000/svg">
+  <rect x="4" y="2" width="16" height="20" rx="2" stroke="currentColor" stroke-width="2"/>
+  <line x1="8" y1="7" x2="16" y2="7" stroke="currentColor" stroke-width="2"/>
+  <line x1="8" y1="11" x2="16" y2="11" stroke="currentColor" stroke-width="2"/>
+  <line x1="8" y1="15" x2="13" y2="15" stroke="currentColor" stroke-width="2"/>
+  <path d="M15 14l4 4" stroke="currentColor" stroke-width="2"/>
+  <path d="M17 12v4h4" stroke="currentColor" stroke-width="2"/>
+</svg> */}
+
+// resume builder icon

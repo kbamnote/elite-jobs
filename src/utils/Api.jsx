@@ -13,7 +13,7 @@ const Apiauth = axios.create({
 });
 
 const ApiContact = axios.create({
-    baseURL:'https://api.eliteindiajobs.in/'
+  baseURL: 'https://api.eliteindiajobs.in/'
 })
 
 Api.interceptors.request.use(
@@ -45,7 +45,7 @@ Api.interceptors.response.use(
 
 // ============== Enquiry ==============
 export const enquiry = (detail) => {
-    return ApiContact.post("form/create-form", detail);
+  return ApiContact.post("form/create-form", detail);
 }
 
 // ============== AUTH ==============
@@ -161,3 +161,14 @@ export const allapplicantById = (id) => Api.get(`/recruiter/jobseekers/${id}`);
 
 // ============== Filter Applicants for Recruiter ==============
 // export const filterApplicants = (params = {}) => Api.get("/recruiter/applicants/filter", { params });
+
+const API_URL = "https://eliteassociate1.app.n8n.cloud/webhook/generate"; // change if needed
+
+export const formatResume = async (payload) => {
+  const response = await axios.post(API_URL, payload, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  return response.data;
+};
