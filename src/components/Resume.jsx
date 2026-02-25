@@ -197,7 +197,7 @@ export default function Resume() {
                 {step === 1 && (
                     <>
                         <h3 className="text-lg font-semibold mb-4">
-                            Personal Information
+                            Personal Informations
                         </h3>
 
                         <div className="space-y-3">
