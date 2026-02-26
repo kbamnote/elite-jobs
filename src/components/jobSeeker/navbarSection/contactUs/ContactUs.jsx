@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { enquiry } from "../../../../utils/Api";
 
 const ContactUs = () => {
-    const [formData, setFormData] = useState({
-    fullName: '',
+  const [formData, setFormData] = useState({
+    name: '',
     email: '',
-    phoneNo: '',
-    message: '',
-    productCompany: "Elite-Jobs"
+    phone: '',
+    subject: '',
+    message: ''
   });
 
   const [loading, setLoading] = useState(false);
@@ -26,28 +26,28 @@ const ContactUs = () => {
     setSubmitStatus(null);
 
     try {
-      // Prepare the data for API
-      const detailData = {
-        fullName: formData.fullName,
+      // Prepare the data for API - mapping to the documented API structure
+      const contactData = {
+        name: formData.name,
         email: formData.email,
-        phoneNo: formData.phoneNo,
-        message: formData.message,
-        productCompany: formData.productCompany
+        phone: formData.phone,
+        subject: formData.subject || "General Inquiry", // Default subject if not provided
+        message: formData.message
       };
 
       // Call the API
-      const response = await enquiry(detailData);
+      const response = await enquiry(contactData);
       
       console.log('Form submitted successfully:', response.data);
       setSubmitStatus('success');
       
       // Reset form after successful submission
       setFormData({
-        fullName: '',
+        name: '',
         email: '',
-        phoneNo: '',
-        message: '',
-        productCompany: "Elite-Jobs"
+        phone: '',
+        subject: '',
+        message: ''
       });
 
     } catch (error) {
@@ -125,14 +125,14 @@ const ContactUs = () => {
             <h3 className="text-xl font-semibold mb-4">Get In Touch</h3>
             <p className="text-gray-600 mb-6">Reach out to us with any questions or concerns</p>
             <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
                   <input 
                     type="text" 
-                    id="fullName" 
-                    name="fullName"
-                    value={formData.fullName}
+                    id="name" 
+                    name="name"
+                    value={formData.name}
                     onChange={handleInputChange}
                     className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:border-transparent outline-none" 
                     style={{'--tw-ring-color': 'var(--color-accent)'}} 
@@ -140,31 +140,46 @@ const ContactUs = () => {
                   />
                 </div>
                 <div>
-                  <label htmlFor="phoneNo" className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                  <input 
+                    type="email" 
+                    id="email" 
+                    name="email"
+                    value={formData.email}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:border-transparent outline-none" 
+                    style={{'--tw-ring-color': 'var(--color-accent)'}} 
+                    placeholder="Your E-mail address" 
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">Phone Number</label>
                   <input 
                     type="tel" 
-                    id="phoneNo" 
-                    name="phoneNo"
-                    value={formData.phoneNo}
+                    id="phone" 
+                    name="phone"
+                    value={formData.phone}
                     onChange={handleInputChange}
                     className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:border-transparent outline-none" 
                     style={{'--tw-ring-color': 'var(--color-accent)'}} 
                     placeholder="Your phone number" 
                   />
                 </div>
-              </div>
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                <input 
-                  type="email" 
-                  id="email" 
-                  name="email"
-                  value={formData.email}
-                  onChange={handleInputChange}
-                  className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:border-transparent outline-none" 
-                  style={{'--tw-ring-color': 'var(--color-accent)'}} 
-                  placeholder="Your E-mail address" 
-                />
+                <div>
+                  <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+                  <input 
+                    type="text" 
+                    id="subject" 
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleInputChange}
+                    className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:border-transparent outline-none" 
+                    style={{'--tw-ring-color': 'var(--color-accent)'}} 
+                    placeholder="Subject of your inquiry" 
+                  />
+                </div>
               </div>
               <div>
                 <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Message</label>

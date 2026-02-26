@@ -13,7 +13,7 @@ const Apiauth = axios.create({
 });
 
 const ApiContact = axios.create({
-  baseURL: 'https://api.eliteindiajobs.in/'
+  baseURL: 'https://api.eliteindiajobs.in'
 })
 
 Api.interceptors.request.use(
@@ -45,7 +45,7 @@ Api.interceptors.response.use(
 
 // ============== Enquiry ==============
 export const enquiry = (detail) => {
-  return ApiContact.post("form/create-form", detail);
+  return ApiContact.post("/contact", detail);
 }
 
 // ============== AUTH ==============
