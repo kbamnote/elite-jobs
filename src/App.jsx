@@ -51,6 +51,10 @@ import ChatBot from "./components/auth/ChatBot";
 import NewsBlogSingle from "./components/jobSeeker/landingPage/NewsBlogSingle";
 import AiCandidateRecommendation from "./components/recruiter/aiCandidate/AiCandidateRecommendation";
 
+// Resume Components
+import ResumeEditor from "./components/auth/resume/ResumeEditor";
+import ResumePreview from "./components/auth/resume/ResumePreview";
+import Resumes from "./components/auth/resume/Resumes";
 function App() {
   return (
     <>
@@ -113,6 +117,9 @@ function App() {
                 <Route path="/salaries" element={<Salaries />} />
                 <Route path="/ats-score-checker" element={<ATS_Score />} />
                 <Route path="/ai-resume-builder" element={<AiResume />} />
+                <Route path="/resumes" element={<Resumes />} />
+                <Route path="/resumes/edit" element={<ResumeEditor />} />
+                <Route path="/resumes/preview" element={<ResumePreview />} />
                 <Route path="/mock" element={<AiMockTest />} />
 
                 {/* Seeker Profile */}

@@ -94,10 +94,10 @@ const Header = () => {
                           onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--color-dark-primary)'}
                           onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}>ATS Score Checker</li>
                     </Link>
-                    <Link to="/ai-resume-builder" onClick={() => setIsAIToolsOpen(false)}>
+                    <Link to="/resumes" onClick={() => setIsAIToolsOpen(false)}>
                       <li className="px-4 py-2 cursor-pointer transition-colors" style={{ transition: 'var(--transition-fast)' }}
                           onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--color-dark-primary)'}
-                          onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}>AI Resume Builder</li>
+                          onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}>Resume Builder</li>
                     </Link>
                     <Link to="/mock" onClick={() => setIsAIToolsOpen(false)}>
                       <li className="px-4 py-2 cursor-pointer transition-colors" style={{ transition: 'var(--transition-fast)' }}
@@ -204,10 +204,10 @@ const Header = () => {
                           onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
                           onMouseLeave={(e) => e.target.style.color = 'navy'}>ATS Score Checker</li>
                     </Link>
-                    <Link to="/ai-resume-builder" onClick={() => {setIsAIToolsOpen(false); setIsMobileMenuOpen(false);}}>
+                    <Link to="/resumes" onClick={() => {setIsAIToolsOpen(false); setIsMobileMenuOpen(false);}}>
                       <li className="py-2 transition-colors" style={{ transition: 'var(--transition-normal)', color: 'navy' }}
                           onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
-                          onMouseLeave={(e) => e.target.style.color = 'navy'}>AI Resume Builder</li>
+                          onMouseLeave={(e) => e.target.style.color = 'navy'}>Elite Resume Builder</li>
                     </Link>
                     <Link to="/mock" onClick={() => {setIsAIToolsOpen(false); setIsMobileMenuOpen(false);}}>
                       <li className="py-2 transition-colors" style={{ transition: 'var(--transition-normal)', color: 'navy' }}

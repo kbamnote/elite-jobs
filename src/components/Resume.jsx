@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import Section from "./Section";
 import Badge from "./Badge";
