@@ -150,20 +150,8 @@ const Header = () => {
             ) : (
               <>
                 <Link to="/login">
-                  <button className="transition-colors px-4 py-2 cursor-pointer" style={{ transition: 'var(--transition-normal)', color: 'navy' }}
-                    onMouseEnter={(e) => e.target.style.color = 'var(--color-accent)'}
-                    onMouseLeave={(e) => e.target.style.color = 'navy'}>
-                    Login
-                  </button>
-                </Link>
-                <Link to="/login?role=jobHoster">
                   <button className="px-4 py-2 rounded transition-colors cursor-pointer btn-accent">
-                    Job Hosting
-                  </button>
-                </Link>
-                <Link to="/login?role=recruiter">
-                  <button className="px-4 py-2 rounded transition-colors cursor-pointer btn-accent">
-                    Job Recruiter
+                    Login 
                   </button>
                 </Link>
               </>
