@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Search } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import video from '../../../assets/vid3.mp4'
@@ -12,12 +12,9 @@ const Hero = () => {
   const [_searchLocation, _setLocation] = useState(queryParams.get('location') || '');
   const [_category, _setCategory] = useState(queryParams.get('category') || '');
   const [_categories, _setCategories] = useState([]);
-  const [animationStarted, setAnimationStarted] = useState(false);
 
 
-  useEffect(() => {
-    setAnimationStarted(true);
-  }, []);
+
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -28,11 +25,7 @@ const Hero = () => {
     navigate(`/jobs?${params.toString()}`);
   };
 
-  const stats = [
-    { icon: "💼", number: 25850, label: "Jobs" },
-    { icon: "👥", number: 10250, label: "Candidates" },
-    { icon: "🏢", number: 18400, label: "Companies" },
-  ];
+
 
   return (
     <div className="min-h-screen" style={{ backgroundColor: 'var(--color-background)' }}>
@@ -92,11 +85,48 @@ const Hero = () => {
             loop 
             muted 
             playsInline
-            className="w-full h-auto "
+            className="w-full h-auto rounded-2xl shadow-2xl"
             
           >
           </video>
         </div>
+        
+        {/* New Feature Highlights Section */}
+        <div className="mt-16 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="text-center p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100">
+              <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--color-primary)' }}>Smart Matching</h3>
+              <p className="text-gray-600">AI-powered job recommendations tailored to your skills and preferences</p>
+            </div>
+            
+            <div className="text-center p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100">
+              <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-teal-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--color-primary)' }}>Verified Employers</h3>
+              <p className="text-gray-600">Connect with trusted companies and verified job opportunities</p>
+            </div>
+            
+            <div className="text-center p-6 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 border border-gray-100">
+              <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </div>
+              <h3 className="text-xl font-bold mb-2" style={{ color: 'var(--color-primary)' }}>Fast Application</h3>
+              <p className="text-gray-600">Apply to multiple jobs with one click using your profile</p>
+            </div>
+          </div>
+        </div>
+        
+
       
       </div>
     </div>

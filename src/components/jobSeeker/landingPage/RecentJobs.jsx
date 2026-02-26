@@ -257,17 +257,53 @@ const RecentJobs = () => {
           </div>
         )}
         
-        {/* {hasMore && (
-          <div className="flex justify-center mt-8">
-            <button
-              onClick={loadMoreJobs}
-              disabled={loading}
-              className="px-6 py-3 bg-[var(--color-accent)] text-white font-medium rounded-lg hover:bg-[var(--color-accent-dark)] transition-colors duration-200 disabled:opacity-50"
-            >
-              {loading ? 'Loading...' : 'View More Jobs'}
-            </button>
+        {/* New Job Insights Section */}
+        <div className="mt-16 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-8">
+          <h3 className="text-3xl font-bold text-center mb-8" style={{ color: 'var(--color-primary)' }}>Job Market Insights</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-white p-6 rounded-xl shadow-sm">
+              <div className="text-4xl font-bold mb-2" style={{ color: 'var(--color-accent)' }}>92%</div>
+              <h4 className="text-xl font-semibold mb-2">Success Rate</h4>
+              <p className="text-gray-600">Candidates who found jobs through our platform</p>
+            </div>
+            
+            <div className="bg-white p-6 rounded-xl shadow-sm">
+              <div className="text-4xl font-bold mb-2" style={{ color: 'var(--color-accent)' }}>24h</div>
+              <h4 className="text-xl font-semibold mb-2">Average Response Time</h4>
+              <p className="text-gray-600">Time from application to employer response</p>
+            </div>
+            
+            <div className="bg-white p-6 rounded-xl shadow-sm">
+              <div className="text-4xl font-bold mb-2" style={{ color: 'var(--color-accent)' }}>15K+</div>
+              <h4 className="text-xl font-semibold mb-2">Active Recruiters</h4>
+              <p className="text-gray-600">Companies actively hiring on our platform</p>
+            </div>
           </div>
-        )} */}
+        </div>
+        
+        {/* New CTA Section */}
+        <div className="mt-16 text-center">
+          <div className="bg-white rounded-2xl p-12 shadow-lg border border-gray-100">
+            <h3 className="text-3xl font-bold mb-4" style={{ color: 'var(--color-primary)' }}>Ready to Find Your Dream Job?</h3>
+            <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+              Join thousands of professionals who have successfully found their ideal careers through our platform
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button 
+                className="px-8 py-4 btn-accent rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-all"
+                onClick={() => navigate('/login')}
+              >
+                Create Your Profile
+              </button>
+              <button 
+                className="px-8 py-4 border-2 border-gray-300 text-gray-700 rounded-xl font-bold text-lg hover:bg-gray-50 transition-colors"
+                onClick={() => navigate('/jobs')}
+              >
+                Browse All Jobs
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

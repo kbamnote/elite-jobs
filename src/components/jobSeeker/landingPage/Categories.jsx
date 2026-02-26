@@ -401,6 +401,67 @@ const Categories = () => {
           )}
         </div>
       )}
+      
+      {/* New Popular Categories Section */}
+      <div className="mt-16 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl p-8">
+        <h3 className="text-3xl font-bold text-center mb-8" style={{ color: 'var(--color-primary)' }}>Popular Categories</h3>
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+          {[
+            { name: "Technology", icon: "💻", jobs: "15,200+" },
+            { name: "Healthcare", icon: "🏥", jobs: "8,900+" },
+            { name: "Finance", icon: "💰", jobs: "6,700+" },
+            { name: "Marketing", icon: "📢", jobs: "5,400+" },
+            { name: "Education", icon: "📚", jobs: "4,800+" },
+            { name: "Sales", icon: "📈", jobs: "7,300+" }
+          ].map((category, index) => (
+            <div 
+              key={index}
+              className="bg-white p-4 rounded-xl text-center shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+              onClick={() => navigate(`/jobs?category=${encodeURIComponent(category.name)}`)}
+            >
+              <div className="text-3xl mb-2">{category.icon}</div>
+              <h4 className="font-semibold text-gray-800 mb-1">{category.name}</h4>
+              <p className="text-sm text-gray-600">{category.jobs} jobs</p>
+            </div>
+          ))}
+        </div>
+      </div>
+      
+      {/* New Career Advice Section */}
+      <div className="mt-16 bg-white rounded-2xl p-8 shadow-lg">
+        <h3 className="text-3xl font-bold text-center mb-8" style={{ color: 'var(--color-primary)' }}>Career Insights</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="text-center">
+            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h4 className="text-xl font-semibold mb-2">High Demand Roles</h4>
+            <p className="text-gray-600">Discover which skills are most sought after in today's job market</p>
+          </div>
+          
+          <div className="text-center">
+            <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+            </div>
+            <h4 className="text-xl font-semibold mb-2">Salary Insights</h4>
+            <p className="text-gray-600">Get accurate salary data for different roles and experience levels</p>
+          </div>
+          
+          <div className="text-center">
+            <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg className="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+            </div>
+            <h4 className="text-xl font-semibold mb-2">Growth Opportunities</h4>
+            <p className="text-gray-600">Explore career paths with the highest potential for advancement</p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

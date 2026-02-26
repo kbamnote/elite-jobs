@@ -62,7 +62,7 @@ const About = () => {
         </div> */}
 
         {/* Stats Section */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-16">
           {stats.map((stat, index) => (
             <div
               key={index}
@@ -79,6 +79,95 @@ const About = () => {
               </p>
             </div>
           ))}
+        </div>
+        
+        {/* New Mission & Vision Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
+          <div className="bg-gradient-to-br from-blue-50 to-indigo-50 p-8 rounded-2xl">
+            <h3 className="text-2xl font-bold mb-4" style={{ color: 'var(--color-primary)' }}>Our Mission</h3>
+            <p className="text-gray-700 text-lg leading-relaxed">
+              To bridge the gap between talented professionals and innovative companies by providing a seamless, 
+              transparent, and efficient job matching platform that empowers career growth for everyone.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <span className="px-4 py-2 bg-white rounded-full text-sm font-medium shadow-sm">Career Growth</span>
+              <span className="px-4 py-2 bg-white rounded-full text-sm font-medium shadow-sm">Innovation</span>
+              <span className="px-4 py-2 bg-white rounded-full text-sm font-medium shadow-sm">Transparency</span>
+            </div>
+          </div>
+          
+          <div className="bg-gradient-to-br from-purple-50 to-pink-50 p-8 rounded-2xl">
+            <h3 className="text-2xl font-bold mb-4" style={{ color: 'var(--color-primary)' }}>Our Vision</h3>
+            <p className="text-gray-700 text-lg leading-relaxed">
+              To become the most trusted global platform for career opportunities, where every professional 
+              finds their perfect match and every company discovers their ideal talent.
+            </p>
+            <div className="mt-6 flex flex-wrap gap-3">
+              <span className="px-4 py-2 bg-white rounded-full text-sm font-medium shadow-sm">Global Reach</span>
+              <span className="px-4 py-2 bg-white rounded-full text-sm font-medium shadow-sm">Trust</span>
+              <span className="px-4 py-2 bg-white rounded-full text-sm font-medium shadow-sm">Excellence</span>
+            </div>
+          </div>
+        </div>
+        
+        {/* New Features Section */}
+        <div className="bg-white rounded-2xl p-8 shadow-lg mb-16">
+          <h3 className="text-3xl font-bold text-center mb-12" style={{ color: 'var(--color-primary)' }}>Why Choose Us?</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+              </div>
+              <h4 className="text-xl font-semibold mb-2">Verified Opportunities</h4>
+              <p className="text-gray-600">Every job is verified by our team to ensure authenticity and quality</p>
+            </div>
+            
+            <div className="text-center">
+              <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </div>
+              <h4 className="text-xl font-semibold mb-2">Fast Application</h4>
+              <p className="text-gray-600">Apply to multiple jobs with one click using your profile</p>
+            </div>
+            
+            <div className="text-center">
+              <div className="w-16 h-16 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                </svg>
+              </div>
+              <h4 className="text-xl font-semibold mb-2">AI-Powered Matching</h4>
+              <p className="text-gray-600">Smart recommendations based on your skills and preferences</p>
+            </div>
+            
+            <div className="text-center">
+              <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg className="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+              </div>
+              <h4 className="text-xl font-semibold mb-2">Community Support</h4>
+              <p className="text-gray-600">Join our community of professionals and get career guidance</p>
+            </div>
+          </div>
+        </div>
+        
+        {/* New CTA Section */}
+        <div className="text-center bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl p-12 text-white">
+          <h3 className="text-3xl font-bold mb-4">Ready to Transform Your Career?</h3>
+          <p className="text-xl mb-8 max-w-2xl mx-auto">Join thousands of professionals who found their dream jobs through our platform</p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button className="bg-white text-blue-600 px-8 py-4 rounded-xl font-bold text-lg hover:bg-gray-100 transition-colors shadow-lg">
+              Create Free Account
+            </button>
+            <button className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-white hover:text-blue-600 transition-colors">
+              Explore Jobs
+            </button>
+          </div>
         </div>
       </div>
     </div>
