@@ -87,7 +87,7 @@ const NewsBlog = () => {
       </div>
       
       {/* New Newsletter Section */}
-      <div className="mt-16 bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl p-12 text-white">
+      <div className="mt-16 bg-[#e94560] rounded-2xl p-12 text-white">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           <div>
             <h3 className="text-3xl font-bold mb-4">Stay Updated with Career Insights</h3>
@@ -108,8 +108,8 @@ const NewsBlog = () => {
               <div className="w-48 h-48 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
                 <div className="text-center">
                   <div className="text-5xl mb-2">📰</div>
-                  <div className="text-2xl font-bold">Weekly</div>
-                  <div className="text-lg">Newsletter</div>
+                  <div className="text-2xl font-bold text-black">Weekly</div>
+                  <div className="text-lg text-black">Newsletter</div>
                 </div>
               </div>
               <div className="absolute -top-4 -right-4 w-20 h-20 bg-green-400 bg-opacity-30 rounded-full flex items-center justify-center">
