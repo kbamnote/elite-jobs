@@ -10,11 +10,15 @@ import NewsBlog from '../landingPage/NewsBlog'
 import RecentJobs from '../landingPage/RecentJobs'
 import Testimonials from '../landingPage/Testimonials'
 import TopCompany from '../landingPage/TopCompany'
+import JobSeekerJourney from './JobSeekerJourney'
+import JobSeekerJourneyPart2 from './JobSeekerJourneyPart2'
 
 function Home() {
   return (
     <>
      <Hero/>
+     <JobSeekerJourney/>
+     <JobSeekerJourneyPart2/>
      <CompanyLogos/>
      <RecentJobs/>
      <Categories/>
