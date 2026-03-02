@@ -190,6 +190,43 @@ export default function ResumeEditor() {
                 {/* ══════ LEFT EDITOR PANEL ══════ */}
                 <aside style={S.editor}>
                     <div style={S.editorInner}>
+                        
+                        {/* ── Instructions ── */}
+                        <div style={S.instructionsCard}>
+                            <div style={S.instructionHeader}>
+                                <h3 style={S.instructionTitle}>How to Build Your Resume</h3>
+                            </div>
+                            <div style={S.instructionSteps}>
+                                <div style={S.instructionStep}>
+                                    <span style={S.stepNumber}>1</span>
+                                    <span style={S.stepText}>Start with your photo and personal details</span>
+                                </div>
+                                <div style={S.instructionStep}>
+                                    <span style={S.stepNumber}>2</span>
+                                    <span style={S.stepText}>Add your Profile Summary</span>
+                                </div>
+                                <div style={S.instructionStep}>
+                                    <span style={S.stepNumber}>3</span>
+                                    <span style={S.stepText}>List your Work Experience and Education</span>
+                                </div>
+                                <div style={S.instructionStep}>
+                                    <span style={S.stepNumber}>4</span>
+                                    <span style={S.stepText}>Include Skills, Languages, and Certifications</span>
+                                </div>
+                                <div style={S.instructionStep}>
+                                    <span style={S.stepNumber}>5</span>
+                                    <span style={S.stepText}>Preview and Download your professional resume</span>
+                                </div>
+                            </div>
+                            <div style={S.tipsSection}>
+                                <p style={S.tipsTitle}>💡 Pro Tips:</p>
+                                <ul style={S.tipsList}>
+                                    <li>Use action verbs like "Managed", "Developed", "Implemented"</li>
+                                    <li>Quantify achievements with numbers and metrics</li>
+                                    <li>Keep descriptions concise and impactful</li>
+                                </ul>
+                            </div>
+                        </div>
 
                         {/* ── Photo + Personal ── */}
                         <section style={S.personalCard}>

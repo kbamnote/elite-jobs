@@ -55,6 +55,14 @@ import AiCandidateRecommendation from "./components/recruiter/aiCandidate/AiCand
 import ResumeEditor from "./components/auth/resume/ResumeEditor";
 import ResumePreview from "./components/auth/resume/ResumePreview";
 import Resumes from "./components/auth/resume/Resumes";
+
+// Landing Page Components
+import PlatformOverview from "./components/jobSeeker/landingPage/PlatformOverview";
+import ContactInformation from "./components/jobSeeker/landingPage/ContactInformation";
+
+// Protected Routes
+import ProtectedRoute from "./components/jobSeeker/seekerAuth/ProtectedRoute";
+import ProtectedRouteNew from "./components/jobSeeker/seekerAuth/ProtectedRouteNew";
 function App() {
   return (
     <>
@@ -115,12 +123,14 @@ function App() {
                 <Route path="/blog" element={<Blog />} />
                 <Route path="/blog/:id" element={<NewsBlogSingle />} />
                 <Route path="/salaries" element={<Salaries />} />
-                <Route path="/ats-score-checker" element={<ATS_Score />} />
-                <Route path="/ai-resume-builder" element={<AiResume />} />
-                <Route path="/resumes" element={<Resumes />} />
-                <Route path="/resumes/edit" element={<ResumeEditor />} />
-                <Route path="/resumes/preview" element={<ResumePreview />} />
-                <Route path="/mock" element={<AiMockTest />} />
+                <Route path="/ats-score-checker" element={<ProtectedRouteNew><ATS_Score /></ProtectedRouteNew>} />
+                <Route path="/ai-resume-builder" element={<ProtectedRouteNew><AiResume /></ProtectedRouteNew>} />
+                <Route path="/resumes" element={<ProtectedRouteNew><Resumes /></ProtectedRouteNew>} />
+                <Route path="/resumes/edit" element={<ProtectedRouteNew><ResumeEditor /></ProtectedRouteNew>} />
+                <Route path="/resumes/preview" element={<ProtectedRouteNew><ResumePreview /></ProtectedRouteNew>} />
+                <Route path="/mock" element={<ProtectedRouteNew><AiMockTest /></ProtectedRouteNew>} />
+                <Route path="/platform-overview" element={<PlatformOverview />} />
+                <Route path="/contact-info" element={<ContactInformation />} />
 
                 {/* Seeker Profile */}
                 <Route path="/profile" element={<Profile />} />

@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import Header from "../../commonSeeker/Header";
-import Footer from "../../commonSeeker/Footer";
 import {
   ArrowUpCircle,
   FileText,
@@ -11,6 +9,10 @@ import {
   ChevronRight,
   Target,
   Award,
+  TrendingUp,
+  Wrench,
+  BookOpen,
+  BarChart3,
 } from "lucide-react";
 
 const ATS_Score = () => {
@@ -25,19 +27,52 @@ const ATS_Score = () => {
 
   const handleUpload = async () => {
     if (!file) return alert("Please upload a resume!");
+    
+    const formData = new FormData();
+    formData.append('resume_file', file);
+    
     setLoading(true);
-    // Design-only: simulate analysis result
-    setTimeout(() => {
-      setResult({
-        score: 78,
-        feedback: [
-          "Include strong keywords relevant to the job description",
-          "Use **bullet points** to highlight accomplishments",
-          "Add measurable impact (e.g., increased performance by **25%**)",
-        ],
+    try {
+      // Log the file info for debugging
+      console.log('Uploading file:', file.name, 'Size:', file.size, 'Type:', file.type);
+      
+      const response = await fetch('https://ats-score-calculator-production.up.railway.app/api/v1/ats-score/upload', {
+        method: 'POST',
+        body: formData,
+        // Don't set Content-Type header when using FormData - the browser sets it automatically
       });
+      
+      console.log('Response status:', response.status);
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('API Error Response:', errorText);
+        throw new Error(`API request failed with status ${response.status}. Details: ${errorText}`);
+      }
+      
+      const data = await response.json();
+      console.log('API Response:', data);
+      
+      // Transform API response to match UI expectations
+      const transformedResult = {
+        score: Math.round(data.overall_score),
+        breakdown: data.breakdown || {},
+        matchedKeywords: data.matched_keywords || [],
+        missingKeywords: data.missing_keywords || [],
+        detectedSkills: data.detected_skills || [],
+        matchedSkills: data.matched_skills || [],
+        recommendations: data.recommendations || [],
+        recommendationsBySection: data.recommendations_by_section || {},
+      };
+      
+      setResult(transformedResult);
+    } catch (error) {
+      console.error('Error uploading resume:', error);
+      alert('Error uploading resume: ' + error.message);
+      setResult(null);
+    } finally {
       setLoading(false);
-    }, 1000);
+    }
   };
 
   return (
@@ -192,30 +227,131 @@ const ATS_Score = () => {
                           <CheckCircle className="w-6 h-6 text-white" />
                         </div>
                       </div>
-                      <p className="text-6xl font-bold text-white mb-1" style={{ fontFamily: 'var(--font-body)' }}>{result.score}</p>
-                      <p className="font-medium text-lg text-white/90" style={{ fontFamily: 'var(--font-body)' }}>
-                        {result.score >= 80 ? "Outstanding Resume!" : "Room for Improvement"}
+                      <p className="text-6xl font-bold text-black mb-1" style={{ fontFamily: 'var(--font-body)' }}>{result.score}</p>
+                      <p className="font-medium text-lg text-black/90" style={{ fontFamily: 'var(--font-body)' }}>
+                        {result.score >= 80 ? "Outstanding Resume!" : 
+                         result.score >= 60 ? "Good Resume" : 
+                         result.score >= 40 ? "Average Resume" : 
+                         "Needs Improvement"}
                       </p>
                     </div>
                   </div>
 
-                  {result.feedback.length > 0 && (
-                    <div className="flex-1 mt-6 overflow-hidden flex flex-col">
-                      <h3 className="text-xl font-bold text-gray-900 mb-4 flex items-center" style={{ fontFamily: 'var(--font-body)' }}>
-                        <Star className="w-5 h-5 mr-2" style={{ color: 'var(--color-accent)' }} />
-                        Key Suggestions
+                  <div className="flex-1 mt-6 overflow-hidden flex flex-col">
+                    {/* Tabs for different views */}
+                    <div className="flex border-b mb-4">
+                      <button className="px-4 py-2 font-medium text-black hover:text-black border-b-2 border-blue-500 text-blue-600">
+                        Overview
+                      </button>
+                    </div>
+                    
+                    {/* Score Breakdown */}
+                    <div className="mb-6">
+                      <h3 className="text-lg font-bold text-black mb-3 flex items-center" style={{ fontFamily: 'var(--font-body)' }}>
+                        <BarChart3 className="w-5 h-5 mr-2" style={{ color: 'var(--color-accent)' }} />
+                        Score Breakdown
                       </h3>
-                      <div className="flex-1 overflow-y-auto pr-2">
-                        <div className="rounded-lg p-6" style={{ backgroundColor: 'var(--color-accent-light)' }}>
-                          <ul className="list-disc pl-6 space-y-3 text-gray-700" style={{ fontFamily: 'var(--font-body)' }}>
-                            {result.feedback.map((suggestion, index) => (
-                              <li key={index} className="leading-relaxed">{suggestion}</li>
-                            ))}
-                          </ul>
+                      <div className="grid grid-cols-2 gap-3">
+                        {result.breakdown ? Object.entries(result.breakdown).map(([key, value]) => (
+                          <div key={key} className="p-3 rounded-lg" style={{ backgroundColor: 'var(--color-accent-light)' }}>
+                            <p className="text-sm text-black capitalize">{key.replace('_', ' ')}</p>
+                            <p className="font-bold text-black">{Math.round(value)}%</p>
+                          </div>
+                        )) : <p className="text-gray-600">Loading breakdown...</p>}
+                      </div>
+                    </div>
+                    
+                    {/* Keywords Analysis */}
+                    <div className="mb-6">
+                      <h3 className="text-lg font-bold text-black mb-3 flex items-center" style={{ fontFamily: 'var(--font-body)' }}>
+                        <BookOpen className="w-5 h-5 mr-2" style={{ color: 'var(--color-accent)' }} />
+                        Keywords Analysis
+                      </h3>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <p className="text-sm font-medium text-black mb-2">Matched Keywords ({result.matchedKeywords ? result.matchedKeywords.length : 0})</p>
+                          <div className="max-h-24 overflow-y-auto p-3 rounded-lg" style={{ backgroundColor: 'var(--color-accent-light)' }}>
+                            <div className="flex flex-wrap gap-1">
+                              {result.matchedKeywords ? result.matchedKeywords.slice(0, 10).map((keyword, index) => (
+                                <span key={index} className="px-2 py-1 text-xs rounded-full bg-green-100 text-green-800">{keyword}</span>
+                              )) : <span className="text-gray-500 text-sm">Loading...</span>}
+                            </div>
+                          </div>
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium text-black mb-2">Missing Keywords ({result.missingKeywords ? result.missingKeywords.length : 0})</p>
+                          <div className="max-h-24 overflow-y-auto p-3 rounded-lg" style={{ backgroundColor: 'var(--color-accent-light)' }}>
+                            <div className="flex flex-wrap gap-1">
+                              {result.missingKeywords ? result.missingKeywords.slice(0, 10).map((keyword, index) => (
+                                <span key={index} className="px-2 py-1 text-xs rounded-full bg-red-100 text-red-800">{keyword}</span>
+                              )) : <span className="text-gray-500 text-sm">Loading...</span>}
+                            </div>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  )}
+                    
+                    {/* Skills Analysis */}
+                    <div className="mb-6">
+                      <h3 className="text-lg font-bold text-black mb-3 flex items-center" style={{ fontFamily: 'var(--font-body)' }}>
+                        <Wrench className="w-5 h-5 mr-2" style={{ color: 'var(--color-accent)' }} />
+                        Skills Analysis
+                      </h3>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <p className="text-sm font-medium text-black mb-2">Detected Skills ({result.detectedSkills ? result.detectedSkills.length : 0})</p>
+                          <div className="max-h-24 overflow-y-auto p-3 rounded-lg" style={{ backgroundColor: 'var(--color-accent-light)' }}>
+                            <div className="flex flex-wrap gap-1">
+                              {result.detectedSkills ? result.detectedSkills.slice(0, 10).map((skill, index) => (
+                                <span key={index} className="px-2 py-1 text-xs rounded-full bg-blue-100 text-blue-800">{skill}</span>
+                              )) : <span className="text-gray-500 text-sm">Loading...</span>}
+                            </div>
+                          </div>
+                        </div>
+                        <div>
+                          <p className="text-sm font-medium text-black mb-2">Matched Skills ({result.matchedSkills ? result.matchedSkills.length : 0})</p>
+                          <div className="max-h-24 overflow-y-auto p-3 rounded-lg" style={{ backgroundColor: 'var(--color-accent-light)' }}>
+                            <div className="flex flex-wrap gap-1">
+                              {result.matchedSkills ? result.matchedSkills.slice(0, 10).map((skill, index) => (
+                                <span key={index} className="px-2 py-1 text-xs rounded-full bg-purple-100 text-purple-800">{skill}</span>
+                              )) : <span className="text-gray-500 text-sm">Loading...</span>}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Recommendations by Section */}
+                    <div className="flex-1 overflow-y-auto pr-2">
+                      <h3 className="text-xl font-bold text-black mb-4 flex items-center" style={{ fontFamily: 'var(--font-body)' }}>
+                        <Star className="w-5 h-5 mr-2" style={{ color: 'var(--color-accent)' }} />
+                        Recommendations by Section
+                      </h3>
+                      <div className="space-y-4">
+                        {result.recommendationsBySection && Object.keys(result.recommendationsBySection).length > 0 ? (
+                          Object.entries(result.recommendationsBySection).map(([section, recs], index) => (
+                            <div key={index} className="rounded-lg p-4" style={{ backgroundColor: 'var(--color-accent-light)' }}>
+                              <h4 className="font-bold text-black mb-2">{section}</h4>
+                              <ul className="list-disc pl-6 space-y-2 text-black">
+                                {recs.map((rec, idx) => (
+                                  <li key={idx} className="text-sm leading-relaxed text-black">{rec}</li>
+                                ))}
+                              </ul>
+                            </div>
+                          ))
+                        ) : (
+                          <div className="rounded-lg p-4" style={{ backgroundColor: 'var(--color-accent-light)' }}>
+                            <h4 className="font-bold text-black mb-2">General Recommendations</h4>
+                            <ul className="list-disc pl-6 space-y-2 text-black">
+                              {result.recommendations && result.recommendations.slice(0, 5).map((rec, idx) => (
+                                <li key={idx} className="text-sm leading-relaxed text-black">{rec}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               ) : (
                 <div className="h-full flex flex-col items-center justify-center text-center p-8">

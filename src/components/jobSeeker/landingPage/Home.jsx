@@ -12,13 +12,21 @@ import Testimonials from '../landingPage/Testimonials'
 import TopCompany from '../landingPage/TopCompany'
 import JobSeekerJourney from './JobSeekerJourney'
 import JobSeekerJourneyPart2 from './JobSeekerJourneyPart2'
+import PlatformOverview from './PlatformOverview'
+import ContactInformation from './ContactInformation'
+
 
 function Home() {
   return (
     <>
      <Hero/>
-     <JobSeekerJourney/>
-     <JobSeekerJourneyPart2/>
+     <div className="relative z-0">
+       <JobSeekerJourney/>
+     </div>
+     <div className="relative z-0">
+       <JobSeekerJourneyPart2/>
+     </div>
+     <PlatformOverview/>
      <CompanyLogos/>
      <RecentJobs/>
      <Categories/>
@@ -26,6 +34,7 @@ function Home() {
      <About/>
      <FeaturesSection/>
      <Testimonials/>
+     <ContactInformation/>
      <NewsBlog/>
 
     </>

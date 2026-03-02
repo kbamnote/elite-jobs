@@ -48,13 +48,22 @@ const Login = () => {
       Cookies.set('token', token);
       Cookies.set('role', role);
 
-      // Navigate based on role
-      if (role === 'jobSeeker') {
-        navigate('/');
-      } else if (role === 'jobHoster') {
-        navigate('/hosting/dashboard');
-      } else if (role === 'recruiter') {
-        navigate('/recruiter/dashboard');
+      // Check for returnUrl parameter to redirect back to intended page
+      const params = new URLSearchParams(location.search);
+      const returnUrl = params.get('returnUrl');
+      
+      if (returnUrl) {
+        // Redirect to the originally requested URL
+        navigate(decodeURIComponent(returnUrl));
+      } else {
+        // Navigate based on role
+        if (role === 'jobSeeker') {
+          navigate('/');
+        } else if (role === 'jobHoster') {
+          navigate('/hosting/dashboard');
+        } else if (role === 'recruiter') {
+          navigate('/recruiter/dashboard');
+        }
       }
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed');
@@ -93,17 +102,26 @@ const Login = () => {
           if (response.ok) {
             const userData = await response.json();
             const { role } = userData.data;
-
+                      
             // Store role in cookies
             Cookies.set('role', role);
-
-            // Navigate based on role
-            if (role === 'jobSeeker') {
-              navigate('/');
-            } else if (role === 'jobHoster') {
-              navigate('/hosting/dashboard');
-            } else if (role === 'recruiter') {
-              navigate('/recruiter/dashboard');
+                      
+            // Check for returnUrl parameter to redirect back to intended page
+            const urlParams = new URLSearchParams(location.search);
+            const returnUrl = urlParams.get('returnUrl');
+                      
+            if (returnUrl) {
+              // Redirect to the originally requested URL
+              navigate(decodeURIComponent(returnUrl));
+            } else {
+              // Navigate based on role
+              if (role === 'jobSeeker') {
+                navigate('/');
+              } else if (role === 'jobHoster') {
+                navigate('/hosting/dashboard');
+              } else if (role === 'recruiter') {
+                navigate('/recruiter/dashboard');
+              }
             }
           } else {
             throw new Error('Failed to fetch user profile');

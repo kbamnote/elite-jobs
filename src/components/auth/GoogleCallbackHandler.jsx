@@ -34,13 +34,21 @@ const GoogleCallbackHandler = () => {
             // Store role in cookies
             Cookies.set('role', role);
             
-            // Navigate based on role
-            if (role === 'jobSeeker') {
-              navigate('/');
-            } else if (role === 'jobHoster') {
-              navigate('/hosting/dashboard');
-            } else if (role === 'recruiter') {
-              navigate('/recruiter/dashboard');
+            // Check for returnUrl parameter to redirect back to intended page
+            const returnUrl = params.get('returnUrl');
+            
+            if (returnUrl) {
+              // Redirect to the originally requested URL
+              navigate(decodeURIComponent(returnUrl));
+            } else {
+              // Navigate based on role
+              if (role === 'jobSeeker') {
+                navigate('/');
+              } else if (role === 'jobHoster') {
+                navigate('/hosting/dashboard');
+              } else if (role === 'recruiter') {
+                navigate('/recruiter/dashboard');
+              }
             }
           } else {
             throw new Error('Failed to fetch user profile');
@@ -83,13 +91,21 @@ const GoogleCallbackHandler = () => {
             Cookies.set('token', token);
             Cookies.set('role', userRole);
             
-            // Navigate based on role
-            if (userRole === 'jobSeeker') {
-              navigate('/');
-            } else if (userRole === 'jobHoster') {
-              navigate('/hosting/dashboard');
-            } else if (userRole === 'recruiter') {
-              navigate('/recruiter/dashboard');
+            // Check for returnUrl parameter to redirect back to intended page
+            const returnUrl = params.get('returnUrl');
+            
+            if (returnUrl) {
+              // Redirect to the originally requested URL
+              navigate(decodeURIComponent(returnUrl));
+            } else {
+              // Navigate based on role
+              if (userRole === 'jobSeeker') {
+                navigate('/');
+              } else if (userRole === 'jobHoster') {
+                navigate('/hosting/dashboard');
+              } else if (userRole === 'recruiter') {
+                navigate('/recruiter/dashboard');
+              }
             }
             return; // Exit the loop if login is successful
           } catch (loginError) {

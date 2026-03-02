@@ -131,10 +131,10 @@ const Testimonials = () => {
                 Our community is here to support your career journey every step of the way.
               </p>
               <div className="flex flex-wrap gap-3 mb-6">
-                <span className="px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">Career Advice</span>
-                <span className="px-4 py-2 bg-green-100 text-green-800 rounded-full text-sm font-medium">Networking</span>
-                <span className="px-4 py-2 bg-purple-100 text-purple-800 rounded-full text-sm font-medium">Mentorship</span>
-                <span className="px-4 py-2 bg-orange-100 text-orange-800 rounded-full text-sm font-medium">Resources</span>
+                <span className="px-4 py-2 bg-[#fef2f2] text-[#e94560] rounded-full text-sm font-medium">Career Advice</span>
+                <span className="px-4 py-2 bg-[#fef2f2] text-[#e94560] rounded-full text-sm font-medium">Networking</span>
+                <span className="px-4 py-2 bg-[#fef2f2] text-[#e94560] rounded-full text-sm font-medium">Mentorship</span>
+                <span className="px-4 py-2 bg-[#fef2f2] text-[#e94560] rounded-full text-sm font-medium">Resources</span>
               </div>
               <button className="px-6 py-3 btn-accent rounded-lg font-semibold shadow-md hover:shadow-lg transition-all">
                 Join Community

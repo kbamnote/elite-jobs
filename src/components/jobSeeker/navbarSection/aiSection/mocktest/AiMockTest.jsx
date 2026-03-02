@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Footer from "../../../commonSeeker/Footer";
 import QuestionComponent from "./QuestionComponent";
 import { getMockTestQuestions, profile } from "../../../../../utils/Api";
 import Cookies from "js-cookie";
@@ -33,6 +32,8 @@ const AiMockTest = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [email, setEmail] = useState("");
+  const [timeLeft, setTimeLeft] = useState(180); // 3 minutes in seconds
+  const [timerActive, setTimerActive] = useState(false);
 
   useEffect(() => {
     // Check if user is logged in and fetch their email
@@ -52,6 +53,28 @@ const AiMockTest = () => {
       fetchUserProfile();
     }
   }, []);
+
+  // Timer effect
+  useEffect(() => {
+    let interval = null;
+    
+    if (timerActive && timeLeft > 0) {
+      interval = setInterval(() => {
+        setTimeLeft((time) => {
+          if (time <= 1) {
+            // Auto submit when timer reaches 0
+            handleAutoSubmit();
+            return 0;
+          }
+          return time - 1;
+        });
+      }, 1000);
+    } else if (timeLeft === 0) {
+      clearInterval(interval);
+    }
+    
+    return () => clearInterval(interval);
+  }, [timerActive, timeLeft]);
 
   const startTest = async () => {
     if (!category) {
@@ -95,6 +118,8 @@ const AiMockTest = () => {
       setAnswers({});
       setShowResult(false);
       setLoading(false);
+      setTimeLeft(180); // Reset timer to 3 minutes
+      setTimerActive(true); // Start the timer
     } catch (err) {
       console.error("Error fetching questions:", err);
       setError("Failed to load questions. Please try again later.");
@@ -118,6 +143,13 @@ const AiMockTest = () => {
     if (currentIndex > 0) setCurrentIndex((i) => i - 1);
   };
 
+  const handleAutoSubmit = () => {
+    setTimerActive(false);
+    setShowResult(true);
+    // Show alert that time is up
+    alert("⏰ Time's up! Your test has been automatically submitted.");
+  };
+
   const resetTest = () => {
     setStarted(false);
     setCurrentIndex(0);
@@ -126,6 +158,8 @@ const AiMockTest = () => {
     setQuestions([]);
     setSubcategory("");
     setError("");
+    setTimeLeft(180);
+    setTimerActive(false);
     // Only clear email if it wasn't auto-populated from login
     // We'll reset to empty string only if user wasn't logged in initially
     // For simplicity, we'll just not clear email field
@@ -244,9 +278,56 @@ const AiMockTest = () => {
           )}
 
           {loading && (
-            <div className="flex justify-center items-center py-8">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
-              <span className="ml-3 text-gray-600">Loading questions...</span>
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+              <div className="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl border border-gray-200">
+                <div className="text-center">
+                  <div className="flex justify-center mb-6">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-4 border-blue-500"></div>
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-4" style={{ fontFamily: 'var(--font-body)' }}>
+                    Preparing Your Mock Test
+                  </h3>
+                  <p className="text-gray-600 mb-6" style={{ fontFamily: 'var(--font-body)' }}>
+                    AI is generating personalized questions based on your selected category and sub-category.
+                  </p>
+                  
+                  <div className="bg-blue-50 rounded-lg p-4 mb-6">
+                    <h4 className="font-semibold text-blue-800 mb-2 flex items-center justify-center">
+                      <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      Instructions
+                    </h4>
+                    <ul className="text-sm text-blue-700 text-left space-y-1">
+                      <li className="flex items-start">
+                        <span className="text-blue-500 mr-2">•</span>
+                        <span>Read each question carefully before answering</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="text-blue-500 mr-2">•</span>
+                        <span>Select the most appropriate answer from the options</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="text-blue-500 mr-2">•</span>
+                        <span>You can navigate between questions using Prev/Next buttons</span>
+                      </li>
+                      <li className="flex items-start">
+                        <span className="text-blue-500 mr-2">•</span>
+                        <span>Review your answers before submitting</span>
+                      </li>
+                    </ul>
+                  </div>
+                  
+                  <div className="flex items-center justify-center text-gray-500">
+                    <svg className="animate-bounce w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                    </svg>
+                    <span className="text-sm" style={{ fontFamily: 'var(--font-body)' }}>
+                      Please wait while we prepare your test...
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
 
@@ -269,6 +350,21 @@ const AiMockTest = () => {
             <div className="mt-6 space-y-6">
               {!showResult ? (
                 <>
+                  {/* Timer Display */}
+                  <div className="flex justify-between items-center mb-4 p-4 rounded-lg bg-red-50 border border-red-200">
+                    <div className="flex items-center">
+                      <svg className="w-6 h-6 text-red-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <span className="font-bold text-red-700" style={{ fontFamily: 'var(--font-body)' }}>
+                        Time Remaining:
+                      </span>
+                    </div>
+                    <div className={`text-2xl font-bold ${timeLeft <= 30 ? 'text-red-600 animate-pulse' : 'text-red-700'}`} style={{ fontFamily: 'var(--font-body)' }}>
+                      {Math.floor(timeLeft / 60)}:{(timeLeft % 60).toString().padStart(2, '0')}
+                    </div>
+                  </div>
+                  
                   <div className="text-sm text-gray-500 mb-2">
                     Question {currentIndex + 1} of {questions.length}
                   </div>
@@ -416,7 +512,6 @@ const AiMockTest = () => {
           )}
         </div>
       </div>
-      <Footer />
     </div>
   );
 };

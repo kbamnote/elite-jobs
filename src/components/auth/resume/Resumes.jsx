@@ -15,6 +15,11 @@ export function Resumes() {
     const menuRef = useRef(null);
     const buttonRef = useRef(null);
     const navigate = useNavigate();
+    const [showInstructions, setShowInstructions] = useState(true);
+    
+    const handleStartResume = () => {
+        setShowInstructions(false);
+    };
     
     // Sample resume data
     const [resumes, setResumes] = useState([
@@ -127,10 +132,191 @@ export function Resumes() {
         }
     };
 
+    if (showInstructions) {
+        return (
+            <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
+                <div className="max-w-4xl mx-auto px-4 py-12">
+                    <div className="text-center mb-12">
+                        <h1 className="text-4xl font-bold text-gray-900 mb-4">
+                            Resume Management Center
+                        </h1>
+                        <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+                            Manage all your resumes in one place. Create, edit, duplicate, and organize your professional documents.
+                        </p>
+                    </div>
+                    
+                    <div className="grid md:grid-cols-2 gap-8 mb-12">
+                        {/* Feature 1 */}
+                        <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-shadow">
+                            <div className="flex items-center mb-4">
+                                <div className="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold text-lg mr-4">1</div>
+                                <h2 className="text-xl font-bold text-gray-900">Create New Resumes</h2>
+                            </div>
+                            <ul className="space-y-2 text-gray-600">
+                                <li className="flex items-start">
+                                    <span className="text-blue-500 mr-2">•</span>
+                                    <span>Start with a blank template</span>
+                                </li>
+                                <li className="flex items-start">
+                                    <span className="text-blue-500 mr-2">•</span>
+                                    <span>Use AI-powered suggestions</span>
+                                </li>
+                                <li className="flex items-start">
+                                    <span className="text-blue-500 mr-2">•</span>
+                                    <span>Customize layouts and designs</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        {/* Feature 2 */}
+                        <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-shadow">
+                            <div className="flex items-center mb-4">
+                                <div className="w-10 h-10 rounded-full bg-green-500 flex items-center justify-center text-white font-bold text-lg mr-4">2</div>
+                                <h2 className="text-xl font-bold text-gray-900">Manage Your Resumes</h2>
+                            </div>
+                            <ul className="space-y-2 text-gray-600">
+                                <li className="flex items-start">
+                                    <span className="text-green-500 mr-2">•</span>
+                                    <span>View all your saved resumes</span>
+                                </li>
+                                <li className="flex items-start">
+                                    <span className="text-green-500 mr-2">•</span>
+                                    <span>Edit titles and content</span>
+                                </li>
+                                <li className="flex items-start">
+                                    <span className="text-green-500 mr-2">•</span>
+                                    <span>Track last edited dates</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        {/* Feature 3 */}
+                        <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-shadow">
+                            <div className="flex items-center mb-4">
+                                <div className="w-10 h-10 rounded-full bg-purple-500 flex items-center justify-center text-white font-bold text-lg mr-4">3</div>
+                                <h2 className="text-xl font-bold text-gray-900">Duplicate & Organize</h2>
+                            </div>
+                            <ul className="space-y-2 text-gray-600">
+                                <li className="flex items-start">
+                                    <span className="text-purple-500 mr-2">•</span>
+                                    <span>Create copies of existing resumes</span>
+                                </li>
+                                <li className="flex items-start">
+                                    <span className="text-purple-500 mr-2">•</span>
+                                    <span>Rename and organize your collection</span>
+                                </li>
+                                <li className="flex items-start">
+                                    <span className="text-purple-500 mr-2">•</span>
+                                    <span>Keep different versions for various roles</span>
+                                </li>
+                            </ul>
+                        </div>
+                        
+                        {/* Feature 4 */}
+                        <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:shadow-xl transition-shadow">
+                            <div className="flex items-center mb-4">
+                                <div className="w-10 h-10 rounded-full bg-orange-500 flex items-center justify-center text-white font-bold text-lg mr-4">4</div>
+                                <h2 className="text-xl font-bold text-gray-900">Advanced Features</h2>
+                            </div>
+                            <ul className="space-y-2 text-gray-600">
+                                <li className="flex items-start">
+                                    <span className="text-orange-500 mr-2">•</span>
+                                    <span>AI translation (coming soon)</span>
+                                </li>
+                                <li className="flex items-start">
+                                    <span className="text-orange-500 mr-2">•</span>
+                                    <span>ATS optimization tools</span>
+                                </li>
+                                <li className="flex items-start">
+                                    <span className="text-orange-500 mr-2">•</span>
+                                    <span>Export in multiple formats</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div className="bg-blue-50 rounded-2xl p-8 mb-8">
+                        <h3 className="text-xl font-bold text-blue-900 mb-4 flex items-center">
+                            <svg className="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            Getting Started Tips
+                        </h3>
+                        <div className="grid md:grid-cols-2 gap-4">
+                            <div>
+                                <h4 className="font-semibold text-blue-800 mb-2">For New Users:</h4>
+                                <ul className="space-y-1 text-blue-700 text-sm">
+                                    <li className="flex items-start">
+                                        <span className="text-blue-500 mr-2">✓</span>
+                                        <span>Click "New resume" to start</span>
+                                    </li>
+                                    <li className="flex items-start">
+                                        <span className="text-blue-500 mr-2">✓</span>
+                                        <span>Use the plus button to create</span>
+                                    </li>
+                                    <li className="flex items-start">
+                                        <span className="text-blue-500 mr-2">✓</span>
+                                        <span>Hover over resumes to see options</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 className="font-semibold text-blue-800 mb-2">Managing Resumes:</h4>
+                                <ul className="space-y-1 text-blue-700 text-sm">
+                                    <li className="flex items-start">
+                                        <span className="text-blue-500 mr-2">✓</span>
+                                        <span>Use 3-dot menu for actions</span>
+                                    </li>
+                                    <li className="flex items-start">
+                                        <span className="text-blue-500 mr-2">✓</span>
+                                        <span>Click "Duplicate" to copy resumes</span>
+                                    </li>
+                                    <li className="flex items-start">
+                                        <span className="text-blue-500 mr-2">✓</span>
+                                        <span>Rename by clicking on titles</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div className="text-center">
+                        <button
+                            onClick={handleStartResume}
+                            className="px-8 py-4 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 flex items-center mx-auto"
+                        >
+                            <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                            Manage My Resumes
+                        </button>
+                        <p className="text-gray-500 mt-4">Click above to access your resume dashboard</p>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+    
     return (
         <div className="min-h-screen bg-[#f7f5ef] px-10 py-12">
             {/* Header */}
-            <h1 className="text-3xl font-bold text-[#0f0b2d]">My Resumes</h1>
+            <div className="flex items-center justify-between mb-6">
+                <div>
+                    <h1 className="text-3xl font-bold text-[#0f0b2d]">My Resumes</h1>
+                    <p className="text-gray-600 mt-2">
+                        Manage your professional documents
+                    </p>
+                </div>
+                <button
+                    onClick={() => setShowInstructions(true)}
+                    className="px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-gray-700 font-medium transition-colors flex items-center"
+                >
+                    <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    Show Instructions
+                </button>
+            </div>
             <p className="mt-2 text-gray-600">
                 Your first resume is free forever. Need more than one resume?{" "}
                 <span className="underline cursor-pointer font-medium">
